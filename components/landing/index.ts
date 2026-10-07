@@ -1,0 +1,12 @@
+export { LandingPage } from './LandingPage';
+export { CustomNavbar } from './CustomNavbar';
+export { HeroSection } from './HeroSection';
+export { FeaturesSection } from './FeaturesSection';
+export { HowToUseSection } from './HowToUseSection';
+export { DemoVideoSection } from './DemoVideoSection';
+export { Testimonials } from './Testimonials';
+export { FAQSection } from './FAQSection';
+export { CtaSection } from './CtaSection';
+export { Footer } from './Footer';
+export { HorizontalLine } from './HorizontalLine';
+export { Logo } from './Logo';
