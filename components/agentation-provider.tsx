@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Agentation } from "agentation";
 
 /**
  * Agentation visual feedback toolbar.
@@ -9,21 +8,24 @@ import { Agentation } from "agentation";
  * completely omitted from live/production environments.
  */
 export function AgentationProvider() {
-  const [mounted, setMounted] = useState(false);
+  const [AgentationComp, setAgentationComp] = useState<React.ComponentType | null>(null);
 
   useEffect(() => {
-    setMounted(true);
+    if (process.env.NODE_ENV === "development") {
+      import("agentation")
+        .then((mod) => {
+          if (mod?.Agentation) {
+            setAgentationComp(() => mod.Agentation);
+          }
+        })
+        .catch(() => {});
+    }
   }, []);
 
   // Ensure it is only ever rendered in development mode and never in production/live
-  if (process.env.NODE_ENV !== "development") {
+  if (process.env.NODE_ENV !== "development" || !AgentationComp) {
     return null;
   }
 
-  // Prevent SSR hydration issues by mounting after the client is ready
-  if (!mounted) {
-    return null;
-  }
-
-  return <Agentation />;
+  return <AgentationComp />;
 }
