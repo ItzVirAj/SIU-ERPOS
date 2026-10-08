@@ -77,7 +77,6 @@ export default function SignInPage() {
       const res = await authClient.signIn.email({
         email: email.trim(),
         password,
-        callbackURL: redirectUrl,
       })
 
       if (res.error) {
@@ -89,6 +88,14 @@ export default function SignInPage() {
       router.push(redirectUrl)
       router.refresh()
     } catch (err: any) {
+      try {
+        const { data: session } = await authClient.getSession()
+        if (session?.user) {
+          const redirectUrl = searchParams.get("redirect") || "/dashboard"
+          router.push(redirectUrl)
+          return
+        }
+      } catch {}
       setError(err?.message || "Failed to sign in with email")
       setEmailLoading(false)
     }

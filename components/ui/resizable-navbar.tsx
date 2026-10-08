@@ -1,7 +1,7 @@
 "use client";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
-import { IconMenu2, IconX } from "@tabler/icons-react";
+import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import Link from "next/link";
 import { Logo } from "@/components/landing/Logo";
@@ -206,9 +206,9 @@ export const MobileNavToggle = ({
       className="p-1 rounded-md text-foreground hover:bg-muted/80 transition-colors"
     >
       {isOpen ? (
-        <IconX className="h-6 w-6 text-foreground" />
+        <X className="h-6 w-6 text-foreground" />
       ) : (
-        <IconMenu2 className="h-6 w-6 text-foreground" />
+        <Menu className="h-6 w-6 text-foreground" />
       )}
     </button>
   );

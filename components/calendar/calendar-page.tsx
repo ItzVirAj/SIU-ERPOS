@@ -3,18 +3,16 @@
 import React, { useState, useMemo } from "react";
 import { useActiveTeam } from "@/lib/context/team-context";
 import {
-  useIssues,
-  useCreateIssue,
-  useUpdateIssue,
-} from "@/lib/hooks/use-issues";
+  useCalendarEvents,
+  CalendarEventItem,
+} from "@/lib/hooks/use-calendar";
 import { useProjects } from "@/lib/hooks/use-projects";
-import {
-  useWorkflowStates,
-  useLabels,
-  useTeamMembers,
-} from "@/lib/hooks/use-team-data";
-import { IssueWithRelations, ISSUE_ACTION } from "@/lib/types";
+import { useTeamMembers } from "@/lib/hooks/use-team-data";
+import { IssueWithRelations } from "@/lib/types";
 import { IssueDialog } from "@/components/issues/issue-dialog";
+import { EventDialog } from "@/components/calendar/event-dialog";
+import { EventDetailsDialog } from "@/components/calendar/event-details-dialog";
+import { StandupDialog } from "@/components/calendar/standup-dialog";
 import { DashboardLoader } from "@/components/ui/dashboard-loader";
 import {
   DropdownMenu,
@@ -23,16 +21,29 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+  Video,
+  Zap,
+  Calendar as CalendarIcon,
+  Clock,
+  Plus,
+  Search,
+  Filter,
+  CheckCircle2,
+  Flag,
+  Sun,
+  Bell,
+  CheckSquare,
+  List,
+  Grid3X3,
+  Columns,
+  ExternalLink,
+} from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
-// Project & avatar color palettes
 const COLOR_PALETTE = [
   "#5A67D8",
   "#3B82C4",
@@ -45,24 +56,6 @@ const COLOR_PALETTE = [
   "#E11D48",
 ];
 
-function getColorForString(str: string): string {
-  let hash = 0;
-  for (let i = 0; i < str.length; i++) {
-    hash = str.charCodeAt(i) + ((hash << 5) - hash);
-  }
-  const index = Math.abs(hash) % COLOR_PALETTE.length;
-  return COLOR_PALETTE[index];
-}
-
-function getInitials(name?: string | null): string {
-  if (!name) return "U";
-  const parts = name.trim().split(/\s+/);
-  if (parts.length >= 2) {
-    return (parts[0][0] + parts[1][0]).toUpperCase();
-  }
-  return name.slice(0, 2).toUpperCase();
-}
-
 function formatDateKey(date: Date): string {
   const y = date.getFullYear();
   const m = String(date.getMonth() + 1).padStart(2, "0");
@@ -73,54 +66,42 @@ function formatDateKey(date: Date): string {
 export function CalendarPage() {
   const { teamId, loading: teamLoading } = useActiveTeam();
 
-  // Queries
-  const { data: issues = [], isLoading: issuesLoading } = useIssues(teamId);
-  const { data: projects = [] } = useProjects(teamId);
-  const { data: workflowStates = [] } = useWorkflowStates(teamId);
-  const { data: labels = [] } = useLabels(teamId);
-  const { data: members = [] } = useTeamMembers(teamId);
-
-  // Mutations
-  const createIssue = useCreateIssue(teamId);
-  const updateIssue = useUpdateIssue(teamId);
-
   // Navigation & View State
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
-  const [calMode, setCalMode] = useState<"month" | "week">("month");
+  const [calMode, setCalMode] = useState<"month" | "week" | "agenda">("month");
   const [searchQuery, setSearchQuery] = useState("");
-  const [filterPriority, setFilterPriority] = useState<string>("all");
-  const [filterStatus, setFilterStatus] = useState<string>("all");
-  const [sortBy, setSortBy] = useState<"manual" | "priority" | "title">("manual");
+  const [filterType, setFilterType] = useState<string>("all");
+  const [filterProject, setFilterProject] = useState<string>("all");
 
   // Dialog State
-  const [createDialogOpen, setCreateDialogOpen] = useState(false);
-  const [selectedTask, setSelectedTask] = useState<IssueWithRelations | null>(null);
-  const [editDialogOpen, setEditDialogOpen] = useState(false);
-  const [newTaskDueDate, setNewTaskDueDate] = useState<string>("");
-  const [overflowModalDate, setOverflowModalDate] = useState<string | null>(null);
+  const [eventDialogOpen, setEventDialogOpen] = useState(false);
+  const [standupDialogOpen, setStandupDialogOpen] = useState(false);
+  const [detailsDialogOpen, setDetailsDialogOpen] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState<CalendarEventItem | null>(null);
+  const [selectedDateForNewEvent, setSelectedDateForNewEvent] = useState<string>("");
+
+  // Queries
+  const { data: allItems = [], isLoading: eventsLoading } = useCalendarEvents(teamId, {
+    type: filterType !== "all" ? filterType : undefined,
+    projectId: filterProject !== "all" ? filterProject : undefined,
+    includeIssues: filterType === "all" || filterType === "task_deadline",
+  });
+  const { data: projects = [] } = useProjects(teamId);
+  const { data: members = [] } = useTeamMembers(teamId);
 
   // Today key
   const todayStr = useMemo(() => formatDateKey(new Date()), []);
 
-  // Filtered issues
-  const filteredIssues = useMemo(() => {
-    return issues.filter((task) => {
+  // Filter items by search query
+  const filteredItems = useMemo(() => {
+    return allItems.filter((item) => {
       if (searchQuery.trim()) {
         const q = searchQuery.toLowerCase();
-        if (!task.title.toLowerCase().includes(q)) return false;
-      }
-      if (filterPriority !== "all") {
-        if ((task.priority || "none").toLowerCase() !== filterPriority) return false;
-      }
-      if (filterStatus !== "all") {
-        const isDone =
-          task.workflowState?.type === "completed" || !!task.completedAt;
-        if (filterStatus === "completed" && !isDone) return false;
-        if (filterStatus === "active" && isDone) return false;
+        if (!item.title.toLowerCase().includes(q)) return false;
       }
       return true;
     });
-  }, [issues, searchQuery, filterPriority, filterStatus]);
+  }, [allItems, searchQuery]);
 
   // Project map for quick color lookup
   const projectMap = useMemo(() => {
@@ -134,10 +115,9 @@ export function CalendarPage() {
     return map;
   }, [projects]);
 
-  // Month navigation calculations
+  // Date navigation title
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
-
   const monthYearTitle = useMemo(() => {
     return currentDate.toLocaleDateString("en-US", {
       month: "long",
@@ -145,21 +125,16 @@ export function CalendarPage() {
     });
   }, [currentDate]);
 
-  // Calendar Days calculation
+  // Calendar Days calculation for Month and Week modes
   const calendarDays = useMemo(() => {
     if (calMode === "week") {
-      // Find Monday of the current week
       const dayOfWeek = currentDate.getDay(); // 0 is Sunday
       const diffToMon = (dayOfWeek + 6) % 7; // distance back to Monday
       const monday = new Date(year, month, currentDate.getDate() - diffToMon);
 
       const days = [];
       for (let i = 0; i < 7; i++) {
-        const d = new Date(
-          monday.getFullYear(),
-          monday.getMonth(),
-          monday.getDate() + i
-        );
+        const d = new Date(monday.getFullYear(), monday.getMonth(), monday.getDate() + i);
         const dateStr = formatDateKey(d);
         days.push({
           date: d,
@@ -172,11 +147,10 @@ export function CalendarPage() {
       return days;
     }
 
-    // Month mode: 35 or 42 grid cells starting on Monday
+    // Month mode
     const firstDay = new Date(year, month, 1);
-    const dayOfWeek = firstDay.getDay(); // 0 is Sunday
-    const startOffset = (dayOfWeek + 6) % 7; // days before 1st of month
-
+    const dayOfWeek = firstDay.getDay();
+    const startOffset = (dayOfWeek + 6) % 7;
     const daysInMonth = new Date(year, month + 1, 0).getDate();
     const totalCells = startOffset + daysInMonth > 35 ? 42 : 35;
 
@@ -195,1053 +169,474 @@ export function CalendarPage() {
     return days;
   }, [year, month, currentDate, calMode, todayStr]);
 
-  // Group tasks by date
-  const tasksByDate = useMemo(() => {
-    const map = new Map<string, IssueWithRelations[]>();
-    filteredIssues.forEach((issue) => {
-      let dateKey = "";
-      const anyIssue = issue as any;
-      if (anyIssue.dueDate) {
-        dateKey = String(anyIssue.dueDate).slice(0, 10);
-      } else if (issue.createdAt) {
-        const cDate = new Date(issue.createdAt);
-        if (!isNaN(cDate.getTime())) {
-          dateKey = formatDateKey(cDate);
-        }
-      }
-
+  // Group events/tasks by date key
+  const itemsByDate = useMemo(() => {
+    const map = new Map<string, CalendarEventItem[]>();
+    filteredItems.forEach((item) => {
+      const dateKey = String(item.startTime || item.endTime).slice(0, 10);
       if (dateKey) {
         const list = map.get(dateKey) || [];
-        list.push(issue);
+        list.push(item);
         map.set(dateKey, list);
       }
     });
-
-    // Apply sorting
-    if (sortBy === "priority") {
-      const pOrder: Record<string, number> = {
-        urgent: 1,
-        high: 2,
-        medium: 3,
-        low: 4,
-        none: 5,
-      };
-      map.forEach((list) => {
-        list.sort(
-          (a, b) =>
-            (pOrder[(a.priority || "none").toLowerCase()] || 99) -
-            (pOrder[(b.priority || "none").toLowerCase()] || 99)
-        );
-      });
-    } else if (sortBy === "title") {
-      map.forEach((list) => {
-        list.sort((a, b) => a.title.localeCompare(b.title));
-      });
-    }
-
     return map;
-  }, [filteredIssues, sortBy]);
+  }, [filteredItems]);
 
-  // Navigation handlers
   const handleNav = (d: number) => {
     if (d === 0) {
       setCurrentDate(new Date());
     } else if (calMode === "month") {
       setCurrentDate(new Date(year, month + d, 1));
     } else {
-      setCurrentDate(new Date(year, month, currentDate.getDate() + d * 7));
+      const copy = new Date(currentDate);
+      copy.setDate(copy.getDate() + d * 7);
+      setCurrentDate(copy);
     }
   };
 
-  const handleCreateTask = async (data: any) => {
-    try {
-      await createIssue.mutateAsync({
-        ...data,
-        teamId,
-      });
-      toast.success("Task created successfully!");
-      setCreateDialogOpen(false);
-      setNewTaskDueDate("");
-    } catch (err: any) {
-      toast.error(err.message || "Failed to create task");
+  const handleDayClick = (dateStr: string) => {
+    setSelectedDateForNewEvent(dateStr);
+    setEventDialogOpen(true);
+  };
+
+  const handleItemClick = (item: CalendarEventItem, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setSelectedEvent(item);
+    setDetailsDialogOpen(true);
+  };
+
+  // Helper for item badge visual styling
+  const getItemVisual = (item: CalendarEventItem) => {
+    switch (item.type) {
+      case "meeting":
+        return {
+          icon: <Video className="w-3 h-3 text-indigo-400 shrink-0" />,
+          color: "#6366f1",
+          label: "Meeting",
+          border: "border-indigo-500/40",
+          bg: "bg-indigo-950/30",
+        };
+      case "standup":
+        return {
+          icon: <Zap className="w-3 h-3 text-amber-400 shrink-0" />,
+          color: "#f59e0b",
+          label: "Standup",
+          border: "border-amber-500/40",
+          bg: "bg-amber-950/30",
+        };
+      case "milestone":
+        return {
+          icon: <Flag className="w-3 h-3 text-purple-400 shrink-0" />,
+          color: "#a855f7",
+          label: "Milestone",
+          border: "border-purple-500/40",
+          bg: "bg-purple-950/30",
+        };
+      case "leave":
+        return {
+          icon: <Sun className="w-3 h-3 text-rose-400 shrink-0" />,
+          color: "#f43f5e",
+          label: "Leave",
+          border: "border-rose-500/40",
+          bg: "bg-rose-950/30",
+        };
+      case "followup":
+        return {
+          icon: <Bell className="w-3 h-3 text-orange-400 shrink-0" />,
+          color: "#f97316",
+          label: "Follow-up",
+          border: "border-orange-500/40",
+          bg: "bg-orange-950/30",
+        };
+      default:
+        return {
+          icon: <CheckSquare className="w-3 h-3 text-emerald-400 shrink-0" />,
+          color: item.project?.color || "#10b981",
+          label: "Task",
+          border: "border-emerald-500/40",
+          bg: "bg-neutral-900/60",
+        };
     }
   };
 
-  // Update Task Submission
-  const handleUpdateTask = async (data: any) => {
-    if (!selectedTask) return;
-    try {
-      await updateIssue.mutateAsync({
-        issueId: selectedTask.id,
-        data,
-      });
-      toast.success("Task updated successfully!");
-      setEditDialogOpen(false);
-      setSelectedTask(null);
-    } catch (err: any) {
-      toast.error(err.message || "Failed to update task");
-    }
-  };
-
-  if (teamLoading) {
+  if (teamLoading || !teamId) {
     return (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <DashboardLoader message="Loading Calendar" submessage="Preparing deadlines and milestones..." />
+      <div className="flex items-center justify-center min-h-[60vh]">
+        <DashboardLoader message="Loading Calendar & Meetings" submessage="Syncing events and meeting notes..." />
       </div>
     );
   }
 
-  // Active tasks for overflow modal
-  const overflowTasks = overflowModalDate
-    ? tasksByDate.get(overflowModalDate) || []
-    : [];
-
   return (
-    <div
-      className="content fx-route"
-      id="main-content"
-      tabIndex={-1}
-      data-keep="c:calendar:::"
-    >
-      <style jsx global>{`
-        .content.fx-route {
-          width: 100%;
-          min-height: 100vh;
-          background: #0e0f11;
-          color: #f3f4f6;
-          display: flex;
-          flex-direction: column;
-        }
-        .page.flush {
-          width: 100%;
-          max-width: 100%;
-          margin: 0;
-          padding: 0;
-          display: flex;
-          flex-direction: column;
-          flex: 1;
-        }
-        .ph {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-          padding: 24px 20px 12px;
-        }
-        .ph h1 {
-          font-size: 20px;
-          font-weight: 600;
-          color: #fff;
-          letter-spacing: -0.02em;
-          margin: 0;
-        }
-        .ph p {
-          font-size: 13px;
-          color: #94a3b8;
-          margin-top: 2px;
-        }
-        .toolbar {
-          display: flex;
-          align-items: center;
-          padding: 10px 20px;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-          background: #0e0f11;
-          gap: 10px;
-          flex-wrap: wrap;
-        }
-        .inwrap {
-          position: relative;
-          display: inline-flex;
-          align-items: center;
-        }
-        .inwrap svg {
-          position: absolute;
-          left: 10px;
-          color: #64748b;
-          pointer-events: none;
-        }
-        .inwrap .input.search-sm {
-          background: rgba(255, 255, 255, 0.04);
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          border-radius: 6px;
-          color: #fff;
-          font-size: 12px;
-          padding: 6px 10px 6px 30px;
-          outline: none;
-          width: 200px;
-          transition: all 0.15s ease;
-        }
-        .inwrap .input.search-sm:focus {
-          border-color: rgba(255, 255, 255, 0.25);
-          background: rgba(255, 255, 255, 0.07);
-        }
-        .sp {
-          flex: 1;
-        }
-        .row {
-          display: flex;
-          align-items: center;
-        }
-        .btn {
-          display: inline-flex;
-          align-items: center;
-          gap: 6px;
-          font-size: 12px;
-          font-weight: 500;
-          padding: 6px 12px;
-          border-radius: 6px;
-          cursor: pointer;
-          transition: all 0.15s ease;
-        }
-        .btn-primary {
-          background: hsl(var(--primary, 258 89% 66%));
-          color: #fff;
-          border: none;
-        }
-        .btn-primary:hover {
-          opacity: 0.9;
-        }
-        .btn-secondary {
-          background: rgba(255, 255, 255, 0.06);
-          color: #e2e8f0;
-          border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-        .btn-secondary:hover {
-          background: rgba(255, 255, 255, 0.1);
-        }
-        .btn-ghost {
-          background: transparent;
-          color: #cbd5e1;
-          border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-        .btn-ghost:hover {
-          background: rgba(255, 255, 255, 0.06);
-          color: #fff;
-        }
-        .btn-sm {
-          padding: 4px 10px;
-          font-size: 11.5px;
-        }
-        .ibtn {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          background: transparent;
-          border: none;
-          color: #94a3b8;
-          cursor: pointer;
-          border-radius: 4px;
-          transition: all 0.15s;
-        }
-        .ibtn:hover {
-          background: rgba(255, 255, 255, 0.08);
-          color: #fff;
-        }
-        .ibtn-sm {
-          width: 26px;
-          height: 26px;
-        }
-        .ibtn-xs {
-          width: 20px;
-          height: 20px;
-        }
-        .pdot {
-          width: 8px;
-          height: 8px;
-          border-radius: 50%;
-          background: var(--c, #5A67D8);
-          display: inline-block;
-          flex-shrink: 0;
-        }
-        .seg {
-          display: inline-flex;
-          background: rgba(255, 255, 255, 0.04);
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          border-radius: 6px;
-          padding: 2px;
-          gap: 2px;
-        }
-        .seg button {
-          padding: 3px 10px;
-          font-size: 11.5px;
-          border-radius: 4px;
-          border: none;
-          background: transparent;
-          color: #94a3b8;
-          cursor: pointer;
-          font-weight: 500;
-          transition: all 0.15s;
-        }
-        .seg button.on {
-          background: rgba(255, 255, 255, 0.12);
-          color: #fff;
-        }
-        .cal {
-          display: flex;
-          flex-direction: column;
-          background: #0e0f11;
-          flex: 1;
-          min-height: 640px;
-        }
-        .cal-h {
-          display: grid;
-          grid-template-columns: repeat(7, 1fr);
-          background: #0e0f11;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-          text-align: center;
-          font-size: 11.5px;
-          font-weight: 600;
-          color: #64748b;
-          padding: 8px 0;
-          text-transform: uppercase;
-          letter-spacing: 0.04em;
-        }
-        .cal-g {
-          display: grid;
-          grid-template-columns: repeat(7, 1fr);
-          background: rgba(255, 255, 255, 0.06);
-          gap: 1px;
-          flex: 1;
-        }
-        .cday {
-          background: #0e0f11;
-          padding: 6px 8px 8px;
-          position: relative;
-          display: flex;
-          flex-direction: column;
-          gap: 4px;
-          min-height: 112px;
-          transition: background 0.15s;
-        }
-        .cday:hover {
-          background: #121316;
-        }
-        .cday.out {
-          background: #0b0c0d;
-        }
-        .cday.out .dn {
-          color: #475569;
-        }
-        .cday.today {
-          background: #0e0f11;
-        }
-        .cday .dn {
-          font-size: 12px;
-          font-weight: 500;
-          color: #cbd5e1;
-          width: 22px;
-          height: 22px;
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          border-radius: 50%;
-        }
-        .cday.today .dn {
-          background: hsl(var(--primary, 258 89% 66%));
-          color: #fff;
-          font-weight: 600;
-        }
-        .cday .add {
-          position: absolute;
-          top: 6px;
-          right: 6px;
-          opacity: 0;
-          transition: opacity 0.15s;
-        }
-        .cday:hover .add {
-          opacity: 1;
-        }
-        .cev {
-          display: flex;
-          align-items: center;
-          gap: 6px;
-          background: rgba(255, 255, 255, 0.04);
-          border: 1px solid rgba(255, 255, 255, 0.06);
-          border-left: 3px solid var(--c, #5A67D8);
-          border-radius: 4px;
-          padding: 3px 6px;
-          font-size: 11px;
-          color: #e2e8f0;
-          cursor: pointer;
-          text-align: left;
-          width: 100%;
-          transition: all 0.15s ease;
-        }
-        .cev:hover {
-          background: rgba(255, 255, 255, 0.08);
-          border-color: rgba(255, 255, 255, 0.15);
-          transform: translateY(-1px);
-        }
-        .cev.done {
-          opacity: 0.65;
-        }
-        .cev.done .trunc {
-          text-decoration: line-through;
-          color: #94a3b8;
-        }
-        .trunc {
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-          flex: 1;
-          font-size: 11px;
-        }
-        .av {
-          width: 16px;
-          height: 16px;
-          border-radius: 50%;
-          background: var(--c, #3B82C4);
-          color: #fff;
-          font-size: 9px;
-          font-weight: 600;
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          flex-shrink: 0;
-          line-height: 1;
-        }
-        .cmore {
-          background: transparent;
-          border: none;
-          font-size: 11px;
-          color: #64748b;
-          cursor: pointer;
-          text-align: left;
-          padding: 2px 4px;
-          border-radius: 3px;
-          margin-top: 2px;
-          font-weight: 500;
-        }
-        .cmore:hover {
-          color: #e2e8f0;
-          background: rgba(255, 255, 255, 0.06);
-        }
-        @media (max-width: 768px) {
-          .hide-m {
-            display: none !important;
-          }
-        }
-      `}</style>
-
-      <div className="page flush">
-        {/* 1. Header (.ph) */}
-        <div style={{ padding: "24px 20px 12px" }} className="ph">
-          <div>
-            <h1>Calendar</h1>
-            <p>Deadlines and events across every project.</p>
-          </div>
-          <div className="acts">
-            <button
-              className="btn btn-primary"
-              data-a="newTask"
-              onClick={() => {
-                setNewTaskDueDate(todayStr);
-                setCreateDialogOpen(true);
-              }}
-            >
-              <svg
-                className="i"
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.8"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                aria-hidden="true"
-              >
-                <path d="M5 12h14"></path>
-                <path d="M12 5v14"></path>
-              </svg>
-              New task
-            </button>
-          </div>
+    <div className="w-full min-h-screen bg-[#0e0f11] text-neutral-100 flex flex-col">
+      {/* 1. Header with Actions */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-neutral-800/80 px-6 py-4 gap-4">
+        <div>
+          <h1 className="text-xl font-bold tracking-tight text-white flex items-center gap-2">
+            <CalendarIcon className="w-5 h-5 text-indigo-400" />
+            Calendar & Meeting Intelligence
+          </h1>
+          <p className="text-xs text-neutral-400 mt-0.5">
+            PRD 6.2 (CAL): Client meetings, Google Meet sync, daily stand-ups, AI meeting notes, and deadlines.
+          </p>
         </div>
 
-        {/* 2. Top Toolbar */}
-        <div className="toolbar" role="toolbar">
-          <div className="inwrap">
-            <svg
-              className="i"
-              width="13"
-              height="13"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.8"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
-            >
-              <circle cx="11" cy="11" r="8"></circle>
-              <path d="m21 21-4.3-4.3"></path>
-            </svg>
+        <div className="flex items-center gap-2 flex-wrap">
+          <Button
+            size="sm"
+            onClick={() => setStandupDialogOpen(true)}
+            className="bg-amber-600/20 hover:bg-amber-600/30 text-amber-300 border border-amber-500/30 text-xs font-medium"
+          >
+            <Zap className="w-3.5 h-3.5 mr-1.5" />
+            Daily Stand-up
+          </Button>
+
+          <Button
+            size="sm"
+            onClick={() => {
+              setSelectedDateForNewEvent(todayStr);
+              setEventDialogOpen(true);
+            }}
+            className="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-medium shadow-sm shadow-indigo-600/30"
+          >
+            <Plus className="w-3.5 h-3.5 mr-1.5" />
+            Schedule Event
+          </Button>
+        </div>
+      </div>
+
+      {/* 2. Filter & Navigation Toolbar */}
+      <div className="flex flex-wrap items-center justify-between px-6 py-2.5 border-b border-neutral-800/80 bg-[#111215] gap-3">
+        <div className="flex items-center gap-2 flex-wrap">
+          {/* Search */}
+          <div className="relative">
+            <Search className="w-3.5 h-3.5 text-neutral-500 absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
             <input
-              className="input search-sm"
-              id="vq-cal"
-              data-in="viewQ"
-              data-key="cal"
-              placeholder="Search tasks"
+              type="text"
+              placeholder="Search meetings & tasks..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              aria-label="Search tasks"
+              className="bg-neutral-900 border border-neutral-800 rounded-md text-xs text-neutral-100 pl-8 pr-3 py-1.5 w-48 sm:w-56 focus:outline-none focus:border-neutral-700"
             />
           </div>
 
-          {/* Filter Dropdown */}
+          {/* Event Type Filter */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <button
-                className="btn btn-ghost"
-                data-a="pop"
-                data-pop="filter"
-                data-key="cal"
-              >
-                <svg
-                  className="i"
-                  width="14"
-                  height="14"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.8"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  aria-hidden="true"
-                >
-                  <path d="M3 6h18"></path>
-                  <path d="M7 12h10"></path>
-                  <path d="M10 18h4"></path>
-                </svg>
-                Filter {filterPriority !== "all" || filterStatus !== "all" ? "•" : ""}
-              </button>
+              <Button variant="outline" size="sm" className="h-8 border-neutral-800 text-xs text-neutral-300 bg-neutral-900">
+                <Filter className="w-3 h-3 mr-1.5 text-neutral-400" />
+                Type: {filterType === "all" ? "All Types" : filterType.replace("_", " ")}
+              </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent
-              align="start"
-              className="bg-[#121316] border-white/[0.1] text-xs text-white"
-            >
-              <div className="px-2 py-1.5 font-semibold text-neutral-400">Status</div>
-              <DropdownMenuItem onClick={() => setFilterStatus("all")}>
-                All Statuses {filterStatus === "all" ? "✓" : ""}
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setFilterStatus("active")}>
-                Active Tasks {filterStatus === "active" ? "✓" : ""}
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setFilterStatus("completed")}>
-                Completed Tasks {filterStatus === "completed" ? "✓" : ""}
-              </DropdownMenuItem>
-              <DropdownMenuSeparator className="bg-white/[0.08]" />
-              <div className="px-2 py-1.5 font-semibold text-neutral-400">Priority</div>
-              <DropdownMenuItem onClick={() => setFilterPriority("all")}>
-                All Priorities {filterPriority === "all" ? "✓" : ""}
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setFilterPriority("urgent")}>
-                Urgent {filterPriority === "urgent" ? "✓" : ""}
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setFilterPriority("high")}>
-                High {filterPriority === "high" ? "✓" : ""}
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setFilterPriority("medium")}>
-                Medium {filterPriority === "medium" ? "✓" : ""}
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setFilterPriority("low")}>
-                Low {filterPriority === "low" ? "✓" : ""}
-              </DropdownMenuItem>
+            <DropdownMenuContent className="bg-[#18191c] border-neutral-800 text-xs text-neutral-200">
+              <DropdownMenuItem onClick={() => setFilterType("all")}>All Types</DropdownMenuItem>
+              <DropdownMenuSeparator className="bg-neutral-800" />
+              <DropdownMenuItem onClick={() => setFilterType("meeting")}>🤝 Client Meetings</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setFilterType("standup")}>⚡ Daily Stand-ups</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setFilterType("task_deadline")}>📅 Task Deadlines</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setFilterType("milestone")}>🏁 Project Milestones</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setFilterType("followup")}>🔔 Lead Follow-ups</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setFilterType("leave")}>🏖️ Leaves / Absence</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
 
-          {/* Sort Dropdown */}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <button
-                className="btn btn-ghost"
-                data-a="pop"
-                data-pop="sort"
-                data-key="cal"
-              >
-                <svg
-                  className="i"
-                  width="14"
-                  height="14"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.8"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  aria-hidden="true"
-                >
-                  <path d="m21 16-4 4-4-4"></path>
-                  <path d="M17 20V4"></path>
-                  <path d="m3 8 4-4 4 4"></path>
-                  <path d="M7 4v16"></path>
-                </svg>
-                <span className="hide-m">Sort:</span>{" "}
-                {sortBy === "manual" ? "Manual" : sortBy === "priority" ? "Priority" : "Title"}
-              </button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent
-              align="start"
-              className="bg-[#121316] border-white/[0.1] text-xs text-white"
-            >
-              <DropdownMenuItem onClick={() => setSortBy("manual")}>
-                Manual {sortBy === "manual" ? "✓" : ""}
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setSortBy("priority")}>
-                Priority {sortBy === "priority" ? "✓" : ""}
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setSortBy("title")}>
-                Title {sortBy === "title" ? "✓" : ""}
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-
-          <span className="sp"></span>
+          {/* Project Filter */}
+          {projects.length > 0 && (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" size="sm" className="h-8 border-neutral-800 text-xs text-neutral-300 bg-neutral-900">
+                  Project: {filterProject === "all" ? "All Projects" : projects.find((p) => p.id === filterProject)?.name || "Project"}
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="bg-[#18191c] border-neutral-800 text-xs text-neutral-200">
+                <DropdownMenuItem onClick={() => setFilterProject("all")}>All Projects</DropdownMenuItem>
+                <DropdownMenuSeparator className="bg-neutral-800" />
+                {projects.map((p) => (
+                  <DropdownMenuItem key={p.id} onClick={() => setFilterProject(p.id)}>
+                    {p.name}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
         </div>
 
-        {/* 3. Calendar Body (.cal) */}
-        <div className="cal" style={{ minHeight: "640px" }}>
-          {/* Sub Toolbar */}
-          <div className="toolbar" style={{ gap: "8px" }}>
-            <button
-              className="btn btn-secondary btn-sm"
-              data-a="calNav"
-              data-d="0"
+        {/* View Switcher & Date Controls */}
+        <div className="flex items-center gap-3">
+          {/* Today, Prev, Next */}
+          <div className="flex items-center gap-1">
+            <Button
+              variant="outline"
+              size="sm"
               onClick={() => handleNav(0)}
+              className="h-8 px-2.5 border-neutral-800 text-xs text-neutral-300 bg-neutral-900"
             >
               Today
-            </button>
-            <div className="row" style={{ gap: 0 }}>
-              <button
-                className="ibtn ibtn-sm"
-                data-a="calNav"
-                data-d="-1"
-                aria-label="Previous"
-                onClick={() => handleNav(-1)}
-              >
-                <svg
-                  className="i"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.8"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  aria-hidden="true"
-                >
-                  <path d="m15 18-6-6 6-6"></path>
-                </svg>
-              </button>
-              <button
-                className="ibtn ibtn-sm"
-                data-a="calNav"
-                data-d="1"
-                aria-label="Next"
-                onClick={() => handleNav(1)}
-              >
-                <svg
-                  className="i"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.8"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  aria-hidden="true"
-                >
-                  <path d="m9 18 6-6-6-6"></path>
-                </svg>
-              </button>
-            </div>
-            <h2
-              style={{
-                fontSize: "15px",
-                fontWeight: 600,
-                margin: "0 4px",
-                letterSpacing: "-.01em",
-              }}
-              aria-live="polite"
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => handleNav(-1)}
+              className="h-8 w-8 p-0 text-neutral-400 hover:text-white"
             >
-              {monthYearTitle}
-            </h2>
-
-            <span className="sp"></span>
-
-            {/* Dynamic Real Projects Legend */}
-            {projects.length > 0 && (
-              <span
-                className="row hide-m"
-                style={{
-                  gap: "10px",
-                  fontSize: "11.5px",
-                  color: "var(--text-2, #94a3b8)",
-                  marginRight: "8px",
-                }}
-              >
-                {projects.slice(0, 6).map((proj) => {
-                  const pColor = projectMap.get(proj.id)?.color || "#5A67D8";
-                  return (
-                    <span key={proj.id} className="row" style={{ gap: "4px" }}>
-                      <span
-                        className="pdot"
-                        style={{ "--c": pColor } as React.CSSProperties}
-                      ></span>
-                      {proj.name}
-                    </span>
-                  );
-                })}
-              </span>
-            )}
-
-            {/* Month / Week Segment */}
-            <div className="seg">
-              <button
-                className={calMode === "month" ? "on" : ""}
-                data-a="set"
-                data-k="calMode"
-                data-v="month"
-                onClick={() => setCalMode("month")}
-              >
-                Month
-              </button>
-              <button
-                className={calMode === "week" ? "on" : ""}
-                data-a="set"
-                data-k="calMode"
-                data-v="week"
-                onClick={() => setCalMode("week")}
-              >
-                Week
-              </button>
-            </div>
+              ‹
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => handleNav(1)}
+              className="h-8 w-8 p-0 text-neutral-400 hover:text-white"
+            >
+              ›
+            </Button>
+            <span className="text-sm font-semibold text-neutral-100 ml-1">{monthYearTitle}</span>
           </div>
 
-          {/* Days of Week Header */}
-          <div className="cal-h">
-            <div>Mon</div>
-            <div>Tue</div>
-            <div>Wed</div>
-            <div>Thu</div>
-            <div>Fri</div>
-            <div>Sat</div>
-            <div>Sun</div>
-          </div>
-
-          {/* Grid of Days */}
-          <div
-            className="cal-g"
-            style={{
-              gridTemplateRows:
+          {/* Mode Switcher: Month, Week, Agenda */}
+          <div className="flex p-0.5 rounded-lg bg-neutral-900 border border-neutral-800">
+            <button
+              onClick={() => setCalMode("month")}
+              className={`px-2.5 py-1 text-xs rounded-md transition-all ${
+                calMode === "month"
+                  ? "bg-neutral-800 text-white font-medium"
+                  : "text-neutral-400 hover:text-neutral-200"
+              }`}
+            >
+              Month
+            </button>
+            <button
+              onClick={() => setCalMode("week")}
+              className={`px-2.5 py-1 text-xs rounded-md transition-all ${
                 calMode === "week"
-                  ? "minmax(400px, 1fr)"
-                  : `repeat(${calendarDays.length / 7}, minmax(112px, 1fr))`,
-            }}
-          >
-            {calendarDays.map((day) => {
-              const dayTasks = tasksByDate.get(day.dateStr) || [];
-              const visibleTasks = dayTasks.slice(0, 3);
-              const extraCount = dayTasks.length - 3;
-
-              return (
-                <div
-                  key={day.dateStr}
-                  className={cn(
-                    "cday",
-                    !day.isCurrentMonth && "out",
-                    day.isToday && "today"
-                  )}
-                  data-drop-day={day.dateStr}
-                >
-                  <span
-                    className="dn"
-                    {...(day.isToday ? { "aria-current": "date" } : {})}
-                  >
-                    {day.dayNumber}
-                  </span>
-
-                  {/* Add task button on hover */}
-                  <button
-                    className="ibtn ibtn-xs add"
-                    data-a="newTask"
-                    data-due={day.dateStr}
-                    aria-label={`Add task on ${day.dateStr}`}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setNewTaskDueDate(day.dateStr);
-                      setCreateDialogOpen(true);
-                    }}
-                  >
-                    <svg
-                      className="i"
-                      width="13"
-                      height="13"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="1.8"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      aria-hidden="true"
-                    >
-                      <path d="M5 12h14"></path>
-                      <path d="M12 5v14"></path>
-                    </svg>
-                  </button>
-
-                  {/* Task Pills */}
-                  {visibleTasks.map((task) => {
-                    const isDone =
-                      task.workflowState?.type === "completed" ||
-                      !!task.completedAt;
-                    const pInfo = task.projectId
-                      ? projectMap.get(task.projectId)
-                      : null;
-                    const pColor = pInfo?.color || getColorForString(task.id);
-                    const assigneeName =
-                      task.assignee || task.assigneeId || "Unassigned";
-                    const assigneeInitials = getInitials(assigneeName);
-                    const assigneeColor = getColorForString(assigneeName);
-
-                    const isUrgent =
-                      task.priority === "urgent" || task.priority === "high";
-
-                    return (
-                      <button
-                        key={task.id}
-                        className={cn("cev", isDone && "done")}
-                        style={{ "--c": pColor } as React.CSSProperties}
-                        draggable="true"
-                        data-drag-cal={task.id}
-                        data-a="openTask"
-                        data-id={task.id}
-                        data-ctx="task"
-                        title={task.title}
-                        onClick={() => {
-                          setSelectedTask(task);
-                          setEditDialogOpen(true);
-                        }}
-                      >
-                        {isDone ? (
-                          <svg
-                            width="11"
-                            height="11"
-                            viewBox="0 0 14 14"
-                            aria-hidden="true"
-                            style={{ flexShrink: 0 }}
-                          >
-                            <circle
-                              cx="7"
-                              cy="7"
-                              r="6.2"
-                              fill="var(--st-done, #10b981)"
-                            ></circle>
-                            <path
-                              d="M4.4 7.2 6.2 9 9.7 5.3"
-                              fill="none"
-                              stroke="var(--surface, #0e0f11)"
-                              strokeWidth="1.6"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            ></path>
-                          </svg>
-                        ) : isUrgent ? (
-                          <svg
-                            width="11"
-                            height="11"
-                            viewBox="0 0 14 14"
-                            aria-hidden="true"
-                            style={{ flexShrink: 0 }}
-                          >
-                            <rect
-                              x="1"
-                              y="1"
-                              width="12"
-                              height="12"
-                              rx="3"
-                              fill="var(--red, #ef4444)"
-                            ></rect>
-                            <path
-                              d="M7 3.8v4"
-                              stroke="#fff"
-                              strokeWidth="1.7"
-                              strokeLinecap="round"
-                            ></path>
-                            <circle cx="7" cy="10.1" r=".95" fill="#fff"></circle>
-                          </svg>
-                        ) : (
-                          <svg
-                            width="11"
-                            height="11"
-                            viewBox="0 0 14 14"
-                            aria-hidden="true"
-                            style={{ flexShrink: 0 }}
-                          >
-                            <rect
-                              x="1.8"
-                              y="7.5"
-                              width="2.6"
-                              height="4.5"
-                              rx="1"
-                              fill="var(--text-2, #94a3b8)"
-                            ></rect>
-                            <rect
-                              x="5.7"
-                              y="4.5"
-                              width="2.6"
-                              height="7.5"
-                              rx="1"
-                              fill="var(--text-2, #94a3b8)"
-                            ></rect>
-                            <rect
-                              x="9.6"
-                              y="1.5"
-                              width="2.6"
-                              height="10.5"
-                              rx="1"
-                              fill="var(--border-strong, #475569)"
-                            ></rect>
-                          </svg>
-                        )}
-                        <span className="trunc">{task.title}</span>
-                        <span
-                          className="av"
-                          style={{ "--c": assigneeColor } as React.CSSProperties}
-                          aria-label={assigneeName}
-                        >
-                          {assigneeInitials}
-                        </span>
-                      </button>
-                    );
-                  })}
-
-                  {/* +X more indicator */}
-                  {extraCount > 0 && (
-                    <button
-                      className="cmore"
-                      data-a="pop"
-                      data-pop="daylist"
-                      data-date={day.dateStr}
-                      data-key="cal"
-                      onClick={() => setOverflowModalDate(day.dateStr)}
-                    >
-                      +{extraCount} more
-                    </button>
-                  )}
-                </div>
-              );
-            })}
+                  ? "bg-neutral-800 text-white font-medium"
+                  : "text-neutral-400 hover:text-neutral-200"
+              }`}
+            >
+              Week
+            </button>
+            <button
+              onClick={() => setCalMode("agenda")}
+              className={`px-2.5 py-1 text-xs rounded-md transition-all ${
+                calMode === "agenda"
+                  ? "bg-neutral-800 text-white font-medium"
+                  : "text-neutral-400 hover:text-neutral-200"
+              }`}
+            >
+              Agenda
+            </button>
           </div>
         </div>
       </div>
 
-      {/* Overflow Day Tasks Modal */}
-      <Dialog
-        open={!!overflowModalDate}
-        onOpenChange={(open) => !open && setOverflowModalDate(null)}
-      >
-        <DialogContent className="sm:max-w-md bg-[#16181d] border-white/[0.1] text-white">
-          <DialogHeader>
-            <DialogTitle className="text-sm font-semibold">
-              Tasks on {overflowModalDate}
-            </DialogTitle>
-          </DialogHeader>
-          <div className="space-y-2 max-h-[60vh] overflow-y-auto pt-2">
-            {overflowTasks.map((task) => {
-              const isDone =
-                task.workflowState?.type === "completed" || !!task.completedAt;
-              const pInfo = task.projectId ? projectMap.get(task.projectId) : null;
-              const pColor = pInfo?.color || getColorForString(task.id);
-              const assigneeName = task.assignee || "Unassigned";
+      {/* 3. CALENDAR BODY */}
+      <div className="flex-1 flex flex-col p-4">
+        {calMode === "agenda" ? (
+          /* AGENDA / LIST VIEW (CAL-01) */
+          <div className="max-w-4xl mx-auto w-full space-y-4">
+            {filteredItems.length === 0 ? (
+              <div className="p-12 text-center text-neutral-500 text-sm border border-neutral-800/60 rounded-xl bg-neutral-900/30">
+                No events or tasks found for this view.
+              </div>
+            ) : (
+              filteredItems.map((item) => {
+                const visual = getItemVisual(item);
+                const itemDateStr = new Date(item.startTime || item.endTime).toLocaleDateString("en-US", {
+                  weekday: "short",
+                  month: "short",
+                  day: "numeric",
+                });
+                const timeStr = item.allDay
+                  ? "All Day"
+                  : `${new Date(item.startTime).toLocaleTimeString("en-US", {
+                      hour: "numeric",
+                      minute: "2-digit",
+                    })} - ${new Date(item.endTime).toLocaleTimeString("en-US", {
+                      hour: "numeric",
+                      minute: "2-digit",
+                    })}`;
 
-              return (
-                <div
-                  key={task.id}
-                  onClick={() => {
-                    setOverflowModalDate(null);
-                    setSelectedTask(task);
-                    setEditDialogOpen(true);
-                  }}
-                  className="flex items-center justify-between p-2 rounded bg-white/[0.03] hover:bg-white/[0.08] cursor-pointer transition-all border border-white/[0.06]"
-                >
-                  <div className="flex items-center gap-2 truncate">
-                    <span
-                      className="w-2 h-2 rounded-full shrink-0"
-                      style={{ background: pColor }}
-                    />
-                    <span
-                      className={cn(
-                        "text-xs truncate",
-                        isDone && "line-through text-neutral-400"
+                return (
+                  <div
+                    key={item.id}
+                    onClick={(e) => handleItemClick(item, e)}
+                    className="p-3.5 rounded-xl bg-neutral-900/50 hover:bg-neutral-900 border border-neutral-800/80 transition-all flex items-center justify-between gap-4 cursor-pointer"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div
+                        className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 border"
+                        style={{
+                          backgroundColor: `${visual.color}15`,
+                          borderColor: `${visual.color}35`,
+                        }}
+                      >
+                        {visual.icon}
+                      </div>
+
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <h4 className="text-sm font-semibold text-neutral-100">{item.title}</h4>
+                          <Badge
+                            variant="outline"
+                            className="text-[10px] uppercase font-mono tracking-wider"
+                            style={{ color: visual.color, borderColor: `${visual.color}40` }}
+                          >
+                            {visual.label}
+                          </Badge>
+                        </div>
+
+                        <div className="flex items-center gap-3 text-xs text-neutral-400 mt-1">
+                          <span className="flex items-center gap-1">
+                            <CalendarIcon className="w-3.5 h-3.5 text-neutral-500" />
+                            {itemDateStr}
+                          </span>
+                          <span className="flex items-center gap-1">
+                            <Clock className="w-3.5 h-3.5 text-neutral-500" />
+                            {timeStr}
+                          </span>
+                          {item.project && (
+                            <span className="flex items-center gap-1 text-neutral-300">
+                              <span
+                                className="w-2 h-2 rounded-full"
+                                style={{ backgroundColor: item.project.color }}
+                              ></span>
+                              {item.project.name}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      {item.meetUrl && (
+                        <Button
+                          size="sm"
+                          asChild
+                          onClick={(e) => e.stopPropagation()}
+                          className="h-7 text-xs bg-indigo-600/20 hover:bg-indigo-600/40 text-indigo-300 border border-indigo-500/30"
+                        >
+                          <a href={item.meetUrl} target="_blank" rel="noopener noreferrer">
+                            <Video className="w-3 h-3 mr-1" />
+                            Join
+                          </a>
+                        </Button>
                       )}
-                    >
-                      {task.title}
-                    </span>
+                      <Button variant="ghost" size="sm" className="h-7 text-xs text-neutral-400">
+                        Details ›
+                      </Button>
+                    </div>
                   </div>
-                  <span className="text-[10px] text-neutral-400 shrink-0 ml-2">
-                    {assigneeName}
-                  </span>
-                </div>
-              );
-            })}
+                );
+              })
+            )}
           </div>
-        </DialogContent>
-      </Dialog>
+        ) : (
+          /* MONTH & WEEK GRID VIEWS */
+          <div className="flex flex-col flex-1 border border-neutral-800 rounded-xl overflow-hidden bg-neutral-950/60">
+            {/* Days Header */}
+            <div className="grid grid-cols-7 bg-neutral-900/80 border-b border-neutral-800 text-center py-2 text-xs font-semibold text-neutral-400 uppercase tracking-wider">
+              <div>Mon</div>
+              <div>Tue</div>
+              <div>Wed</div>
+              <div>Thu</div>
+              <div>Fri</div>
+              <div>Sat</div>
+              <div>Sun</div>
+            </div>
 
-      {/* Real Issue Creation Dialog */}
-      <IssueDialog
-        action={ISSUE_ACTION.CREATE}
-        open={createDialogOpen}
-        onOpenChange={setCreateDialogOpen}
-        onSubmit={handleCreateTask}
-        projects={projects as any}
-        workflowStates={workflowStates as any}
-        labels={labels as any}
+            {/* Grid Days */}
+            <div
+              className={`grid grid-cols-7 gap-[1px] bg-neutral-800/40 flex-1 ${
+                calMode === "week" ? "min-h-[500px]" : "min-h-[640px]"
+              }`}
+            >
+              {calendarDays.map((day) => {
+                const dayItems = itemsByDate.get(day.dateStr) || [];
+
+                return (
+                  <div
+                    key={day.dateStr}
+                    onClick={() => handleDayClick(day.dateStr)}
+                    className={`bg-[#0e0f11] hover:bg-[#131417] p-2 flex flex-col gap-1 transition-colors relative cursor-pointer group ${
+                      !day.isCurrentMonth ? "opacity-35 bg-neutral-950/80" : ""
+                    } ${day.isToday ? "ring-1 ring-inset ring-indigo-500/50" : ""}`}
+                  >
+                    {/* Day Number Header */}
+                    <div className="flex items-center justify-between mb-1">
+                      <span
+                        className={`text-xs w-6 h-6 rounded-full flex items-center justify-center font-medium ${
+                          day.isToday
+                            ? "bg-indigo-600 text-white font-bold shadow-sm shadow-indigo-600/50"
+                            : "text-neutral-400 group-hover:text-neutral-200"
+                        }`}
+                      >
+                        {day.dayNumber}
+                      </span>
+
+                      {/* Add button on hover */}
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDayClick(day.dateStr);
+                        }}
+                        className="opacity-0 group-hover:opacity-100 p-1 rounded hover:bg-neutral-800 text-neutral-400 hover:text-white transition-opacity text-xs"
+                      >
+                        <Plus className="w-3 h-3" />
+                      </button>
+                    </div>
+
+                    {/* Day Event Chips */}
+                    <div className="space-y-1 overflow-y-auto max-h-36 flex-1">
+                      {dayItems.slice(0, 4).map((item) => {
+                        const visual = getItemVisual(item);
+                        return (
+                          <div
+                            key={item.id}
+                            onClick={(e) => handleItemClick(item, e)}
+                            className={`p-1.5 rounded text-[11px] border truncate flex items-center gap-1.5 transition-all hover:scale-[1.01] ${visual.bg} ${visual.border}`}
+                            title={item.title}
+                          >
+                            {visual.icon}
+                            <span className="truncate font-medium text-neutral-200">{item.title}</span>
+                          </div>
+                        );
+                      })}
+
+                      {dayItems.length > 4 && (
+                        <div className="text-[10px] text-neutral-500 px-1 font-medium">
+                          +{dayItems.length - 4} more
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Modals & Dialogs */}
+      <EventDialog
+        open={eventDialogOpen}
+        onOpenChange={setEventDialogOpen}
         teamId={teamId}
-        initialData={{
-          workflowStateId: workflowStates[0]?.id,
-        }}
-        title="Create New Task"
-        description="Schedule a task or event on the team calendar."
+        defaultDate={selectedDateForNewEvent}
       />
 
-      {/* Real Edit Issue Dialog */}
-      {selectedTask && (
-        <IssueDialog
-          action={ISSUE_ACTION.EDIT}
-          open={editDialogOpen}
-          onOpenChange={(open) => {
-            setEditDialogOpen(open);
-            if (!open) setSelectedTask(null);
-          }}
-          onSubmit={handleUpdateTask}
-          projects={projects as any}
-          workflowStates={workflowStates as any}
-          labels={labels as any}
-          teamId={teamId}
-          initialData={{
-            title: selectedTask.title,
-            description: selectedTask.description ?? undefined,
-            projectId: selectedTask.projectId || (selectedTask.project as any)?.id,
-            workflowStateId: selectedTask.workflowStateId,
-            assigneeId: selectedTask.assigneeId || "",
-            priority: selectedTask.priority as any,
-            estimate: (selectedTask as any).estimate,
-            labelIds:
-              selectedTask.labels?.map(
-                (l: any) => l.label?.id || l.labelId || l.id
-              ) || [],
-          }}
-          title="Task Details"
-          description="View or update calendar task details."
-        />
-      )}
+      <StandupDialog
+        open={standupDialogOpen}
+        onOpenChange={setStandupDialogOpen}
+        teamId={teamId}
+      />
+
+      <EventDetailsDialog
+        open={detailsDialogOpen}
+        onOpenChange={setDetailsDialogOpen}
+        event={selectedEvent}
+        teamId={teamId}
+      />
     </div>
   );
 }
-
-export default CalendarPage;

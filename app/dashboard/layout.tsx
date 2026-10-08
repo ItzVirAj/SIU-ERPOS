@@ -73,7 +73,7 @@ function DashboardInnerLayout({ children }: { children: React.ReactNode }) {
   const { data: session } = authClient.useSession();
   const router = useRouter();
   const pathname = usePathname();
-  const isInbox = pathname === "/dashboard/inbox";
+  const isFullBleed = pathname === "/dashboard/inbox" || pathname?.startsWith("/dashboard/team");
 
   useEffect(() => {
     setIsMac(navigator.platform.toUpperCase().indexOf("MAC") >= 0);
@@ -189,7 +189,7 @@ function DashboardInnerLayout({ children }: { children: React.ReactNode }) {
           <main
             className={cn(
               "flex-1 min-h-0 w-full bg-[#0e0f11]",
-              isInbox
+              isFullBleed
                 ? "overflow-hidden flex flex-col p-0"
                 : "overflow-y-auto p-4 md:p-6"
             )}

@@ -28,6 +28,25 @@ model Team {
   members           TeamMember[]
   invitations       Invitation[]
   chatConversations ChatConversation[]
+  events            Event[]
+  standupEntries    StandupEntry[]
+  clients           Client[]
+  leadPipelines     LeadPipeline[]
+  leads             Lead[]
+  teamChannels      TeamChannel[]
+  announcements     TeamAnnouncement[]
+  auditLogs         AuditLog[]
+  companySettings   CompanySetting?
+  automationRules   AutomationRule[]
+  developerApiKeys  DeveloperApiKey[]
+  webhookEndpoints  WebhookEndpoint[]
+  kpis              CompanyKpi[]
+  invoices          Invoice[]
+  payments          Payment[]
+  expenses          Expense[]
+  subscriptions     ToolSubscription[]
+  domainProducts    DomainProduct[]
+  reusableComponents ReusableComponent[]
 
   @@map("teams")
 }
@@ -50,8 +69,16 @@ model Project {
   leadId String? // Clerk user ID
   lead   String? // User display name
 
-  issues  Issue[]
-  members ProjectMember[]
+  issues       Issue[]
+  members      ProjectMember[]
+  events       Event[]
+  teamChannels TeamChannel[]
+
+  clientId String?
+  client   Client? @relation(fields: [clientId], references: [id], onDelete: SetNull)
+
+  invoices Invoice[]
+  expenses Expense[]
 
   @@unique([teamId, key])
   @@map("projects")
@@ -302,3 +329,817 @@ model ChatMessage {
 
   @@map("chat_messages")
 }
+
+// -------------------------------------------------------------
+// Module 6.2: Calendar, Meetings & Meeting Intelligence (CAL)
+// -------------------------------------------------------------
+
+model Event {
+  id            String   @id @default(cuid())
+  title         String
+  description   String?  @db.Text
+  type          String   @default("meeting") // meeting, standup, milestone, task_deadline, followup, leave
+  startTime     DateTime
+  endTime       DateTime
+  allDay        Boolean  @default(false)
+  location      String?
+  meetUrl       String?  // Google Meet or custom conference link
+  status        String   @default("scheduled") // scheduled, completed, canceled
+  recurrence    String?  // none, daily, weekly, monthly
+  googleEventId String?  // External Google Calendar Event ID
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relations
+  teamId        String
+  team          Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
+
+  projectId     String?
+  project       Project? @relation(fields: [projectId], references: [id], onDelete: SetNull)
+
+  creatorId     String   // Better Auth user ID
+  creatorName   String?
+
+  attendees     EventAttendee[]
+  meetingNote   MeetingNote?
+
+  @@index([teamId, startTime])
+  @@map("events")
+}
+
+model EventAttendee {
+  id        String   @id @default(cuid())
+  eventId   String
+  event     Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  userId    String?  // Optional internal user ID
+  name      String
+  email     String
+  status    String   @default("pending") // pending, accepted, declined, tentative
+  createdAt DateTime @default(now())
+
+  @@unique([eventId, email])
+  @@map("event_attendees")
+}
+
+model MeetingNote {
+  id                 String              @id @default(cuid())
+  eventId            String              @unique
+  event              Event               @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  content            String?             @db.Text // Agenda and meeting notes in markdown
+  summary            String?             @db.Text // AI generated executive summary (5-lines)
+  decisions          String?             @db.Text // Key decisions captured
+  rawTranscript      String?             @db.Text // Audio/text transcript input
+  followUpEmailDraft String?             @db.Text // AI drafted follow-up email
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+
+  actionItems        MeetingActionItem[]
+
+  @@map("meeting_notes")
+}
+
+model MeetingActionItem {
+  id               String      @id @default(cuid())
+  meetingNoteId    String
+  meetingNote      MeetingNote @relation(fields: [meetingNoteId], references: [id], onDelete: Cascade)
+  title            String
+  assigneeName     String?
+  dueDate          DateTime?
+  status           String      @default("open") // open, converted, done
+  convertedIssueId String?     // ID of the Issue created from this item
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+
+  @@map("meeting_action_items")
+}
+
+model StandupEntry {
+  id        String   @id @default(cuid())
+  teamId    String
+  team      Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  userId    String   // User ID
+  userName  String
+  userEmail String
+  date      DateTime @default(now())
+  yesterday String   @db.Text
+  today     String   @db.Text
+  blockers  String?  @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([teamId, date])
+  @@map("standup_entries")
+}
+
+// -------------------------------------------------------------
+// Module 6.3: CRM & Sales Pipeline (CRM)
+// -------------------------------------------------------------
+
+model Client {
+  id          String    @id @default(cuid())
+  name        String
+  company     String?
+  industry    String?
+  website     String?
+  email       String?
+  phone       String?
+  address     String?
+  city        String?
+  state       String?
+  country     String?   @default("India")
+  gstin       String?
+  status      String    @default("active") // active, inactive, lead
+  notes       String?   @db.Text
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  // Relations
+  teamId      String
+  team        Team      @relation(fields: [teamId], references: [id], onDelete: Cascade)
+
+  contacts    Contact[]
+  leads       Lead[]
+  projects       Project[]
+  invoices       Invoice[]
+  pilotCustomers ProductPilotCustomer[]
+
+  @@index([teamId])
+  @@map("clients")
+}
+
+model Contact {
+  id          String   @id @default(cuid())
+  name        String
+  email       String
+  phone       String?
+  role        String   @default("decision_maker") // decision_maker, technical, finance, other
+  isPrimary   Boolean  @default(false)
+  notes       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  clientId    String
+  client      Client   @relation(fields: [clientId], references: [id], onDelete: Cascade)
+
+  @@index([clientId])
+  @@map("contacts")
+}
+
+model LeadPipeline {
+  id          String      @id @default(cuid())
+  name        String      @default("Default Sales Pipeline")
+  isDefault   Boolean     @default(true)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  // Relations
+  teamId      String
+  team        Team        @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  stages      LeadStage[]
+  leads       Lead[]
+
+  @@map("lead_pipelines")
+}
+
+model LeadStage {
+  id          String       @id @default(cuid())
+  name        String
+  type        String       @default("open") // open, won, lost, hold
+  color       String       @default("#64748b")
+  position    Int          @default(0)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  // Relations
+  pipelineId  String
+  pipeline    LeadPipeline @relation(fields: [pipelineId], references: [id], onDelete: Cascade)
+  leads       Lead[]
+
+  @@unique([pipelineId, name])
+  @@map("lead_stages")
+}
+
+model Lead {
+  id                 String         @id @default(cuid())
+  title              String
+  companyName        String?
+  contactName        String?
+  email              String?
+  phone              String?
+  industryVertical   String?
+  source             String         @default("website") // website, fiverr, upwork, referral, linkedin, cold_outreach, other
+  campaign           String?
+  estimatedValue     Float?
+  currency           String         @default("INR")
+  expectedCloseDate  DateTime?
+  requirementSummary String?        @db.Text
+  temperature        String         @default("warm") // cold, warm, hot
+  ownerId            String?
+  ownerName          String?
+  nextFollowUpDate   DateTime?
+  isWon              Boolean        @default(false)
+  isLost             Boolean        @default(false)
+  lostReason         String?        // price, timing, competitor, no_response, scope_mismatch, other
+  lostNotes          String?        @db.Text
+  convertedClientId  String?
+  convertedProjectId String?
+
+  createdAt          DateTime       @default(now())
+  updatedAt          DateTime       @updatedAt
+
+  // Relations
+  teamId             String
+  team               Team           @relation(fields: [teamId], references: [id], onDelete: Cascade)
+
+  pipelineId         String
+  pipeline           LeadPipeline   @relation(fields: [pipelineId], references: [id], onDelete: Cascade)
+
+  stageId            String
+  stage              LeadStage      @relation(fields: [stageId], references: [id])
+
+  clientId           String?
+  client             Client?        @relation(fields: [clientId], references: [id], onDelete: SetNull)
+
+  activities         LeadActivity[]
+
+  @@index([teamId, stageId])
+  @@index([teamId, nextFollowUpDate])
+  @@map("leads")
+}
+
+model LeadActivity {
+  id          String   @id @default(cuid())
+  type        String   @default("note") // call, email, whatsapp, meeting, note
+  content     String   @db.Text
+  performedBy String
+  performedAt DateTime @default(now())
+
+  // Relations
+  leadId      String
+  lead        Lead     @relation(fields: [leadId], references: [id], onDelete: Cascade)
+
+  @@index([leadId, performedAt])
+  @@map("lead_activities")
+}
+
+// -------------------------------------------------------------
+// Module 6.8: Team Communication, Announcements & Inbox (COMM)
+// -------------------------------------------------------------
+
+model TeamChannel {
+  id          String   @id @default(cuid())
+  name        String   // "general", "announcements", "leads", or project name
+  description String?
+  type        String   @default("channel") // "channel", "project", "dm"
+  isPrivate   Boolean  @default(false)
+  createdBy   String   // user ID
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  teamId      String
+  team        Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
+
+  projectId   String?
+  project     Project? @relation(fields: [projectId], references: [id], onDelete: SetNull)
+
+  members     TeamChannelMember[]
+  messages    TeamChatMessage[]
+
+  @@unique([teamId, name])
+  @@index([teamId, type])
+  @@map("team_channels")
+}
+
+model TeamChannelMember {
+  id         String      @id @default(cuid())
+  channelId  String
+  channel    TeamChannel @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  userId     String
+  userEmail  String
+  userName   String
+  lastReadAt DateTime    @default(now())
+  createdAt  DateTime    @default(now())
+
+  @@unique([channelId, userId])
+  @@index([userId])
+  @@map("team_channel_members")
+}
+
+model TeamChatMessage {
+  id               String            @id @default(cuid())
+  channelId        String
+  channel          TeamChannel       @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  senderId         String
+  senderName       String
+  senderEmail      String
+  senderAvatar     String?
+  content          String            @db.Text
+  attachments      Json?             // Array of { url, name, size, type }
+  mentions         Json?             // Array of userIds or task keys
+  referencedTaskId String?           // Linked Issue / Task ID
+  isPinned         Boolean           @default(false)
+  isHuddle         Boolean           @default(false)
+  huddleUrl        String?
+  parentId         String?           // For threaded replies
+  parent           TeamChatMessage?  @relation("ThreadReplies", fields: [parentId], references: [id], onDelete: Cascade)
+  replies          TeamChatMessage[] @relation("ThreadReplies")
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+
+  reactions        TeamChatReaction[]
+
+  @@index([channelId, createdAt])
+  @@index([parentId])
+  @@map("team_chat_messages")
+}
+
+model TeamChatReaction {
+  id        String          @id @default(cuid())
+  messageId String
+  message   TeamChatMessage @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  userId    String
+  userName  String
+  emoji     String
+  createdAt DateTime        @default(now())
+
+  @@unique([messageId, userId, emoji])
+  @@map("team_chat_reactions")
+}
+
+model TeamAnnouncement {
+  id          String                  @id @default(cuid())
+  teamId      String
+  team        Team                    @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  title       String
+  content     String                  @db.Text
+  priority    String                  @default("normal") // normal, urgent
+  authorId    String
+  authorName  String
+  isPinned    Boolean                 @default(true)
+  createdAt   DateTime                @default(now())
+  updatedAt   DateTime                @updatedAt
+
+  acks        TeamAnnouncementAck[]
+
+  @@index([teamId, createdAt])
+  @@map("team_announcements")
+}
+
+model TeamAnnouncementAck {
+  id             String           @id @default(cuid())
+  announcementId String
+  announcement   TeamAnnouncement @relation(fields: [announcementId], references: [id], onDelete: Cascade)
+  userId         String
+  userName       String
+  acknowledgedAt DateTime         @default(now())
+
+  @@unique([announcementId, userId])
+  @@map("team_announcement_acks")
+}
+
+model InboxMessage {
+  id          String   @id @default(cuid())
+  userId      String   // Recipient user ID
+  senderId    String?  // Sender user ID or null for system
+  senderName  String?
+  senderEmail String?
+  senderAvatar String?
+  subject     String
+  snippet     String
+  content     String   @db.Text
+  category    String   @default("primary") // "primary", "mention", "task", "alert", "approval"
+  entityType  String?  // "issue", "project", "event", "lead", "chat"
+  entityId    String?  // Target entity ID
+  entityUrl   String?  // Deep link
+  read        Boolean  @default(false)
+  starred     Boolean  @default(false)
+  archived    Boolean  @default(false)
+  teamId      String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([userId, read])
+  @@index([userId, category])
+  @@index([userId, createdAt])
+  @@map("inbox_messages")
+}
+
+// -------------------------------------------------------------
+// Module 6.18: Administration, Security & Settings (ADM)
+// -------------------------------------------------------------
+
+model AuditLog {
+  id          String   @id @default(cuid())
+  teamId      String
+  team        Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  userId      String
+  userName    String
+  userEmail   String
+  action      String   // "CREATE", "UPDATE", "DELETE", "SECURITY", "EXPORT", "LOGIN"
+  entityType  String   // "task", "project", "lead", "member", "channel", "setting", "api_key", "automation"
+  entityId    String?
+  entityTitle String?
+  details     Json?    // Context diff or metadata
+  ipAddress   String?
+  createdAt   DateTime @default(now())
+
+  @@index([teamId, createdAt])
+  @@index([teamId, action])
+  @@map("audit_logs")
+}
+
+model CompanySetting {
+  id              String   @id @default(cuid())
+  teamId          String   @unique
+  team            Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  companyName     String   @default("SketchItUp Technologies Pvt Ltd")
+  legalEntityName String?  @default("SketchItUp Software Private Limited")
+  gstin           String?  @default("27AAACS1429B1ZB")
+  pan             String?  @default("AAACS1429B")
+  currency        String   @default("INR")
+  timezone        String   @default("Asia/Kolkata")
+  fiscalYearStart String   @default("April")
+  workingDays     Json?    // ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
+  businessHours   String?  @default("09:30 - 18:30")
+  holidays        Json?    // [{ name: "Republic Day", date: "2026-01-26" }, ...]
+  address         String?  @default("Plot 42, Tech Gateway Cybercity")
+  city            String?  @default("Mumbai")
+  state           String?  @default("Maharashtra")
+  pincode         String?  @default("400076")
+  billingEmail    String?  @default("billing@sketchitup.internal")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@map("company_settings")
+}
+
+model AutomationRule {
+  id              String          @id @default(cuid())
+  teamId          String
+  team            Team            @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  name            String
+  description     String?
+  triggerType     String          // "lead_won", "task_overdue", "meeting_completed", "client_created"
+  triggerConfig   Json?
+  actionType      String          // "create_project", "escalate_task", "send_notification", "create_channel"
+  actionConfig    Json?
+  isActive        Boolean         @default(true)
+  executionCount  Int             @default(0)
+  lastTriggeredAt DateTime?
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  logs            AutomationLog[]
+
+  @@index([teamId])
+  @@map("automation_rules")
+}
+
+model AutomationLog {
+  id          String         @id @default(cuid())
+  ruleId      String
+  rule        AutomationRule @relation(fields: [ruleId], references: [id], onDelete: Cascade)
+  status      String         @default("success") // "success", "failed"
+  details     String?        @db.Text
+  executedAt  DateTime       @default(now())
+
+  @@index([ruleId, executedAt])
+  @@map("automation_logs")
+}
+
+model DeveloperApiKey {
+  id            String    @id @default(cuid())
+  teamId        String
+  team          Team      @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  name          String
+  keyPrefix     String    // "sk_live_..."
+  keyHash       String
+  scopes        Json?     // ["tasks:read", "tasks:write", "crm:read", "admin:full"]
+  createdBy     String
+  createdByName String
+  lastUsedAt    DateTime?
+  expiresAt     DateTime?
+  isActive      Boolean   @default(true)
+  createdAt     DateTime  @default(now())
+
+  @@index([teamId])
+  @@map("developer_api_keys")
+}
+
+model WebhookEndpoint {
+  id          String            @id @default(cuid())
+  teamId      String
+  team        Team              @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  url         String
+  description String?
+  secret      String            // Webhook signature secret
+  events      Json?             // ["lead.won", "task.status_changed", "invoice.paid"]
+  isActive    Boolean           @default(true)
+  lastStatus  String?           @default("active") // "active", "failed"
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+
+  deliveries  WebhookDelivery[]
+
+  @@index([teamId])
+  @@map("webhook_endpoints")
+}
+
+model WebhookDelivery {
+  id          String          @id @default(cuid())
+  endpointId  String
+  endpoint    WebhookEndpoint @relation(fields: [endpointId], references: [id], onDelete: Cascade)
+  event       String
+  statusCode  Int
+  payload     Json?
+  response    String?         @db.Text
+  deliveredAt DateTime        @default(now())
+
+  @@index([endpointId, deliveredAt])
+  @@map("webhook_deliveries")
+}
+
+// -------------------------------------------------------------
+// Module 6.17: Reporting & Analytics (RPT)
+// -------------------------------------------------------------
+
+model CompanyKpi {
+  id           String   @id @default(cuid())
+  teamId       String
+  team         Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  category     String   // "sales", "delivery", "financial", "team"
+  name         String
+  metricKey    String   // "pipeline_value", "win_rate", "sprint_velocity", "revenue", "active_clients"
+  targetValue  Float
+  currentValue Float    @default(0)
+  unit         String   @default("INR") // "INR", "USD", "%", "pts", "count"
+  period       String   @default("monthly") // "weekly", "monthly", "quarterly"
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([teamId, category])
+  @@map("company_kpis")
+}
+
+// -------------------------------------------------------------
+// Module 6.10: Finance, Invoicing & GST (FIN)
+// -------------------------------------------------------------
+
+model Invoice {
+  id              String        @id @default(cuid())
+  teamId          String
+  team            Team          @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  clientId        String
+  client          Client        @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  projectId       String?
+  project         Project?      @relation(fields: [projectId], references: [id], onDelete: SetNull)
+  invoiceNumber   String        // "INV-2026-0001"
+  status          String        @default("DRAFT") // DRAFT, SENT, PARTIALLY_PAID, PAID, OVERDUE, CANCELLED
+  issueDate       DateTime      @default(now())
+  dueDate         DateTime
+  paidAt          DateTime?
+  currency        String        @default("INR")
+  subtotal        Float         @default(0)
+  discount        Float         @default(0)
+  taxTotal        Float         @default(0)
+  grandTotal      Float         @default(0)
+  amountPaid      Float         @default(0)
+  balanceDue      Float         @default(0)
+  supplyType      String        @default("INTRA_STATE") // INTRA_STATE (CGST+SGST), INTER_STATE (IGST), EXPORT (0%)
+  cgstAmount      Float         @default(0)
+  sgstAmount      Float         @default(0)
+  igstAmount      Float         @default(0)
+  notes           String?       @db.Text
+  paymentTerms    String?       @default("Due within 15 days of invoice date")
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  items           InvoiceItem[]
+  payments        Payment[]
+
+  @@unique([teamId, invoiceNumber])
+  @@index([teamId, status])
+  @@index([teamId, dueDate])
+  @@map("invoices")
+}
+
+model InvoiceItem {
+  id          String   @id @default(cuid())
+  invoiceId   String
+  invoice     Invoice  @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+  description String
+  hsnSac      String   @default("998314") // Service Accounting Code
+  quantity    Float    @default(1)
+  unitPrice   Float
+  taxRate     Float    @default(18) // 18% standard GST
+  amount      Float
+  createdAt   DateTime @default(now())
+
+  @@index([invoiceId])
+  @@map("invoice_items")
+}
+
+model Payment {
+  id              String   @id @default(cuid())
+  teamId          String
+  team            Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  invoiceId       String
+  invoice         Invoice  @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+  amount          Float
+  currency        String   @default("INR")
+  paymentDate     DateTime @default(now())
+  paymentMethod   String   @default("BANK_TRANSFER") // BANK_TRANSFER, UPI, CARD, RAZORPAY, STRIPE, CASH
+  referenceNumber String?  // UTR / Transaction ID
+  receiptNumber   String?  // REC-2026-0001
+  notes           String?  @db.Text
+  createdAt       DateTime @default(now())
+
+  @@index([teamId, paymentDate])
+  @@index([invoiceId])
+  @@map("payments")
+}
+
+model Expense {
+  id            String   @id @default(cuid())
+  teamId        String
+  team          Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  projectId     String?
+  project       Project? @relation(fields: [projectId], references: [id], onDelete: SetNull)
+  vendorName    String
+  category      String   @default("SOFTWARE_SAAS") // SOFTWARE_SAAS, CLOUD_HOSTING, CONTRACTOR, HARDWARE, OFFICE, MARKETING, TRAVEL, MISC
+  amount        Float
+  currency      String   @default("INR")
+  expenseDate   DateTime @default(now())
+  paymentStatus String   @default("PAID") // PAID, PENDING
+  isBillable    Boolean  @default(false)
+  receiptNote   String?
+  notes         String?  @db.Text
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([teamId, category])
+  @@index([teamId, expenseDate])
+  @@map("expenses")
+}
+
+model ToolSubscription {
+  id           String    @id @default(cuid())
+  teamId       String
+  team         Team      @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  name         String    // "GitHub Enterprise", "AWS / Neon", "Figma", "Google Workspace"
+  category     String    @default("DEVELOPER_TOOLS") // DEVELOPER_TOOLS, INFRASTRUCTURE, DESIGN, PRODUCTIVITY
+  cost         Float
+  currency     String    @default("INR")
+  billingCycle String    @default("monthly") // monthly, yearly
+  renewalDate  DateTime
+  ownerName    String?
+  status       String    @default("active") // active, paused, cancelled
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@index([teamId, status])
+  @@map("tool_subscriptions")
+}
+
+// -------------------------------------------------------------
+// Module 6.14: Own Products & Roadmap (PROD - SaaS Portfolio)
+// -------------------------------------------------------------
+
+model DomainProduct {
+  id              String   @id @default(cuid())
+  teamId          String
+  team            Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  name            String   // e.g. "AgriTrack ERP", "SensorFlow IoT"
+  slug            String
+  tagline         String?
+  description     String?  @db.Text
+  vertical        String   @default("AGRITECH") // AGRITECH, INDUSTRIAL, LOGISTICS, SAAS, DEVTOOLS, FINTECH
+  status          String   @default("DEVELOPMENT") // IDEA, RESEARCH, DEVELOPMENT, BETA, LIVE, SUNSET
+  ownerName       String?
+  pricingModel    String   @default("SUBSCRIPTION") // SUBSCRIPTION, USAGE_BASED, FLAT_RETAINER, FREEMIUM
+  targetQuarter   String   @default("Q2_2026")
+  websiteUrl      String?
+  repositoryUrl   String?
+  mrr             Float    @default(0)
+  activeUsers     Int      @default(0)
+  healthScore     Int      @default(90) // 0-100
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  roadmapItems    ProductRoadmapItem[]
+  featureRequests ProductFeatureRequest[]
+  pilotCustomers  ProductPilotCustomer[]
+  releaseNotes    ProductReleaseNote[]
+
+  @@unique([teamId, slug])
+  @@index([teamId, status])
+  @@map("domain_products")
+}
+
+model ProductRoadmapItem {
+  id             String        @id @default(cuid())
+  productId      String
+  product        DomainProduct @relation(fields: [productId], references: [id], onDelete: Cascade)
+  teamId         String
+  title          String
+  description    String?       @db.Text
+  quarter        String        @default("Q2_2026") // Q1_2026, Q2_2026, Q3_2026, Q4_2026
+  stage          String        @default("PLANNED") // IDEA, PLANNED, IN_DEV, BETA, LIVE
+  priority       String        @default("MEDIUM") // LOW, MEDIUM, HIGH, CRITICAL
+  progress       Int           @default(0) // 0 - 100%
+  targetDate     DateTime?
+  effortEstimate String?       // "2 Weeks", "5 SP", "1 Sprint"
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  @@index([productId, stage])
+  @@index([teamId, quarter])
+  @@map("product_roadmap_items")
+}
+
+model ProductFeatureRequest {
+  id            String        @id @default(cuid())
+  productId     String
+  product       DomainProduct @relation(fields: [productId], references: [id], onDelete: Cascade)
+  teamId        String
+  title         String
+  description   String?       @db.Text
+  category      String        @default("FEATURE") // FEATURE, ENHANCEMENT, INTEGRATION, PERFORMANCE, UI_UX
+  source        String        @default("PILOT_CUSTOMER") // PILOT_CUSTOMER, SALES_DEMO, INTERNAL_TEAM, FOUNDER
+  requesterName String?
+  voteCount     Int           @default(1)
+  status        String        @default("NEW") // NEW, REVIEWED, ACCEPTED, IN_ROADMAP, DECLINED
+  upvotedBy     Json?         // Array of user IDs or emails
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  @@index([productId, status])
+  @@index([teamId])
+  @@map("product_feature_requests")
+}
+
+model ProductPilotCustomer {
+  id            String        @id @default(cuid())
+  productId     String
+  product       DomainProduct @relation(fields: [productId], references: [id], onDelete: Cascade)
+  teamId        String
+  clientId      String?
+  client        Client?       @relation(fields: [clientId], references: [id], onDelete: SetNull)
+  companyName   String
+  contactName   String?
+  contactEmail  String?
+  stage         String        @default("PILOT_ACTIVE") // OUTREACH, ONBOARDING, PILOT_ACTIVE, CONVERTED, CHURNED
+  startDate     DateTime      @default(now())
+  endDate       DateTime?
+  feedbackNotes String?       @db.Text
+  healthScore   Int           @default(85) // 0-100
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  @@index([productId, stage])
+  @@index([teamId])
+  @@map("product_pilot_customers")
+}
+
+model ProductReleaseNote {
+  id           String        @id @default(cuid())
+  productId    String
+  product      DomainProduct @relation(fields: [productId], references: [id], onDelete: Cascade)
+  teamId       String
+  version      String        // e.g. "v1.2.0"
+  title        String
+  releaseDate  DateTime      @default(now())
+  isPublished  Boolean       @default(true)
+  features     Json?         // Array of strings or rich items
+  improvements Json?
+  fixes        Json?
+  notes        String?       @db.Text
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  @@index([productId, isPublished])
+  @@index([teamId])
+  @@map("product_release_notes")
+}
+
+model ReusableComponent {
+  id                 String   @id @default(cuid())
+  teamId             String
+  team               Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  name               String   // e.g. "GST Tax Calculator", "Multi-tenant RBAC Middleware"
+  category           String   @default("BACKEND") // BACKEND, FRONTEND, AI_ML, DEVOPS, DESIGN_SYSTEM
+  description        String?  @db.Text
+  techStack          String   @default("TypeScript, Next.js, Prisma")
+  repoUrl            String?
+  timesReused        Int      @default(1)
+  hoursSavedEstimate Int      @default(40) // hours saved across agency
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  @@index([teamId, category])
+  @@map("reusable_components")
+}
+

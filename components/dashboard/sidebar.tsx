@@ -25,12 +25,19 @@ import {
   Plus,
   PanelLeftClose,
   ShieldAlert,
+  Target,
+  MessageSquare,
+  BarChart3,
+  Workflow,
+  CreditCard,
+  Package,
 } from "lucide-react";
 import IconFiles from "@/components/ui/IconFiles";
 import IconSquareChartLine from "@/components/ui/IconSquareChartLine";
 import IconGearKeyhole from "@/components/ui/IconGearKeyhole";
 import { useActiveTeam } from "@/lib/context/team-context";
 import { useProjects, useCreateProject } from "@/lib/hooks/use-projects";
+import { useInboxUnreadCount } from "@/lib/hooks/use-inbox";
 import { ProjectDialog } from "@/components/projects/project-dialog";
 import { authClient } from "@/lib/auth-client";
 import {
@@ -59,11 +66,10 @@ export const navigationItems = (openApiKeyDialog: () => void): NavigationItem[] 
     type: "item",
   },
   {
-    name: "Approvals",
+    name: "Inbox",
     href: "/dashboard/inbox",
     icon: Inbox,
     type: "item",
-    badge: 4,
   },
   {
     name: "My Tasks",
@@ -84,6 +90,36 @@ export const navigationItems = (openApiKeyDialog: () => void): NavigationItem[] 
     type: "item",
   },
   {
+    name: "CRM & Leads",
+    href: "/dashboard/crm",
+    icon: Target,
+    type: "item",
+  },
+  {
+    name: "Analytics & Reports",
+    href: "/dashboard/reports",
+    icon: BarChart3,
+    type: "item",
+  },
+  {
+    name: "Automations & Flows",
+    href: "/dashboard/flows",
+    icon: Workflow,
+    type: "item",
+  },
+  {
+    name: "Finance & Billing",
+    href: "/dashboard/finance",
+    icon: CreditCard,
+    type: "item",
+  },
+  {
+    name: "SaaS Products & IP",
+    href: "/dashboard/products",
+    icon: Package,
+    type: "item",
+  },
+  {
     name: "Members",
     href: "/dashboard/members",
     icon: Users,
@@ -92,6 +128,12 @@ export const navigationItems = (openApiKeyDialog: () => void): NavigationItem[] 
   {
     type: "label",
     name: "Teams",
+  },
+  {
+    name: "Team Space & Chat",
+    href: "/dashboard/team",
+    icon: MessageSquare,
+    type: "item",
   },
   {
     name: "Team Tasks",
@@ -180,26 +222,35 @@ export function DashboardAppSidebar({
   const hasTeam = !teamLoading && Boolean(teamId && team);
   const { data: projects = [] } = useProjects(teamId);
   const createProject = useCreateProject(teamId);
+  const { data: unreadData } = useInboxUnreadCount();
 
   // Group items into sections
   const missionItems = useMemo(() => {
-    return items.filter((item) => {
-      if (item.type === "label") return false;
-      return [
-        "/dashboard",
-        "/dashboard/inbox",
-        "/dashboard/my-tasks",
-        "/dashboard/issues",
-        "/dashboard/calendar",
-        "/dashboard/members",
-      ].includes(item.href || "");
-    });
-  }, [items]);
+    return items
+      .filter((item) => {
+        if (item.type === "label") return false;
+        return [
+          "/dashboard",
+          "/dashboard/inbox",
+          "/dashboard/my-tasks",
+          "/dashboard/issues",
+          "/dashboard/calendar",
+          "/dashboard/members",
+        ].includes(item.href || "");
+      })
+      .map((item) => {
+        if (item.href === "/dashboard/inbox" && unreadData?.count && unreadData.count > 0) {
+          return { ...item, badge: unreadData.count };
+        }
+        return item;
+      });
+  }, [items, unreadData?.count]);
 
   const teamItems = useMemo(() => {
     return items.filter((item) => {
       if (item.type === "label") return false;
       return [
+        "/dashboard/team",
         "/dashboard/team-tasks",
         "/dashboard/projects",
         "/dashboard/projects?view=timeline",
@@ -375,6 +426,26 @@ export function DashboardAppSidebar({
                 })}
 
                 <div className="w-5 h-px bg-white/[0.08] my-1" />
+
+                {/* Team Space & Chat Icon */}
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Link
+                      href="/dashboard/team"
+                      className={cn(
+                        "w-8 h-8 rounded-xl flex items-center justify-center transition-all",
+                        pathname === "/dashboard/team"
+                          ? "bg-[#252528] text-white shadow-xs"
+                          : "text-neutral-400 hover:text-white hover:bg-white/[0.04]"
+                      )}
+                    >
+                      <MessageSquare className="w-4 h-4" />
+                    </Link>
+                  </TooltipTrigger>
+                  <TooltipContent side="right">
+                    <span>Team Space & Chat</span>
+                  </TooltipContent>
+                </Tooltip>
 
                 {/* Team Tasks Icon */}
                 <Tooltip>

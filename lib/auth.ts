@@ -41,6 +41,8 @@ export const auth = betterAuth({
       process.env.BETTER_AUTH_URL,
       process.env.NEXT_PUBLIC_APP_URL,
       "http://localhost:3000",
+      "http://127.0.0.1:3000",
+      "http://192.168.1.7:3000",
       "https://doable.kartikk.tech", // Production domain
     ].filter(Boolean) as string[]
     return origins

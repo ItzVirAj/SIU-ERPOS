@@ -66,7 +66,6 @@ export default function SignUpPage() {
         email: email.trim(),
         password,
         name: name.trim() || email.split("@")[0],
-        callbackURL: redirectUrl,
       })
 
       if (res.error) {
@@ -78,6 +77,14 @@ export default function SignUpPage() {
       router.push(redirectUrl)
       router.refresh()
     } catch (err: any) {
+      try {
+        const { data: session } = await authClient.getSession()
+        if (session?.user) {
+          const redirectUrl = searchParams.get("redirect") || "/dashboard"
+          router.push(redirectUrl)
+          return
+        }
+      } catch {}
       setError(err?.message || "An unexpected error occurred during sign up")
       setEmailLoading(false)
     }

@@ -28,8 +28,18 @@ export function useLabels(teamId: string) {
   })
 }
 
+export interface TeamMember {
+  id: string;
+  role: string;
+  userId: string;
+  userEmail: string;
+  userName: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
 export function useTeamMembers(teamId: string) {
-  return useQuery({
+  return useQuery<TeamMember[]>({
     queryKey: ['members', teamId],
     queryFn: async () => {
       const response = await fetch(`/api/teams/${teamId}/members`)
