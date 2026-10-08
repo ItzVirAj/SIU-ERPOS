@@ -21,7 +21,7 @@ import { PrismaClient } from '../lib/prisma-client'
 const prisma = new PrismaClient()
 
 const TARGET_EMAILS = [
-  'demo@siu.in',
+  'temp@doable.local',
 ]
 
 async function purgeDemoUser() {
@@ -38,7 +38,7 @@ async function purgeDemoUser() {
       where: {
         OR: [
           { email: { in: TARGET_EMAILS } },
-          { email: { startsWith: 'demo@siu.in' } },
+          { email: { startsWith: 'temp' } },
         ],
       },
       include: {
