@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { WorkflowState } from '@prisma/client'
+import { WorkflowState } from '@/lib/prisma-client'
 import {
   DropdownMenu,
   DropdownMenuContent,

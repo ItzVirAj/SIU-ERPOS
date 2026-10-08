@@ -13,7 +13,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Filter, X, Check, Tag } from 'lucide-react'
 import { IssueFilters } from '@/lib/types'
-import { Project, WorkflowState, Label } from '@prisma/client'
+import { Project, WorkflowState, Label } from '@/lib/prisma-client'
 import { cn } from '@/lib/utils'
 
 interface FilterBarProps {

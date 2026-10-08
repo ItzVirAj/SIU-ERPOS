@@ -1,4 +1,4 @@
-import { Issue, Project, WorkflowState, Label, Comment, Team, IssueLabel, ProjectMember } from '@prisma/client'
+import { Issue, Project, WorkflowState, Label, Comment, Team, IssueLabel, ProjectMember } from '@/lib/prisma-client'
 
 // Extended types with relations
 export type IssueWithRelations = Issue & {

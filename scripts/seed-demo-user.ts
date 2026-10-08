@@ -93,7 +93,7 @@ async function main() {
     team = await prisma.team.create({
       data: {
         name: "Demo's Workspace",
-        slug: "demo-workspace",
+        key: "DEM",
       },
     })
   }

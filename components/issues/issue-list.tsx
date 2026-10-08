@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useMemo } from 'react'
-import { WorkflowState } from '@prisma/client'
+import { WorkflowState } from '@/lib/prisma-client'
 import { IssueWithRelations, PriorityLevel } from '@/lib/types'
 import { AssigneeAvatar } from '@/components/shared/assignee-avatar'
 import { PriorityIcon } from '@/components/shared/priority-icon'

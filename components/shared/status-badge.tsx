@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils'
-import { WorkflowState } from '@prisma/client'
+import { WorkflowState } from '@/lib/prisma-client'
 
 interface StatusBadgeProps {
   status: WorkflowState

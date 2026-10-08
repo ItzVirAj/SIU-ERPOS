@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils'
-import { Label } from '@prisma/client'
+import { Label } from '@/lib/prisma-client'
 
 interface LabelBadgeProps {
   label: Label

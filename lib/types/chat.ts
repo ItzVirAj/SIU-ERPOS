@@ -1,4 +1,4 @@
-import { ChatConversation, ChatMessage } from '@prisma/client'
+import { ChatConversation, ChatMessage } from '@/lib/prisma-client'
 
 export type ChatConversationWithMessages = ChatConversation & {
   messages: ChatMessage[]

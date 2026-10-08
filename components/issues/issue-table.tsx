@@ -1,7 +1,7 @@
 'use client'
 
 import { IssueWithRelations } from '@/lib/types'
-import { WorkflowState, Project, Label } from '@prisma/client'
+import { WorkflowState, Project, Label } from '@/lib/prisma-client'
 import { StatusBadge } from '@/components/shared/status-badge'
 import { PriorityIcon } from '@/components/shared/priority-icon'
 import { LabelBadge } from '@/components/shared/label-badge'

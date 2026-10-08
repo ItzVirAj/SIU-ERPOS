@@ -54,6 +54,7 @@ export function useCreateProject(teamId: string) {
         teamId,
         leadId: newProject.leadId || null,
         lead: newProject.lead || null,
+        clientId: null,
         team: team ? {
           id: team.id,
           name: team.name || '',

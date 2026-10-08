@@ -115,6 +115,7 @@ export function useCreateIssue(teamId: string) {
           teamId,
           leadId: project.leadId,
           lead: project.lead,
+          clientId: project.clientId ?? null,
         } : null,
         workflowState: workflowState ? {
           id: workflowState.id,
