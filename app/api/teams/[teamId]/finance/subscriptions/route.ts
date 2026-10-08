@@ -1,6 +1,17 @@
 import { NextRequest, NextResponse } from "next/server"
-import { getUserId } from "@/lib/auth-server-helpers"
+import { z } from "zod"
+import { requireTeamMember, requireTeamAdmin, handleRouteError } from "@/lib/authz"
 import { db } from "@/lib/db"
+
+const createSubscriptionSchema = z.object({
+  name: z.string().min(1).max(200),
+  category: z.string().default("DEVELOPER_TOOLS"),
+  cost: z.number().positive(),
+  currency: z.string().default("INR"),
+  billingCycle: z.enum(["monthly", "yearly"]).default("monthly"),
+  renewalDate: z.union([z.string(), z.date()]).optional(),
+  ownerName: z.string().nullable().optional(),
+}).strict()
 
 export async function GET(
   request: NextRequest,
@@ -8,82 +19,12 @@ export async function GET(
 ) {
   try {
     const { teamId } = await params
-    const userId = await getUserId()
+    await requireTeamMember(teamId)
 
-    if (!userId) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-    }
-
-    const membership = await db.teamMember.findFirst({
-      where: { teamId, userId },
-    })
-
-    if (!membership) {
-      return NextResponse.json({ error: "Forbidden" }, { status: 403 })
-    }
-
-    let subscriptions = await db.toolSubscription.findMany({
+    const subscriptions = await db.toolSubscription.findMany({
       where: { teamId },
       orderBy: { renewalDate: "asc" },
     })
-
-    // Auto-seed starter agency SaaS subscriptions if empty
-    if (subscriptions.length === 0) {
-      const now = new Date()
-      await db.toolSubscription.createMany({
-        data: [
-          {
-            teamId,
-            name: "GitHub Team Plan",
-            category: "DEVELOPER_TOOLS",
-            cost: 3500,
-            currency: "INR",
-            billingCycle: "monthly",
-            renewalDate: new Date(now.getTime() + 12 * 24 * 60 * 60 * 1000),
-            ownerName: "Tech Lead",
-            status: "active",
-          },
-          {
-            teamId,
-            name: "Neon PostgreSQL Serverless",
-            category: "INFRASTRUCTURE",
-            cost: 5800,
-            currency: "INR",
-            billingCycle: "monthly",
-            renewalDate: new Date(now.getTime() + 18 * 24 * 60 * 60 * 1000),
-            ownerName: "DevOps",
-            status: "active",
-          },
-          {
-            teamId,
-            name: "Vercel Pro Team",
-            category: "INFRASTRUCTURE",
-            cost: 1700,
-            currency: "INR",
-            billingCycle: "monthly",
-            renewalDate: new Date(now.getTime() + 25 * 24 * 60 * 60 * 1000),
-            ownerName: "Frontend Lead",
-            status: "active",
-          },
-          {
-            teamId,
-            name: "Google Workspace Enterprise",
-            category: "PRODUCTIVITY",
-            cost: 6200,
-            currency: "INR",
-            billingCycle: "monthly",
-            renewalDate: new Date(now.getTime() + 5 * 24 * 60 * 60 * 1000),
-            ownerName: "Founder",
-            status: "active",
-          },
-        ],
-      })
-
-      subscriptions = await db.toolSubscription.findMany({
-        where: { teamId },
-        orderBy: { renewalDate: "asc" },
-      })
-    }
 
     const now = new Date()
     let totalMonthlyBurn = 0
@@ -111,8 +52,7 @@ export async function GET(
       },
     })
   } catch (error) {
-    console.error("Error fetching tool subscriptions:", error)
-    return NextResponse.json({ error: "Failed to fetch subscriptions" }, { status: 500 })
+    return handleRouteError(error)
   }
 }
 
@@ -122,56 +62,35 @@ export async function POST(
 ) {
   try {
     const { teamId } = await params
-    const userId = await getUserId()
+    const { member } = await requireTeamAdmin(teamId)
 
-    if (!userId) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-    }
-
-    const membership = await db.teamMember.findFirst({
-      where: {
-        teamId,
-        userId,
-        role: { in: ["admin", "developer"] },
-      },
-    })
-
-    if (!membership) {
-      return NextResponse.json({ error: "Forbidden: Admin access required" }, { status: 403 })
-    }
-
-    const body = await request.json()
+    const rawBody = await request.json()
     const {
       name,
-      category = "DEVELOPER_TOOLS",
+      category,
       cost,
-      currency = "INR",
-      billingCycle = "monthly",
+      currency,
+      billingCycle,
       renewalDate,
       ownerName,
-    } = body
-
-    if (!name || !cost || Number(cost) <= 0) {
-      return NextResponse.json({ error: "Tool name and valid cost are required" }, { status: 400 })
-    }
+    } = createSubscriptionSchema.parse(rawBody)
 
     const subscription = await db.toolSubscription.create({
       data: {
         teamId,
         name: name.trim(),
         category,
-        cost: Number(cost),
+        cost,
         currency,
         billingCycle,
         renewalDate: renewalDate ? new Date(renewalDate) : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-        ownerName: ownerName?.trim() || membership.userName || "Admin",
+        ownerName: ownerName?.trim() || member.userName || "Admin",
         status: "active",
       },
     })
 
-    return NextResponse.json({ subscription })
+    return NextResponse.json({ subscription }, { status: 201 })
   } catch (error) {
-    console.error("Error creating subscription:", error)
-    return NextResponse.json({ error: "Failed to create subscription" }, { status: 500 })
+    return handleRouteError(error)
   }
 }

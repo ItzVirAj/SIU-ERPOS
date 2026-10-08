@@ -1,26 +1,30 @@
 import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
-import { getSession } from "@/lib/auth-server-helpers";
+import { requireSession, handleRouteError, HttpError } from "@/lib/authz";
 import { db } from "@/lib/db";
+import { validatePassword } from "@/lib/password-policy";
+import { createAuditLog } from "@/lib/audit";
+
+const passwordSchema = z.object({
+  currentPassword: z.string().optional(),
+  newPassword: z.string().min(12, "Password must be at least 12 characters long"),
+}).strict();
 
 export async function POST(request: NextRequest) {
   try {
-    const session = await getSession();
-    if (!session?.user?.id) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
+    const session = await requireSession();
+    const rawBody = await request.json();
+    const { currentPassword, newPassword } = passwordSchema.parse(rawBody);
 
-    const { currentPassword, newPassword } = await request.json();
-
-    if (!newPassword || newPassword.length < 6) {
-      return NextResponse.json(
-        { error: "New password must be at least 6 characters" },
-        { status: 400 }
-      );
+    const validation = validatePassword(newPassword);
+    if (!validation.isValid) {
+      throw new HttpError(400, validation.errors.join(". "));
     }
 
     const reqHeaders = await headers();
+    const ip = reqHeaders.get("x-forwarded-for")?.split(",")[0]?.trim() || reqHeaders.get("x-real-ip");
 
     // Check if user has an existing credential account
     const account = await db.account.findFirst({
@@ -32,10 +36,7 @@ export async function POST(request: NextRequest) {
 
     if (account && account.password) {
       if (!currentPassword) {
-        return NextResponse.json(
-          { error: "Current password is required" },
-          { status: 400 }
-        );
+        throw new HttpError(400, "Current password is required");
       }
 
       try {
@@ -43,19 +44,28 @@ export async function POST(request: NextRequest) {
           body: {
             currentPassword,
             newPassword,
-            revokeOtherSessions: false,
+            revokeOtherSessions: true,
           },
           headers: reqHeaders,
         });
+
+        await createAuditLog({
+          userId: session.user.id,
+          userName: session.user.name,
+          userEmail: session.user.email,
+          action: "SECURITY",
+          entityType: "USER_PASSWORD",
+          entityId: session.user.id,
+          entityTitle: "Password changed (other sessions revoked)",
+          ipAddress: ip,
+        });
+
         return NextResponse.json({
           success: true,
-          message: "Password changed successfully",
+          message: "Password changed successfully. Other active sessions have been revoked.",
         });
       } catch (err: any) {
-        return NextResponse.json(
-          { error: err.message || "Invalid current password" },
-          { status: 400 }
-        );
+        throw new HttpError(400, err.message || "Invalid current password");
       }
     } else {
       // User signed up with OAuth or has no password yet - set initial password
@@ -66,22 +76,27 @@ export async function POST(request: NextRequest) {
           },
           headers: reqHeaders,
         });
+
+        await createAuditLog({
+          userId: session.user.id,
+          userName: session.user.name,
+          userEmail: session.user.email,
+          action: "SECURITY",
+          entityType: "USER_PASSWORD",
+          entityId: session.user.id,
+          entityTitle: "Initial password configured",
+          ipAddress: ip,
+        });
+
         return NextResponse.json({
           success: true,
           message: "Password set successfully",
         });
       } catch (err: any) {
-        return NextResponse.json(
-          { error: err.message || "Failed to set password" },
-          { status: 400 }
-        );
+        throw new HttpError(400, err.message || "Failed to set password");
       }
     }
-  } catch (error: any) {
-    console.error("Password update error:", error);
-    return NextResponse.json(
-      { error: error.message || "Failed to update password" },
-      { status: 500 }
-    );
+  } catch (error) {
+    return handleRouteError(error);
   }
 }

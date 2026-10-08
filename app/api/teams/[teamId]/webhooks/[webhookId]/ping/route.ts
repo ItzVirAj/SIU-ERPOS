@@ -1,43 +1,29 @@
 import { NextRequest, NextResponse } from "next/server"
-import { getUserId } from "@/lib/auth-server-helpers"
+import { requireTeamAdmin, handleRouteError, HttpError } from "@/lib/authz"
 import { db } from "@/lib/db"
 
-// POST /api/teams/[teamId]/webhooks/[webhookId]/ping - Send a test ping delivery
 export async function POST(
   request: NextRequest,
   { params }: { params: Promise<{ teamId: string; webhookId: string }> }
 ) {
   try {
     const { teamId, webhookId } = await params
-    const userId = await getUserId()
-
-    if (!userId) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-    }
-
-    const membership = await db.teamMember.findFirst({
-      where: { teamId, userId },
-    })
-
-    if (!membership) {
-      return NextResponse.json({ error: "Forbidden" }, { status: 403 })
-    }
+    const { user, userId, member } = await requireTeamAdmin(teamId)
 
     const webhook = await db.webhookEndpoint.findFirst({
       where: { id: webhookId, teamId },
     })
 
     if (!webhook) {
-      return NextResponse.json({ error: "Webhook not found" }, { status: 404 })
+      throw new HttpError(404, "Webhook not found")
     }
 
-    // Prepare simulated ping delivery
     const payload = {
       event: "test.ping",
       timestamp: new Date().toISOString(),
       teamId,
       endpointId: webhook.id,
-      triggeredBy: membership.userName || membership.userEmail || "User",
+      triggeredBy: member.userName || user.name || "Admin",
       environment: process.env.NODE_ENV || "development",
     }
 
@@ -55,7 +41,6 @@ export async function POST(
       },
     })
 
-    // Update endpoint lastStatus
     await db.webhookEndpoint.update({
       where: { id: webhookId },
       data: {
@@ -63,13 +48,12 @@ export async function POST(
       },
     })
 
-    // Create Audit Log
     await db.auditLog.create({
       data: {
         teamId,
         userId,
-        userName: membership.userName || "User",
-        userEmail: membership.userEmail || "user@sketchitup.internal",
+        userName: member.userName || user.name || "Admin",
+        userEmail: member.userEmail || user.email || "admin@sketchitup.internal",
         action: "TEST_PING",
         entityType: "WEBHOOK",
         entityId: webhookId,
@@ -84,7 +68,6 @@ export async function POST(
       delivery,
     })
   } catch (error) {
-    console.error("Error pinging webhook:", error)
-    return NextResponse.json({ error: "Failed to ping webhook" }, { status: 500 })
+    return handleRouteError(error)
   }
 }

@@ -1,6 +1,21 @@
 import { NextRequest, NextResponse } from "next/server"
-import { getUserId } from "@/lib/auth-server-helpers"
+import { z } from "zod"
+import { requireTeamMember, handleRouteError, HttpError } from "@/lib/authz"
 import { db } from "@/lib/db"
+
+const createFeatureRequestSchema = z.object({
+  title: z.string().min(1).max(200),
+  description: z.string().nullable().optional(),
+  category: z.string().default("FEATURE"),
+  source: z.string().default("PILOT_CUSTOMER"),
+  requesterName: z.string().nullable().optional(),
+}).strict()
+
+const patchFeatureRequestSchema = z.object({
+  requestId: z.string().min(1),
+  action: z.enum(["upvote"]).optional(),
+  status: z.string().optional(),
+}).strict()
 
 export async function GET(
   request: NextRequest,
@@ -8,11 +23,7 @@ export async function GET(
 ) {
   try {
     const { teamId, productId } = await params
-    const userId = await getUserId()
-
-    if (!userId) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-    }
+    await requireTeamMember(teamId)
 
     const requests = await db.productFeatureRequest.findMany({
       where: { productId, teamId },
@@ -21,8 +32,7 @@ export async function GET(
 
     return NextResponse.json({ requests })
   } catch (error) {
-    console.error("Error listing feature requests:", error)
-    return NextResponse.json({ error: "Failed to list feature requests" }, { status: 500 })
+    return handleRouteError(error)
   }
 }
 
@@ -32,34 +42,28 @@ export async function POST(
 ) {
   try {
     const { teamId, productId } = await params
-    const userId = await getUserId()
+    const { userId } = await requireTeamMember(teamId, "developer")
 
-    if (!userId) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+    const product = await db.domainProduct.findFirst({
+      where: { id: productId, teamId },
+    })
+    if (!product) {
+      throw new HttpError(404, "Product not found")
     }
 
-    const body = await request.json()
-    const {
-      title,
-      description,
-      category = "FEATURE",
-      source = "PILOT_CUSTOMER",
-      requesterName,
-    } = body
-
-    if (!title) {
-      return NextResponse.json({ error: "Title is required" }, { status: 400 })
-    }
+    const rawBody = await request.json()
+    const { title, description, category, source, requesterName } =
+      createFeatureRequestSchema.parse(rawBody)
 
     const featureReq = await db.productFeatureRequest.create({
       data: {
         productId,
         teamId,
         title,
-        description,
+        description: description?.trim() || null,
         category,
         source,
-        requesterName,
+        requesterName: requesterName?.trim() || null,
         voteCount: 1,
         upvotedBy: [userId],
       },
@@ -67,8 +71,7 @@ export async function POST(
 
     return NextResponse.json({ request: featureReq }, { status: 201 })
   } catch (error) {
-    console.error("Error creating feature request:", error)
-    return NextResponse.json({ error: "Failed to create feature request" }, { status: 500 })
+    return handleRouteError(error)
   }
 }
 
@@ -78,25 +81,17 @@ export async function PATCH(
 ) {
   try {
     const { teamId, productId } = await params
-    const userId = await getUserId()
+    const { userId } = await requireTeamMember(teamId, "developer")
 
-    if (!userId) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-    }
+    const rawBody = await request.json()
+    const { requestId, action, status } = patchFeatureRequestSchema.parse(rawBody)
 
-    const body = await request.json()
-    const { requestId, action, status } = body
-
-    if (!requestId) {
-      return NextResponse.json({ error: "requestId is required" }, { status: 400 })
-    }
-
-    const current = await db.productFeatureRequest.findUnique({
-      where: { id: requestId },
+    const current = await db.productFeatureRequest.findFirst({
+      where: { id: requestId, productId, teamId },
     })
 
     if (!current) {
-      return NextResponse.json({ error: "Feature request not found" }, { status: 404 })
+      throw new HttpError(404, "Feature request not found")
     }
 
     if (action === "upvote") {
@@ -125,7 +120,6 @@ export async function PATCH(
 
     return NextResponse.json({ request: current })
   } catch (error) {
-    console.error("Error updating feature request:", error)
-    return NextResponse.json({ error: "Failed to update feature request" }, { status: 500 })
+    return handleRouteError(error)
   }
 }

@@ -1,14 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getSessionOrNull } from "@/lib/auth-server-helpers";
+import { z } from "zod";
+import { requireSession, handleRouteError } from "@/lib/authz";
 import { db } from "@/lib/db";
+
+const createMessageSchema = z.object({
+  recipientId: z.string().min(1),
+  subject: z.string().min(1).max(255),
+  content: z.string().min(1),
+  category: z.string().default("primary"),
+  teamId: z.string().nullable().optional(),
+}).strict();
 
 export async function GET(request: NextRequest) {
   try {
-    const session = await getSessionOrNull();
-    if (!session?.user?.id) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
+    const session = await requireSession();
     const userId = session.user.id;
     const { searchParams } = new URL(request.url);
     const category = searchParams.get("category") || "all";
@@ -59,12 +64,12 @@ export async function GET(request: NextRequest) {
           {
             userId,
             senderId: null,
-            senderName: "Operations Bot",
-            senderEmail: "ops@sketchitup.internal",
-            subject: "Team Communication & Alert Module Activated",
-            snippet: "Your workspace is connected to live database communication channels.",
-            content: "Module 6.8 (COMM) is now active.\n\n- Access your dedicated Team Chat under Teams in the sidebar\n- Quick Google Meet huddles can be started with a single click\n- Mark items as read to update your unread badge counter in real-time.",
-            category: "alert",
+            senderName: "Productivity Guide",
+            senderEmail: "ai@sketchitup.internal",
+            subject: "Quick tip: Use hotkeys and mention tags in team channels",
+            snippet: "Type @username to ping any teammate directly or link tasks in chat with #123.",
+            content: "Stay in the flow!\n\nEvery time a teammate mentions you with @name in a public or private team channel, an instant notification message is routed here with a deep link to the exact context.",
+            category: "system",
             read: false,
             starred: false,
           },
@@ -80,35 +85,20 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(messages);
   } catch (error) {
-    console.error("Error fetching inbox messages:", error);
-    return NextResponse.json(
-      { error: "Failed to fetch inbox messages" },
-      { status: 500 }
-    );
+    return handleRouteError(error);
   }
 }
 
 export async function POST(request: NextRequest) {
   try {
-    const session = await getSessionOrNull();
-    if (!session?.user?.id) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
+    const session = await requireSession();
     const senderId = session.user.id;
     const senderName = session.user.name || "User";
     const senderEmail = session.user.email || "";
     const senderAvatar = session.user.image || null;
 
-    const body = await request.json();
-    const { recipientId, subject, content, category = "primary", teamId = null } = body;
-
-    if (!recipientId || !subject || !content) {
-      return NextResponse.json(
-        { error: "Recipient, subject, and content are required" },
-        { status: 400 }
-      );
-    }
+    const rawBody = await request.json();
+    const { recipientId, subject, content, category, teamId } = createMessageSchema.parse(rawBody);
 
     const message = await db.inboxMessage.create({
       data: {
@@ -117,20 +107,16 @@ export async function POST(request: NextRequest) {
         senderName,
         senderEmail,
         senderAvatar,
-        subject,
-        snippet: content.slice(0, 120),
-        content,
+        subject: subject.trim(),
+        snippet: content.trim().slice(0, 120),
+        content: content.trim(),
         category,
-        teamId,
+        teamId: teamId || null,
       },
     });
 
     return NextResponse.json(message, { status: 201 });
   } catch (error) {
-    console.error("Error creating inbox message:", error);
-    return NextResponse.json(
-      { error: "Failed to create message" },
-      { status: 500 }
-    );
+    return handleRouteError(error);
   }
 }

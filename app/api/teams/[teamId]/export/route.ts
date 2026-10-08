@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
-import { getUserId } from "@/lib/auth-server-helpers"
+import { requireTeamAdmin, handleRouteError } from "@/lib/authz"
 import { db } from "@/lib/db"
 
 function escapeCsvCell(val: any): string {
@@ -22,19 +22,7 @@ export async function GET(
 ) {
   try {
     const { teamId } = await params
-    const userId = await getUserId()
-
-    if (!userId) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-    }
-
-    const membership = await db.teamMember.findFirst({
-      where: { teamId, userId },
-    })
-
-    if (!membership) {
-      return NextResponse.json({ error: "Forbidden" }, { status: 403 })
-    }
+    const { user, userId, member } = await requireTeamAdmin(teamId)
 
     const { searchParams } = new URL(request.url)
     const entity = searchParams.get("entity") || "all" // "tasks", "projects", "audit_logs", "automations", "all"
@@ -47,8 +35,8 @@ export async function GET(
       data: {
         teamId,
         userId,
-        userName: membership.userName || "User",
-        userEmail: membership.userEmail || "user@sketchitup.internal",
+        userName: member.userName || user.name || "Admin",
+        userEmail: member.userEmail || user.email || "admin@sketchitup.internal",
         action: "EXPORT",
         entityType: entity.toUpperCase(),
         entityId: teamId,
@@ -181,7 +169,6 @@ export async function GET(
       },
     })
   } catch (error) {
-    console.error("Error exporting data:", error)
-    return NextResponse.json({ error: "Failed to export data" }, { status: 500 })
+    return handleRouteError(error)
   }
 }

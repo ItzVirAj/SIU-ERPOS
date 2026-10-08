@@ -1,39 +1,35 @@
 import { NextRequest, NextResponse } from "next/server"
-import { getUserId } from "@/lib/auth-server-helpers"
+import { z } from "zod"
+import { requireTeamAdmin, handleRouteError, HttpError } from "@/lib/authz"
 import { db } from "@/lib/db"
 
-// PATCH /api/teams/[teamId]/api-keys/[keyId] - Toggle active status
+const patchApiKeySchema = z.object({
+  isActive: z.boolean(),
+}).strict()
+
 export async function PATCH(
   request: NextRequest,
   { params }: { params: Promise<{ teamId: string; keyId: string }> }
 ) {
   try {
     const { teamId, keyId } = await params
-    const userId = await getUserId()
+    const { user, userId, member } = await requireTeamAdmin(teamId)
 
-    if (!userId) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-    }
-
-    const membership = await db.teamMember.findFirst({
-      where: {
-        teamId,
-        userId,
-        role: { in: ["admin", "developer"] },
-      },
+    const existingKey = await db.developerApiKey.findFirst({
+      where: { id: keyId, teamId },
     })
 
-    if (!membership) {
-      return NextResponse.json({ error: "Forbidden: Admin access required" }, { status: 403 })
+    if (!existingKey) {
+      throw new HttpError(404, "API key not found")
     }
 
-    const body = await request.json()
-    const { isActive } = body
+    const rawBody = await request.json()
+    const { isActive } = patchApiKeySchema.parse(rawBody)
 
     const updated = await db.developerApiKey.update({
-      where: { id: keyId, teamId },
+      where: { id: keyId },
       data: {
-        isActive: Boolean(isActive),
+        isActive,
       },
     })
 
@@ -41,8 +37,8 @@ export async function PATCH(
       data: {
         teamId,
         userId,
-        userName: membership.userName || "Admin",
-        userEmail: membership.userEmail || "admin@sketchitup.internal",
+        userName: member.userName || user.name || "Admin",
+        userEmail: member.userEmail || user.email || "admin@sketchitup.internal",
         action: isActive ? "ENABLE" : "DISABLE",
         entityType: "API_KEY",
         entityId: keyId,
@@ -53,42 +49,24 @@ export async function PATCH(
 
     return NextResponse.json({ apiKey: updated })
   } catch (error) {
-    console.error("Error updating API key:", error)
-    return NextResponse.json({ error: "Failed to update API key" }, { status: 500 })
+    return handleRouteError(error)
   }
 }
 
-// DELETE /api/teams/[teamId]/api-keys/[keyId] - Revoke & delete API key
 export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ teamId: string; keyId: string }> }
 ) {
   try {
     const { teamId, keyId } = await params
-    const userId = await getUserId()
-
-    if (!userId) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-    }
-
-    const membership = await db.teamMember.findFirst({
-      where: {
-        teamId,
-        userId,
-        role: { in: ["admin", "developer"] },
-      },
-    })
-
-    if (!membership) {
-      return NextResponse.json({ error: "Forbidden: Admin access required" }, { status: 403 })
-    }
+    const { user, userId, member } = await requireTeamAdmin(teamId)
 
     const existingKey = await db.developerApiKey.findFirst({
       where: { id: keyId, teamId },
     })
 
     if (!existingKey) {
-      return NextResponse.json({ error: "API key not found" }, { status: 404 })
+      throw new HttpError(404, "API key not found")
     }
 
     await db.developerApiKey.delete({
@@ -99,8 +77,8 @@ export async function DELETE(
       data: {
         teamId,
         userId,
-        userName: membership.userName || "Admin",
-        userEmail: membership.userEmail || "admin@sketchitup.internal",
+        userName: member.userName || user.name || "Admin",
+        userEmail: member.userEmail || user.email || "admin@sketchitup.internal",
         action: "REVOKE",
         entityType: "API_KEY",
         entityId: keyId,
@@ -111,7 +89,6 @@ export async function DELETE(
 
     return NextResponse.json({ success: true, message: "API key revoked successfully" })
   } catch (error) {
-    console.error("Error revoking API key:", error)
-    return NextResponse.json({ error: "Failed to revoke API key" }, { status: 500 })
+    return handleRouteError(error)
   }
 }

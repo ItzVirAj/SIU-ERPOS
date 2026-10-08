@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getUserId, getUser, verifyTeamMembership } from "@/lib/auth-server-helpers";
+import { requireTeamMember, handleRouteError, HttpError } from "@/lib/authz";
 import { getLeadById, updateLead, deleteLead } from "@/lib/api/crm";
 
 export async function GET(
@@ -8,20 +8,16 @@ export async function GET(
 ) {
   try {
     const { teamId, leadId } = await params;
-    const userId = await getUserId();
-    await verifyTeamMembership(teamId, userId);
+    await requireTeamMember(teamId);
 
     const lead = await getLeadById(teamId, leadId);
     if (!lead) {
-      return NextResponse.json({ error: "Lead not found" }, { status: 404 });
+      throw new HttpError(404, "Lead not found");
     }
 
     return NextResponse.json(lead);
-  } catch (error: any) {
-    return NextResponse.json(
-      { error: error.message || "Failed to fetch lead" },
-      { status: error.message === "Unauthorized" ? 401 : 500 }
-    );
+  } catch (error) {
+    return handleRouteError(error);
   }
 }
 
@@ -31,19 +27,19 @@ export async function PATCH(
 ) {
   try {
     const { teamId, leadId } = await params;
-    const userId = await getUserId();
-    const user = await getUser();
-    await verifyTeamMembership(teamId, userId);
+    const { user } = await requireTeamMember(teamId, "developer");
+
+    const existing = await getLeadById(teamId, leadId);
+    if (!existing) {
+      throw new HttpError(404, "Lead not found");
+    }
 
     const body = await request.json();
     const updated = await updateLead(teamId, leadId, body, user.name || "User");
 
     return NextResponse.json(updated);
-  } catch (error: any) {
-    return NextResponse.json(
-      { error: error.message || "Failed to update lead" },
-      { status: error.message === "Unauthorized" ? 401 : 500 }
-    );
+  } catch (error) {
+    return handleRouteError(error);
   }
 }
 
@@ -53,15 +49,16 @@ export async function DELETE(
 ) {
   try {
     const { teamId, leadId } = await params;
-    const userId = await getUserId();
-    await verifyTeamMembership(teamId, userId);
+    await requireTeamMember(teamId, "developer");
+
+    const existing = await getLeadById(teamId, leadId);
+    if (!existing) {
+      throw new HttpError(404, "Lead not found");
+    }
 
     await deleteLead(teamId, leadId);
     return NextResponse.json({ success: true });
-  } catch (error: any) {
-    return NextResponse.json(
-      { error: error.message || "Failed to delete lead" },
-      { status: error.message === "Unauthorized" ? 401 : 500 }
-    );
+  } catch (error) {
+    return handleRouteError(error);
   }
 }

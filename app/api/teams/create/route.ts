@@ -1,46 +1,26 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getUserId, getUser } from '@/lib/auth-server-helpers'
+import { z } from 'zod'
+import { requireSession, handleRouteError } from '@/lib/authz'
 import { db } from '@/lib/db'
+
+const createTeamSchema = z.object({
+  displayName: z.string().min(1).max(100),
+}).strict()
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json()
-    const { displayName } = body
+    const session = await requireSession()
+    const user = session.user
+    const userId = user.id
 
-    if (!displayName) {
-      return NextResponse.json(
-        { error: 'Display name is required' },
-        { status: 400 }
-      )
-    }
-
-    // Get the current user from Better Auth
-    const userId = await getUserId()
-    const user = await getUser()
+    const rawBody = await request.json()
+    const { displayName } = createTeamSchema.parse(rawBody)
 
     // Generate unique team key
-    // Use first 3 chars of name + random 3 char suffix to ensure uniqueness
     const baseKey = displayName.substring(0, 3).toUpperCase().replace(/[^A-Z]/g, 'A').padEnd(3, 'A')
     const randomSuffix = Math.random().toString(36).substring(2, 5).toUpperCase()
     const teamKey = `${baseKey}${randomSuffix}`
-    
-    // Create team in database and add creator as admin member
-    const team = await db.team.create({
-      data: {
-        name: displayName,
-        key: teamKey,
-        members: {
-          create: {
-            userId: userId,
-            userName: user.name || user.email || 'Unknown',
-            userEmail: user.email || '',
-            role: 'admin'
-          }
-        }
-      }
-    })
 
-    // Create default workflow states for the team
     const defaultWorkflowStates = [
       { name: 'Backlog', type: 'backlog', color: '#64748b', position: 0 },
       { name: 'Todo', type: 'unstarted', color: '#3b82f6', position: 1 },
@@ -48,18 +28,6 @@ export async function POST(request: NextRequest) {
       { name: 'Done', type: 'completed', color: '#10b981', position: 3 },
     ]
 
-    await Promise.all(
-      defaultWorkflowStates.map(state =>
-        db.workflowState.create({
-          data: {
-            ...state,
-            teamId: team.id,
-          }
-        })
-      )
-    )
-
-    // Create default labels for the team
     const defaultLabels = [
       { name: 'Bug', color: '#ef4444' },
       { name: 'Feature', color: '#8b5cf6' },
@@ -67,23 +35,46 @@ export async function POST(request: NextRequest) {
       { name: 'Documentation', color: '#84cc16' },
     ]
 
-    await Promise.all(
-      defaultLabels.map(label =>
-        db.label.create({
+    // Entire team bootstrap executed atomically inside a transaction
+    const team = await db.$transaction(async (tx) => {
+      const createdTeam = await tx.team.create({
+        data: {
+          name: displayName,
+          key: teamKey,
+          members: {
+            create: {
+              userId,
+              userName: user.name || user.email || 'Admin',
+              userEmail: user.email || '',
+              role: 'admin',
+            },
+          },
+        },
+      })
+
+      for (const state of defaultWorkflowStates) {
+        await tx.workflowState.create({
+          data: {
+            ...state,
+            teamId: createdTeam.id,
+          },
+        })
+      }
+
+      for (const label of defaultLabels) {
+        await tx.label.create({
           data: {
             ...label,
-            teamId: team.id,
-          }
+            teamId: createdTeam.id,
+          },
         })
-      )
-    )
+      }
+
+      return createdTeam
+    })
 
     return NextResponse.json(team, { status: 201 })
   } catch (error) {
-    console.error('Error creating team:', error)
-    return NextResponse.json(
-      { error: 'Failed to create team' },
-      { status: 500 }
-    )
+    return handleRouteError(error)
   }
 }

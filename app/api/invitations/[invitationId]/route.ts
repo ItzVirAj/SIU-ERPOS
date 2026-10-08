@@ -1,5 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
+import { handleRouteError } from '@/lib/authz'
+
+function maskEmail(email: string): string {
+  if (!email || !email.includes('@')) return '***'
+  const [user, domain] = email.split('@')
+  if (user.length <= 2) {
+    return `${user[0]}***@${domain}`
+  }
+  return `${user[0]}***${user[user.length - 1]}@${domain}`
+}
 
 export async function GET(
   request: NextRequest,
@@ -8,7 +18,6 @@ export async function GET(
   try {
     const { invitationId } = await params
 
-    // Get invitation
     const invitation = await db.invitation.findUnique({
       where: { id: invitationId },
     })
@@ -20,22 +29,17 @@ export async function GET(
       )
     }
 
-    // Return invitation details (don't require auth for public access)
+    const isExpired = new Date(invitation.expiresAt) < new Date() || invitation.status !== 'pending'
+
+    // Return non-sensitive status and masked email only (never plain email, role, or teamId)
     return NextResponse.json({
       id: invitation.id,
-      email: invitation.email,
-      role: invitation.role,
-      status: invitation.status,
-      createdAt: invitation.createdAt,
+      valid: !isExpired,
+      status: isExpired && invitation.status === 'pending' ? 'expired' : invitation.status,
+      maskedEmail: maskEmail(invitation.email),
       expiresAt: invitation.expiresAt,
-      teamId: invitation.teamId,
     })
   } catch (error) {
-    console.error('Error fetching invitation:', error)
-    return NextResponse.json(
-      { error: 'Failed to fetch invitation' },
-      { status: 500 }
-    )
+    return handleRouteError(error)
   }
 }
-

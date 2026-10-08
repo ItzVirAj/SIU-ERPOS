@@ -1,46 +1,35 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { z } from 'zod'
 import { getIssues, createIssue, getIssueStats } from '@/lib/api/issues'
 import { CreateIssueData } from '@/lib/types'
-import { getUserId, getUser, verifyTeamMembership } from "@/lib/auth-server-helpers"
 import { db } from '@/lib/db'
+import { requireTeamMember, handleRouteError } from '@/lib/authz'
 
-// Cache for team existence checks
-const teamExistsCache = new Set<string>()
-
-// Helper function to ensure team exists in local database
-async function ensureTeamExists(teamId: string) {
-  // Check cache first
-  if (teamExistsCache.has(teamId)) {
-    return { id: teamId }
-  }
-
-  const localTeam = await db.team.findUnique({
-    where: { id: teamId }
-  })
-
-  if (!localTeam) {
-    throw new Error('Team not found')
-  }
-
-  // Cache the team existence
-  teamExistsCache.add(teamId)
-  return localTeam
-}
+const createIssueSchema = z.object({
+  title: z.string().min(1).max(255),
+  description: z.string().nullable().optional(),
+  projectId: z.string().nullable().optional(),
+  workflowStateId: z.string().min(1),
+  priority: z.enum(['none', 'low', 'medium', 'high', 'urgent']).optional(),
+  estimate: z.number().nullable().optional(),
+  labelIds: z.array(z.string()).optional(),
+  assigneeId: z.string().nullable().optional(),
+}).strict()
 
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ teamId: string }> }
 ) {
   try {
-    const { searchParams } = new URL(request.url)
     const { teamId } = await params
-    const userId = await getUserId()
+    await requireTeamMember(teamId)
+    const { searchParams } = new URL(request.url)
 
-    // Ensure team exists and user is a member
-    await ensureTeamExists(teamId)
-    await verifyTeamMembership(teamId, userId)
+    if (searchParams.get('stats') === 'true') {
+      const stats = await getIssueStats(teamId)
+      return NextResponse.json(stats)
+    }
 
-    // Parse filters from query params
     const filters = {
       status: searchParams.getAll('status'),
       assignee: searchParams.getAll('assignee'),
@@ -50,25 +39,14 @@ export async function GET(
       search: searchParams.get('search') || undefined,
     }
 
-    // Parse sort from query params
     const sortField = searchParams.get('sortField') || 'createdAt'
     const sortDirection = (searchParams.get('sortDirection') || 'desc') as 'asc' | 'desc'
     const sort = { field: sortField as any, direction: sortDirection }
 
-    // Check if requesting stats
-    if (searchParams.get('stats') === 'true') {
-      const stats = await getIssueStats(teamId)
-      return NextResponse.json(stats)
-    }
-
     const issues = await getIssues(teamId, filters, sort)
     return NextResponse.json(issues)
   } catch (error) {
-    console.error('Error fetching issues:', error)
-    return NextResponse.json(
-      { error: 'Failed to fetch issues' },
-      { status: 500 }
-    )
+    return handleRouteError(error)
   }
 }
 
@@ -78,71 +56,49 @@ export async function POST(
 ) {
   try {
     const { teamId } = await params
-    const body = await request.json()
-    
-    // Get user info from Better Auth (parallel calls for speed)
-    const [userId, user, teamCheck] = await Promise.all([
-      getUserId(),
-      getUser(),
-      ensureTeamExists(teamId)
-    ])
+    const { user, userId } = await requireTeamMember(teamId, 'developer')
 
-    // Get creator name early
+    const rawBody = await request.json()
+    const body = createIssueSchema.parse(rawBody)
+
     const creatorName = user.name || user.email || 'Unknown'
 
-    // Look up assignee name in parallel with team membership verification
-    const needsAssigneeLookup = body.assigneeId && body.assigneeId !== 'unassigned' && body.assigneeId !== userId
-    
-    // Parallelize: verify membership and lookup assignee simultaneously
-    const [, teamMember] = await Promise.all([
-      verifyTeamMembership(teamId, userId),
-      needsAssigneeLookup
-        ? db.teamMember.findFirst({
-            where: {
-              teamId,
-              userId: body.assigneeId
-            },
-            select: { userName: true }
-          })
-        : Promise.resolve(null)
-    ])
-
-    // Determine assignee name efficiently
     let assigneeName: string | undefined = undefined
     if (body.assigneeId && body.assigneeId !== 'unassigned') {
       if (body.assigneeId === userId) {
-        // Use creator name if assigning to self (no DB lookup needed)
         assigneeName = creatorName
       } else {
-        // Use the team member lookup result
+        const teamMember = await db.teamMember.findFirst({
+          where: {
+            teamId,
+            userId: body.assigneeId,
+          },
+          select: { userName: true },
+        })
         assigneeName = teamMember?.userName
       }
     }
 
     const issueData: CreateIssueData = {
       title: body.title,
-      description: body.description,
+      description: body.description ?? undefined,
       projectId: body.projectId && body.projectId.trim() !== '' ? body.projectId : undefined,
       workflowStateId: body.workflowStateId,
-      assigneeId: body.assigneeId === 'unassigned' ? undefined : body.assigneeId,
+      assigneeId: body.assigneeId === 'unassigned' ? undefined : (body.assigneeId ?? undefined),
       assignee: assigneeName,
       priority: body.priority || 'none',
-      estimate: body.estimate,
+      estimate: body.estimate ?? undefined,
       labelIds: body.labelIds,
     }
 
     const issue = await createIssue(
-      teamId, 
-      issueData, 
-      userId, 
+      teamId,
+      issueData,
+      userId,
       creatorName
     )
     return NextResponse.json(issue, { status: 201 })
   } catch (error) {
-    console.error('Error creating issue:', error)
-    return NextResponse.json(
-      { error: 'Failed to create issue' },
-      { status: 500 }
-    )
+    return handleRouteError(error)
   }
 }

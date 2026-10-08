@@ -1,7 +1,26 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getUserId, getUser, verifyTeamMembership } from "@/lib/auth-server-helpers";
+import { z } from "zod";
+import { requireTeamMember, handleRouteError } from "@/lib/authz";
 import { getEvents, createEvent } from "@/lib/api/calendar";
 import { db } from "@/lib/db";
+
+const createEventSchema = z.object({
+  title: z.string().min(1).max(255),
+  description: z.string().nullable().optional(),
+  type: z.enum(["meeting", "standup", "milestone", "task_deadline", "followup", "leave"]).default("meeting"),
+  startTime: z.union([z.string(), z.date()]),
+  endTime: z.union([z.string(), z.date()]),
+  allDay: z.boolean().optional(),
+  location: z.string().nullable().optional(),
+  meetUrl: z.string().nullable().optional(),
+  generateMeet: z.boolean().optional(),
+  projectId: z.string().nullable().optional(),
+  recurrence: z.string().optional(),
+  attendees: z.array(z.union([
+    z.string().transform((s) => ({ name: s, email: s })),
+    z.object({ name: z.string(), email: z.string(), userId: z.string().optional() }),
+  ])).optional(),
+}).strict();
 
 export async function GET(
   request: NextRequest,
@@ -9,8 +28,7 @@ export async function GET(
 ) {
   try {
     const { teamId } = await params;
-    const userId = await getUserId();
-    await verifyTeamMembership(teamId, userId);
+    await requireTeamMember(teamId);
 
     const { searchParams } = new URL(request.url);
     const startDateParam = searchParams.get("startDate");
@@ -58,20 +76,18 @@ export async function GET(
       });
 
       issueEvents = issues.map((issue) => ({
-        id: `issue_${issue.id}`,
-        isIssue: true,
-        issueId: issue.id,
-        title: `${issue.project ? `${issue.project.key}-${issue.number}: ` : ""}${issue.title}`,
-        type: "task_deadline",
+        id: `task_${issue.id}`,
+        title: `[${issue.project?.key || "TASK"}-${issue.number}] ${issue.title}`,
         startTime: issue.createdAt,
         endTime: issue.createdAt,
         allDay: true,
-        status: issue.workflowState.type === "completed" ? "completed" : "scheduled",
+        type: "task_deadline",
+        isIssue: true,
         priority: issue.priority,
-        project: issue.project,
-        workflowState: issue.workflowState,
-        assignee: issue.assignee,
-        creator: issue.creator,
+        status: issue.workflowState?.name,
+        color: issue.workflowState?.color || "#6366f1",
+        projectId: issue.projectId,
+        issueId: issue.id,
       }));
     }
 
@@ -80,12 +96,8 @@ export async function GET(
       issueEvents,
       total: events.length + issueEvents.length,
     });
-  } catch (error: any) {
-    console.error("Failed to get calendar events:", error);
-    return NextResponse.json(
-      { error: error.message || "Failed to get events" },
-      { status: error.message === "Unauthorized" ? 401 : 500 }
-    );
+  } catch (error) {
+    return handleRouteError(error);
   }
 }
 
@@ -95,18 +107,11 @@ export async function POST(
 ) {
   try {
     const { teamId } = await params;
-    const userId = await getUserId();
-    const user = await getUser();
-    await verifyTeamMembership(teamId, userId);
+    const { user } = await requireTeamMember(teamId, "developer");
+    const userId = user.id;
 
-    const body = await request.json();
-
-    if (!body.title || !body.startTime || !body.endTime) {
-      return NextResponse.json(
-        { error: "Title, start time, and end time are required" },
-        { status: 400 }
-      );
-    }
+    const rawBody = await request.json();
+    const body = createEventSchema.parse(rawBody);
 
     // Auto-generate a Google Meet link if toggled or requested
     let meetUrl = body.meetUrl;
@@ -118,15 +123,15 @@ export async function POST(
     const event = await createEvent(
       teamId,
       {
-        title: body.title,
-        description: body.description,
+        title: body.title.trim(),
+        description: body.description ?? undefined,
         type: body.type || "meeting",
-        startTime: body.startTime,
-        endTime: body.endTime,
+        startTime: new Date(body.startTime),
+        endTime: new Date(body.endTime),
         allDay: body.allDay ?? false,
-        location: body.location,
-        meetUrl,
-        projectId: body.projectId || null,
+        location: body.location ?? undefined,
+        meetUrl: meetUrl ?? undefined,
+        projectId: body.projectId || undefined,
         recurrence: body.recurrence || "none",
         attendees: body.attendees || [],
       },
@@ -135,11 +140,7 @@ export async function POST(
     );
 
     return NextResponse.json(event, { status: 201 });
-  } catch (error: any) {
-    console.error("Failed to create calendar event:", error);
-    return NextResponse.json(
-      { error: error.message || "Failed to create event" },
-      { status: error.message === "Unauthorized" ? 401 : 500 }
-    );
+  } catch (error) {
+    return handleRouteError(error);
   }
 }

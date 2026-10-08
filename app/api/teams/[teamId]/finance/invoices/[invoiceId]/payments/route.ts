@@ -1,6 +1,15 @@
 import { NextRequest, NextResponse } from "next/server"
-import { getUserId } from "@/lib/auth-server-helpers"
+import { z } from "zod"
+import { requireTeamAdmin, handleRouteError, HttpError } from "@/lib/authz"
 import { db } from "@/lib/db"
+
+const recordPaymentSchema = z.object({
+  amount: z.number().positive(),
+  paymentDate: z.union([z.string(), z.date()]).optional(),
+  paymentMethod: z.string().default("BANK_TRANSFER"),
+  referenceNumber: z.string().nullable().optional(),
+  notes: z.string().nullable().optional(),
+}).strict()
 
 export async function POST(
   request: NextRequest,
@@ -8,37 +17,23 @@ export async function POST(
 ) {
   try {
     const { teamId, invoiceId } = await params
-    const userId = await getUserId()
+    const { user, userId, member } = await requireTeamAdmin(teamId)
 
-    if (!userId) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-    }
-
-    const membership = await db.teamMember.findFirst({
-      where: {
-        teamId,
-        userId,
-        role: { in: ["admin", "developer"] },
-      },
-    })
-
-    if (!membership) {
-      return NextResponse.json({ error: "Forbidden: Admin access required" }, { status: 403 })
-    }
-
-    const body = await request.json()
-    const { amount, paymentDate = new Date(), paymentMethod = "BANK_TRANSFER", referenceNumber, notes } = body
-
-    if (!amount || Number(amount) <= 0) {
-      return NextResponse.json({ error: "Valid payment amount is required" }, { status: 400 })
-    }
+    const rawBody = await request.json()
+    const {
+      amount,
+      paymentDate = new Date(),
+      paymentMethod = "BANK_TRANSFER",
+      referenceNumber,
+      notes,
+    } = recordPaymentSchema.parse(rawBody)
 
     const invoice = await db.invoice.findFirst({
       where: { id: invoiceId, teamId },
     })
 
     if (!invoice) {
-      return NextResponse.json({ error: "Invoice not found" }, { status: 404 })
+      throw new HttpError(404, "Invoice not found")
     }
 
     const payAmount = Number(amount)
@@ -76,13 +71,12 @@ export async function POST(
       }),
     ])
 
-    // Log to Audit Trail
     await db.auditLog.create({
       data: {
         teamId,
         userId,
-        userName: membership.userName || "Admin",
-        userEmail: membership.userEmail || "admin@sketchitup.internal",
+        userName: member.userName || user.name || "Admin",
+        userEmail: member.userEmail || user.email || "admin@sketchitup.internal",
         action: "RECORD_PAYMENT",
         entityType: "INVOICE",
         entityId: invoiceId,
@@ -99,7 +93,6 @@ export async function POST(
 
     return NextResponse.json({ payment, invoice: updatedInvoice })
   } catch (error) {
-    console.error("Error recording payment:", error)
-    return NextResponse.json({ error: "Failed to record payment" }, { status: 500 })
+    return handleRouteError(error)
   }
 }

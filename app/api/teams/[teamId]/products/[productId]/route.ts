@@ -1,6 +1,23 @@
 import { NextRequest, NextResponse } from "next/server"
-import { getUserId } from "@/lib/auth-server-helpers"
+import { z } from "zod"
+import { requireTeamMember, handleRouteError, HttpError } from "@/lib/authz"
 import { db } from "@/lib/db"
+
+const patchProductSchema = z.object({
+  name: z.string().min(1).max(200).optional(),
+  tagline: z.string().nullable().optional(),
+  description: z.string().nullable().optional(),
+  vertical: z.string().optional(),
+  status: z.string().optional(),
+  ownerName: z.string().nullable().optional(),
+  pricingModel: z.string().optional(),
+  targetQuarter: z.string().optional(),
+  websiteUrl: z.string().nullable().optional(),
+  repositoryUrl: z.string().nullable().optional(),
+  mrr: z.number().nonnegative().optional(),
+  activeUsers: z.number().nonnegative().optional(),
+  healthScore: z.number().min(0).max(100).optional(),
+}).strict()
 
 export async function GET(
   request: NextRequest,
@@ -8,19 +25,7 @@ export async function GET(
 ) {
   try {
     const { teamId, productId } = await params
-    const userId = await getUserId()
-
-    if (!userId) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-    }
-
-    const membership = await db.teamMember.findFirst({
-      where: { teamId, userId },
-    })
-
-    if (!membership) {
-      return NextResponse.json({ error: "Forbidden" }, { status: 403 })
-    }
+    await requireTeamMember(teamId)
 
     const product = await db.domainProduct.findFirst({
       where: { id: productId, teamId },
@@ -33,13 +38,12 @@ export async function GET(
     })
 
     if (!product) {
-      return NextResponse.json({ error: "Product not found" }, { status: 404 })
+      throw new HttpError(404, "Product not found")
     }
 
     return NextResponse.json({ product })
   } catch (error) {
-    console.error("Error fetching product:", error)
-    return NextResponse.json({ error: "Failed to fetch product" }, { status: 500 })
+    return handleRouteError(error)
   }
 }
 
@@ -49,35 +53,27 @@ export async function PATCH(
 ) {
   try {
     const { teamId, productId } = await params
-    const userId = await getUserId()
+    await requireTeamMember(teamId, "developer")
 
-    if (!userId) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-    }
-
-    const membership = await db.teamMember.findFirst({
-      where: {
-        teamId,
-        userId,
-        role: { in: ["admin", "developer"] },
-      },
+    const existing = await db.domainProduct.findFirst({
+      where: { id: productId, teamId },
     })
 
-    if (!membership) {
-      return NextResponse.json({ error: "Forbidden" }, { status: 403 })
+    if (!existing) {
+      throw new HttpError(404, "Product not found")
     }
 
-    const body = await request.json()
+    const rawBody = await request.json()
+    const validatedBody = patchProductSchema.parse(rawBody)
 
     const updated = await db.domainProduct.update({
       where: { id: productId },
-      data: body,
+      data: validatedBody,
     })
 
     return NextResponse.json({ product: updated })
   } catch (error) {
-    console.error("Error updating product:", error)
-    return NextResponse.json({ error: "Failed to update product" }, { status: 500 })
+    return handleRouteError(error)
   }
 }
 
@@ -87,22 +83,14 @@ export async function DELETE(
 ) {
   try {
     const { teamId, productId } = await params
-    const userId = await getUserId()
+    await requireTeamMember(teamId, "developer")
 
-    if (!userId) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-    }
-
-    const membership = await db.teamMember.findFirst({
-      where: {
-        teamId,
-        userId,
-        role: { in: ["admin", "developer"] },
-      },
+    const existing = await db.domainProduct.findFirst({
+      where: { id: productId, teamId },
     })
 
-    if (!membership) {
-      return NextResponse.json({ error: "Forbidden" }, { status: 403 })
+    if (!existing) {
+      throw new HttpError(404, "Product not found")
     }
 
     await db.domainProduct.delete({
@@ -111,7 +99,6 @@ export async function DELETE(
 
     return NextResponse.json({ success: true })
   } catch (error) {
-    console.error("Error deleting product:", error)
-    return NextResponse.json({ error: "Failed to delete product" }, { status: 500 })
+    return handleRouteError(error)
   }
 }

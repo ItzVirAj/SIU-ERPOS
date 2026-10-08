@@ -83,6 +83,19 @@ export default function ProjectsPage() {
     }
   }
 
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const projectIdParam = searchParams.get('project')
+  const viewParam = searchParams.get('view')
+  const statusParam = searchParams.get('status')
+  const createParam = searchParams.get('create')
+
+  useEffect(() => {
+    if (createParam === 'true') {
+      setCreateDialogOpen(true)
+    }
+  }, [createParam])
+
   if (teamLoading) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
@@ -110,19 +123,6 @@ export default function ProjectsPage() {
       </div>
     );
   }
-
-  const router = useRouter()
-  const searchParams = useSearchParams()
-  const projectIdParam = searchParams.get('project')
-  const viewParam = searchParams.get('view')
-  const statusParam = searchParams.get('status')
-  const createParam = searchParams.get('create')
-
-  useEffect(() => {
-    if (createParam === 'true') {
-      setCreateDialogOpen(true)
-    }
-  }, [createParam])
 
   if (projectIdParam) {
     return (

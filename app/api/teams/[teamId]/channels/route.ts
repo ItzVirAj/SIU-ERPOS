@@ -1,30 +1,25 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getSessionOrNull, isTeamMember } from "@/lib/auth-server-helpers";
+import { z } from "zod";
+import { requireTeamMember, handleRouteError, HttpError } from "@/lib/authz";
 import { db } from "@/lib/db";
+
+const createChannelSchema = z.object({
+  name: z.string().min(1).max(100),
+  description: z.string().max(500).optional(),
+  isPrivate: z.boolean().optional(),
+  type: z.string().default("channel"),
+}).strict();
 
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ teamId: string }> }
 ) {
   try {
-    const session = await getSessionOrNull();
-    if (!session?.user?.id) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
     const { teamId } = await params;
-    const userId = session.user.id;
-    const userEmail = session.user.email || "";
-    const userName = session.user.name || "Member";
-
-    // Strictly enforce: ONLY assigned members of this team can access team chat
-    const isMember = await isTeamMember(teamId, userId);
-    if (!isMember) {
-      return NextResponse.json(
-        { error: "Access denied. You are not an assigned member of this team." },
-        { status: 403 }
-      );
-    }
+    const { user } = await requireTeamMember(teamId);
+    const userId = user.id;
+    const userEmail = user.email || "";
+    const userName = user.name || "Member";
 
     // Check if team has default channels; if not, initialize them
     const existingChannels = await db.teamChannel.findMany({
@@ -58,21 +53,21 @@ export async function GET(
           },
           messages: {
             create: {
+              content: "Welcome to the team channel! Use this space for discussions, updates, and async work.",
               senderId: userId,
               senderName: userName,
               senderEmail: userEmail,
-              content: "👋 Welcome to the team chat! This space is reserved for active members of this team.",
             },
           },
         },
       });
 
-      // Auto-provision announcements channel
+      // Also create announcement channel
       await db.teamChannel.create({
         data: {
           name: "announcements",
-          description: "Important company and team updates",
-          type: "channel",
+          description: "Important leadership broadcasts & updates",
+          type: "announcements",
           teamId,
           createdBy: userId,
           members: {
@@ -85,37 +80,17 @@ export async function GET(
         },
       });
 
-      // Fetch the newly created channels
-      const newChannels = await db.teamChannel.findMany({
+      // Also create channels for existing projects
+      const projects = await db.project.findMany({
         where: { teamId },
-        include: {
-          members: {
-            where: { userId },
-          },
-          _count: {
-            select: { messages: true },
-          },
-        },
-        orderBy: { createdAt: "asc" },
+        take: 3,
       });
 
-      return NextResponse.json(newChannels);
-    }
-
-    // Auto-sync project channels if any project doesn't have a channel
-    const projects = await db.project.findMany({
-      where: { teamId },
-      select: { id: true, name: true, key: true },
-    });
-
-    for (const proj of projects) {
-      const projChannelName = `proj-${proj.key.toLowerCase()}`;
-      const channelExists = existingChannels.some((c) => c.name === projChannelName);
-      if (!channelExists) {
+      for (const proj of projects) {
         await db.teamChannel.create({
           data: {
-            name: projChannelName,
-            description: `Discussion for project ${proj.name}`,
+            name: `proj-${proj.key.toLowerCase()}`,
+            description: `Channel dedicated to project ${proj.name}`,
             type: "project",
             teamId,
             projectId: proj.id,
@@ -162,11 +137,7 @@ export async function GET(
 
     return NextResponse.json(channels);
   } catch (error) {
-    console.error("Error fetching team channels:", error);
-    return NextResponse.json(
-      { error: "Failed to fetch channels" },
-      { status: 500 }
-    );
+    return handleRouteError(error);
   }
 }
 
@@ -175,36 +146,24 @@ export async function POST(
   { params }: { params: Promise<{ teamId: string }> }
 ) {
   try {
-    const session = await getSessionOrNull();
-    if (!session?.user?.id) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
     const { teamId } = await params;
-    const userId = session.user.id;
-    const userEmail = session.user.email || "";
-    const userName = session.user.name || "Member";
+    const { user } = await requireTeamMember(teamId, "developer");
+    const userId = user.id;
+    const userEmail = user.email || "";
+    const userName = user.name || "Member";
 
-    const isMember = await isTeamMember(teamId, userId);
-    if (!isMember) {
-      return NextResponse.json(
-        { error: "Access denied. Only team members can create channels." },
-        { status: 403 }
-      );
-    }
-
-    const body = await request.json();
-    const { name, description, isPrivate, type = "channel" } = body;
-
-    if (!name || typeof name !== "string") {
-      return NextResponse.json({ error: "Channel name is required" }, { status: 400 });
-    }
+    const rawBody = await request.json();
+    const { name, description, isPrivate, type } = createChannelSchema.parse(rawBody);
 
     const sanitizedSlug = name
       .toLowerCase()
       .trim()
       .replace(/[^a-z0-9_-]/g, "-")
       .replace(/^-+|-+$/g, "");
+
+    if (!sanitizedSlug) {
+      throw new HttpError(400, "Invalid channel name");
+    }
 
     // Check if channel already exists in this team
     const existing = await db.teamChannel.findUnique({
@@ -217,10 +176,7 @@ export async function POST(
     });
 
     if (existing) {
-      return NextResponse.json(
-        { error: "A channel with this name already exists in this team" },
-        { status: 409 }
-      );
+      throw new HttpError(409, "A channel with this name already exists in this team");
     }
 
     const channel = await db.teamChannel.create({
@@ -243,10 +199,6 @@ export async function POST(
 
     return NextResponse.json(channel, { status: 201 });
   } catch (error) {
-    console.error("Error creating channel:", error);
-    return NextResponse.json(
-      { error: "Failed to create channel" },
-      { status: 500 }
-    );
+    return handleRouteError(error);
   }
 }

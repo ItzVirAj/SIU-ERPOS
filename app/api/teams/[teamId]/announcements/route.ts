@@ -1,27 +1,22 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getSessionOrNull, isTeamMember } from "@/lib/auth-server-helpers";
+import { z } from "zod";
+import { requireTeamMember, handleRouteError } from "@/lib/authz";
 import { db } from "@/lib/db";
+
+const createAnnouncementSchema = z.object({
+  title: z.string().min(1).max(255),
+  content: z.string().min(1),
+  priority: z.enum(["low", "normal", "high", "urgent"]).default("normal"),
+  isPinned: z.boolean().default(true),
+}).strict();
 
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ teamId: string }> }
 ) {
   try {
-    const session = await getSessionOrNull();
-    if (!session?.user?.id) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
     const { teamId } = await params;
-    const userId = session.user.id;
-
-    const isMember = await isTeamMember(teamId, userId);
-    if (!isMember) {
-      return NextResponse.json(
-        { error: "Access denied. Only team members can view announcements." },
-        { status: 403 }
-      );
-    }
+    const { user } = await requireTeamMember(teamId);
 
     const announcements = await db.teamAnnouncement.findMany({
       where: { teamId },
@@ -39,17 +34,13 @@ export async function GET(
 
     const enriched = announcements.map((a) => ({
       ...a,
-      isAcknowledgedByMe: a.acks.some((ack) => ack.userId === userId),
+      isAcknowledgedByMe: a.acks.some((ack) => ack.userId === user.id),
       ackCount: a.acks.length,
     }));
 
     return NextResponse.json(enriched);
   } catch (error) {
-    console.error("Error fetching announcements:", error);
-    return NextResponse.json(
-      { error: "Failed to fetch announcements" },
-      { status: 500 }
-    );
+    return handleRouteError(error);
   }
 }
 
@@ -58,63 +49,42 @@ export async function POST(
   { params }: { params: Promise<{ teamId: string }> }
 ) {
   try {
-    const session = await getSessionOrNull();
-    if (!session?.user?.id) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
     const { teamId } = await params;
-    const userId = session.user.id;
-    const userName = session.user.name || "Team Lead";
+    const { user } = await requireTeamMember(teamId, "developer");
 
-    const isMember = await isTeamMember(teamId, userId);
-    if (!isMember) {
-      return NextResponse.json(
-        { error: "Access denied. Only team members can post announcements." },
-        { status: 403 }
-      );
-    }
-
-    const body = await request.json();
-    const { title, content, priority = "normal", isPinned = true } = body;
-
-    if (!title || !content) {
-      return NextResponse.json(
-        { error: "Title and content are required" },
-        { status: 400 }
-      );
-    }
+    const rawBody = await request.json();
+    const { title, content, priority, isPinned } = createAnnouncementSchema.parse(rawBody);
 
     const announcement = await db.teamAnnouncement.create({
       data: {
         teamId,
-        title,
-        content,
+        title: title.trim(),
+        content: content.trim(),
         priority,
-        authorId: userId,
-        authorName: userName,
-        isPinned: Boolean(isPinned),
+        authorId: user.id,
+        authorName: user.name || "Team Lead",
+        isPinned,
       },
       include: {
         acks: true,
       },
     });
 
-    // Notify all members of this team in their inbox
+    // Notify all other members of this team in their inbox
     const teamMembers = await db.teamMember.findMany({
       where: { teamId },
     });
 
     for (const member of teamMembers) {
-      if (member.userId !== userId) {
+      if (member.userId !== user.id) {
         await db.inboxMessage.create({
           data: {
             userId: member.userId,
-            senderId: userId,
-            senderName: userName,
-            subject: `📢 New Team Announcement: ${title}`,
-            snippet: content.slice(0, 120),
-            content,
+            senderId: user.id,
+            senderName: user.name || "Team Lead",
+            subject: `📢 New Team Announcement: ${title.trim()}`,
+            snippet: content.trim().slice(0, 120),
+            content: content.trim(),
             category: "alert",
             entityType: "announcement",
             entityId: announcement.id,
@@ -127,10 +97,6 @@ export async function POST(
 
     return NextResponse.json(announcement, { status: 201 });
   } catch (error) {
-    console.error("Error creating announcement:", error);
-    return NextResponse.json(
-      { error: "Failed to create announcement" },
-      { status: 500 }
-    );
+    return handleRouteError(error);
   }
 }

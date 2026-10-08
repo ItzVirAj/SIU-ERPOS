@@ -1,6 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getUserId, verifyTeamMembership } from "@/lib/auth-server-helpers";
-import { convertLeadToClientAndProject } from "@/lib/api/crm";
+import { z } from "zod";
+import { requireTeamMember, handleRouteError, HttpError } from "@/lib/authz";
+import { convertLeadToClientAndProject, getLeadById } from "@/lib/api/crm";
+
+const convertLeadSchema = z.object({
+  clientName: z.string().optional(),
+  projectKey: z.string().optional(),
+  projectName: z.string().optional(),
+}).strict()
 
 export async function POST(
   request: NextRequest,
@@ -8,10 +15,16 @@ export async function POST(
 ) {
   try {
     const { teamId, leadId } = await params;
-    const userId = await getUserId();
-    await verifyTeamMembership(teamId, userId);
+    await requireTeamMember(teamId, "developer");
 
-    const body = await request.json().catch(() => ({}));
+    const lead = await getLeadById(teamId, leadId);
+    if (!lead) {
+      throw new HttpError(404, "Lead not found");
+    }
+
+    const rawBody = await request.json().catch(() => ({}));
+    const body = convertLeadSchema.parse(rawBody);
+
     const result = await convertLeadToClientAndProject(teamId, leadId, {
       clientName: body.clientName,
       projectKey: body.projectKey,
@@ -19,11 +32,7 @@ export async function POST(
     });
 
     return NextResponse.json(result, { status: 201 });
-  } catch (error: any) {
-    console.error("Failed to convert lead:", error);
-    return NextResponse.json(
-      { error: error.message || "Failed to convert lead" },
-      { status: error.message === "Unauthorized" ? 401 : 500 }
-    );
+  } catch (error) {
+    return handleRouteError(error);
   }
 }

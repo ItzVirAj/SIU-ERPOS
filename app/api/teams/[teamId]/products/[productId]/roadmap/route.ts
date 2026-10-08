@@ -1,6 +1,18 @@
 import { NextRequest, NextResponse } from "next/server"
-import { getUserId } from "@/lib/auth-server-helpers"
+import { z } from "zod"
+import { requireTeamMember, handleRouteError, HttpError } from "@/lib/authz"
 import { db } from "@/lib/db"
+
+const createRoadmapItemSchema = z.object({
+  title: z.string().min(1).max(200),
+  description: z.string().nullable().optional(),
+  quarter: z.string().default("Q2_2026"),
+  stage: z.string().default("PLANNED"),
+  priority: z.string().default("MEDIUM"),
+  progress: z.number().min(0).max(100).default(0),
+  effortEstimate: z.string().nullable().optional(),
+  targetDate: z.union([z.string(), z.date()]).nullable().optional(),
+}).strict()
 
 export async function GET(
   request: NextRequest,
@@ -8,11 +20,7 @@ export async function GET(
 ) {
   try {
     const { teamId, productId } = await params
-    const userId = await getUserId()
-
-    if (!userId) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-    }
+    await requireTeamMember(teamId)
 
     const items = await db.productRoadmapItem.findMany({
       where: { productId, teamId },
@@ -21,8 +29,7 @@ export async function GET(
 
     return NextResponse.json({ items })
   } catch (error) {
-    console.error("Error listing roadmap items:", error)
-    return NextResponse.json({ error: "Failed to list roadmap items" }, { status: 500 })
+    return handleRouteError(error)
   }
 }
 
@@ -32,46 +39,44 @@ export async function POST(
 ) {
   try {
     const { teamId, productId } = await params
-    const userId = await getUserId()
+    await requireTeamMember(teamId, "developer")
 
-    if (!userId) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+    const product = await db.domainProduct.findFirst({
+      where: { id: productId, teamId },
+    })
+    if (!product) {
+      throw new HttpError(404, "Product not found")
     }
 
-    const body = await request.json()
+    const rawBody = await request.json()
     const {
       title,
       description,
-      quarter = "Q2_2026",
-      stage = "PLANNED",
-      priority = "MEDIUM",
-      progress = 0,
+      quarter,
+      stage,
+      priority,
+      progress,
       effortEstimate,
       targetDate,
-    } = body
-
-    if (!title) {
-      return NextResponse.json({ error: "Title is required" }, { status: 400 })
-    }
+    } = createRoadmapItemSchema.parse(rawBody)
 
     const item = await db.productRoadmapItem.create({
       data: {
         productId,
         teamId,
         title,
-        description,
+        description: description?.trim() || null,
         quarter,
         stage,
         priority,
-        progress: Number(progress) || 0,
-        effortEstimate,
+        progress,
+        effortEstimate: effortEstimate?.trim() || null,
         targetDate: targetDate ? new Date(targetDate) : undefined,
       },
     })
 
     return NextResponse.json({ item }, { status: 201 })
   } catch (error) {
-    console.error("Error creating roadmap item:", error)
-    return NextResponse.json({ error: "Failed to create roadmap item" }, { status: 500 })
+    return handleRouteError(error)
   }
 }

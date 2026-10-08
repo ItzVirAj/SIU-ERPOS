@@ -1,28 +1,25 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getSessionOrNull, isTeamMember } from "@/lib/auth-server-helpers";
+import { z } from "zod";
+import { requireTeamMember, handleRouteError, HttpError } from "@/lib/authz";
 import { db } from "@/lib/db";
+
+const createMessageSchema = z.object({
+  content: z.string().optional(),
+  attachments: z.any().nullable().optional(),
+  referencedTaskId: z.string().nullable().optional(),
+  isHuddle: z.boolean().optional(),
+  huddleUrl: z.string().nullable().optional(),
+  parentId: z.string().nullable().optional(),
+}).strict();
 
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ teamId: string; channelId: string }> }
 ) {
   try {
-    const session = await getSessionOrNull();
-    if (!session?.user?.id) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
     const { teamId, channelId } = await params;
-    const userId = session.user.id;
-
-    // Security check: Only team members
-    const isMember = await isTeamMember(teamId, userId);
-    if (!isMember) {
-      return NextResponse.json(
-        { error: "Access denied. Only team members can read channel messages." },
-        { status: 403 }
-      );
-    }
+    const { user } = await requireTeamMember(teamId);
+    const userId = user.id;
 
     // Verify channel belongs to this team
     const channel = await db.teamChannel.findFirst({
@@ -30,7 +27,7 @@ export async function GET(
     });
 
     if (!channel) {
-      return NextResponse.json({ error: "Channel not found in this team" }, { status: 404 });
+      throw new HttpError(404, "Channel not found in this team");
     }
 
     // Fetch messages (excluding replies from top-level list, or including parent)
@@ -89,19 +86,15 @@ export async function GET(
       create: {
         channelId,
         userId,
-        userEmail: session.user.email || "",
-        userName: session.user.name || "Member",
+        userEmail: user.email || "",
+        userName: user.name || "Member",
         lastReadAt: new Date(),
       },
     });
 
     return NextResponse.json(enrichedMessages);
   } catch (error) {
-    console.error("Error fetching channel messages:", error);
-    return NextResponse.json(
-      { error: "Failed to fetch messages" },
-      { status: 500 }
-    );
+    return handleRouteError(error);
   }
 }
 
@@ -110,34 +103,22 @@ export async function POST(
   { params }: { params: Promise<{ teamId: string; channelId: string }> }
 ) {
   try {
-    const session = await getSessionOrNull();
-    if (!session?.user?.id) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
     const { teamId, channelId } = await params;
-    const userId = session.user.id;
-    const userEmail = session.user.email || "";
-    const userName = session.user.name || "Member";
-    const userAvatar = session.user.image || null;
-
-    const isMember = await isTeamMember(teamId, userId);
-    if (!isMember) {
-      return NextResponse.json(
-        { error: "Access denied. Only team members can post messages." },
-        { status: 403 }
-      );
-    }
+    const { user } = await requireTeamMember(teamId);
+    const userId = user.id;
+    const userEmail = user.email || "";
+    const userName = user.name || "Member";
+    const userAvatar = user.image || null;
 
     const channel = await db.teamChannel.findFirst({
       where: { id: channelId, teamId },
     });
 
     if (!channel) {
-      return NextResponse.json({ error: "Channel not found in this team" }, { status: 404 });
+      throw new HttpError(404, "Channel not found in this team");
     }
 
-    const body = await request.json();
+    const rawBody = await request.json();
     const {
       content,
       attachments = null,
@@ -145,10 +126,10 @@ export async function POST(
       isHuddle = false,
       huddleUrl = null,
       parentId = null,
-    } = body;
+    } = createMessageSchema.parse(rawBody);
 
     if (!content && !isHuddle && !attachments) {
-      return NextResponse.json({ error: "Message content cannot be empty" }, { status: 400 });
+      throw new HttpError(400, "Message content cannot be empty");
     }
 
     // Extract @mentions from text if any
@@ -203,8 +184,8 @@ export async function POST(
               senderEmail: userEmail,
               senderAvatar: userAvatar,
               subject: `@${userName} mentioned you in #${channel.name}`,
-              snippet: content.slice(0, 120),
-              content: content,
+              snippet: (content || "").slice(0, 120),
+              content: content || "",
               category: "mention",
               entityType: "chat",
               entityId: message.id,
@@ -218,10 +199,6 @@ export async function POST(
 
     return NextResponse.json(message, { status: 201 });
   } catch (error) {
-    console.error("Error creating channel message:", error);
-    return NextResponse.json(
-      { error: "Failed to post message" },
-      { status: 500 }
-    );
+    return handleRouteError(error);
   }
 }

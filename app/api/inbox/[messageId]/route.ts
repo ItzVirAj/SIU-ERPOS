@@ -1,17 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getSessionOrNull } from "@/lib/auth-server-helpers";
+import { z } from "zod";
+import { requireSession, handleRouteError, HttpError } from "@/lib/authz";
 import { db } from "@/lib/db";
+
+const updateMessageSchema = z.object({
+  read: z.boolean().optional(),
+  starred: z.boolean().optional(),
+  archived: z.boolean().optional(),
+}).strict();
 
 export async function PATCH(
   request: NextRequest,
   { params }: { params: Promise<{ messageId: string }> }
 ) {
   try {
-    const session = await getSessionOrNull();
-    if (!session?.user?.id) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
+    const session = await requireSession();
     const { messageId } = await params;
     const userId = session.user.id;
 
@@ -21,28 +24,20 @@ export async function PATCH(
     });
 
     if (!message) {
-      return NextResponse.json({ error: "Message not found" }, { status: 404 });
+      throw new HttpError(404, "Message not found");
     }
 
-    const body = await request.json();
-    const updateData: any = {};
-
-    if (typeof body.read === "boolean") updateData.read = body.read;
-    if (typeof body.starred === "boolean") updateData.starred = body.starred;
-    if (typeof body.archived === "boolean") updateData.archived = body.archived;
+    const rawBody = await request.json();
+    const body = updateMessageSchema.parse(rawBody);
 
     const updated = await db.inboxMessage.update({
       where: { id: messageId },
-      data: updateData,
+      data: body,
     });
 
     return NextResponse.json(updated);
   } catch (error) {
-    console.error("Error updating inbox message:", error);
-    return NextResponse.json(
-      { error: "Failed to update message" },
-      { status: 500 }
-    );
+    return handleRouteError(error);
   }
 }
 
@@ -51,11 +46,7 @@ export async function DELETE(
   { params }: { params: Promise<{ messageId: string }> }
 ) {
   try {
-    const session = await getSessionOrNull();
-    if (!session?.user?.id) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
+    const session = await requireSession();
     const { messageId } = await params;
     const userId = session.user.id;
 
@@ -64,7 +55,7 @@ export async function DELETE(
     });
 
     if (!message) {
-      return NextResponse.json({ error: "Message not found" }, { status: 404 });
+      throw new HttpError(404, "Message not found");
     }
 
     await db.inboxMessage.delete({
@@ -73,10 +64,6 @@ export async function DELETE(
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("Error deleting inbox message:", error);
-    return NextResponse.json(
-      { error: "Failed to delete message" },
-      { status: 500 }
-    );
+    return handleRouteError(error);
   }
 }

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
-import { getUserId } from "@/lib/auth-server-helpers"
+import { requireTeamMember, handleRouteError } from "@/lib/authz"
 import { db } from "@/lib/db"
 
 export async function GET(
@@ -8,19 +8,7 @@ export async function GET(
 ) {
   try {
     const { teamId } = await params
-    const userId = await getUserId()
-
-    if (!userId) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-    }
-
-    const membership = await db.teamMember.findFirst({
-      where: { teamId, userId },
-    })
-
-    if (!membership) {
-      return NextResponse.json({ error: "Forbidden" }, { status: 403 })
-    }
+    await requireTeamMember(teamId)
 
     // Measure DB query latency
     const startDb = performance.now()
@@ -68,15 +56,7 @@ export async function GET(
     }
 
     return NextResponse.json(diagnostics)
-  } catch (error: any) {
-    console.error("System health check failed:", error)
-    return NextResponse.json(
-      {
-        status: "DEGRADED",
-        checkedAt: new Date().toISOString(),
-        error: error?.message || "Unknown error during health check",
-      },
-      { status: 500 }
-    )
+  } catch (error) {
+    return handleRouteError(error)
   }
 }

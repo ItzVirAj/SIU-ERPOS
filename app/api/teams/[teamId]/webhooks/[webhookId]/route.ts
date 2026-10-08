@@ -1,42 +1,43 @@
 import { NextRequest, NextResponse } from "next/server"
-import { getUserId } from "@/lib/auth-server-helpers"
+import { z } from "zod"
+import { requireTeamAdmin, handleRouteError, HttpError } from "@/lib/authz"
 import { db } from "@/lib/db"
 
-// PATCH /api/teams/[teamId]/webhooks/[webhookId] - Update webhook
+const patchWebhookSchema = z.object({
+  url: z.string().url().optional(),
+  description: z.string().max(500).nullable().optional(),
+  events: z.array(z.string()).optional(),
+  isActive: z.boolean().optional(),
+}).strict()
+
 export async function PATCH(
   request: NextRequest,
   { params }: { params: Promise<{ teamId: string; webhookId: string }> }
 ) {
   try {
     const { teamId, webhookId } = await params
-    const userId = await getUserId()
+    const { user, userId, member } = await requireTeamAdmin(teamId)
 
-    if (!userId) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-    }
-
-    const membership = await db.teamMember.findFirst({
-      where: {
-        teamId,
-        userId,
-        role: { in: ["admin", "developer"] },
-      },
+    const existing = await db.webhookEndpoint.findFirst({
+      where: { id: webhookId, teamId },
     })
 
-    if (!membership) {
-      return NextResponse.json({ error: "Forbidden: Admin access required" }, { status: 403 })
+    if (!existing) {
+      throw new HttpError(404, "Webhook not found")
     }
 
-    const body = await request.json()
-    const { url, description, events, isActive } = body
+    const rawBody = await request.json()
+    const validatedBody = patchWebhookSchema.parse(rawBody)
 
     const updated = await db.webhookEndpoint.update({
-      where: { id: webhookId, teamId },
+      where: { id: webhookId },
       data: {
-        ...(url && { url: url.trim() }),
-        ...(description !== undefined && { description: description?.trim() || null }),
-        ...(events && { events }),
-        ...(isActive !== undefined && { isActive: Boolean(isActive) }),
+        ...(validatedBody.url && { url: validatedBody.url.trim() }),
+        ...(validatedBody.description !== undefined && {
+          description: validatedBody.description?.trim() || null,
+        }),
+        ...(validatedBody.events && { events: validatedBody.events }),
+        ...(validatedBody.isActive !== undefined && { isActive: validatedBody.isActive }),
       },
     })
 
@@ -44,8 +45,8 @@ export async function PATCH(
       data: {
         teamId,
         userId,
-        userName: membership.userName || "Admin",
-        userEmail: membership.userEmail || "admin@sketchitup.internal",
+        userName: member.userName || user.name || "Admin",
+        userEmail: member.userEmail || user.email || "admin@sketchitup.internal",
         action: "UPDATE",
         entityType: "WEBHOOK",
         entityId: webhookId,
@@ -56,42 +57,24 @@ export async function PATCH(
 
     return NextResponse.json({ webhook: updated })
   } catch (error) {
-    console.error("Error updating webhook:", error)
-    return NextResponse.json({ error: "Failed to update webhook" }, { status: 500 })
+    return handleRouteError(error)
   }
 }
 
-// DELETE /api/teams/[teamId]/webhooks/[webhookId] - Delete webhook
 export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ teamId: string; webhookId: string }> }
 ) {
   try {
     const { teamId, webhookId } = await params
-    const userId = await getUserId()
-
-    if (!userId) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-    }
-
-    const membership = await db.teamMember.findFirst({
-      where: {
-        teamId,
-        userId,
-        role: { in: ["admin", "developer"] },
-      },
-    })
-
-    if (!membership) {
-      return NextResponse.json({ error: "Forbidden: Admin access required" }, { status: 403 })
-    }
+    const { user, userId, member } = await requireTeamAdmin(teamId)
 
     const existing = await db.webhookEndpoint.findFirst({
       where: { id: webhookId, teamId },
     })
 
     if (!existing) {
-      return NextResponse.json({ error: "Webhook not found" }, { status: 404 })
+      throw new HttpError(404, "Webhook not found")
     }
 
     await db.webhookEndpoint.delete({
@@ -102,8 +85,8 @@ export async function DELETE(
       data: {
         teamId,
         userId,
-        userName: membership.userName || "Admin",
-        userEmail: membership.userEmail || "admin@sketchitup.internal",
+        userName: member.userName || user.name || "Admin",
+        userEmail: member.userEmail || user.email || "admin@sketchitup.internal",
         action: "DELETE",
         entityType: "WEBHOOK",
         entityId: webhookId,
@@ -114,7 +97,6 @@ export async function DELETE(
 
     return NextResponse.json({ success: true })
   } catch (error) {
-    console.error("Error deleting webhook:", error)
-    return NextResponse.json({ error: "Failed to delete webhook" }, { status: 500 })
+    return handleRouteError(error)
   }
 }

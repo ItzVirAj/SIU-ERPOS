@@ -1,28 +1,22 @@
 import { NextRequest, NextResponse } from "next/server"
-import { getUserId } from "@/lib/auth-server-helpers"
-import { db } from "@/lib/db"
+import { z } from "zod"
 import crypto from "crypto"
+import { requireTeamAdmin, handleRouteError } from "@/lib/authz"
+import { db } from "@/lib/db"
 
-// GET /api/teams/[teamId]/api-keys - List developer API keys for the team
+const createApiKeySchema = z.object({
+  name: z.string().min(1).max(100),
+  scopes: z.array(z.string()).default(["tasks:read", "projects:read"]),
+  expiresInDays: z.number().int().positive().optional(),
+}).strict()
+
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ teamId: string }> }
 ) {
   try {
     const { teamId } = await params
-    const userId = await getUserId()
-
-    if (!userId) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-    }
-
-    const membership = await db.teamMember.findFirst({
-      where: { teamId, userId },
-    })
-
-    if (!membership) {
-      return NextResponse.json({ error: "Forbidden: Not a team member" }, { status: 403 })
-    }
+    await requireTeamAdmin(teamId)
 
     const keys = await db.developerApiKey.findMany({
       where: { teamId },
@@ -43,42 +37,20 @@ export async function GET(
 
     return NextResponse.json({ keys })
   } catch (error) {
-    console.error("Error fetching API keys:", error)
-    return NextResponse.json({ error: "Failed to fetch API keys" }, { status: 500 })
+    return handleRouteError(error)
   }
 }
 
-// POST /api/teams/[teamId]/api-keys - Create a new developer API key
 export async function POST(
   request: NextRequest,
   { params }: { params: Promise<{ teamId: string }> }
 ) {
   try {
     const { teamId } = await params
-    const userId = await getUserId()
+    const { user, userId, member } = await requireTeamAdmin(teamId)
 
-    if (!userId) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-    }
-
-    const membership = await db.teamMember.findFirst({
-      where: {
-        teamId,
-        userId,
-        role: { in: ["admin", "developer"] },
-      },
-    })
-
-    if (!membership) {
-      return NextResponse.json({ error: "Forbidden: Admin/Developer role required" }, { status: 403 })
-    }
-
-    const body = await request.json()
-    const { name, scopes = ["tasks:read", "projects:read"], expiresInDays } = body
-
-    if (!name || typeof name !== "string") {
-      return NextResponse.json({ error: "Key name is required" }, { status: 400 })
-    }
+    const rawBody = await request.json()
+    const { name, scopes, expiresInDays } = createApiKeySchema.parse(rawBody)
 
     // Generate random secure token: sk_live_<16 hex bytes>
     const rawSecret = crypto.randomBytes(24).toString("hex")
@@ -91,8 +63,8 @@ export async function POST(
       expiresAt = new Date(Date.now() + Number(expiresInDays) * 24 * 60 * 60 * 1000)
     }
 
-    const creatorName = membership.userName || "Admin"
-    const creatorEmail = membership.userEmail || "admin@sketchitup.internal"
+    const creatorName = member.userName || user.name || "Admin"
+    const creatorEmail = member.userEmail || user.email || "admin@sketchitup.internal"
 
     const createdKey = await db.developerApiKey.create({
       data: {
@@ -127,7 +99,6 @@ export async function POST(
       },
     })
 
-    // Return the secret key ONLY once on creation
     return NextResponse.json({
       apiKey: {
         id: createdKey.id,
@@ -142,7 +113,6 @@ export async function POST(
       warning: "Copy this key now. You will not be able to see it again!",
     })
   } catch (error) {
-    console.error("Error creating API key:", error)
-    return NextResponse.json({ error: "Failed to create API key" }, { status: 500 })
+    return handleRouteError(error)
   }
 }

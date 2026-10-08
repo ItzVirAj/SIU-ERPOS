@@ -1,31 +1,24 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { getUserId } from '@/lib/auth-server-helpers'
-import { getChatConversations, createChatConversation } from '@/lib/api/chat'
-import { generateConversationTitle } from '@/lib/api/chat'
+import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
+import { requireTeamMember, handleRouteError } from "@/lib/authz";
+import { getChatConversations, createChatConversation } from "@/lib/api/chat";
+
+const createConversationSchema = z.object({
+  title: z.string().max(255).optional(),
+}).strict();
 
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ teamId: string }> }
 ) {
   try {
-    const { teamId } = await params
-    const userId = await getUserId()
+    const { teamId } = await params;
+    const { user } = await requireTeamMember(teamId);
 
-    if (!userId) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      )
-    }
-
-    const conversations = await getChatConversations(teamId, userId)
-    return NextResponse.json(conversations)
+    const conversations = await getChatConversations(teamId, user.id);
+    return NextResponse.json(conversations);
   } catch (error) {
-    console.error('Error fetching conversations:', error)
-    return NextResponse.json(
-      { error: 'Failed to fetch conversations' },
-      { status: 500 }
-    )
+    return handleRouteError(error);
   }
 }
 
@@ -34,31 +27,20 @@ export async function POST(
   { params }: { params: Promise<{ teamId: string }> }
 ) {
   try {
-    const { teamId } = await params
-    const userId = await getUserId()
+    const { teamId } = await params;
+    const { user } = await requireTeamMember(teamId);
 
-    if (!userId) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      )
-    }
-
-    const body = await request.json()
-    const { title } = body
+    const rawBody = await request.json().catch(() => ({}));
+    const { title } = createConversationSchema.parse(rawBody);
 
     const conversation = await createChatConversation({
       teamId,
-      userId,
+      userId: user.id,
       title: title || undefined,
-    })
+    });
 
-    return NextResponse.json(conversation, { status: 201 })
+    return NextResponse.json(conversation, { status: 201 });
   } catch (error) {
-    console.error('Error creating conversation:', error)
-    return NextResponse.json(
-      { error: 'Failed to create conversation' },
-      { status: 500 }
-    )
+    return handleRouteError(error);
   }
 }

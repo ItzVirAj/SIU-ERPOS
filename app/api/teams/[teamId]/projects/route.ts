@@ -1,8 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { z } from 'zod'
 import { getProjects, createProject, getProjectStats } from '@/lib/api/projects'
 import { CreateProjectData } from '@/lib/types'
-import { getUserId, getUser, verifyTeamMembership } from "@/lib/auth-server-helpers"
+import { requireTeamMember, handleRouteError } from '@/lib/authz'
 import { db } from '@/lib/db'
+
+const createProjectSchema = z.object({
+  name: z.string().min(1).max(100),
+  description: z.string().max(1000).nullable().optional(),
+  key: z.string().min(2).max(10),
+  color: z.string().optional(),
+  icon: z.string().nullable().optional(),
+  leadId: z.string().nullable().optional(),
+  status: z.enum(['active', 'completed', 'canceled']).optional(),
+}).strict()
 
 export async function GET(
   request: NextRequest,
@@ -10,13 +21,9 @@ export async function GET(
 ) {
   try {
     const { teamId } = await params
+    await requireTeamMember(teamId)
     const { searchParams } = new URL(request.url)
-    const userId = await getUserId()
 
-    // Verify user is a team member
-    await verifyTeamMembership(teamId, userId)
-
-    // Check if requesting stats
     if (searchParams.get('stats') === 'true') {
       const stats = await getProjectStats(teamId)
       return NextResponse.json(stats)
@@ -25,11 +32,7 @@ export async function GET(
     const projects = await getProjects(teamId)
     return NextResponse.json(projects)
   } catch (error) {
-    console.error('Error fetching projects:', error)
-    return NextResponse.json(
-      { error: 'Failed to fetch projects' },
-      { status: 500 }
-    )
+    return handleRouteError(error)
   }
 }
 
@@ -39,61 +42,44 @@ export async function POST(
 ) {
   try {
     const { teamId } = await params
-    const body = await request.json()
+    const { user, userId } = await requireTeamMember(teamId, 'developer')
 
-    // Get the current user from Better Auth
-    const [authResult, userResult] = await Promise.all([
-      getUserId(),
-      getUser()
-    ])
-    
-    const userId = authResult
-    const user = userResult
+    const rawBody = await request.json()
+    const validatedBody = createProjectSchema.parse(rawBody)
 
-    // Verify user is a team member
-    await verifyTeamMembership(teamId, userId)
-
-    // Get user display name from Clerk
     const userName = user.name || user.email || 'Unknown'
+    const actualLeadId = validatedBody.leadId || userId
+    let leadName: string | undefined = userName
 
-    // Look up lead name from TeamMember if leadId is provided
-    let leadName: string | undefined = userName // default to current user
-    const actualLeadId = body.leadId || userId
-    
     if (actualLeadId) {
       const teamMember = await db.teamMember.findFirst({
         where: {
           teamId,
-          userId: actualLeadId
-        }
+          userId: actualLeadId,
+        },
       })
-      
+
       if (teamMember) {
         leadName = teamMember.userName
       } else if (actualLeadId === userId) {
-        // Fallback to current user's name if not in team members
         leadName = userName
       }
     }
 
     const projectData: CreateProjectData = {
-      name: body.name,
-      description: body.description,
-      key: body.key,
-      color: body.color || '#6366f1',
-      icon: body.icon,
+      name: validatedBody.name,
+      description: validatedBody.description ?? undefined,
+      key: validatedBody.key,
+      color: validatedBody.color || '#6366f1',
+      icon: validatedBody.icon ?? undefined,
       leadId: actualLeadId,
       lead: leadName,
+      status: validatedBody.status || 'active',
     }
 
-    // Create project and check team in parallel
     const project = await createProject(teamId, projectData)
     return NextResponse.json(project, { status: 201 })
   } catch (error) {
-    console.error('Error creating project:', error)
-    return NextResponse.json(
-      { error: 'Failed to create project' },
-      { status: 500 }
-    )
+    return handleRouteError(error)
   }
 }

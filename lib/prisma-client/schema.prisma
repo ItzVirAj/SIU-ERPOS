@@ -237,24 +237,26 @@ model Invitation {
 }
 
 model User {
-  id            String    @id
-  name          String
-  email         String
-  emailVerified Boolean   @default(false)
-  image         String?
-  username      String?   @unique
-  dateOfBirth   DateTime?
-  joiningDate   DateTime?
-  position      String?
-  department    String?
-  employeeCode  String?   @unique
-  phone         String?
-  location      String?
-  bio           String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @default(now()) @updatedAt
-  sessions      Session[]
-  accounts      Account[]
+  id               String      @id
+  name             String
+  email            String
+  emailVerified    Boolean     @default(false)
+  image            String?
+  username         String?     @unique
+  dateOfBirth      DateTime?
+  joiningDate      DateTime?
+  position         String?
+  department       String?
+  employeeCode     String?     @unique
+  phone            String?
+  location         String?
+  bio              String?
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @default(now()) @updatedAt
+  sessions         Session[]
+  accounts         Account[]
+  twoFactorEnabled Boolean?    @default(false)
+  twofactors       TwoFactor[]
 
   @@unique([email])
   @@map("user")
@@ -303,6 +305,26 @@ model Verification {
   updatedAt  DateTime @default(now()) @updatedAt
 
   @@map("verification")
+}
+
+model TwoFactor {
+  id          String @id
+  secret      String
+  backupCodes String
+  userId      String
+  user        User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("twoFactor")
+}
+
+model RateLimit {
+  id          String @id
+  key         String
+  count       Int
+  lastRequest BigInt
+
+  @@map("rateLimit")
 }
 
 model ChatConversation {

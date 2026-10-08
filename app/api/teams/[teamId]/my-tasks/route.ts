@@ -1,7 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getUserId, getUser, verifyTeamMembership } from "@/lib/auth-server-helpers";
+import { z } from "zod";
 import { db } from "@/lib/db";
 import { createIssue } from "@/lib/api/issues";
+import { requireTeamMember, handleRouteError } from "@/lib/authz";
+
+const createTaskSchema = z.object({
+  title: z.string().min(1).max(255),
+  description: z.string().nullable().optional(),
+  projectId: z.string().nullable().optional(),
+  workflowStateId: z.string().min(1),
+  priority: z.enum(["none", "low", "medium", "high", "urgent"]).optional(),
+  estimate: z.number().nullable().optional(),
+  labelIds: z.array(z.string()).optional(),
+  assigneeId: z.string().nullable().optional(),
+  assignee: z.string().nullable().optional(),
+}).strict();
 
 export async function GET(
   request: NextRequest,
@@ -9,10 +22,8 @@ export async function GET(
 ) {
   try {
     const { teamId } = await params;
-    const userId = await getUserId();
-    const user = await getUser();
-
-    await verifyTeamMembership(teamId, userId);
+    const { user } = await requireTeamMember(teamId);
+    const userId = user.id;
 
     const { searchParams } = new URL(request.url);
     const search = searchParams.get("search") || undefined;
@@ -146,12 +157,8 @@ export async function GET(
     });
 
     return NextResponse.json(issues);
-  } catch (error: any) {
-    console.error("Error in GET /api/teams/[teamId]/my-tasks:", error);
-    return NextResponse.json(
-      { error: error.message || "Failed to fetch user tasks" },
-      { status: error.message === "Unauthorized" ? 401 : 500 }
-    );
+  } catch (error) {
+    return handleRouteError(error);
   }
 }
 
@@ -161,18 +168,22 @@ export async function POST(
 ) {
   try {
     const { teamId } = await params;
-    const userId = await getUserId();
-    const user = await getUser();
+    const { user } = await requireTeamMember(teamId, "developer");
+    const userId = user.id;
 
-    await verifyTeamMembership(teamId, userId);
+    const rawBody = await request.json();
+    const body = createTaskSchema.parse(rawBody);
 
-    const body = await request.json();
-
-    // Default assignee to current user
     const taskData = {
-      ...body,
+      title: body.title.trim(),
+      description: body.description ?? undefined,
+      projectId: body.projectId && body.projectId.trim() !== "" ? body.projectId : undefined,
+      workflowStateId: body.workflowStateId,
       assigneeId: body.assigneeId || userId,
       assignee: body.assignee || user.name || user.email || "Me",
+      priority: body.priority || "none",
+      estimate: body.estimate ?? undefined,
+      labelIds: body.labelIds,
     };
 
     const newIssue = await createIssue(
@@ -183,11 +194,7 @@ export async function POST(
     );
 
     return NextResponse.json(newIssue, { status: 201 });
-  } catch (error: any) {
-    console.error("Error in POST /api/teams/[teamId]/my-tasks:", error);
-    return NextResponse.json(
-      { error: error.message || "Failed to create task" },
-      { status: error.message === "Unauthorized" ? 401 : 500 }
-    );
+  } catch (error) {
+    return handleRouteError(error);
   }
 }

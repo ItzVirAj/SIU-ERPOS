@@ -1,42 +1,47 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getSessionOrNull, isTeamMember } from "@/lib/auth-server-helpers";
+import { z } from "zod";
+import { requireTeamAdmin, handleRouteError, HttpError } from "@/lib/authz";
 import { db } from "@/lib/db";
+
+const patchRuleSchema = z.object({
+  isActive: z.boolean().optional(),
+  name: z.string().min(1).max(200).optional(),
+  description: z.string().max(1000).nullable().optional(),
+}).strict()
 
 export async function PATCH(
   request: NextRequest,
   { params }: { params: Promise<{ teamId: string; ruleId: string }> }
 ) {
   try {
-    const session = await getSessionOrNull();
-    if (!session?.user?.id) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
     const { teamId, ruleId } = await params;
-    const isMember = await isTeamMember(teamId, session.user.id);
-    if (!isMember) {
-      return NextResponse.json({ error: "Access denied" }, { status: 403 });
+    await requireTeamAdmin(teamId);
+
+    const existing = await db.automationRule.findFirst({
+      where: { id: ruleId, teamId },
+    });
+
+    if (!existing) {
+      throw new HttpError(404, "Automation rule not found");
     }
 
-    const body = await request.json();
-    const updateData: any = {};
-
-    if (typeof body.isActive === "boolean") updateData.isActive = body.isActive;
-    if (body.name) updateData.name = body.name;
-    if (body.description) updateData.description = body.description;
+    const rawBody = await request.json();
+    const body = patchRuleSchema.parse(rawBody);
 
     const rule = await db.automationRule.update({
       where: { id: ruleId },
-      data: updateData,
+      data: {
+        ...(body.isActive !== undefined && { isActive: body.isActive }),
+        ...(body.name && { name: body.name.trim() }),
+        ...(body.description !== undefined && {
+          description: body.description?.trim() || null,
+        }),
+      },
     });
 
     return NextResponse.json(rule);
   } catch (error) {
-    console.error("Error updating automation rule:", error);
-    return NextResponse.json(
-      { error: "Failed to update automation rule" },
-      { status: 500 }
-    );
+    return handleRouteError(error);
   }
 }
 
@@ -45,15 +50,15 @@ export async function DELETE(
   { params }: { params: Promise<{ teamId: string; ruleId: string }> }
 ) {
   try {
-    const session = await getSessionOrNull();
-    if (!session?.user?.id) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
     const { teamId, ruleId } = await params;
-    const isMember = await isTeamMember(teamId, session.user.id);
-    if (!isMember) {
-      return NextResponse.json({ error: "Access denied" }, { status: 403 });
+    await requireTeamAdmin(teamId);
+
+    const existing = await db.automationRule.findFirst({
+      where: { id: ruleId, teamId },
+    });
+
+    if (!existing) {
+      throw new HttpError(404, "Automation rule not found");
     }
 
     await db.automationRule.delete({
@@ -62,11 +67,7 @@ export async function DELETE(
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("Error deleting automation rule:", error);
-    return NextResponse.json(
-      { error: "Failed to delete automation rule" },
-      { status: 500 }
-    );
+    return handleRouteError(error);
   }
 }
 
@@ -74,17 +75,16 @@ export async function POST(
   request: NextRequest,
   { params }: { params: Promise<{ teamId: string; ruleId: string }> }
 ) {
-  // Test-fire the automation
   try {
-    const session = await getSessionOrNull();
-    if (!session?.user?.id) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
     const { teamId, ruleId } = await params;
-    const isMember = await isTeamMember(teamId, session.user.id);
-    if (!isMember) {
-      return NextResponse.json({ error: "Access denied" }, { status: 403 });
+    const { user } = await requireTeamAdmin(teamId);
+
+    const existing = await db.automationRule.findFirst({
+      where: { id: ruleId, teamId },
+    });
+
+    if (!existing) {
+      throw new HttpError(404, "Automation rule not found");
     }
 
     const rule = await db.automationRule.update({
@@ -99,16 +99,12 @@ export async function POST(
       data: {
         ruleId,
         status: "success",
-        details: `Simulated trigger event executed by ${session.user.name || "Admin"}. Action payload dispatched.`,
+        details: `Simulated trigger event executed by ${user.name || "Admin"}. Action payload dispatched.`,
       },
     });
 
     return NextResponse.json({ success: true, rule, log });
   } catch (error) {
-    console.error("Error testing automation rule:", error);
-    return NextResponse.json(
-      { error: "Failed to test automation rule" },
-      { status: 500 }
-    );
+    return handleRouteError(error);
   }
 }

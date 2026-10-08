@@ -1,53 +1,101 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSessionCookie } from "better-auth/cookies";
+import { safeRedirect } from "@/lib/utils";
+
+/**
+ * Note: This cookie check in Edge middleware is an optimistic gate for fast navigation and early filtering.
+ * Full cryptographic session validation, team tenancy verification, and RBAC authorization are strictly
+ * enforced in route handlers and server components via `requireSession()` and `requireTeamMember()`.
+ */
+
+function hasSessionCookie(request: NextRequest): boolean {
+  try {
+    const cookie =
+      getSessionCookie(request, { cookiePrefix: "siu" }) ||
+      getSessionCookie(request);
+    if (cookie) return true;
+  } catch {}
+
+  const cookies = request.cookies;
+  return (
+    cookies.has("siu.session_token") ||
+    cookies.has("__Secure-siu.session_token") ||
+    cookies.has("better-auth.session_token") ||
+    cookies.has("__Secure-better-auth.session_token")
+  );
+}
 
 export async function middleware(request: NextRequest) {
-  try {
-    const { pathname } = request.nextUrl;
-    
-    // Always allow access to sign-up and sign-in pages - let them handle their own logic
-    if (["/sign-in", "/sign-up"].includes(pathname)) {
+  const { pathname } = request.nextUrl;
+
+  // 1. Bypass Better Auth internal authentication handlers
+  if (pathname.startsWith("/api/auth")) {
+    return NextResponse.next();
+  }
+
+  const hasSession = hasSessionCookie(request);
+
+  // 2. Authenticated users visiting /sign-in or /sign-up are redirected to /dashboard
+  if (["/sign-in", "/sign-up"].includes(pathname)) {
+    if (hasSession) {
+      const redirectParam = request.nextUrl.searchParams.get("redirect");
+      const target = safeRedirect(redirectParam, "/dashboard");
+      return NextResponse.redirect(new URL(target, request.url));
+    }
+    return NextResponse.next();
+  }
+
+  // 3. Allow public pages
+  if (pathname === "/" || pathname.startsWith("/invite")) {
+    return NextResponse.next();
+  }
+
+  // 4. API routes protection: return JSON 401 for unauthenticated requests
+  if (pathname.startsWith("/api")) {
+    // Public invitation token inspection: GET /api/invitations/[invitationId]
+    const isPublicInvitationStatus =
+      request.method === "GET" &&
+      pathname.startsWith("/api/invitations/") &&
+      !pathname.endsWith("/accept") &&
+      !pathname.endsWith("/resend");
+
+    if (isPublicInvitationStatus) {
       return NextResponse.next();
     }
 
-    // Check for session cookie - Better Auth uses "better-auth.session_token" by default
-    let hasSession = false;
-    try {
-      // Try the Better Auth helper first
-      const sessionCookie = getSessionCookie(request);
-      hasSession = !!sessionCookie;
-    } catch (error) {
-      // Fallback: check for Better Auth cookie directly
-      const cookies = request.cookies;
-      // Check common Better Auth cookie names
-      hasSession = cookies.has("better-auth.session_token") || 
-                   cookies.has("better-auth.session");
+    if (!hasSession) {
+      return NextResponse.json(
+        { error: "Unauthorized: Active session required" },
+        { status: 401 }
+      );
     }
 
-    // For dashboard routes: redirect unauthenticated users to sign-up
-    if (pathname.startsWith("/dashboard")) {
-      if (!hasSession) {
-        const signUpUrl = new URL("/sign-up", request.url);
-        // Preserve the original path as a redirect parameter if needed
-        if (pathname !== "/dashboard") {
-          signUpUrl.searchParams.set("redirect", pathname);
-        }
-        return NextResponse.redirect(signUpUrl);
-      }
-    }
-
-    return NextResponse.next();
-  } catch (error) {
-    // If there's an error, allow access to auth pages but redirect dashboard to sign-up
-    const { pathname } = request.nextUrl;
-    if (pathname.startsWith("/dashboard")) {
-      return NextResponse.redirect(new URL("/sign-up", request.url));
-    }
-    // Allow other pages to continue
     return NextResponse.next();
   }
+
+  // 5. Protected application pages: redirect unauthenticated callers to /sign-in
+  if (!hasSession) {
+    const safePath = safeRedirect(pathname + request.nextUrl.search, "/dashboard");
+    const signInUrl = new URL("/sign-in", request.url);
+    if (safePath && safePath !== "/dashboard") {
+      signInUrl.searchParams.set("redirect", safePath);
+    }
+    return NextResponse.redirect(signInUrl);
+  }
+
+  return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/sign-in", "/sign-up"],
+  matcher: [
+    /*
+     * Match all request paths except for:
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico (favicon file)
+     * - robots.txt, sitemap.xml
+     * - Static asset file extensions (.svg, .png, .jpg, .jpeg, .gif, .webp, .ico)
+     */
+    "/((?!_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico)$).*)",
+  ],
 };

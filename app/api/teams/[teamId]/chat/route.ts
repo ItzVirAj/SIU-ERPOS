@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getUserId, getUser } from '@/lib/auth-server-helpers'
+import { requireTeamMember, handleRouteError } from '@/lib/authz'
 import { streamText, tool, convertToModelMessages } from 'ai'
 import { createGroq } from '@ai-sdk/groq'
 import { z } from 'zod'
@@ -40,15 +40,8 @@ export async function POST(
       )
     }
 
-    const userId = await getUserId()
-    const user = await getUser()
-
-    if (!userId || !user) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      )
-    }
+    const { user } = await requireTeamMember(teamId)
+    const userId = user.id
 
     // Get or create conversation
     let conversationId = existingConversationId
@@ -1949,10 +1942,6 @@ Always use the provided tools for actions.`
     
     return response
   } catch (error) {
-    console.error('Error in chat route:', error)
-    return NextResponse.json(
-      { error: 'Failed to process chat request' },
-      { status: 500 }
-    )
+    return handleRouteError(error)
   }
 }

@@ -1,28 +1,22 @@
 import { NextRequest, NextResponse } from "next/server"
-import { getUserId } from "@/lib/auth-server-helpers"
-import { db } from "@/lib/db"
+import { z } from "zod"
 import crypto from "crypto"
+import { requireTeamAdmin, handleRouteError } from "@/lib/authz"
+import { db } from "@/lib/db"
 
-// GET /api/teams/[teamId]/webhooks - List webhook endpoints
+const createWebhookSchema = z.object({
+  url: z.string().url(),
+  description: z.string().max(500).nullable().optional(),
+  events: z.array(z.string()).default(["*"]),
+}).strict()
+
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ teamId: string }> }
 ) {
   try {
     const { teamId } = await params
-    const userId = await getUserId()
-
-    if (!userId) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-    }
-
-    const membership = await db.teamMember.findFirst({
-      where: { teamId, userId },
-    })
-
-    if (!membership) {
-      return NextResponse.json({ error: "Forbidden" }, { status: 403 })
-    }
+    await requireTeamAdmin(teamId)
 
     const webhooks = await db.webhookEndpoint.findMany({
       where: { teamId },
@@ -38,42 +32,20 @@ export async function GET(
 
     return NextResponse.json({ webhooks })
   } catch (error) {
-    console.error("Error fetching webhooks:", error)
-    return NextResponse.json({ error: "Failed to fetch webhooks" }, { status: 500 })
+    return handleRouteError(error)
   }
 }
 
-// POST /api/teams/[teamId]/webhooks - Register a new webhook endpoint
 export async function POST(
   request: NextRequest,
   { params }: { params: Promise<{ teamId: string }> }
 ) {
   try {
     const { teamId } = await params
-    const userId = await getUserId()
+    const { user, userId, member } = await requireTeamAdmin(teamId)
 
-    if (!userId) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-    }
-
-    const membership = await db.teamMember.findFirst({
-      where: {
-        teamId,
-        userId,
-        role: { in: ["admin", "developer"] },
-      },
-    })
-
-    if (!membership) {
-      return NextResponse.json({ error: "Forbidden: Admin access required" }, { status: 403 })
-    }
-
-    const body = await request.json()
-    const { url, description, events = ["*"] } = body
-
-    if (!url || typeof url !== "string" || !url.startsWith("http")) {
-      return NextResponse.json({ error: "Valid HTTP/HTTPS URL is required" }, { status: 400 })
-    }
+    const rawBody = await request.json()
+    const { url, description, events } = createWebhookSchema.parse(rawBody)
 
     const secret = `whsec_${crypto.randomBytes(20).toString("hex")}`
 
@@ -93,8 +65,8 @@ export async function POST(
       data: {
         teamId,
         userId,
-        userName: membership.userName || "Admin",
-        userEmail: membership.userEmail || "admin@sketchitup.internal",
+        userName: member.userName || user.name || "Admin",
+        userEmail: member.userEmail || user.email || "admin@sketchitup.internal",
         action: "CREATE",
         entityType: "WEBHOOK",
         entityId: webhook.id,
@@ -103,9 +75,8 @@ export async function POST(
       },
     })
 
-    return NextResponse.json({ webhook })
+    return NextResponse.json({ webhook }, { status: 201 })
   } catch (error) {
-    console.error("Error creating webhook endpoint:", error)
-    return NextResponse.json({ error: "Failed to create webhook" }, { status: 500 })
+    return handleRouteError(error)
   }
 }

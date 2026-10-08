@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
+import { validatePassword } from "@/lib/password-policy";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import {
   ShieldCheck,
@@ -87,6 +88,17 @@ export default function ProfileSettingsPage() {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [changingPassword, setChangingPassword] = useState(false);
+
+  // 2FA state and dialogs
+  const [enable2FADialogOpen, setEnable2FADialogOpen] = useState(false);
+  const [disable2FADialogOpen, setDisable2FADialogOpen] = useState(false);
+  const [backupCodesDialogOpen, setBackupCodesDialogOpen] = useState(false);
+  const [twoFactorPassword, setTwoFactorPassword] = useState("");
+  const [twoFactorStep, setTwoFactorStep] = useState<"password" | "verify">("password");
+  const [totpData, setTotpData] = useState<{ totpURI: string; backupCodes: string[] } | null>(null);
+  const [totpVerificationCode, setTotpVerificationCode] = useState("");
+  const [twoFactorLoading, setTwoFactorLoading] = useState(false);
+  const [backupCodesList, setBackupCodesList] = useState<string[]>([]);
 
   // Profile edit form state
   const [profileForm, setProfileForm] = useState({
@@ -181,26 +193,43 @@ export default function ProfileSettingsPage() {
         ["user-sessions"],
         (old: any[] = []) => old.filter((s) => s.id !== id)
       );
-      toast.success(`"${deviceName}" removed`, {
-        action: {
-          label: "Undo",
-          onClick: () => {
-            queryClient.invalidateQueries({ queryKey: ["user-sessions"] });
-            toast.info(`Restored "${deviceName}" session`);
-          },
-        },
-      });
+      toast.success(`"${deviceName}" session revoked`);
     },
     onError: (err: any) => {
       toast.error(err.message || "Failed to remove device");
     },
   });
 
+  // Revoke all other sessions mutation
+  const revokeAllOtherSessionsMutation = useMutation({
+    mutationFn: async () => {
+      const res = await fetch(`/api/user/sessions?allOther=true`, {
+        method: "DELETE",
+      });
+      if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.error || "Failed to sign out other sessions");
+      }
+      return res.json();
+    },
+    onSuccess: (data) => {
+      queryClient.setQueryData(
+        ["user-sessions"],
+        (old: any[] = []) => old.filter((s) => s.isCurrent)
+      );
+      toast.success(data.message || "All other sessions have been signed out");
+    },
+    onError: (err: any) => {
+      toast.error(err.message || "Failed to sign out other sessions");
+    },
+  });
+
   // Handle password submit
   const handlePasswordSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (newPassword.length < 6) {
-      toast.error("New password must be at least 6 characters");
+    const validation = validatePassword(newPassword);
+    if (!validation.isValid) {
+      toast.error(validation.errors[0]);
       return;
     }
     if (newPassword !== confirmPassword) {
@@ -219,7 +248,7 @@ export default function ProfileSettingsPage() {
       if (!res.ok) {
         throw new Error(data.error || "Failed to change password");
       }
-      toast.success("Password changed successfully!");
+      toast.success(data.message || "Password changed successfully!");
       setPasswordDialogOpen(false);
       setCurrentPassword("");
       setNewPassword("");
@@ -228,6 +257,123 @@ export default function ProfileSettingsPage() {
       toast.error(err.message || "Failed to update password");
     } finally {
       setChangingPassword(false);
+    }
+  };
+
+  // Start 2FA enable flow (requires password)
+  const handleStartEnable2FA = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!twoFactorPassword) {
+      toast.error("Please enter your current password");
+      return;
+    }
+
+    setTwoFactorLoading(true);
+    try {
+      const res: any = await authClient.twoFactor.enable({
+        password: twoFactorPassword,
+      });
+
+      if (res?.error) {
+        throw new Error(res.error.message || "Failed to initiate two-factor setup");
+      }
+
+      setTotpData(res.data);
+      setBackupCodesList(res.data?.backupCodes || []);
+      setTwoFactorStep("verify");
+      toast.success("Authenticator key generated. Enter verification code to complete setup.");
+    } catch (err: any) {
+      toast.error(err.message || "Failed to enable two-factor authentication");
+    } finally {
+      setTwoFactorLoading(false);
+    }
+  };
+
+  // Finalize 2FA enable with verification code
+  const handleConfirmEnable2FA = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!totpVerificationCode.trim()) {
+      toast.error("Please enter the 6-digit code from your authenticator app");
+      return;
+    }
+
+    setTwoFactorLoading(true);
+    try {
+      const res: any = await authClient.twoFactor.verifyTotp({
+        code: totpVerificationCode.trim(),
+      });
+
+      if (res?.error) {
+        throw new Error(res.error.message || "Invalid two-factor authentication code");
+      }
+
+      toast.success("Two-Factor Authentication is now active on your account!");
+      setEnable2FADialogOpen(false);
+      setTwoFactorPassword("");
+      setTotpVerificationCode("");
+      setTotpData(null);
+      setTwoFactorStep("password");
+      queryClient.invalidateQueries({ queryKey: ["user-profile"] });
+    } catch (err: any) {
+      toast.error(err.message || "Verification code failed");
+    } finally {
+      setTwoFactorLoading(false);
+    }
+  };
+
+  // Disable 2FA
+  const handleDisable2FA = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!twoFactorPassword) {
+      toast.error("Please enter your password to disable 2FA");
+      return;
+    }
+
+    setTwoFactorLoading(true);
+    try {
+      const res: any = await authClient.twoFactor.disable({
+        password: twoFactorPassword,
+      });
+
+      if (res?.error) {
+        throw new Error(res.error.message || "Failed to disable 2FA");
+      }
+
+      toast.success("Two-Factor Authentication has been disabled");
+      setDisable2FADialogOpen(false);
+      setTwoFactorPassword("");
+      queryClient.invalidateQueries({ queryKey: ["user-profile"] });
+    } catch (err: any) {
+      toast.error(err.message || "Failed to disable 2FA");
+    } finally {
+      setTwoFactorLoading(false);
+    }
+  };
+
+  // Generate new backup codes
+  const handleGenerateBackupCodes = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!twoFactorPassword) {
+      toast.error("Please enter your password");
+      return;
+    }
+
+    setTwoFactorLoading(true);
+    try {
+      const res: any = await authClient.twoFactor.generateBackupCodes({
+        password: twoFactorPassword,
+      });
+
+      if (res?.error) {
+        throw new Error(res.error.message || "Failed to regenerate backup codes");
+      }
+
+      setBackupCodesList(res.data?.backupCodes || []);
+      toast.success("Fresh backup codes generated");
+    } catch (err: any) {
+      toast.error(err.message || "Failed to generate backup codes");
+    } finally {
+      setTwoFactorLoading(false);
     }
   };
 
@@ -419,17 +565,98 @@ export default function ProfileSettingsPage() {
                   </Button>
                 </div>
               </div>
+
+              {/* Two-Factor Authentication (2FA) Row */}
+              <div className="p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2">
+                    <div className="text-sm font-medium text-white">Two-factor authentication (2FA)</div>
+                    {profile?.twoFactorEnabled ? (
+                      <span className="px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[10px] font-medium flex items-center gap-1">
+                        <CheckCircle2 className="w-3 h-3" />
+                        Enabled
+                      </span>
+                    ) : (
+                      <span className="px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20 text-[10px] font-medium flex items-center gap-1">
+                        <AlertCircle className="w-3 h-3" />
+                        Disabled
+                      </span>
+                    )}
+                  </div>
+                  <div className="text-xs text-neutral-400">
+                    Secure your account with an authenticator app (TOTP) and backup recovery codes.
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2 shrink-0">
+                  {profile?.twoFactorEnabled ? (
+                    <>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => {
+                          setTwoFactorPassword("");
+                          setBackupCodesDialogOpen(true);
+                        }}
+                        className="h-8 text-xs bg-[#17181c] border-white/[0.08] text-neutral-200 hover:text-white"
+                      >
+                        Backup Codes
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => {
+                          setTwoFactorPassword("");
+                          setDisable2FADialogOpen(true);
+                        }}
+                        className="h-8 text-xs bg-rose-500/10 border-rose-500/20 text-rose-300 hover:bg-rose-500/20"
+                      >
+                        Disable
+                      </Button>
+                    </>
+                  ) : (
+                    <Button
+                      size="sm"
+                      onClick={() => {
+                        setTwoFactorStep("password");
+                        setTwoFactorPassword("");
+                        setTotpVerificationCode("");
+                        setTotpData(null);
+                        setEnable2FADialogOpen(true);
+                      }}
+                      className="h-8 text-xs bg-blue-600 hover:bg-blue-500 text-white font-medium"
+                    >
+                      Enable 2FA
+                    </Button>
+                  )}
+                </div>
+              </div>
             </div>
           </div>
 
           {/* Browsers and Devices matching reference screenshot */}
           <div className="space-y-4">
-            <div>
-              <h2 className="text-sm font-semibold text-white">Browsers and devices</h2>
-              <p className="text-xs text-neutral-400 mt-1">
-                These browsers and devices are currently signed in to your account. Remove any
-                unauthorized devices.
-              </p>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div>
+                <h2 className="text-sm font-semibold text-white">Browsers and devices</h2>
+                <p className="text-xs text-neutral-400 mt-1">
+                  Active sessions currently authenticated to your account.
+                </p>
+              </div>
+              {sessions.some((s: any) => !s.isCurrent) && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  disabled={revokeAllOtherSessionsMutation.isPending}
+                  onClick={() => revokeAllOtherSessionsMutation.mutate()}
+                  className="h-8 text-xs bg-[#17181c] border-rose-500/20 text-rose-300 hover:bg-rose-500/10 w-fit"
+                >
+                  {revokeAllOtherSessionsMutation.isPending && (
+                    <Loader2 className="w-3.5 h-3.5 mr-1.5 animate-spin" />
+                  )}
+                  <span>Sign out other sessions</span>
+                </Button>
+              )}
             </div>
 
             <div className="bg-[#121316] border border-white/[0.08] rounded-2xl divide-y divide-white/[0.06] overflow-hidden">
@@ -440,7 +667,7 @@ export default function ProfileSettingsPage() {
                 </div>
               ) : sessions.length === 0 ? (
                 <div className="p-6 text-center text-xs text-neutral-400">
-                  No other active devices detected.
+                  No active sessions found.
                 </div>
               ) : (
                 sessions.map((device: any) => (
@@ -448,35 +675,32 @@ export default function ProfileSettingsPage() {
                     key={device.id}
                     className="p-4 flex items-center justify-between gap-4 hover:bg-white/[0.02] transition-colors"
                   >
-                    {/* Device Icon + Name */}
+                    {/* Device Icon + Name + Masked IP */}
                     <div className="flex items-center gap-3 min-w-0">
                       <BrowserIcon icon={device.icon} />
                       <div className="min-w-0">
                         <div className="text-sm font-medium text-white truncate">
                           {device.deviceName}
                         </div>
+                        <div className="text-[11px] text-neutral-400 font-mono">
+                          IP: {device.ipAddress}
+                        </div>
                       </div>
                     </div>
 
-                    {/* Location + Status + Revoke */}
-                    <div className="flex items-center gap-6 shrink-0 text-xs">
-                      {/* Location with Flag */}
-                      <div className="hidden sm:flex items-center gap-1.5 text-neutral-400">
-                        <span className="text-sm">{device.flag}</span>
-                        <span>{device.location}</span>
-                      </div>
+                    {/* Status + Revoke */}
+                    <div className="flex items-center gap-4 shrink-0 text-xs">
+                      {device.isCurrent ? (
+                        <span className="px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[10px] font-medium flex items-center gap-1">
+                          <CheckCircle2 className="w-3 h-3" />
+                          Current session
+                        </span>
+                      ) : (
+                        <span className="text-neutral-500 text-[11px]">
+                          {device.timeAgo}
+                        </span>
+                      )}
 
-                      {/* Time / Current Session Status */}
-                      <div
-                        className={cn(
-                          "w-28 text-right font-medium",
-                          device.isCurrent ? "text-neutral-300" : "text-neutral-500"
-                        )}
-                      >
-                        {device.timeAgo}
-                      </div>
-
-                      {/* Delete / Revoke Device Button */}
                       {!device.isCurrent ? (
                         <button
                           onClick={() =>
@@ -485,8 +709,9 @@ export default function ProfileSettingsPage() {
                               deviceName: device.deviceName,
                             })
                           }
+                          disabled={revokeSessionMutation.isPending}
                           className="p-1.5 rounded-lg text-neutral-500 hover:text-rose-400 hover:bg-rose-500/10 transition-colors"
-                          title="Remove device"
+                          title="Revoke session"
                         >
                           <Trash2 className="w-4 h-4" />
                         </button>
@@ -751,7 +976,7 @@ export default function ProfileSettingsPage() {
               <span>Change Password</span>
             </DialogTitle>
             <DialogDescription className="text-xs text-neutral-400">
-              Update your account password. Choose a strong password with at least 6 characters.
+              Update your account password. Must be at least 12 characters and include letters, numbers, and symbols.
             </DialogDescription>
           </DialogHeader>
 
@@ -773,10 +998,15 @@ export default function ProfileSettingsPage() {
                 type="password"
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
-                placeholder="At least 6 characters"
+                placeholder="At least 12 characters"
                 className="bg-[#17181c] border-white/[0.08] text-xs h-9"
                 required
               />
+              {newPassword && (
+                <div className="text-[11px] text-neutral-400">
+                  {validatePassword(newPassword).feedback}
+                </div>
+              )}
             </div>
 
             <div className="space-y-1.5">
@@ -814,6 +1044,288 @@ export default function ProfileSettingsPage() {
               </Button>
             </div>
           </form>
+        </DialogContent>
+      </Dialog>
+
+      {/* Enable 2FA Dialog Modal */}
+      <Dialog open={enable2FADialogOpen} onOpenChange={setEnable2FADialogOpen}>
+        <DialogContent className="sm:max-w-md bg-[#121316] border-white/[0.08] text-white">
+          <DialogHeader>
+            <DialogTitle className="text-lg font-bold flex items-center gap-2">
+              <ShieldCheck className="w-5 h-5 text-emerald-400" />
+              <span>Enable Two-Factor Authentication</span>
+            </DialogTitle>
+            <DialogDescription className="text-xs text-neutral-400">
+              {twoFactorStep === "password"
+                ? "Enter your current account password to begin two-factor authentication setup."
+                : "Add this authenticator key to Google Authenticator, 1Password, or Authy, then enter the 6-digit code."}
+            </DialogDescription>
+          </DialogHeader>
+
+          {twoFactorStep === "password" ? (
+            <form onSubmit={handleStartEnable2FA} className="space-y-4 pt-2">
+              <div className="space-y-1.5">
+                <label className="text-xs font-medium text-neutral-300">Current Password</label>
+                <Input
+                  type="password"
+                  value={twoFactorPassword}
+                  onChange={(e) => setTwoFactorPassword(e.target.value)}
+                  placeholder="Enter your current password"
+                  className="bg-[#17181c] border-white/[0.08] text-xs h-9"
+                  autoFocus
+                  required
+                />
+              </div>
+
+              <div className="flex items-center justify-end gap-2 pt-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setEnable2FADialogOpen(false)}
+                  className="h-8 text-xs bg-[#17181c] border-white/[0.08] text-neutral-300"
+                >
+                  Cancel
+                </Button>
+                <Button
+                  type="submit"
+                  disabled={twoFactorLoading}
+                  size="sm"
+                  className="h-8 text-xs bg-blue-600 hover:bg-blue-500 text-white font-medium"
+                >
+                  {twoFactorLoading ? <Loader2 className="w-3.5 h-3.5 mr-1.5 animate-spin" /> : null}
+                  <span>Continue</span>
+                </Button>
+              </div>
+            </form>
+          ) : (
+            <form onSubmit={handleConfirmEnable2FA} className="space-y-4 pt-2">
+              {/* Authenticator URI / Secret display */}
+              <div className="space-y-2">
+                <label className="text-xs font-medium text-neutral-300">Authenticator Secret Key</label>
+                <div className="flex items-center gap-2 bg-[#17181c] border border-white/[0.08] p-2.5 rounded-lg">
+                  <span className="font-mono text-xs text-emerald-400 tracking-wider truncate flex-1 select-all">
+                    {totpData?.totpURI ? (totpData.totpURI.match(/secret=([A-Z0-9]+)/i)?.[1] || totpData.totpURI) : "Loading..."}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const secret = totpData?.totpURI ? (totpData.totpURI.match(/secret=([A-Z0-9]+)/i)?.[1] || totpData.totpURI) : "";
+                      if (secret) {
+                        navigator.clipboard.writeText(secret);
+                        toast.success("Secret copied to clipboard");
+                      }
+                    }}
+                    className="p-1 rounded text-neutral-400 hover:text-white"
+                    title="Copy Secret"
+                  >
+                    <Copy className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              </div>
+
+              {/* Emergency Backup Codes Box */}
+              {backupCodesList.length > 0 && (
+                <div className="space-y-1.5">
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="font-medium text-neutral-300">Emergency Recovery Codes</span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        navigator.clipboard.writeText(backupCodesList.join("\n"));
+                        toast.success("Backup codes copied");
+                      }}
+                      className="text-blue-400 hover:underline flex items-center gap-1"
+                    >
+                      <Copy className="w-3 h-3" />
+                      Copy all
+                    </button>
+                  </div>
+                  <div className="grid grid-cols-2 gap-1.5 p-2 bg-[#17181c] rounded-lg border border-white/[0.08] font-mono text-[11px] text-neutral-300 max-h-24 overflow-y-auto">
+                    {backupCodesList.map((code, idx) => (
+                      <span key={idx} className="tracking-wider">{code}</span>
+                    ))}
+                  </div>
+                  <p className="text-[10px] text-neutral-400">
+                    Save these codes in a password manager. You will need them if you lose access to your device.
+                  </p>
+                </div>
+              )}
+
+              {/* Verification Code */}
+              <div className="space-y-1.5">
+                <label className="text-xs font-medium text-neutral-300">Enter 6-Digit Code</label>
+                <Input
+                  type="text"
+                  value={totpVerificationCode}
+                  onChange={(e) => setTotpVerificationCode(e.target.value)}
+                  placeholder="123456"
+                  className="bg-[#17181c] border-white/[0.08] text-sm h-9 font-mono tracking-widest text-center"
+                  autoFocus
+                  required
+                />
+              </div>
+
+              <div className="flex items-center justify-end gap-2 pt-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setTwoFactorStep("password")}
+                  className="h-8 text-xs bg-[#17181c] border-white/[0.08] text-neutral-300"
+                >
+                  Back
+                </Button>
+                <Button
+                  type="submit"
+                  disabled={twoFactorLoading || !totpVerificationCode.trim()}
+                  size="sm"
+                  className="h-8 text-xs bg-emerald-600 hover:bg-emerald-500 text-white font-medium"
+                >
+                  {twoFactorLoading ? <Loader2 className="w-3.5 h-3.5 mr-1.5 animate-spin" /> : null}
+                  <span>Verify & Activate</span>
+                </Button>
+              </div>
+            </form>
+          )}
+        </DialogContent>
+      </Dialog>
+
+      {/* Disable 2FA Dialog Modal */}
+      <Dialog open={disable2FADialogOpen} onOpenChange={setDisable2FADialogOpen}>
+        <DialogContent className="sm:max-w-md bg-[#121316] border-white/[0.08] text-white">
+          <DialogHeader>
+            <DialogTitle className="text-lg font-bold flex items-center gap-2 text-rose-400">
+              <AlertCircle className="w-5 h-5 text-rose-400" />
+              <span>Disable Two-Factor Authentication</span>
+            </DialogTitle>
+            <DialogDescription className="text-xs text-neutral-400">
+              Disabling 2FA makes your account more vulnerable. Enter your password to confirm removal.
+            </DialogDescription>
+          </DialogHeader>
+
+          <form onSubmit={handleDisable2FA} className="space-y-4 pt-2">
+            <div className="space-y-1.5">
+              <label className="text-xs font-medium text-neutral-300">Confirm Password</label>
+              <Input
+                type="password"
+                value={twoFactorPassword}
+                onChange={(e) => setTwoFactorPassword(e.target.value)}
+                placeholder="Enter password to disable"
+                className="bg-[#17181c] border-white/[0.08] text-xs h-9"
+                autoFocus
+                required
+              />
+            </div>
+
+            <div className="flex items-center justify-end gap-2 pt-2">
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => setDisable2FADialogOpen(false)}
+                className="h-8 text-xs bg-[#17181c] border-white/[0.08] text-neutral-300"
+              >
+                Cancel
+              </Button>
+              <Button
+                type="submit"
+                disabled={twoFactorLoading || !twoFactorPassword}
+                size="sm"
+                className="h-8 text-xs bg-rose-600 hover:bg-rose-500 text-white font-medium"
+              >
+                {twoFactorLoading ? <Loader2 className="w-3.5 h-3.5 mr-1.5 animate-spin" /> : null}
+                <span>Disable 2FA</span>
+              </Button>
+            </div>
+          </form>
+        </DialogContent>
+      </Dialog>
+
+      {/* Backup Codes Dialog Modal */}
+      <Dialog open={backupCodesDialogOpen} onOpenChange={setBackupCodesDialogOpen}>
+        <DialogContent className="sm:max-w-md bg-[#121316] border-white/[0.08] text-white">
+          <DialogHeader>
+            <DialogTitle className="text-lg font-bold flex items-center gap-2">
+              <Key className="w-5 h-5 text-blue-400" />
+              <span>Two-Factor Backup Codes</span>
+            </DialogTitle>
+            <DialogDescription className="text-xs text-neutral-400">
+              Use these single-use recovery codes if you lose access to your authenticator application.
+            </DialogDescription>
+          </DialogHeader>
+
+          {backupCodesList.length > 0 ? (
+            <div className="space-y-4 pt-2">
+              <div className="grid grid-cols-2 gap-2 p-3 bg-[#17181c] rounded-xl border border-white/[0.08] font-mono text-xs text-neutral-200">
+                {backupCodesList.map((code, idx) => (
+                  <div key={idx} className="p-1 tracking-wider text-center bg-white/[0.02] rounded">
+                    {code}
+                  </div>
+                ))}
+              </div>
+
+              <div className="flex items-center justify-between pt-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    navigator.clipboard.writeText(backupCodesList.join("\n"));
+                    toast.success("Backup codes copied to clipboard");
+                  }}
+                  className="h-8 text-xs bg-[#17181c] border-white/[0.08] text-neutral-200"
+                >
+                  <Copy className="w-3.5 h-3.5 mr-1.5" />
+                  <span>Copy Codes</span>
+                </Button>
+                <Button
+                  type="button"
+                  size="sm"
+                  onClick={() => setBackupCodesDialogOpen(false)}
+                  className="h-8 text-xs bg-blue-600 hover:bg-blue-500 text-white"
+                >
+                  Done
+                </Button>
+              </div>
+            </div>
+          ) : (
+            <form onSubmit={handleGenerateBackupCodes} className="space-y-4 pt-2">
+              <div className="space-y-1.5">
+                <label className="text-xs font-medium text-neutral-300">Confirm Password</label>
+                <Input
+                  type="password"
+                  value={twoFactorPassword}
+                  onChange={(e) => setTwoFactorPassword(e.target.value)}
+                  placeholder="Enter password to generate codes"
+                  className="bg-[#17181c] border-white/[0.08] text-xs h-9"
+                  autoFocus
+                  required
+                />
+              </div>
+
+              <div className="flex items-center justify-end gap-2 pt-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setBackupCodesDialogOpen(false)}
+                  className="h-8 text-xs bg-[#17181c] border-white/[0.08] text-neutral-300"
+                >
+                  Cancel
+                </Button>
+                <Button
+                  type="submit"
+                  disabled={twoFactorLoading || !twoFactorPassword}
+                  size="sm"
+                  className="h-8 text-xs bg-blue-600 hover:bg-blue-500 text-white font-medium"
+                >
+                  {twoFactorLoading ? <Loader2 className="w-3.5 h-3.5 mr-1.5 animate-spin" /> : null}
+                  <span>Generate Codes</span>
+                </Button>
+              </div>
+            </form>
+          )}
         </DialogContent>
       </Dialog>
     </div>

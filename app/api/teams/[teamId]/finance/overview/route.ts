@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
-import { getUserId } from "@/lib/auth-server-helpers"
+import { requireTeamMember, handleRouteError } from "@/lib/authz"
 import { db } from "@/lib/db"
 
 export async function GET(
@@ -8,19 +8,7 @@ export async function GET(
 ) {
   try {
     const { teamId } = await params
-    const userId = await getUserId()
-
-    if (!userId) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-    }
-
-    const membership = await db.teamMember.findFirst({
-      where: { teamId, userId },
-    })
-
-    if (!membership) {
-      return NextResponse.json({ error: "Forbidden" }, { status: 403 })
-    }
+    await requireTeamMember(teamId)
 
     const [invoices, payments, expenses, subscriptions, companySetting] = await Promise.all([
       db.invoice.findMany({ where: { teamId } }),
@@ -71,7 +59,7 @@ export async function GET(
     const monthlyBurn = monthlySaaSExpenses + monthlyVariableExpenses
 
     // Runway calculation in months (based on collected cash balance vs monthly burn)
-    const estimatedCashReserves = Math.max(totalCollected * 0.4, 500000) // 40% retained earnings or 500k base
+    const estimatedCashReserves = Math.max(totalCollected * 0.4, 500000)
     const runwayMonths = monthlyBurn > 0 ? (estimatedCashReserves / monthlyBurn).toFixed(1) : "12.0"
 
     return NextResponse.json({
@@ -91,7 +79,6 @@ export async function GET(
       },
     })
   } catch (error) {
-    console.error("Error fetching finance overview:", error)
-    return NextResponse.json({ error: "Failed to generate finance overview" }, { status: 500 })
+    return handleRouteError(error)
   }
 }

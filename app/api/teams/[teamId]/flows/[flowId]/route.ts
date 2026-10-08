@@ -1,6 +1,13 @@
 import { NextRequest, NextResponse } from "next/server"
-import { getUserId } from "@/lib/auth-server-helpers"
+import { z } from "zod"
+import { requireTeamAdmin, handleRouteError, HttpError } from "@/lib/authz"
 import { db } from "@/lib/db"
+
+const patchFlowSchema = z.object({
+  isActive: z.boolean().optional(),
+  name: z.string().min(1).max(200).optional(),
+  description: z.string().max(1000).nullable().optional(),
+}).strict()
 
 export async function PATCH(
   request: NextRequest,
@@ -8,31 +15,23 @@ export async function PATCH(
 ) {
   try {
     const { teamId, flowId } = await params
-    const userId = await getUserId()
+    const { user, userId, member } = await requireTeamAdmin(teamId)
 
-    if (!userId) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-    }
-
-    const membership = await db.teamMember.findFirst({
-      where: {
-        teamId,
-        userId,
-        role: { in: ["admin", "developer"] },
-      },
+    const existing = await db.automationRule.findFirst({
+      where: { id: flowId, teamId },
     })
 
-    if (!membership) {
-      return NextResponse.json({ error: "Forbidden: Admin access required" }, { status: 403 })
+    if (!existing) {
+      throw new HttpError(404, "Flow not found")
     }
 
-    const body = await request.json()
-    const { isActive, name, description } = body
+    const rawBody = await request.json()
+    const { isActive, name, description } = patchFlowSchema.parse(rawBody)
 
     const updated = await db.automationRule.update({
-      where: { id: flowId, teamId },
+      where: { id: flowId },
       data: {
-        ...(isActive !== undefined && { isActive: Boolean(isActive) }),
+        ...(isActive !== undefined && { isActive }),
         ...(name && { name: name.trim() }),
         ...(description !== undefined && { description: description?.trim() || null }),
       },
@@ -42,8 +41,8 @@ export async function PATCH(
       data: {
         teamId,
         userId,
-        userName: membership.userName || "Admin",
-        userEmail: membership.userEmail || "admin@sketchitup.internal",
+        userName: member.userName || user.name || "Admin",
+        userEmail: member.userEmail || user.email || "admin@sketchitup.internal",
         action: "UPDATE",
         entityType: "AUTOMATION",
         entityId: flowId,
@@ -54,8 +53,7 @@ export async function PATCH(
 
     return NextResponse.json({ flow: updated })
   } catch (error) {
-    console.error("Error updating flow:", error)
-    return NextResponse.json({ error: "Failed to update flow" }, { status: 500 })
+    return handleRouteError(error)
   }
 }
 
@@ -65,30 +63,14 @@ export async function DELETE(
 ) {
   try {
     const { teamId, flowId } = await params
-    const userId = await getUserId()
-
-    if (!userId) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-    }
-
-    const membership = await db.teamMember.findFirst({
-      where: {
-        teamId,
-        userId,
-        role: { in: ["admin", "developer"] },
-      },
-    })
-
-    if (!membership) {
-      return NextResponse.json({ error: "Forbidden: Admin access required" }, { status: 403 })
-    }
+    const { user, userId, member } = await requireTeamAdmin(teamId)
 
     const existing = await db.automationRule.findFirst({
       where: { id: flowId, teamId },
     })
 
     if (!existing) {
-      return NextResponse.json({ error: "Flow not found" }, { status: 404 })
+      throw new HttpError(404, "Flow not found")
     }
 
     await db.automationRule.delete({
@@ -99,8 +81,8 @@ export async function DELETE(
       data: {
         teamId,
         userId,
-        userName: membership.userName || "Admin",
-        userEmail: membership.userEmail || "admin@sketchitup.internal",
+        userName: member.userName || user.name || "Admin",
+        userEmail: member.userEmail || user.email || "admin@sketchitup.internal",
         action: "DELETE",
         entityType: "AUTOMATION",
         entityId: flowId,
@@ -111,7 +93,6 @@ export async function DELETE(
 
     return NextResponse.json({ success: true })
   } catch (error) {
-    console.error("Error deleting flow:", error)
-    return NextResponse.json({ error: "Failed to delete flow" }, { status: 500 })
+    return handleRouteError(error)
   }
 }

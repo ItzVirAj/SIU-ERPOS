@@ -1,7 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getUserId, getUser, verifyTeamMembership } from '@/lib/auth-server-helpers'
+import { z } from 'zod'
 import { db } from '@/lib/db'
 import { getProjectById } from '@/lib/api/projects'
+import { requireTeamMember, handleRouteError, HttpError } from '@/lib/authz'
+
+const addMemberSchema = z.object({
+  userId: z.string().min(1),
+}).strict()
 
 export async function GET(
   request: NextRequest,
@@ -9,19 +14,12 @@ export async function GET(
 ) {
   try {
     const { teamId, projectId } = await params
-    const userId = await getUserId()
-    const user = await getUser()
-
-    // Verify user is a team member
-    await verifyTeamMembership(teamId, userId)
+    await requireTeamMember(teamId)
 
     // Verify project exists and belongs to team
     const project = await getProjectById(teamId, projectId)
     if (!project) {
-      return NextResponse.json(
-        { error: 'Project not found' },
-        { status: 404 }
-      )
+      throw new HttpError(404, 'Project not found')
     }
 
     // Fetch project members from database
@@ -30,7 +28,6 @@ export async function GET(
       orderBy: { createdAt: 'asc' },
     })
 
-    // Format members for the frontend
     const formattedMembers = projectMembers.map((member) => ({
       id: member.id,
       userId: member.userId,
@@ -38,16 +35,12 @@ export async function GET(
       userEmail: member.userEmail,
       displayName: member.userName,
       email: member.userEmail,
-      profileImageUrl: undefined, // Can be enhanced with user data
+      profileImageUrl: undefined,
     }))
 
     return NextResponse.json(formattedMembers)
   } catch (error) {
-    console.error('Error fetching project members:', error)
-    return NextResponse.json(
-      { error: 'Failed to fetch project members' },
-      { status: 500 }
-    )
+    return handleRouteError(error)
   }
 }
 
@@ -57,39 +50,18 @@ export async function POST(
 ) {
   try {
     const { teamId, projectId } = await params
-    const userId = await getUserId()
-    const user = await getUser()
-
-    if (!userId || !user) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      )
-    }
-
-    // Verify user is a team member
-    await verifyTeamMembership(teamId, userId)
+    await requireTeamMember(teamId, 'developer')
 
     // Verify project exists and belongs to team
     const project = await getProjectById(teamId, projectId)
     if (!project) {
-      return NextResponse.json(
-        { error: 'Project not found' },
-        { status: 404 }
-      )
+      throw new HttpError(404, 'Project not found')
     }
 
-    const body = await request.json()
-    const { userId: memberUserId } = body
+    const rawBody = await request.json()
+    const { userId: memberUserId } = addMemberSchema.parse(rawBody)
 
-    if (!memberUserId) {
-      return NextResponse.json(
-        { error: 'User ID is required' },
-        { status: 400 }
-      )
-    }
-
-    // Verify the user being added is a team member
+    // Verify the user being added is a member of this team
     const teamMember = await db.teamMember.findFirst({
       where: {
         teamId,
@@ -98,13 +70,10 @@ export async function POST(
     })
 
     if (!teamMember) {
-      return NextResponse.json(
-        { error: 'User must be a team member first' },
-        { status: 400 }
-      )
+      throw new HttpError(400, 'User must be a team member first')
     }
 
-    // Check if member already exists
+    // Check if member already exists in project
     const existingMember = await db.projectMember.findUnique({
       where: {
         projectId_userId: {
@@ -115,10 +84,7 @@ export async function POST(
     })
 
     if (existingMember) {
-      return NextResponse.json(
-        { error: 'Member already added to project' },
-        { status: 400 }
-      )
+      throw new HttpError(400, 'Member already added to project')
     }
 
     // Add member to project
@@ -131,7 +97,6 @@ export async function POST(
       },
     })
 
-    // Format for frontend
     const formattedMember = {
       id: projectMember.id,
       userId: projectMember.userId,
@@ -144,11 +109,7 @@ export async function POST(
 
     return NextResponse.json(formattedMember, { status: 201 })
   } catch (error) {
-    console.error('Error adding project member:', error)
-    return NextResponse.json(
-      { error: 'Failed to add project member' },
-      { status: 500 }
-    )
+    return handleRouteError(error)
   }
 }
 
@@ -158,63 +119,38 @@ export async function DELETE(
 ) {
   try {
     const { teamId, projectId } = await params
-    const userId = await getUserId()
-    const user = await getUser()
-
-    if (!userId || !user) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      )
-    }
-
-    // Verify user is a team member
-    await verifyTeamMembership(teamId, userId)
+    await requireTeamMember(teamId, 'developer')
 
     // Verify project exists and belongs to team
     const project = await getProjectById(teamId, projectId)
     if (!project) {
-      return NextResponse.json(
-        { error: 'Project not found' },
-        { status: 404 }
-      )
+      throw new HttpError(404, 'Project not found')
     }
 
-    // Get the memberId from query parameters
     const { searchParams } = new URL(request.url)
     const memberId = searchParams.get('memberId')
 
     if (!memberId) {
-      return NextResponse.json(
-        { error: 'Member ID is required' },
-        { status: 400 }
-      )
+      throw new HttpError(400, 'Member ID is required')
     }
 
-    // Get the member to remove
-    const memberToRemove = await db.projectMember.findUnique({
-      where: { id: memberId },
+    const memberToRemove = await db.projectMember.findFirst({
+      where: {
+        id: memberId,
+        projectId,
+      },
     })
 
-    if (!memberToRemove || memberToRemove.projectId !== projectId) {
-      return NextResponse.json(
-        { error: 'Project member not found' },
-        { status: 404 }
-      )
+    if (!memberToRemove) {
+      throw new HttpError(404, 'Project member not found')
     }
 
-    // Delete the member
     await db.projectMember.delete({
       where: { id: memberId },
     })
 
     return NextResponse.json({ success: true })
   } catch (error) {
-    console.error('Error removing project member:', error)
-    return NextResponse.json(
-      { error: 'Failed to remove project member' },
-      { status: 500 }
-    )
+    return handleRouteError(error)
   }
 }
-

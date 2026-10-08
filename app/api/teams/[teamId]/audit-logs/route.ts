@@ -1,27 +1,23 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getSessionOrNull, isTeamMember } from "@/lib/auth-server-helpers";
+import { z } from "zod";
+import { requireTeamAdmin, handleRouteError } from "@/lib/authz";
 import { db } from "@/lib/db";
+
+const createAuditLogSchema = z.object({
+  action: z.string().optional(),
+  entityType: z.string().optional(),
+  entityId: z.string().nullable().optional(),
+  entityTitle: z.string().nullable().optional(),
+  details: z.any().optional(),
+}).strict()
 
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ teamId: string }> }
 ) {
   try {
-    const session = await getSessionOrNull();
-    if (!session?.user?.id) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
     const { teamId } = await params;
-    const userId = session.user.id;
-
-    const isMember = await isTeamMember(teamId, userId);
-    if (!isMember) {
-      return NextResponse.json(
-        { error: "Access denied. Only team members can view audit logs." },
-        { status: 403 }
-      );
-    }
+    const { user, userId, member } = await requireTeamAdmin(teamId);
 
     const { searchParams } = new URL(request.url);
     const action = searchParams.get("action");
@@ -55,34 +51,12 @@ export async function GET(
           {
             teamId,
             userId,
-            userName: session.user.name || "Administrator",
-            userEmail: session.user.email || "admin@sketchitup.internal",
+            userName: member.userName || user.name || "Administrator",
+            userEmail: member.userEmail || user.email || "admin@sketchitup.internal",
             action: "SECURITY",
             entityType: "system",
             entityTitle: "Owner OS Enterprise Security Initialized",
             details: { event: "Initial setup", security_mode: "RBAC_ACTIVE" },
-            ipAddress: "127.0.0.1",
-          },
-          {
-            teamId,
-            userId,
-            userName: session.user.name || "Administrator",
-            userEmail: session.user.email || "admin@sketchitup.internal",
-            action: "CREATE",
-            entityType: "channel",
-            entityTitle: "#general and #announcements auto-provisioned",
-            details: { channels: ["general", "announcements"] },
-            ipAddress: "127.0.0.1",
-          },
-          {
-            teamId,
-            userId,
-            userName: session.user.name || "Administrator",
-            userEmail: session.user.email || "admin@sketchitup.internal",
-            action: "LOGIN",
-            entityType: "session",
-            entityTitle: "Admin session authenticated via Better Auth",
-            details: { auth_method: "email" },
             ipAddress: "127.0.0.1",
           },
         ],
@@ -97,11 +71,7 @@ export async function GET(
 
     return NextResponse.json(logs);
   } catch (error) {
-    console.error("Error fetching audit logs:", error);
-    return NextResponse.json(
-      { error: "Failed to fetch audit logs" },
-      { status: 500 }
-    );
+    return handleRouteError(error);
   }
 }
 
@@ -110,45 +80,29 @@ export async function POST(
   { params }: { params: Promise<{ teamId: string }> }
 ) {
   try {
-    const session = await getSessionOrNull();
-    if (!session?.user?.id) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
     const { teamId } = await params;
-    const userId = session.user.id;
-    const userName = session.user.name || "Member";
-    const userEmail = session.user.email || "";
+    const { user, userId, member } = await requireTeamAdmin(teamId);
 
-    const isMember = await isTeamMember(teamId, userId);
-    if (!isMember) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
-    }
-
-    const body = await request.json();
-    const { action, entityType, entityId, entityTitle, details } = body;
+    const rawBody = await request.json();
+    const body = createAuditLogSchema.parse(rawBody);
 
     const log = await db.auditLog.create({
       data: {
         teamId,
         userId,
-        userName,
-        userEmail,
-        action: action || "UPDATE",
-        entityType: entityType || "general",
-        entityId,
-        entityTitle,
-        details,
+        userName: member.userName || user.name || "Administrator",
+        userEmail: member.userEmail || user.email || "admin@sketchitup.internal",
+        action: body.action || "UPDATE",
+        entityType: body.entityType || "general",
+        entityId: body.entityId,
+        entityTitle: body.entityTitle,
+        details: body.details,
         ipAddress: request.headers.get("x-forwarded-for") || "127.0.0.1",
       },
     });
 
     return NextResponse.json(log, { status: 201 });
   } catch (error) {
-    console.error("Error creating audit log:", error);
-    return NextResponse.json(
-      { error: "Failed to create audit log" },
-      { status: 500 }
-    );
+    return handleRouteError(error);
   }
 }

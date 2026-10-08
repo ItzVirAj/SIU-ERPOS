@@ -1,6 +1,21 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getUserId, verifyTeamMembership } from "@/lib/auth-server-helpers";
+import { z } from "zod";
+import { requireTeamMember, handleRouteError, HttpError } from "@/lib/authz";
 import { getEventById, updateEvent, deleteEvent } from "@/lib/api/calendar";
+
+const updateEventSchema = z.object({
+  title: z.string().min(1).max(255).optional(),
+  description: z.string().nullable().optional(),
+  type: z.string().optional(),
+  startTime: z.union([z.string(), z.date()]).optional(),
+  endTime: z.union([z.string(), z.date()]).optional(),
+  allDay: z.boolean().optional(),
+  location: z.string().nullable().optional(),
+  meetUrl: z.string().nullable().optional(),
+  projectId: z.string().nullable().optional(),
+  recurrence: z.string().optional(),
+  attendees: z.array(z.string()).optional(),
+}).strict();
 
 export async function GET(
   request: NextRequest,
@@ -8,20 +23,16 @@ export async function GET(
 ) {
   try {
     const { teamId, eventId } = await params;
-    const userId = await getUserId();
-    await verifyTeamMembership(teamId, userId);
+    await requireTeamMember(teamId);
 
     const event = await getEventById(teamId, eventId);
     if (!event) {
-      return NextResponse.json({ error: "Event not found" }, { status: 404 });
+      throw new HttpError(404, "Event not found");
     }
 
     return NextResponse.json(event);
-  } catch (error: any) {
-    return NextResponse.json(
-      { error: error.message || "Failed to get event" },
-      { status: error.message === "Unauthorized" ? 401 : 500 }
-    );
+  } catch (error) {
+    return handleRouteError(error);
   }
 }
 
@@ -31,18 +42,24 @@ export async function PATCH(
 ) {
   try {
     const { teamId, eventId } = await params;
-    const userId = await getUserId();
-    await verifyTeamMembership(teamId, userId);
+    await requireTeamMember(teamId, "developer");
 
-    const body = await request.json();
-    const updated = await updateEvent(teamId, eventId, body);
+    const existing = await getEventById(teamId, eventId);
+    if (!existing) {
+      throw new HttpError(404, "Event not found");
+    }
 
+    const rawBody = await request.json();
+    const body = updateEventSchema.parse(rawBody);
+
+    const updateData: any = { ...body };
+    if (body.startTime) updateData.startTime = new Date(body.startTime);
+    if (body.endTime) updateData.endTime = new Date(body.endTime);
+
+    const updated = await updateEvent(teamId, eventId, updateData);
     return NextResponse.json(updated);
-  } catch (error: any) {
-    return NextResponse.json(
-      { error: error.message || "Failed to update event" },
-      { status: error.message === "Unauthorized" ? 401 : 500 }
-    );
+  } catch (error) {
+    return handleRouteError(error);
   }
 }
 
@@ -52,15 +69,16 @@ export async function DELETE(
 ) {
   try {
     const { teamId, eventId } = await params;
-    const userId = await getUserId();
-    await verifyTeamMembership(teamId, userId);
+    await requireTeamMember(teamId, "developer");
+
+    const existing = await getEventById(teamId, eventId);
+    if (!existing) {
+      throw new HttpError(404, "Event not found");
+    }
 
     await deleteEvent(teamId, eventId);
     return NextResponse.json({ success: true });
-  } catch (error: any) {
-    return NextResponse.json(
-      { error: error.message || "Failed to delete event" },
-      { status: error.message === "Unauthorized" ? 401 : 500 }
-    );
+  } catch (error) {
+    return handleRouteError(error);
   }
 }

@@ -1,6 +1,29 @@
 import { NextRequest, NextResponse } from "next/server"
-import { getUserId } from "@/lib/auth-server-helpers"
+import { z } from "zod"
+import { requireTeamMember, requireTeamAdmin, handleRouteError } from "@/lib/authz"
 import { db } from "@/lib/db"
+
+const invoiceItemSchema = z.object({
+  description: z.string().min(1),
+  hsnSac: z.string().optional(),
+  quantity: z.number().positive(),
+  unitPrice: z.number().nonnegative(),
+  taxRate: z.number().optional(),
+  amount: z.number().optional(),
+}).strict()
+
+const createInvoiceSchema = z.object({
+  clientId: z.string().min(1),
+  projectId: z.string().nullable().optional(),
+  issueDate: z.union([z.string(), z.date()]).optional(),
+  dueDate: z.union([z.string(), z.date()]).optional(),
+  currency: z.string().default("INR"),
+  supplyType: z.enum(["INTRA_STATE", "INTER_STATE", "EXPORT"]).default("INTRA_STATE"),
+  items: z.array(invoiceItemSchema).min(1),
+  discount: z.number().nonnegative().optional(),
+  paymentTerms: z.string().optional(),
+  notes: z.string().nullable().optional(),
+}).strict()
 
 export async function GET(
   request: NextRequest,
@@ -8,19 +31,7 @@ export async function GET(
 ) {
   try {
     const { teamId } = await params
-    const userId = await getUserId()
-
-    if (!userId) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-    }
-
-    const membership = await db.teamMember.findFirst({
-      where: { teamId, userId },
-    })
-
-    if (!membership) {
-      return NextResponse.json({ error: "Forbidden" }, { status: 403 })
-    }
+    await requireTeamMember(teamId)
 
     const { searchParams } = new URL(request.url)
     const status = searchParams.get("status")
@@ -30,7 +41,7 @@ export async function GET(
       where.status = status
     }
 
-    let invoices = await db.invoice.findMany({
+    const invoices = await db.invoice.findMany({
       where,
       include: {
         client: { select: { id: true, name: true, company: true, email: true, gstin: true } },
@@ -41,76 +52,9 @@ export async function GET(
       orderBy: { createdAt: "desc" },
     })
 
-    // Auto-seed starter GST Invoices if empty for this team
-    if (invoices.length === 0 && !status) {
-      const client = await db.client.findFirst({ where: { teamId } })
-      const clientRecord =
-        client ||
-        (await db.client.create({
-          data: {
-            teamId,
-            name: "Apex Global Technologies",
-            company: "Apex Global Pvt Ltd",
-            email: "accounts@apextech.com",
-            gstin: "27AAACA9876P1ZX",
-            status: "active",
-          },
-        }))
-
-      const now = new Date()
-      const dueDate = new Date(now.getTime() + 15 * 24 * 60 * 60 * 1000)
-
-      await db.invoice.create({
-        data: {
-          teamId,
-          clientId: clientRecord.id,
-          invoiceNumber: "INV-2026-0001",
-          status: "SENT",
-          issueDate: now,
-          dueDate,
-          currency: "INR",
-          subtotal: 150000,
-          discount: 0,
-          taxTotal: 27000,
-          grandTotal: 177000,
-          amountPaid: 0,
-          balanceDue: 177000,
-          supplyType: "INTRA_STATE",
-          cgstAmount: 13500,
-          sgstAmount: 13500,
-          igstAmount: 0,
-          paymentTerms: "Net 15 Days. Bank transfer or UPI.",
-          items: {
-            create: [
-              {
-                description: "Design System & Frontend Sprint Deliverable",
-                hsnSac: "998314",
-                quantity: 1,
-                unitPrice: 150000,
-                taxRate: 18,
-                amount: 150000,
-              },
-            ],
-          },
-        },
-      })
-
-      invoices = await db.invoice.findMany({
-        where,
-        include: {
-          client: { select: { id: true, name: true, company: true, email: true, gstin: true } },
-          project: { select: { id: true, name: true, key: true } },
-          items: true,
-          payments: { orderBy: { paymentDate: "desc" } },
-        },
-        orderBy: { createdAt: "desc" },
-      })
-    }
-
     return NextResponse.json({ invoices })
   } catch (error) {
-    console.error("Error fetching invoices:", error)
-    return NextResponse.json({ error: "Failed to fetch invoices" }, { status: 500 })
+    return handleRouteError(error)
   }
 }
 
@@ -120,45 +64,23 @@ export async function POST(
 ) {
   try {
     const { teamId } = await params
-    const userId = await getUserId()
+    const { user, userId, member } = await requireTeamAdmin(teamId)
 
-    if (!userId) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-    }
+    const rawBody = await request.json()
+    const body = createInvoiceSchema.parse(rawBody)
 
-    const membership = await db.teamMember.findFirst({
-      where: {
-        teamId,
-        userId,
-        role: { in: ["admin", "developer"] },
-      },
-    })
-
-    if (!membership) {
-      return NextResponse.json({ error: "Forbidden: Admin access required" }, { status: 403 })
-    }
-
-    const body = await request.json()
     const {
       clientId,
       projectId,
       issueDate = new Date(),
       dueDate,
       currency = "INR",
-      supplyType = "INTRA_STATE", // "INTRA_STATE", "INTER_STATE", "EXPORT"
-      items = [],
+      supplyType = "INTRA_STATE",
+      items,
       discount = 0,
       paymentTerms = "Due within 15 days of invoice date",
       notes,
     } = body
-
-    if (!clientId) {
-      return NextResponse.json({ error: "Client is required" }, { status: 400 })
-    }
-
-    if (!items || items.length === 0) {
-      return NextResponse.json({ error: "At least one line item is required" }, { status: 400 })
-    }
 
     // Generate sequential invoice number
     const count = await db.invoice.count({ where: { teamId } })
@@ -166,12 +88,12 @@ export async function POST(
 
     // Compute Subtotal and Taxes
     let subtotal = 0
-    items.forEach((item: any) => {
-      const lineAmt = (Number(item.quantity) || 1) * Number(item.unitPrice || 0)
+    items.forEach((item) => {
+      const lineAmt = item.quantity * item.unitPrice
       subtotal += lineAmt
     })
 
-    const taxableAmount = Math.max(0, subtotal - Number(discount || 0))
+    const taxableAmount = Math.max(0, subtotal - discount)
     let cgstAmount = 0
     let sgstAmount = 0
     let igstAmount = 0
@@ -197,7 +119,7 @@ export async function POST(
         dueDate: dueDate ? new Date(dueDate) : new Date(Date.now() + 15 * 24 * 60 * 60 * 1000),
         currency,
         subtotal,
-        discount: Number(discount || 0),
+        discount,
         taxTotal,
         grandTotal,
         amountPaid: 0,
@@ -209,13 +131,13 @@ export async function POST(
         paymentTerms,
         notes: notes?.trim() || null,
         items: {
-          create: items.map((it: any) => ({
+          create: items.map((it) => ({
             description: it.description,
             hsnSac: it.hsnSac || "998314",
-            quantity: Number(it.quantity) || 1,
-            unitPrice: Number(it.unitPrice) || 0,
+            quantity: it.quantity,
+            unitPrice: it.unitPrice,
             taxRate: supplyType === "EXPORT" ? 0 : 18,
-            amount: (Number(it.quantity) || 1) * Number(it.unitPrice || 0),
+            amount: it.quantity * it.unitPrice,
           })),
         },
       },
@@ -230,8 +152,8 @@ export async function POST(
       data: {
         teamId,
         userId,
-        userName: membership.userName || "Admin",
-        userEmail: membership.userEmail || "admin@sketchitup.internal",
+        userName: member.userName || user.name || "Admin",
+        userEmail: member.userEmail || user.email || "admin@sketchitup.internal",
         action: "CREATE",
         entityType: "INVOICE",
         entityId: invoice.id,
@@ -244,9 +166,8 @@ export async function POST(
       },
     })
 
-    return NextResponse.json({ invoice })
+    return NextResponse.json({ invoice }, { status: 201 })
   } catch (error) {
-    console.error("Error creating invoice:", error)
-    return NextResponse.json({ error: "Failed to create invoice" }, { status: 500 })
+    return handleRouteError(error)
   }
 }

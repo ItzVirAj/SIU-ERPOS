@@ -1,6 +1,18 @@
 import { NextRequest, NextResponse } from "next/server"
-import { getUserId } from "@/lib/auth-server-helpers"
+import { z } from "zod"
+import { requireTeamMember, requireTeamAdmin, handleRouteError } from "@/lib/authz"
 import { db } from "@/lib/db"
+
+const createExpenseSchema = z.object({
+  vendorName: z.string().min(1).max(200),
+  category: z.string().default("SOFTWARE_SAAS"),
+  amount: z.number().positive(),
+  currency: z.string().default("INR"),
+  expenseDate: z.union([z.string(), z.date()]).optional(),
+  projectId: z.string().nullable().optional(),
+  isBillable: z.boolean().default(false),
+  notes: z.string().nullable().optional(),
+}).strict()
 
 export async function GET(
   request: NextRequest,
@@ -8,77 +20,15 @@ export async function GET(
 ) {
   try {
     const { teamId } = await params
-    const userId = await getUserId()
+    await requireTeamMember(teamId)
 
-    if (!userId) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-    }
-
-    const membership = await db.teamMember.findFirst({
-      where: { teamId, userId },
-    })
-
-    if (!membership) {
-      return NextResponse.json({ error: "Forbidden" }, { status: 403 })
-    }
-
-    let expenses = await db.expense.findMany({
+    const expenses = await db.expense.findMany({
       where: { teamId },
       include: {
         project: { select: { id: true, name: true, key: true } },
       },
       orderBy: { expenseDate: "desc" },
     })
-
-    // Auto-seed starter expenses if empty
-    if (expenses.length === 0) {
-      const now = new Date()
-      await db.expense.createMany({
-        data: [
-          {
-            teamId,
-            vendorName: "Amazon Web Services",
-            category: "CLOUD_HOSTING",
-            amount: 14500,
-            currency: "INR",
-            expenseDate: new Date(now.getTime() - 2 * 24 * 60 * 60 * 1000),
-            paymentStatus: "PAID",
-            isBillable: false,
-            notes: "Production EC2, S3 & RDS cloud infrastructure",
-          },
-          {
-            teamId,
-            vendorName: "Figma Inc",
-            category: "SOFTWARE_SAAS",
-            amount: 7200,
-            currency: "INR",
-            expenseDate: new Date(now.getTime() - 5 * 24 * 60 * 60 * 1000),
-            paymentStatus: "PAID",
-            isBillable: false,
-            notes: "Organization design license for product sprint",
-          },
-          {
-            teamId,
-            vendorName: "Freelance 3D Specialist",
-            category: "CONTRACTOR",
-            amount: 35000,
-            currency: "INR",
-            expenseDate: new Date(now.getTime() - 10 * 24 * 60 * 60 * 1000),
-            paymentStatus: "PAID",
-            isBillable: true,
-            notes: "Custom 3D visual assets for client web application",
-          },
-        ],
-      })
-
-      expenses = await db.expense.findMany({
-        where: { teamId },
-        include: {
-          project: { select: { id: true, name: true, key: true } },
-        },
-        orderBy: { expenseDate: "desc" },
-      })
-    }
 
     // Category breakdown
     const categoryTotals: Record<string, number> = {}
@@ -103,8 +53,7 @@ export async function GET(
       categoryData,
     })
   } catch (error) {
-    console.error("Error fetching expenses:", error)
-    return NextResponse.json({ error: "Failed to fetch expenses" }, { status: 500 })
+    return handleRouteError(error)
   }
 }
 
@@ -114,58 +63,37 @@ export async function POST(
 ) {
   try {
     const { teamId } = await params
-    const userId = await getUserId()
+    await requireTeamAdmin(teamId)
 
-    if (!userId) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-    }
-
-    const membership = await db.teamMember.findFirst({
-      where: {
-        teamId,
-        userId,
-        role: { in: ["admin", "developer"] },
-      },
-    })
-
-    if (!membership) {
-      return NextResponse.json({ error: "Forbidden: Admin access required" }, { status: 403 })
-    }
-
-    const body = await request.json()
+    const rawBody = await request.json()
     const {
       vendorName,
-      category = "SOFTWARE_SAAS",
+      category,
       amount,
-      currency = "INR",
+      currency,
       expenseDate = new Date(),
       projectId,
-      isBillable = false,
+      isBillable,
       notes,
-    } = body
-
-    if (!vendorName || !amount || Number(amount) <= 0) {
-      return NextResponse.json({ error: "Vendor name and valid amount are required" }, { status: 400 })
-    }
+    } = createExpenseSchema.parse(rawBody)
 
     const expense = await db.expense.create({
       data: {
         teamId,
         vendorName: vendorName.trim(),
         category,
-        amount: Number(amount),
+        amount,
         currency,
         expenseDate: new Date(expenseDate),
         projectId: projectId || null,
-        isBillable: Boolean(isBillable),
+        isBillable,
         notes: notes?.trim() || null,
         paymentStatus: "PAID",
       },
     })
 
-    return NextResponse.json({ expense })
+    return NextResponse.json({ expense }, { status: 201 })
   } catch (error) {
-    console.error("Error creating expense:", error)
-    return NextResponse.json({ error: "Failed to create expense" }, { status: 500 })
+    return handleRouteError(error)
   }
 }

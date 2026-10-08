@@ -1,22 +1,33 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getSession } from "@/lib/auth-server-helpers";
+import { z } from "zod";
+import { requireSession, handleRouteError, HttpError } from "@/lib/authz";
 import { db } from "@/lib/db";
 import { generateEmployeeCode } from "@/lib/employee-code";
 
+const updateProfileSchema = z.object({
+  name: z.string().min(1).max(100).optional(),
+  username: z.string().min(1).max(50).optional(),
+  dateOfBirth: z.union([z.string(), z.date()]).nullable().optional(),
+  joiningDate: z.union([z.string(), z.date()]).nullable().optional(),
+  position: z.string().max(100).optional(),
+  department: z.string().max(100).optional(),
+  phone: z.string().max(30).optional(),
+  location: z.string().max(100).optional(),
+  bio: z.string().max(1000).optional(),
+  image: z.string().nullable().optional(),
+}).strict();
+
 export async function GET(request: NextRequest) {
   try {
-    const session = await getSession();
-    if (!session?.user?.id) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
+    const session = await requireSession();
     const userId = session.user.id;
+
     let user = await db.user.findUnique({
       where: { id: userId },
     });
 
     if (!user) {
-      return NextResponse.json({ error: "User not found" }, { status: 404 });
+      throw new HttpError(404, "User not found");
     }
 
     // Auto-generate unique employee code if missing
@@ -62,6 +73,7 @@ export async function GET(request: NextRequest) {
       name: user.name,
       email: user.email,
       emailVerified: user.emailVerified,
+      twoFactorEnabled: user.twoFactorEnabled ?? false,
       image: user.image,
       username: user.username,
       dateOfBirth: user.dateOfBirth,
@@ -69,30 +81,24 @@ export async function GET(request: NextRequest) {
       position: user.position || "Product Operations Specialist",
       department: user.department || "Engineering & Operations",
       employeeCode: user.employeeCode,
-      phone: user.phone || "",
-      location: user.location || "San Francisco, CA",
-      bio: user.bio || "",
+      phone: user.phone || "+91 98765 43210",
+      location: user.location || "Bengaluru, India",
+      bio: user.bio || "Product engineer building internal operating tools and systems.",
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
     });
   } catch (error) {
-    console.error("Error fetching user profile:", error);
-    return NextResponse.json(
-      { error: "Failed to fetch user profile" },
-      { status: 500 }
-    );
+    return handleRouteError(error);
   }
 }
 
-export async function PUT(request: NextRequest) {
+export async function PATCH(request: NextRequest) {
   try {
-    const session = await getSession();
-    if (!session?.user?.id) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
+    const session = await requireSession();
     const userId = session.user.id;
-    const body = await request.json();
+
+    const rawBody = await request.json();
+    const body = updateProfileSchema.parse(rawBody);
 
     const {
       name,
@@ -117,10 +123,7 @@ export async function PUT(request: NextRequest) {
         },
       });
       if (existing) {
-        return NextResponse.json(
-          { error: "Username is already taken by another account" },
-          { status: 400 }
-        );
+        throw new HttpError(400, "Username is already taken by another account");
       }
     }
 
@@ -163,10 +166,6 @@ export async function PUT(request: NextRequest) {
       updatedAt: updatedUser.updatedAt,
     });
   } catch (error) {
-    console.error("Error updating user profile:", error);
-    return NextResponse.json(
-      { error: "Failed to update profile" },
-      { status: 500 }
-    );
+    return handleRouteError(error);
   }
 }

@@ -1,6 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getUserId, getUser, verifyTeamMembership } from "@/lib/auth-server-helpers";
+import { z } from "zod";
+import { requireTeamMember, handleRouteError } from "@/lib/authz";
 import { createStandupEntry, getStandupEntries } from "@/lib/api/calendar";
+
+const createStandupSchema = z.object({
+  yesterday: z.string().min(1),
+  today: z.string().min(1),
+  blockers: z.string().nullable().optional(),
+  autoCreateBlockerIssue: z.boolean().optional(),
+  projectId: z.string().nullable().optional(),
+}).strict();
 
 export async function GET(
   request: NextRequest,
@@ -8,8 +17,7 @@ export async function GET(
 ) {
   try {
     const { teamId } = await params;
-    const userId = await getUserId();
-    await verifyTeamMembership(teamId, userId);
+    await requireTeamMember(teamId);
 
     const { searchParams } = new URL(request.url);
     const dateParam = searchParams.get("date");
@@ -17,11 +25,8 @@ export async function GET(
 
     const entries = await getStandupEntries(teamId, date);
     return NextResponse.json({ entries });
-  } catch (error: any) {
-    return NextResponse.json(
-      { error: error.message || "Failed to get standup entries" },
-      { status: error.message === "Unauthorized" ? 401 : 500 }
-    );
+  } catch (error) {
+    return handleRouteError(error);
   }
 }
 
@@ -31,27 +36,20 @@ export async function POST(
 ) {
   try {
     const { teamId } = await params;
-    const userId = await getUserId();
-    const user = await getUser();
-    await verifyTeamMembership(teamId, userId);
+    const { user } = await requireTeamMember(teamId);
+    const userId = user.id;
 
-    const body = await request.json();
-
-    if (!body.yesterday || !body.today) {
-      return NextResponse.json(
-        { error: "Yesterday and Today fields are required for stand-up" },
-        { status: 400 }
-      );
-    }
+    const rawBody = await request.json();
+    const body = createStandupSchema.parse(rawBody);
 
     const result = await createStandupEntry(
       teamId,
       {
-        yesterday: body.yesterday,
-        today: body.today,
-        blockers: body.blockers,
+        yesterday: body.yesterday.trim(),
+        today: body.today.trim(),
+        blockers: body.blockers?.trim() || undefined,
         autoCreateBlockerIssue: body.autoCreateBlockerIssue ?? true,
-        projectId: body.projectId,
+        projectId: body.projectId || undefined,
       },
       userId,
       user.name || "Developer",
@@ -59,11 +57,7 @@ export async function POST(
     );
 
     return NextResponse.json(result, { status: 201 });
-  } catch (error: any) {
-    console.error("Failed to record standup:", error);
-    return NextResponse.json(
-      { error: error.message || "Failed to record standup" },
-      { status: error.message === "Unauthorized" ? 401 : 500 }
-    );
+  } catch (error) {
+    return handleRouteError(error);
   }
 }

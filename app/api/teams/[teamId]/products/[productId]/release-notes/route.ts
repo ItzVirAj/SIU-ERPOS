@@ -1,6 +1,17 @@
 import { NextRequest, NextResponse } from "next/server"
-import { getUserId } from "@/lib/auth-server-helpers"
+import { z } from "zod"
+import { requireTeamMember, handleRouteError, HttpError } from "@/lib/authz"
 import { db } from "@/lib/db"
+
+const createReleaseNoteSchema = z.object({
+  version: z.string().min(1).max(50),
+  title: z.string().min(1).max(200),
+  isPublished: z.boolean().default(true),
+  features: z.array(z.string()).default([]),
+  improvements: z.array(z.string()).default([]),
+  fixes: z.array(z.string()).default([]),
+  notes: z.string().nullable().optional(),
+}).strict()
 
 export async function GET(
   request: NextRequest,
@@ -8,11 +19,7 @@ export async function GET(
 ) {
   try {
     const { teamId, productId } = await params
-    const userId = await getUserId()
-
-    if (!userId) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-    }
+    await requireTeamMember(teamId)
 
     const releases = await db.productReleaseNote.findMany({
       where: { productId, teamId },
@@ -21,8 +28,7 @@ export async function GET(
 
     return NextResponse.json({ releases })
   } catch (error) {
-    console.error("Error listing release notes:", error)
-    return NextResponse.json({ error: "Failed to list release notes" }, { status: 500 })
+    return handleRouteError(error)
   }
 }
 
@@ -32,26 +38,25 @@ export async function POST(
 ) {
   try {
     const { teamId, productId } = await params
-    const userId = await getUserId()
+    await requireTeamMember(teamId, "developer")
 
-    if (!userId) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+    const product = await db.domainProduct.findFirst({
+      where: { id: productId, teamId },
+    })
+    if (!product) {
+      throw new HttpError(404, "Product not found")
     }
 
-    const body = await request.json()
+    const rawBody = await request.json()
     const {
       version,
       title,
-      isPublished = true,
-      features = [],
-      improvements = [],
-      fixes = [],
+      isPublished,
+      features,
+      improvements,
+      fixes,
       notes,
-    } = body
-
-    if (!version || !title) {
-      return NextResponse.json({ error: "Version and title are required" }, { status: 400 })
-    }
+    } = createReleaseNoteSchema.parse(rawBody)
 
     const release = await db.productReleaseNote.create({
       data: {
@@ -63,13 +68,12 @@ export async function POST(
         features,
         improvements,
         fixes,
-        notes,
+        notes: notes?.trim() || null,
       },
     })
 
     return NextResponse.json({ release }, { status: 201 })
   } catch (error) {
-    console.error("Error creating release note:", error)
-    return NextResponse.json({ error: "Failed to create release note" }, { status: 500 })
+    return handleRouteError(error)
   }
 }

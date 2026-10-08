@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getSessionOrNull, isTeamMember } from "@/lib/auth-server-helpers";
+import { requireTeamMember, handleRouteError, HttpError } from "@/lib/authz";
 import { db } from "@/lib/db";
 
 export async function POST(
@@ -7,28 +7,21 @@ export async function POST(
   { params }: { params: Promise<{ teamId: string; announcementId: string }> }
 ) {
   try {
-    const session = await getSessionOrNull();
-    if (!session?.user?.id) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
     const { teamId, announcementId } = await params;
-    const userId = session.user.id;
-    const userName = session.user.name || "Member";
+    const { user } = await requireTeamMember(teamId);
 
-    const isMember = await isTeamMember(teamId, userId);
-    if (!isMember) {
-      return NextResponse.json(
-        { error: "Access denied. Only team members can acknowledge." },
-        { status: 403 }
-      );
+    const announcement = await db.teamAnnouncement.findFirst({
+      where: { id: announcementId, teamId },
+    });
+    if (!announcement) {
+      throw new HttpError(404, "Announcement not found");
     }
 
     const ack = await db.teamAnnouncementAck.upsert({
       where: {
         announcementId_userId: {
           announcementId,
-          userId,
+          userId: user.id,
         },
       },
       update: {
@@ -36,18 +29,14 @@ export async function POST(
       },
       create: {
         announcementId,
-        userId,
-        userName,
+        userId: user.id,
+        userName: user.name || "Member",
         acknowledgedAt: new Date(),
       },
     });
 
     return NextResponse.json(ack);
   } catch (error) {
-    console.error("Error acknowledging announcement:", error);
-    return NextResponse.json(
-      { error: "Failed to acknowledge announcement" },
-      { status: 500 }
-    );
+    return handleRouteError(error);
   }
 }

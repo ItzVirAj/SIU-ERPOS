@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getSessionOrNull, isTeamMember } from "@/lib/auth-server-helpers";
+import { z } from "zod";
+import { requireTeamMember, requireTeamAdmin, handleRouteError } from "@/lib/authz";
 import { db } from "@/lib/db";
 
 const DEFAULT_HOLIDAYS = [
@@ -12,21 +13,31 @@ const DEFAULT_HOLIDAYS = [
   { name: "Christmas", date: "2026-12-25" },
 ];
 
+const updateSettingsSchema = z.object({
+  companyName: z.string().optional(),
+  legalEntityName: z.string().optional(),
+  gstin: z.string().optional(),
+  pan: z.string().optional(),
+  currency: z.string().optional(),
+  timezone: z.string().optional(),
+  fiscalYearStart: z.string().optional(),
+  workingDays: z.array(z.string()).optional(),
+  businessHours: z.string().optional(),
+  holidays: z.array(z.any()).optional(),
+  address: z.string().optional(),
+  city: z.string().optional(),
+  state: z.string().optional(),
+  pincode: z.string().optional(),
+  billingEmail: z.string().email().optional(),
+}).strict()
+
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ teamId: string }> }
 ) {
   try {
-    const session = await getSessionOrNull();
-    if (!session?.user?.id) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
     const { teamId } = await params;
-    const isMember = await isTeamMember(teamId, session.user.id);
-    if (!isMember) {
-      return NextResponse.json({ error: "Access denied" }, { status: 403 });
-    }
+    const { user } = await requireTeamMember(teamId);
 
     let settings = await db.companySetting.findUnique({
       where: { teamId },
@@ -51,18 +62,14 @@ export async function GET(
           city: "Mumbai",
           state: "Maharashtra",
           pincode: "400076",
-          billingEmail: session.user.email || "billing@sketchitup.internal",
+          billingEmail: user.email || "billing@sketchitup.internal",
         },
       });
     }
 
     return NextResponse.json(settings);
   } catch (error) {
-    console.error("Error fetching company settings:", error);
-    return NextResponse.json(
-      { error: "Failed to fetch company settings" },
-      { status: 500 }
-    );
+    return handleRouteError(error);
   }
 }
 
@@ -71,71 +78,59 @@ export async function PUT(
   { params }: { params: Promise<{ teamId: string }> }
 ) {
   try {
-    const session = await getSessionOrNull();
-    if (!session?.user?.id) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
     const { teamId } = await params;
-    const userId = session.user.id;
-    const userName = session.user.name || "Administrator";
-    const userEmail = session.user.email || "";
+    const { user, userId, member } = await requireTeamAdmin(teamId);
 
-    const isMember = await isTeamMember(teamId, userId);
-    if (!isMember) {
-      return NextResponse.json({ error: "Access denied" }, { status: 403 });
-    }
-
-    const body = await request.json();
+    const rawBody = await request.json();
+    const body = updateSettingsSchema.parse(rawBody);
 
     const updated = await db.companySetting.upsert({
       where: { teamId },
       update: {
-        companyName: body.companyName,
-        legalEntityName: body.legalEntityName,
-        gstin: body.gstin,
-        pan: body.pan,
-        currency: body.currency,
-        timezone: body.timezone,
-        fiscalYearStart: body.fiscalYearStart,
-        workingDays: body.workingDays,
-        businessHours: body.businessHours,
-        holidays: body.holidays,
-        address: body.address,
-        city: body.city,
-        state: body.state,
-        pincode: body.pincode,
-        billingEmail: body.billingEmail,
+        ...(body.companyName !== undefined && { companyName: body.companyName }),
+        ...(body.legalEntityName !== undefined && { legalEntityName: body.legalEntityName }),
+        ...(body.gstin !== undefined && { gstin: body.gstin }),
+        ...(body.pan !== undefined && { pan: body.pan }),
+        ...(body.currency !== undefined && { currency: body.currency }),
+        ...(body.timezone !== undefined && { timezone: body.timezone }),
+        ...(body.fiscalYearStart !== undefined && { fiscalYearStart: body.fiscalYearStart }),
+        ...(body.workingDays !== undefined && { workingDays: body.workingDays }),
+        ...(body.businessHours !== undefined && { businessHours: body.businessHours }),
+        ...(body.holidays !== undefined && { holidays: body.holidays }),
+        ...(body.address !== undefined && { address: body.address }),
+        ...(body.city !== undefined && { city: body.city }),
+        ...(body.state !== undefined && { state: body.state }),
+        ...(body.pincode !== undefined && { pincode: body.pincode }),
+        ...(body.billingEmail !== undefined && { billingEmail: body.billingEmail }),
       },
       create: {
         teamId,
         companyName: body.companyName || "SketchItUp Technologies",
-        legalEntityName: body.legalEntityName,
-        gstin: body.gstin,
-        pan: body.pan,
+        legalEntityName: body.legalEntityName || "SketchItUp Software Private Limited",
+        gstin: body.gstin || "27AAACS1429B1ZB",
+        pan: body.pan || "AAACS1429B",
         currency: body.currency || "INR",
         timezone: body.timezone || "Asia/Kolkata",
         fiscalYearStart: body.fiscalYearStart || "April",
         workingDays: body.workingDays || ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
         businessHours: body.businessHours || "09:30 - 18:30",
         holidays: body.holidays || DEFAULT_HOLIDAYS,
-        address: body.address,
-        city: body.city,
-        state: body.state,
-        pincode: body.pincode,
-        billingEmail: body.billingEmail,
+        address: body.address || "Plot 42, Tech Gateway Cybercity",
+        city: body.city || "Mumbai",
+        state: body.state || "Maharashtra",
+        pincode: body.pincode || "400076",
+        billingEmail: body.billingEmail || user.email || "billing@sketchitup.internal",
       },
     });
 
-    // Record audit log
     await db.auditLog.create({
       data: {
         teamId,
         userId,
-        userName,
-        userEmail,
+        userName: member.userName || user.name || "Admin",
+        userEmail: member.userEmail || user.email || "admin@sketchitup.internal",
         action: "UPDATE",
-        entityType: "company_setting",
+        entityType: "COMPANY_SETTING",
         entityTitle: "Company profile and localization rules updated",
         details: { updatedFields: Object.keys(body) },
         ipAddress: request.headers.get("x-forwarded-for") || "127.0.0.1",
@@ -144,10 +139,6 @@ export async function PUT(
 
     return NextResponse.json(updated);
   } catch (error) {
-    console.error("Error updating company settings:", error);
-    return NextResponse.json(
-      { error: "Failed to update company settings" },
-      { status: 500 }
-    );
+    return handleRouteError(error);
   }
 }

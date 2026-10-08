@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
-import { getUserId } from "@/lib/auth-server-helpers"
+import { requireTeamAdmin, handleRouteError, HttpError } from "@/lib/authz"
 import { db } from "@/lib/db"
 import { executeCrossModuleFlow } from "@/lib/automations/dispatcher"
 
@@ -9,33 +9,21 @@ export async function POST(
 ) {
   try {
     const { teamId, flowId } = await params
-    const userId = await getUserId()
-
-    if (!userId) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-    }
-
-    const membership = await db.teamMember.findFirst({
-      where: { teamId, userId },
-    })
-
-    if (!membership) {
-      return NextResponse.json({ error: "Forbidden" }, { status: 403 })
-    }
+    const { member } = await requireTeamAdmin(teamId)
 
     const rule = await db.automationRule.findFirst({
       where: { id: flowId, teamId },
     })
 
     if (!rule) {
-      return NextResponse.json({ error: "Flow not found" }, { status: 404 })
+      throw new HttpError(404, "Flow not found")
     }
 
     // Execute real cross-module side-effects in Neon PostgreSQL
     const result = await executeCrossModuleFlow({
       teamId,
       triggerType: rule.triggerType as any,
-      actorName: membership.userName || "Operator",
+      actorName: member.userName || "Operator",
     })
 
     return NextResponse.json({
@@ -44,8 +32,7 @@ export async function POST(
       flowName: rule.name,
       result,
     })
-  } catch (error: any) {
-    console.error("Error executing flow:", error)
-    return NextResponse.json({ error: error?.message || "Flow execution failed" }, { status: 500 })
+  } catch (error) {
+    return handleRouteError(error)
   }
 }

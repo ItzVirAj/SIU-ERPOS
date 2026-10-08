@@ -1,6 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getUserId, verifyTeamMembership } from "@/lib/auth-server-helpers";
+import { z } from "zod";
+import { requireTeamMember, handleRouteError, HttpError } from "@/lib/authz";
 import { upsertMeetingNote, getEventById } from "@/lib/api/calendar";
+
+const notesSchema = z.object({
+  content: z.string().optional(),
+  summary: z.string().optional(),
+  decisions: z.any().optional(),
+  rawTranscript: z.string().optional(),
+  followUpEmailDraft: z.string().optional(),
+  actionItems: z.any().optional(),
+}).strict();
 
 export async function POST(
   request: NextRequest,
@@ -8,15 +18,16 @@ export async function POST(
 ) {
   try {
     const { teamId, eventId } = await params;
-    const userId = await getUserId();
-    await verifyTeamMembership(teamId, userId);
+    await requireTeamMember(teamId, "developer");
 
     const event = await getEventById(teamId, eventId);
     if (!event) {
-      return NextResponse.json({ error: "Event not found" }, { status: 404 });
+      throw new HttpError(404, "Event not found");
     }
 
-    const body = await request.json();
+    const rawBody = await request.json();
+    const body = notesSchema.parse(rawBody);
+
     const updatedNote = await upsertMeetingNote(eventId, {
       content: body.content,
       summary: body.summary,
@@ -27,10 +38,7 @@ export async function POST(
     });
 
     return NextResponse.json(updatedNote);
-  } catch (error: any) {
-    return NextResponse.json(
-      { error: error.message || "Failed to save meeting notes" },
-      { status: error.message === "Unauthorized" ? 401 : 500 }
-    );
+  } catch (error) {
+    return handleRouteError(error);
   }
 }

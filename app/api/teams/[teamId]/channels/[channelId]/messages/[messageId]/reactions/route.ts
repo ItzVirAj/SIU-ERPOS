@@ -1,6 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getSessionOrNull, isTeamMember } from "@/lib/auth-server-helpers";
+import { z } from "zod";
+import { requireTeamMember, handleRouteError, HttpError } from "@/lib/authz";
 import { db } from "@/lib/db";
+
+const reactionSchema = z.object({
+  emoji: z.string().min(1).max(32),
+}).strict();
 
 export async function POST(
   request: NextRequest,
@@ -15,29 +20,29 @@ export async function POST(
   }
 ) {
   try {
-    const session = await getSessionOrNull();
-    if (!session?.user?.id) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    const { teamId, channelId, messageId } = await params;
+    const { user } = await requireTeamMember(teamId);
+    const userId = user.id;
+    const userName = user.name || "Member";
+
+    // Verify channel belongs to team
+    const channel = await db.teamChannel.findFirst({
+      where: { id: channelId, teamId },
+    });
+    if (!channel) {
+      throw new HttpError(404, "Channel not found in this team");
     }
 
-    const { teamId, messageId } = await params;
-    const userId = session.user.id;
-    const userName = session.user.name || "Member";
-
-    const isMember = await isTeamMember(teamId, userId);
-    if (!isMember) {
-      return NextResponse.json(
-        { error: "Access denied. Only team members can react to messages." },
-        { status: 403 }
-      );
+    // Verify message belongs to channel
+    const targetMessage = await db.teamChatMessage.findFirst({
+      where: { id: messageId, channelId },
+    });
+    if (!targetMessage) {
+      throw new HttpError(404, "Message not found in this channel");
     }
 
-    const body = await request.json();
-    const { emoji } = body;
-
-    if (!emoji || typeof emoji !== "string") {
-      return NextResponse.json({ error: "Emoji is required" }, { status: 400 });
-    }
+    const rawBody = await request.json();
+    const { emoji } = reactionSchema.parse(rawBody);
 
     // Check if reaction exists
     const existing = await db.teamChatReaction.findUnique({
@@ -69,10 +74,6 @@ export async function POST(
       return NextResponse.json({ action: "added", reaction });
     }
   } catch (error) {
-    console.error("Error toggling reaction:", error);
-    return NextResponse.json(
-      { error: "Failed to toggle reaction" },
-      { status: 500 }
-    );
+    return handleRouteError(error);
   }
 }

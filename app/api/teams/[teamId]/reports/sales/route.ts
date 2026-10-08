@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
-import { getUserId } from "@/lib/auth-server-helpers"
+import { requireTeamMember, handleRouteError } from "@/lib/authz"
 import { db } from "@/lib/db"
 
 export async function GET(
@@ -8,19 +8,7 @@ export async function GET(
 ) {
   try {
     const { teamId } = await params
-    const userId = await getUserId()
-
-    if (!userId) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-    }
-
-    const membership = await db.teamMember.findFirst({
-      where: { teamId, userId },
-    })
-
-    if (!membership) {
-      return NextResponse.json({ error: "Forbidden" }, { status: 403 })
-    }
+    await requireTeamMember(teamId)
 
     const { searchParams } = new URL(request.url)
     const timeframe = searchParams.get("timeframe") || "all" // "7d", "30d", "90d", "all"
@@ -165,7 +153,6 @@ export async function GET(
       })),
     })
   } catch (error) {
-    console.error("Error fetching sales reports:", error)
-    return NextResponse.json({ error: "Failed to generate sales report" }, { status: 500 })
+    return handleRouteError(error)
   }
 }

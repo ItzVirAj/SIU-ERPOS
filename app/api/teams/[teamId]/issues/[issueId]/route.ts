@@ -1,8 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { z } from 'zod'
 import { getIssueById, updateIssue, deleteIssue } from '@/lib/api/issues'
-import { UpdateIssueData } from '@/lib/types'
-import { getUserId, getUser } from "@/lib/auth-server-helpers"
 import { db } from '@/lib/db'
+import { requireTeamMember, handleRouteError, HttpError } from '@/lib/authz'
+
+const updateIssueSchema = z.object({
+  title: z.string().min(1).max(255).optional(),
+  description: z.string().nullable().optional(),
+  projectId: z.string().nullable().optional(),
+  workflowStateId: z.string().optional(),
+  priority: z.string().optional(),
+  estimate: z.number().nullable().optional(),
+  labelIds: z.array(z.string()).optional(),
+  completedAt: z.union([z.string(), z.date()]).nullable().optional(),
+  assigneeId: z.string().nullable().optional(),
+}).strict()
 
 export async function GET(
   request: NextRequest,
@@ -10,22 +22,16 @@ export async function GET(
 ) {
   try {
     const { teamId, issueId } = await params
-    const issue = await getIssueById(teamId, issueId)
+    await requireTeamMember(teamId)
 
+    const issue = await getIssueById(teamId, issueId)
     if (!issue) {
-      return NextResponse.json(
-        { error: 'Issue not found' },
-        { status: 404 }
-      )
+      throw new HttpError(404, 'Issue not found')
     }
 
     return NextResponse.json(issue)
   } catch (error) {
-    console.error('Error fetching issue:', error)
-    return NextResponse.json(
-      { error: 'Failed to fetch issue' },
-      { status: 500 }
-    )
+    return handleRouteError(error)
   }
 }
 
@@ -35,31 +41,30 @@ export async function PATCH(
 ) {
   try {
     const { teamId, issueId } = await params
-    const body = await request.json()
-    
-    // Get current user info (parallel calls for speed)
-    const [authResult, userResult] = await Promise.all([
-      getUserId(),
-      getUser()
-    ])
-    
-    const userId = authResult
-    const user = userResult
-    
+    const { user, userId } = await requireTeamMember(teamId, 'developer')
+
+    // Verify issue belongs to this team
+    const existing = await getIssueById(teamId, issueId)
+    if (!existing) {
+      throw new HttpError(404, 'Issue not found')
+    }
+
+    const rawBody = await request.json()
+    const body = updateIssueSchema.parse(rawBody)
+
     // Look up assignee name from TeamMember if assigneeId is being updated
     let assigneeName: string | null = null
     if (body.assigneeId && body.assigneeId !== 'unassigned') {
       const teamMember = await db.teamMember.findFirst({
         where: {
           teamId,
-          userId: body.assigneeId
-        }
+          userId: body.assigneeId,
+        },
       })
-      
+
       if (teamMember) {
         assigneeName = teamMember.userName
-      } else if (body.assigneeId === userId && user) {
-        // Fallback to current user's name if not in team members
+      } else if (body.assigneeId === userId) {
         assigneeName = user.name || user.email || 'Unknown'
       }
     }
@@ -72,7 +77,9 @@ export async function PATCH(
     if (body.priority !== undefined) updateData.priority = body.priority
     if (body.estimate !== undefined) updateData.estimate = body.estimate
     if (body.labelIds !== undefined) updateData.labelIds = body.labelIds
-    if (body.completedAt !== undefined) updateData.completedAt = body.completedAt
+    if (body.completedAt !== undefined) {
+      updateData.completedAt = body.completedAt ? new Date(body.completedAt) : null
+    }
 
     if (body.assigneeId !== undefined) {
       updateData.assigneeId = body.assigneeId === 'unassigned' ? null : body.assigneeId
@@ -82,11 +89,7 @@ export async function PATCH(
     const issue = await updateIssue(teamId, issueId, updateData)
     return NextResponse.json(issue)
   } catch (error) {
-    console.error('Error updating issue:', error)
-    return NextResponse.json(
-      { error: 'Failed to update issue' },
-      { status: 500 }
-    )
+    return handleRouteError(error)
   }
 }
 
@@ -96,13 +99,16 @@ export async function DELETE(
 ) {
   try {
     const { teamId, issueId } = await params
+    await requireTeamMember(teamId, 'developer')
+
+    const existing = await getIssueById(teamId, issueId)
+    if (!existing) {
+      throw new HttpError(404, 'Issue not found')
+    }
+
     await deleteIssue(teamId, issueId)
     return NextResponse.json({ success: true })
   } catch (error) {
-    console.error('Error deleting issue:', error)
-    return NextResponse.json(
-      { error: 'Failed to delete issue' },
-      { status: 500 }
-    )
+    return handleRouteError(error)
   }
 }

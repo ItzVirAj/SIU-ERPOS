@@ -1,27 +1,33 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { getLabels, createLabel, updateLabel, deleteLabel } from '@/lib/api/labels'
-import { CreateLabelData } from '@/lib/types'
-import { getUserId, verifyTeamMembership } from '@/lib/auth-server-helpers'
+import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
+import { getLabels, createLabel, updateLabel, deleteLabel } from "@/lib/api/labels";
+import { CreateLabelData } from "@/lib/types";
+import { requireTeamMember, handleRouteError, HttpError } from "@/lib/authz";
+import { db } from "@/lib/db";
+
+const createLabelSchema = z.object({
+  name: z.string().min(1).max(50),
+  color: z.string().max(20).optional(),
+}).strict();
+
+const updateLabelSchema = z.object({
+  id: z.string().optional(),
+  name: z.string().min(1).max(50).optional(),
+  color: z.string().max(20).optional(),
+}).strict();
 
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ teamId: string }> }
 ) {
   try {
-    const { teamId } = await params
-    const userId = await getUserId()
-    
-    // Verify user is a team member
-    await verifyTeamMembership(teamId, userId)
-    
-    const labels = await getLabels(teamId)
-    return NextResponse.json(labels)
+    const { teamId } = await params;
+    await requireTeamMember(teamId);
+
+    const labels = await getLabels(teamId);
+    return NextResponse.json(labels);
   } catch (error) {
-    console.error('Error fetching labels:', error)
-    return NextResponse.json(
-      { error: 'Failed to fetch labels' },
-      { status: 500 }
-    )
+    return handleRouteError(error);
   }
 }
 
@@ -30,75 +36,81 @@ export async function POST(
   { params }: { params: Promise<{ teamId: string }> }
 ) {
   try {
-    const { teamId } = await params
-    const body = await request.json()
-    const userId = await getUserId()
-    
-    // Verify user is a team member
-    await verifyTeamMembership(teamId, userId)
+    const { teamId } = await params;
+    await requireTeamMember(teamId, "developer");
+
+    const rawBody = await request.json();
+    const body = createLabelSchema.parse(rawBody);
 
     const labelData: CreateLabelData = {
-      name: body.name,
-      color: body.color || '#64748b',
-    }
+      name: body.name.trim(),
+      color: body.color || "#64748b",
+    };
 
-    const label = await createLabel(teamId, labelData)
-    return NextResponse.json(label, { status: 201 })
+    const label = await createLabel(teamId, labelData);
+    return NextResponse.json(label, { status: 201 });
   } catch (error) {
-    console.error('Error creating label:', error)
-    return NextResponse.json(
-      { error: 'Failed to create label' },
-      { status: 500 }
-    )
+    return handleRouteError(error);
   }
 }
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: Promise<{ teamId: string; labelId: string }> }
+  { params }: { params: Promise<{ teamId: string }> }
 ) {
   try {
-    const { teamId, labelId } = await params
-    const body = await request.json()
-    const userId = await getUserId()
-    
-    // Verify user is a team member
-    await verifyTeamMembership(teamId, userId)
+    const { teamId } = await params;
+    await requireTeamMember(teamId, "developer");
 
-    const updateData: Partial<CreateLabelData> = {
-      name: body.name,
-      color: body.color,
+    const rawBody = await request.json();
+    const body = updateLabelSchema.parse(rawBody);
+
+    const labelId = body.id || request.nextUrl.searchParams.get("id");
+    if (!labelId) {
+      throw new HttpError(400, "Label ID is required");
     }
 
-    const label = await updateLabel(teamId, labelId, updateData)
-    return NextResponse.json(label)
+    const existing = await db.label.findFirst({
+      where: { id: labelId, teamId },
+    });
+    if (!existing) {
+      throw new HttpError(404, "Label not found");
+    }
+
+    const updateData: Partial<CreateLabelData> = {};
+    if (body.name !== undefined) updateData.name = body.name.trim();
+    if (body.color !== undefined) updateData.color = body.color;
+
+    const label = await updateLabel(teamId, labelId, updateData);
+    return NextResponse.json(label);
   } catch (error) {
-    console.error('Error updating label:', error)
-    return NextResponse.json(
-      { error: 'Failed to update label' },
-      { status: 500 }
-    )
+    return handleRouteError(error);
   }
 }
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: Promise<{ teamId: string; labelId: string }> }
+  { params }: { params: Promise<{ teamId: string }> }
 ) {
   try {
-    const { teamId, labelId } = await params
-    const userId = await getUserId()
-    
-    // Verify user is a team member
-    await verifyTeamMembership(teamId, userId)
-    
-    await deleteLabel(teamId, labelId)
-    return NextResponse.json({ success: true })
+    const { teamId } = await params;
+    await requireTeamMember(teamId, "developer");
+
+    const labelId = request.nextUrl.searchParams.get("id");
+    if (!labelId) {
+      throw new HttpError(400, "Label ID is required");
+    }
+
+    const existing = await db.label.findFirst({
+      where: { id: labelId, teamId },
+    });
+    if (!existing) {
+      throw new HttpError(404, "Label not found");
+    }
+
+    await deleteLabel(teamId, labelId);
+    return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('Error deleting label:', error)
-    return NextResponse.json(
-      { error: 'Failed to delete label' },
-      { status: 500 }
-    )
+    return handleRouteError(error);
   }
 }

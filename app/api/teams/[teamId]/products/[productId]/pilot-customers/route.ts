@@ -1,6 +1,25 @@
 import { NextRequest, NextResponse } from "next/server"
-import { getUserId } from "@/lib/auth-server-helpers"
+import { z } from "zod"
+import { requireTeamMember, handleRouteError, HttpError } from "@/lib/authz"
 import { db } from "@/lib/db"
+
+const createPilotSchema = z.object({
+  companyName: z.string().min(1).max(200),
+  contactName: z.string().nullable().optional(),
+  contactEmail: z.string().email().nullable().optional().or(z.literal("")),
+  clientId: z.string().nullable().optional(),
+  stage: z.string().default("PILOT_ACTIVE"),
+  healthScore: z.number().min(0).max(100).default(85),
+  feedbackNotes: z.string().nullable().optional(),
+  endDate: z.union([z.string(), z.date()]).nullable().optional(),
+}).strict()
+
+const patchPilotSchema = z.object({
+  pilotId: z.string().min(1),
+  stage: z.string().optional(),
+  healthScore: z.number().min(0).max(100).optional(),
+  feedbackNotes: z.string().nullable().optional(),
+}).strict()
 
 export async function GET(
   request: NextRequest,
@@ -8,11 +27,7 @@ export async function GET(
 ) {
   try {
     const { teamId, productId } = await params
-    const userId = await getUserId()
-
-    if (!userId) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-    }
+    await requireTeamMember(teamId)
 
     const pilots = await db.productPilotCustomer.findMany({
       where: { productId, teamId },
@@ -22,8 +37,7 @@ export async function GET(
 
     return NextResponse.json({ pilots })
   } catch (error) {
-    console.error("Error listing pilot customers:", error)
-    return NextResponse.json({ error: "Failed to list pilot customers" }, { status: 500 })
+    return handleRouteError(error)
   }
 }
 
@@ -33,47 +47,45 @@ export async function POST(
 ) {
   try {
     const { teamId, productId } = await params
-    const userId = await getUserId()
+    await requireTeamMember(teamId, "developer")
 
-    if (!userId) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+    const product = await db.domainProduct.findFirst({
+      where: { id: productId, teamId },
+    })
+    if (!product) {
+      throw new HttpError(404, "Product not found")
     }
 
-    const body = await request.json()
+    const rawBody = await request.json()
     const {
       companyName,
       contactName,
       contactEmail,
       clientId,
-      stage = "PILOT_ACTIVE",
-      healthScore = 85,
+      stage,
+      healthScore,
       feedbackNotes,
       endDate,
-    } = body
-
-    if (!companyName) {
-      return NextResponse.json({ error: "Company name is required" }, { status: 400 })
-    }
+    } = createPilotSchema.parse(rawBody)
 
     const pilot = await db.productPilotCustomer.create({
       data: {
         productId,
         teamId,
         companyName,
-        contactName,
-        contactEmail,
+        contactName: contactName?.trim() || null,
+        contactEmail: contactEmail ? contactEmail.trim() : null,
         clientId: clientId || undefined,
         stage,
-        healthScore: Number(healthScore) || 85,
-        feedbackNotes,
+        healthScore,
+        feedbackNotes: feedbackNotes?.trim() || null,
         endDate: endDate ? new Date(endDate) : undefined,
       },
     })
 
     return NextResponse.json({ pilot }, { status: 201 })
   } catch (error) {
-    console.error("Error creating pilot customer:", error)
-    return NextResponse.json({ error: "Failed to create pilot customer" }, { status: 500 })
+    return handleRouteError(error)
   }
 }
 
@@ -83,31 +95,30 @@ export async function PATCH(
 ) {
   try {
     const { teamId, productId } = await params
-    const userId = await getUserId()
+    await requireTeamMember(teamId, "developer")
 
-    if (!userId) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-    }
+    const rawBody = await request.json()
+    const { pilotId, stage, healthScore, feedbackNotes } = patchPilotSchema.parse(rawBody)
 
-    const body = await request.json()
-    const { pilotId, stage, healthScore, feedbackNotes } = body
+    const existing = await db.productPilotCustomer.findFirst({
+      where: { id: pilotId, productId, teamId },
+    })
 
-    if (!pilotId) {
-      return NextResponse.json({ error: "pilotId is required" }, { status: 400 })
+    if (!existing) {
+      throw new HttpError(404, "Pilot customer not found")
     }
 
     const pilot = await db.productPilotCustomer.update({
       where: { id: pilotId },
       data: {
-        stage: stage || undefined,
-        healthScore: healthScore !== undefined ? Number(healthScore) : undefined,
-        feedbackNotes: feedbackNotes !== undefined ? feedbackNotes : undefined,
+        ...(stage && { stage }),
+        ...(healthScore !== undefined && { healthScore }),
+        ...(feedbackNotes !== undefined && { feedbackNotes: feedbackNotes?.trim() || null }),
       },
     })
 
     return NextResponse.json({ pilot })
   } catch (error) {
-    console.error("Error updating pilot customer:", error)
-    return NextResponse.json({ error: "Failed to update pilot customer" }, { status: 500 })
+    return handleRouteError(error)
   }
 }

@@ -1,6 +1,27 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getUserId, getUser, verifyTeamMembership } from "@/lib/auth-server-helpers";
+import { z } from "zod";
+import { requireTeamMember, handleRouteError } from "@/lib/authz";
 import { getLeads, createLead } from "@/lib/api/crm";
+
+const createLeadSchema = z.object({
+  title: z.string().min(1).max(200),
+  companyName: z.string().nullable().optional(),
+  contactName: z.string().nullable().optional(),
+  email: z.string().email().nullable().optional().or(z.literal("")),
+  phone: z.string().nullable().optional(),
+  industryVertical: z.string().nullable().optional(),
+  source: z.string().default("website"),
+  campaign: z.string().nullable().optional(),
+  estimatedValue: z.number().nonnegative().optional(),
+  currency: z.string().default("INR"),
+  expectedCloseDate: z.union([z.string(), z.date()]).nullable().optional(),
+  requirementSummary: z.string().nullable().optional(),
+  temperature: z.enum(["hot", "warm", "cold"]).default("warm"),
+  ownerId: z.string().nullable().optional(),
+  ownerName: z.string().nullable().optional(),
+  nextFollowUpDate: z.union([z.string(), z.date()]).nullable().optional(),
+  stageId: z.string().optional(),
+}).strict()
 
 export async function GET(
   request: NextRequest,
@@ -8,8 +29,7 @@ export async function GET(
 ) {
   try {
     const { teamId } = await params;
-    const userId = await getUserId();
-    await verifyTeamMembership(teamId, userId);
+    await requireTeamMember(teamId);
 
     const { searchParams } = new URL(request.url);
     const stageId = searchParams.get("stageId") || undefined;
@@ -27,11 +47,8 @@ export async function GET(
     });
 
     return NextResponse.json({ leads, count: leads.length });
-  } catch (error: any) {
-    return NextResponse.json(
-      { error: error.message || "Failed to fetch leads" },
-      { status: error.message === "Unauthorized" ? 401 : 500 }
-    );
+  } catch (error) {
+    return handleRouteError(error);
   }
 }
 
@@ -41,38 +58,30 @@ export async function POST(
 ) {
   try {
     const { teamId } = await params;
-    const userId = await getUserId();
-    const user = await getUser();
-    await verifyTeamMembership(teamId, userId);
+    const { user, userId } = await requireTeamMember(teamId, "developer");
 
-    const body = await request.json();
-
-    if (!body.title || !body.title.trim()) {
-      return NextResponse.json(
-        { error: "Lead title or company name is required" },
-        { status: 400 }
-      );
-    }
+    const rawBody = await request.json();
+    const body = createLeadSchema.parse(rawBody);
 
     const lead = await createLead(
       teamId,
       {
         title: body.title.trim(),
-        companyName: body.companyName?.trim(),
-        contactName: body.contactName?.trim(),
-        email: body.email?.trim(),
-        phone: body.phone?.trim(),
-        industryVertical: body.industryVertical?.trim(),
-        source: body.source || "website",
-        campaign: body.campaign?.trim(),
-        estimatedValue: body.estimatedValue ? Number(body.estimatedValue) : undefined,
-        currency: body.currency || "INR",
-        expectedCloseDate: body.expectedCloseDate,
-        requirementSummary: body.requirementSummary?.trim(),
-        temperature: body.temperature || "warm",
+        companyName: body.companyName?.trim() || undefined,
+        contactName: body.contactName?.trim() || undefined,
+        email: body.email ? body.email.trim() : undefined,
+        phone: body.phone?.trim() || undefined,
+        industryVertical: body.industryVertical?.trim() || undefined,
+        source: body.source,
+        campaign: body.campaign?.trim() || undefined,
+        estimatedValue: body.estimatedValue,
+        currency: body.currency,
+        expectedCloseDate: body.expectedCloseDate ? new Date(body.expectedCloseDate) : undefined,
+        requirementSummary: body.requirementSummary?.trim() || undefined,
+        temperature: body.temperature,
         ownerId: body.ownerId || userId,
         ownerName: body.ownerName || user.name || "Sales Lead",
-        nextFollowUpDate: body.nextFollowUpDate,
+        nextFollowUpDate: body.nextFollowUpDate ? new Date(body.nextFollowUpDate) : undefined,
         stageId: body.stageId,
       },
       userId,
@@ -80,11 +89,7 @@ export async function POST(
     );
 
     return NextResponse.json(lead, { status: 201 });
-  } catch (error: any) {
-    console.error("Failed to create lead:", error);
-    return NextResponse.json(
-      { error: error.message || "Failed to create lead" },
-      { status: error.message === "Unauthorized" ? 401 : 500 }
-    );
+  } catch (error) {
+    return handleRouteError(error);
   }
 }

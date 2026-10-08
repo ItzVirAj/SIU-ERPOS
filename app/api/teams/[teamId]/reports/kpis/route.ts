@@ -1,31 +1,30 @@
-import { NextRequest, NextResponse } from "next/server"
-import { getUserId } from "@/lib/auth-server-helpers"
-import { db } from "@/lib/db"
+import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
+import { requireTeamMember, requireTeamAdmin, handleRouteError } from "@/lib/authz";
+import { db } from "@/lib/db";
+
+const createKpiSchema = z.object({
+  name: z.string().min(1).max(255),
+  category: z.string().default("sales"),
+  metricKey: z.string().optional(),
+  targetValue: z.number(),
+  currentValue: z.number().default(0),
+  unit: z.string().default("count"),
+  period: z.string().default("monthly"),
+}).strict();
 
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ teamId: string }> }
 ) {
   try {
-    const { teamId } = await params
-    const userId = await getUserId()
-
-    if (!userId) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-    }
-
-    const membership = await db.teamMember.findFirst({
-      where: { teamId, userId },
-    })
-
-    if (!membership) {
-      return NextResponse.json({ error: "Forbidden" }, { status: 403 })
-    }
+    const { teamId } = await params;
+    await requireTeamMember(teamId);
 
     let kpis = await db.companyKpi.findMany({
       where: { teamId },
       orderBy: { createdAt: "asc" },
-    })
+    });
 
     // Auto-seed starter KPIs if none exist
     if (kpis.length === 0) {
@@ -72,18 +71,17 @@ export async function GET(
             period: "quarterly",
           },
         ],
-      })
+      });
 
       kpis = await db.companyKpi.findMany({
         where: { teamId },
         orderBy: { createdAt: "asc" },
-      })
+      });
     }
 
-    return NextResponse.json({ kpis })
+    return NextResponse.json({ kpis });
   } catch (error) {
-    console.error("Error fetching company KPIs:", error)
-    return NextResponse.json({ error: "Failed to fetch KPIs" }, { status: 500 })
+    return handleRouteError(error);
   }
 }
 
@@ -92,48 +90,27 @@ export async function POST(
   { params }: { params: Promise<{ teamId: string }> }
 ) {
   try {
-    const { teamId } = await params
-    const userId = await getUserId()
+    const { teamId } = await params;
+    await requireTeamAdmin(teamId);
 
-    if (!userId) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-    }
-
-    const membership = await db.teamMember.findFirst({
-      where: {
-        teamId,
-        userId,
-        role: { in: ["admin", "developer"] },
-      },
-    })
-
-    if (!membership) {
-      return NextResponse.json({ error: "Forbidden: Admin access required" }, { status: 403 })
-    }
-
-    const body = await request.json()
-    const { name, category = "sales", metricKey, targetValue, currentValue = 0, unit = "count", period = "monthly" } = body
-
-    if (!name || targetValue === undefined) {
-      return NextResponse.json({ error: "Name and target value are required" }, { status: 400 })
-    }
+    const rawBody = await request.json();
+    const body = createKpiSchema.parse(rawBody);
 
     const created = await db.companyKpi.create({
       data: {
         teamId,
-        name: name.trim(),
-        category,
-        metricKey: metricKey || "custom_metric",
-        targetValue: Number(targetValue),
-        currentValue: Number(currentValue),
-        unit,
-        period,
+        name: body.name.trim(),
+        category: body.category,
+        metricKey: body.metricKey || "custom_metric",
+        targetValue: body.targetValue,
+        currentValue: body.currentValue,
+        unit: body.unit,
+        period: body.period,
       },
-    })
+    });
 
-    return NextResponse.json({ kpi: created })
+    return NextResponse.json({ kpi: created }, { status: 201 });
   } catch (error) {
-    console.error("Error creating company KPI:", error)
-    return NextResponse.json({ error: "Failed to create KPI" }, { status: 500 })
+    return handleRouteError(error);
   }
 }

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getUserId } from '@/lib/auth-server-helpers'
+import { requireTeamAdmin, handleRouteError, HttpError } from '@/lib/authz'
 import { db } from '@/lib/db'
 
 export async function DELETE(
@@ -8,29 +8,25 @@ export async function DELETE(
 ) {
   try {
     const { teamId, invitationId } = await params
-    const userId = await getUserId()
+    await requireTeamAdmin(teamId)
 
-    if (!userId) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      )
-    }
-
-    await db.invitation.delete({
+    const invitation = await db.invitation.findFirst({
       where: {
         id: invitationId,
         teamId,
       },
     })
 
+    if (!invitation) {
+      throw new HttpError(404, 'Invitation not found')
+    }
+
+    await db.invitation.delete({
+      where: { id: invitationId },
+    })
+
     return NextResponse.json({ success: true })
   } catch (error) {
-    console.error('Error deleting invitation:', error)
-    return NextResponse.json(
-      { error: 'Failed to delete invitation' },
-      { status: 500 }
-    )
+    return handleRouteError(error)
   }
 }
-

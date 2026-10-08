@@ -6,8 +6,9 @@ import { useRouter, useSearchParams } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { ChevronLeft, Sparkles } from "lucide-react"
+import { ChevronLeft } from "lucide-react"
 import Link from "next/link"
+import { safeRedirect } from "@/lib/utils"
 
 const GoogleIcon = () => (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
@@ -16,7 +17,7 @@ const GoogleIcon = () => (
     <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
     <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
   </svg>
-);
+)
 
 export default function SignInPage() {
   const router = useRouter()
@@ -25,41 +26,44 @@ export default function SignInPage() {
   const [googleLoading, setGoogleLoading] = useState(false)
   const [emailLoading, setEmailLoading] = useState(false)
 
-  const [email, setEmail] = useState("temp@doable.local")
-  const [password, setPassword] = useState("Pass@123")
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
 
-  // Check if user is already logged in and redirect if needed
+  // 2FA state
+  const [is2FA, setIs2FA] = useState(false)
+  const [twoFactorCode, setTwoFactorCode] = useState("")
+  const [useBackupCode, setUseBackupCode] = useState(false)
+  const [twoFactorLoading, setTwoFactorLoading] = useState(false)
+
+  // Check if user is already logged in or URL has step=2fa
   useEffect(() => {
+    if (searchParams.get("step") === "2fa") {
+      setIs2FA(true)
+    }
+
     const checkSession = async () => {
       try {
         const { data: session } = await authClient.getSession()
-        if (session?.user) {
-          const redirectUrl = searchParams.get("redirect") || "/dashboard"
+        if (session?.user && searchParams.get("step") !== "2fa") {
+          const redirectUrl = safeRedirect(searchParams.get("redirect"))
           router.push(redirectUrl)
         }
       } catch (err) {
-        // Session check failed, allow user to stay on sign-in page
         console.error("Session check error:", err)
       }
     }
     checkSession()
   }, [router, searchParams])
 
-  const handleQuickFill = () => {
-    setEmail("temp@doable.local")
-    setPassword("Pass@123")
-    setError("")
-  }
-
   const handleGoogleSignIn = async () => {
     setError("")
     setGoogleLoading(true)
 
     try {
-      const redirectUrl = searchParams.get("redirect") || "/dashboard"
+      const redirectUrl = safeRedirect(searchParams.get("redirect"))
       await authClient.signIn.social({
         provider: "google",
-        callbackURL: redirectUrl
+        callbackURL: redirectUrl,
       })
     } catch (err: any) {
       setError(err?.message || "Failed to sign in with Google")
@@ -73,8 +77,8 @@ export default function SignInPage() {
     setEmailLoading(true)
 
     try {
-      const redirectUrl = searchParams.get("redirect") || "/dashboard"
-      const res = await authClient.signIn.email({
+      const redirectUrl = safeRedirect(searchParams.get("redirect"))
+      const res: any = await authClient.signIn.email({
         email: email.trim(),
         password,
       })
@@ -85,13 +89,20 @@ export default function SignInPage() {
         return
       }
 
+      // If user has 2FA enabled, Better Auth signals twoFactorRedirect
+      if (res.data?.twoFactorRedirect) {
+        setIs2FA(true)
+        setEmailLoading(false)
+        return
+      }
+
       router.push(redirectUrl)
       router.refresh()
     } catch (err: any) {
       try {
         const { data: session } = await authClient.getSession()
         if (session?.user) {
-          const redirectUrl = searchParams.get("redirect") || "/dashboard"
+          const redirectUrl = safeRedirect(searchParams.get("redirect"))
           router.push(redirectUrl)
           return
         }
@@ -100,6 +111,42 @@ export default function SignInPage() {
       setEmailLoading(false)
     }
   }
+
+  const handleVerify2FA = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setError("")
+    setTwoFactorLoading(true)
+
+    try {
+      const redirectUrl = safeRedirect(searchParams.get("redirect"))
+      let res: any
+
+      if (useBackupCode) {
+        res = await authClient.twoFactor.verifyBackupCode({
+          code: twoFactorCode.trim(),
+        })
+      } else {
+        res = await authClient.twoFactor.verifyTotp({
+          code: twoFactorCode.trim(),
+        })
+      }
+
+      if (res?.error) {
+        setError(res.error.message || "Invalid two-factor authentication code")
+        setTwoFactorLoading(false)
+        return
+      }
+
+      router.push(redirectUrl)
+      router.refresh()
+    } catch (err: any) {
+      setError(err?.message || "Failed to verify two-factor code")
+      setTwoFactorLoading(false)
+    }
+  }
+
+  const rawRedirect = searchParams.get("redirect")
+  const sanitizedRedirect = rawRedirect ? safeRedirect(rawRedirect) : null
 
   return (
     <div className="min-h-screen flex bg-background">
@@ -146,8 +193,16 @@ export default function SignInPage() {
 
           {/* Welcome Message */}
           <div className="space-y-1">
-            <h1 className="text-3xl font-light tracking-tight text-foreground">Welcome back</h1>
-            <p className="text-sm text-muted-foreground">Sign in to your account to access your SketchItUp Task Suite</p>
+            <h1 className="text-3xl font-light tracking-tight text-foreground">
+              {is2FA ? "Two-Factor Verification" : "Welcome back"}
+            </h1>
+            <p className="text-sm text-muted-foreground">
+              {is2FA
+                ? useBackupCode
+                  ? "Enter one of your emergency recovery backup codes."
+                  : "Enter the 6-digit code from your authenticator app."
+                : "Sign in to your account to access your SketchItUp Task Suite"}
+            </p>
           </div>
 
           {error && (
@@ -156,97 +211,135 @@ export default function SignInPage() {
             </div>
           )}
 
-          {/* Google Sign In Button */}
-          <Button
-            type="button"
-            variant="outline"
-            className="w-full justify-center gap-2 border-border hover:bg-muted/50 font-normal"
-            onClick={handleGoogleSignIn}
-            disabled={googleLoading || emailLoading}
-          >
-            <GoogleIcon />
-            <span>{googleLoading ? "Signing in with Google..." : "Continue with Google"}</span>
-          </Button>
-
-          {/* Divider */}
-          <div className="relative flex py-1 items-center">
-            <div className="flex-grow border-t border-border"></div>
-            <span className="flex-shrink mx-3 text-xs uppercase text-muted-foreground font-medium">or continue with email</span>
-            <div className="flex-grow border-t border-border"></div>
-          </div>
-
-          {/* Temporary Demo Credentials Helper Box */}
-          <div className="flex items-center justify-between p-3 rounded-lg border border-primary/25 bg-primary/5 text-xs">
-            <div className="space-y-0.5">
-              <div className="font-medium text-foreground flex items-center gap-1.5">
-                <Sparkles className="w-3.5 h-3.5 text-primary" />
-                Temporary Test Credentials
+          {is2FA ? (
+            /* 2FA Challenge Form */
+            <form onSubmit={handleVerify2FA} className="space-y-4">
+              <div className="space-y-1.5">
+                <Label htmlFor="twoFactorCode" className="text-xs text-foreground">
+                  {useBackupCode ? "Backup Recovery Code" : "6-Digit Authentication Code"}
+                </Label>
+                <Input
+                  id="twoFactorCode"
+                  type="text"
+                  autoComplete="one-time-code"
+                  autoFocus
+                  value={twoFactorCode}
+                  onChange={(e) => setTwoFactorCode(e.target.value)}
+                  placeholder={useBackupCode ? "e.g. 1a2b3c4d5e" : "123456"}
+                  className="font-mono text-center tracking-widest text-lg"
+                  disabled={twoFactorLoading}
+                  required
+                />
               </div>
-              <div className="text-muted-foreground text-[11px]">
-                Pass: <code className="text-primary font-mono font-semibold">Pass@123</code>
+
+              <Button
+                type="submit"
+                className="w-full bg-primary text-primary-foreground hover:bg-primary/90 justify-center"
+                disabled={twoFactorLoading || !twoFactorCode.trim()}
+              >
+                {twoFactorLoading ? "Verifying..." : "Verify & Continue"}
+              </Button>
+
+              <div className="flex items-center justify-between text-xs pt-1">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setUseBackupCode(!useBackupCode);
+                    setTwoFactorCode("");
+                    setError("");
+                  }}
+                  className="text-primary hover:underline"
+                >
+                  {useBackupCode ? "Use Authenticator App instead" : "Use backup recovery code"}
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIs2FA(false);
+                    setTwoFactorCode("");
+                    setError("");
+                  }}
+                  className="text-muted-foreground hover:underline"
+                >
+                  Back to Sign In
+                </button>
               </div>
-            </div>
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              onClick={handleQuickFill}
-              className="text-xs h-7 px-2.5 bg-background border-border hover:bg-muted"
-            >
-              Auto-fill
-            </Button>
-          </div>
+            </form>
+          ) : (
+            <>
+              {/* Google Sign In Button */}
+              <Button
+                type="button"
+                variant="outline"
+                className="w-full justify-center gap-2 border-border hover:bg-muted/50 font-normal"
+                onClick={handleGoogleSignIn}
+                disabled={googleLoading || emailLoading}
+              >
+                <GoogleIcon />
+                <span>{googleLoading ? "Signing in with Google..." : "Continue with Google"}</span>
+              </Button>
 
-          {/* Email / Password Sign In Form */}
-          <form onSubmit={handleEmailSignIn} className="space-y-4">
-            <div className="space-y-1.5">
-              <Label htmlFor="email" className="text-xs text-foreground">Email Address</Label>
-              <Input
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="temp@doable.local"
-                disabled={emailLoading}
-                required
-              />
-            </div>
-
-            <div className="space-y-1.5">
-              <div className="flex items-center justify-between">
-                <Label htmlFor="password" className="text-xs text-foreground">Password</Label>
-                <span className="text-[11px] text-muted-foreground">Default: Pass@123</span>
+              {/* Divider */}
+              <div className="relative flex py-1 items-center">
+                <div className="flex-grow border-t border-border"></div>
+                <span className="flex-shrink mx-3 text-xs uppercase text-muted-foreground font-medium">or continue with email</span>
+                <div className="flex-grow border-t border-border"></div>
               </div>
-              <Input
-                id="password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Pass@123"
-                disabled={emailLoading}
-                required
-              />
-            </div>
 
-            <Button
-              type="submit"
-              className="w-full bg-primary text-primary-foreground hover:bg-primary/90 justify-center"
-              disabled={emailLoading || googleLoading}
-            >
-              {emailLoading ? "Signing in..." : "Sign in with Email"}
-            </Button>
-          </form>
+              {/* Email / Password Sign In Form */}
+              <form onSubmit={handleEmailSignIn} className="space-y-4">
+                <div className="space-y-1.5">
+                  <Label htmlFor="email" className="text-xs text-foreground">Email Address</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    autoComplete="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="you@company.com"
+                    disabled={emailLoading}
+                    required
+                  />
+                </div>
 
-          {/* Sign Up Link */}
-          <div className="text-center text-sm text-muted-foreground pt-1">
-            Don&apos;t have an account?{" "}
-            <Link 
-              href={`/sign-up${searchParams.get("redirect") ? `?redirect=${searchParams.get("redirect")}` : ""}`}
-              className="text-primary hover:text-primary/80 hover:underline font-medium"
-            >
-              Sign up
-            </Link>
-          </div>
+                <div className="space-y-1.5">
+                  <div className="flex items-center justify-between">
+                    <Label htmlFor="password" className="text-xs text-foreground">Password</Label>
+                  </div>
+                  <Input
+                    id="password"
+                    type="password"
+                    autoComplete="current-password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="••••••••••••"
+                    disabled={emailLoading}
+                    required
+                  />
+                </div>
+
+                <Button
+                  type="submit"
+                  className="w-full bg-primary text-primary-foreground hover:bg-primary/90 justify-center"
+                  disabled={emailLoading || googleLoading}
+                >
+                  {emailLoading ? "Signing in..." : "Sign in with Email"}
+                </Button>
+              </form>
+
+              {/* Sign Up Link */}
+              <div className="text-center text-sm text-muted-foreground pt-1">
+                Don&apos;t have an account?{" "}
+                <Link 
+                  href={`/sign-up${sanitizedRedirect ? `?redirect=${encodeURIComponent(sanitizedRedirect)}` : ""}`}
+                  className="text-primary hover:text-primary/80 hover:underline font-medium"
+                >
+                  Sign up
+                </Link>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>

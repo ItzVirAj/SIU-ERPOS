@@ -1,7 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getUserId, getUser } from "@/lib/auth-server-helpers"
+import crypto from 'crypto'
+import { z } from 'zod'
+import { requireTeamAdmin, handleRouteError } from '@/lib/authz'
 import { db } from '@/lib/db'
 import { sendInvitationEmail } from '@/lib/email'
+
+const createInvitationSchema = z.object({
+  email: z.string().email(),
+  role: z.enum(['admin', 'developer', 'viewer']).default('developer'),
+}).strict()
 
 export async function GET(
   request: NextRequest,
@@ -9,16 +16,8 @@ export async function GET(
 ) {
   try {
     const { teamId } = await params
-    const userId = await getUserId()
+    await requireTeamAdmin(teamId)
 
-    if (!userId) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      )
-    }
-
-    // Get pending invitations
     const invitations = await db.invitation.findMany({
       where: {
         teamId,
@@ -34,11 +33,7 @@ export async function GET(
 
     return NextResponse.json(invitations)
   } catch (error) {
-    console.error('Error fetching invitations:', error)
-    return NextResponse.json(
-      { error: 'Failed to fetch invitations' },
-      { status: 500 }
-    )
+    return handleRouteError(error)
   }
 }
 
@@ -48,32 +43,20 @@ export async function POST(
 ) {
   try {
     const { teamId } = await params
-    const body = await request.json()
-    const userId = await getUserId()
-    const user = await getUser()
+    const { user, userId } = await requireTeamAdmin(teamId)
 
-    if (!userId || !user) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      )
-    }
+    const rawBody = await request.json()
+    const { email: rawEmail, role } = createInvitationSchema.parse(rawBody)
+    const email = rawEmail.toLowerCase().trim()
 
-    const { email, role } = body
-
-    // Validate email
-    if (!email || !email.includes('@')) {
-      return NextResponse.json(
-        { error: 'Invalid email address' },
-        { status: 400 }
-      )
-    }
-
-    // Check if user is already a member
+    // Check if user is already a member (case-insensitive)
     const existingMember = await db.teamMember.findFirst({
       where: {
         teamId,
-        userEmail: email,
+        userEmail: {
+          equals: email,
+          mode: 'insensitive',
+        },
       },
     })
 
@@ -84,7 +67,7 @@ export async function POST(
       )
     }
 
-    // Check if invitation already exists
+    // Check if pending invitation exists
     const existingInvitation = await db.invitation.findUnique({
       where: {
         teamId_email: {
@@ -94,21 +77,17 @@ export async function POST(
       },
     })
 
-    // If pending invitation exists, return error
-    if (existingInvitation && existingInvitation.status === 'pending') {
-      // Check if it's expired
-      if (existingInvitation.expiresAt > new Date()) {
-        return NextResponse.json(
-          { error: 'Invitation already sent to this email' },
-          { status: 400 }
-        )
-      }
-      // If expired, we'll update it below
+    if (existingInvitation && existingInvitation.status === 'pending' && existingInvitation.expiresAt > new Date()) {
+      return NextResponse.json(
+        { error: 'An active invitation is already pending for this email' },
+        { status: 400 }
+      )
     }
 
-    // Create or update invitation (expires in 7 days)
     const expiresAt = new Date()
     expiresAt.setDate(expiresAt.getDate() + 7)
+
+    const secureId = crypto.randomUUID()
 
     const invitation = await db.invitation.upsert({
       where: {
@@ -118,31 +97,28 @@ export async function POST(
         },
       },
       update: {
-        role: role || 'developer',
+        role,
         invitedBy: userId,
         status: 'pending',
         expiresAt,
       },
       create: {
+        id: secureId,
         teamId,
         email,
-        role: role || 'developer',
+        role,
         invitedBy: userId,
         status: 'pending',
         expiresAt,
       },
     })
 
-    // Get team info for email
     const team = await db.team.findUnique({
       where: { id: teamId },
     })
 
-    // Get inviter info
     const inviterName = user.name || user.email || 'Someone'
-
-    // Send invitation email
-    const baseUrl = process.env.NEXT_PUBLIC_URL || 'http://localhost:3000'
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.BETTER_AUTH_URL || 'http://localhost:3000'
     const inviteUrl = `${baseUrl}/invite/${invitation.id}`
 
     if (process.env.RESEND_API_KEY) {
@@ -151,22 +127,16 @@ export async function POST(
           email,
           teamName: team?.name || 'the team',
           inviterName,
-          role: role || 'developer',
+          role,
           inviteUrl,
         })
       } catch (emailError) {
         console.error('Error sending invitation email:', emailError)
-        // Don't fail the invitation if email fails
       }
     }
 
     return NextResponse.json(invitation, { status: 201 })
   } catch (error) {
-    console.error('Error creating invitation:', error)
-    return NextResponse.json(
-      { error: 'Failed to create invitation' },
-      { status: 500 }
-    )
+    return handleRouteError(error)
   }
 }
-

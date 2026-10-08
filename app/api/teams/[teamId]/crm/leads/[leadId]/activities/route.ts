@@ -1,6 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getUserId, getUser, verifyTeamMembership } from "@/lib/auth-server-helpers";
+import { z } from "zod";
+import { requireTeamMember, handleRouteError, HttpError } from "@/lib/authz";
 import { addLeadActivity, getLeadById } from "@/lib/api/crm";
+
+const addActivitySchema = z.object({
+  type: z.enum(["email", "note", "call", "whatsapp", "meeting"]).default("note"),
+  content: z.string().min(1),
+  nextFollowUpDate: z.union([z.string(), z.date()]).optional(),
+}).strict();
 
 export async function POST(
   request: NextRequest,
@@ -8,36 +15,25 @@ export async function POST(
 ) {
   try {
     const { teamId, leadId } = await params;
-    const userId = await getUserId();
-    const user = await getUser();
-    await verifyTeamMembership(teamId, userId);
+    const { user } = await requireTeamMember(teamId, "developer");
 
     const lead = await getLeadById(teamId, leadId);
     if (!lead) {
-      return NextResponse.json({ error: "Lead not found" }, { status: 404 });
+      throw new HttpError(404, "Lead not found");
     }
 
-    const body = await request.json();
-
-    if (!body.content || !body.content.trim()) {
-      return NextResponse.json(
-        { error: "Activity content or notes are required" },
-        { status: 400 }
-      );
-    }
+    const rawBody = await request.json();
+    const body = addActivitySchema.parse(rawBody);
 
     const activity = await addLeadActivity(leadId, {
-      type: body.type || "note",
+      type: body.type,
       content: body.content.trim(),
       performedBy: user.name || "Sales Member",
-      newNextFollowUpDate: body.nextFollowUpDate,
+      newNextFollowUpDate: body.nextFollowUpDate ? new Date(body.nextFollowUpDate) : undefined,
     });
 
     return NextResponse.json(activity, { status: 201 });
-  } catch (error: any) {
-    return NextResponse.json(
-      { error: error.message || "Failed to log activity" },
-      { status: error.message === "Unauthorized" ? 401 : 500 }
-    );
+  } catch (error) {
+    return handleRouteError(error);
   }
 }

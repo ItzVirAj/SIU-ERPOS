@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getUserId, verifyTeamMembership } from "@/lib/auth-server-helpers";
+import { requireTeamMember, handleRouteError, HttpError } from "@/lib/authz";
 import { getEventById, upsertMeetingNote } from "@/lib/api/calendar";
 import { generateText } from "ai";
 import { createGroq } from "@ai-sdk/groq";
@@ -11,22 +11,18 @@ export async function POST(
 ) {
   try {
     const { teamId, eventId } = await params;
-    const userId = await getUserId();
-    await verifyTeamMembership(teamId, userId);
+    await requireTeamMember(teamId, "developer");
 
     const event = await getEventById(teamId, eventId);
     if (!event) {
-      return NextResponse.json({ error: "Event not found" }, { status: 404 });
+      throw new HttpError(404, "Event not found");
     }
 
     const body = await request.json();
     const transcriptText = body.transcript || body.content || event.meetingNote?.rawTranscript || event.description || "";
 
     if (!transcriptText || transcriptText.trim().length === 0) {
-      return NextResponse.json(
-        { error: "Transcript or meeting content is required for AI summarization" },
-        { status: 400 }
-      );
+      throw new HttpError(400, "Transcript or meeting content is required for AI summarization");
     }
 
     // Resolve Groq API key: team key, client payload key, or process.env.GROQ_API_KEY
@@ -41,10 +37,7 @@ export async function POST(
       process.env.GROQ_API_KEY;
 
     if (!apiKey) {
-      return NextResponse.json(
-        { error: "No Groq API key configured. Please configure your API key in Settings or pass it." },
-        { status: 400 }
-      );
+      throw new HttpError(400, "No Groq API key configured. Please configure your API key in Settings or pass it.");
     }
 
     const groq = createGroq({ apiKey });
@@ -127,11 +120,7 @@ DO NOT wrap the response in markdown backticks or any other text. Output ONLY ra
       data: savedNote,
       intelligence: aiOutput,
     });
-  } catch (error: any) {
-    console.error("AI Meeting Intelligence error:", error);
-    return NextResponse.json(
-      { error: error.message || "Failed to generate meeting intelligence" },
-      { status: 500 }
-    );
+  } catch (error) {
+    return handleRouteError(error);
   }
 }

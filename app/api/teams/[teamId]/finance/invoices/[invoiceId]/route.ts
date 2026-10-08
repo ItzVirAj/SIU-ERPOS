@@ -1,6 +1,13 @@
 import { NextRequest, NextResponse } from "next/server"
-import { getUserId } from "@/lib/auth-server-helpers"
+import { z } from "zod"
+import { requireTeamMember, requireTeamAdmin, handleRouteError, HttpError } from "@/lib/authz"
 import { db } from "@/lib/db"
+
+const patchInvoiceSchema = z.object({
+  status: z.enum(["draft", "sent", "paid", "partially_paid", "overdue", "cancelled"]).optional(),
+  paymentTerms: z.string().optional(),
+  notes: z.string().nullable().optional(),
+}).strict()
 
 export async function GET(
   request: NextRequest,
@@ -8,19 +15,7 @@ export async function GET(
 ) {
   try {
     const { teamId, invoiceId } = await params
-    const userId = await getUserId()
-
-    if (!userId) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-    }
-
-    const membership = await db.teamMember.findFirst({
-      where: { teamId, userId },
-    })
-
-    if (!membership) {
-      return NextResponse.json({ error: "Forbidden" }, { status: 403 })
-    }
+    await requireTeamMember(teamId)
 
     const invoice = await db.invoice.findFirst({
       where: { id: invoiceId, teamId },
@@ -36,13 +31,12 @@ export async function GET(
     })
 
     if (!invoice) {
-      return NextResponse.json({ error: "Invoice not found" }, { status: 404 })
+      throw new HttpError(404, "Invoice not found")
     }
 
     return NextResponse.json({ invoice })
   } catch (error) {
-    console.error("Error fetching invoice:", error)
-    return NextResponse.json({ error: "Failed to fetch invoice" }, { status: 500 })
+    return handleRouteError(error)
   }
 }
 
@@ -52,29 +46,21 @@ export async function PATCH(
 ) {
   try {
     const { teamId, invoiceId } = await params
-    const userId = await getUserId()
+    await requireTeamAdmin(teamId)
 
-    if (!userId) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-    }
-
-    const membership = await db.teamMember.findFirst({
-      where: {
-        teamId,
-        userId,
-        role: { in: ["admin", "developer"] },
-      },
+    const existing = await db.invoice.findFirst({
+      where: { id: invoiceId, teamId },
     })
 
-    if (!membership) {
-      return NextResponse.json({ error: "Forbidden: Admin access required" }, { status: 403 })
+    if (!existing) {
+      throw new HttpError(404, "Invoice not found")
     }
 
-    const body = await request.json()
-    const { status, paymentTerms, notes } = body
+    const rawBody = await request.json()
+    const { status, paymentTerms, notes } = patchInvoiceSchema.parse(rawBody)
 
     const updated = await db.invoice.update({
-      where: { id: invoiceId, teamId },
+      where: { id: invoiceId },
       data: {
         ...(status && { status }),
         ...(paymentTerms !== undefined && { paymentTerms }),
@@ -84,8 +70,7 @@ export async function PATCH(
 
     return NextResponse.json({ invoice: updated })
   } catch (error) {
-    console.error("Error updating invoice:", error)
-    return NextResponse.json({ error: "Failed to update invoice" }, { status: 500 })
+    return handleRouteError(error)
   }
 }
 
@@ -95,30 +80,14 @@ export async function DELETE(
 ) {
   try {
     const { teamId, invoiceId } = await params
-    const userId = await getUserId()
-
-    if (!userId) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-    }
-
-    const membership = await db.teamMember.findFirst({
-      where: {
-        teamId,
-        userId,
-        role: { in: ["admin", "developer"] },
-      },
-    })
-
-    if (!membership) {
-      return NextResponse.json({ error: "Forbidden: Admin access required" }, { status: 403 })
-    }
+    const { user, userId, member } = await requireTeamAdmin(teamId)
 
     const existing = await db.invoice.findFirst({
       where: { id: invoiceId, teamId },
     })
 
     if (!existing) {
-      return NextResponse.json({ error: "Invoice not found" }, { status: 404 })
+      throw new HttpError(404, "Invoice not found")
     }
 
     await db.invoice.delete({
@@ -129,8 +98,8 @@ export async function DELETE(
       data: {
         teamId,
         userId,
-        userName: membership.userName || "Admin",
-        userEmail: membership.userEmail || "admin@sketchitup.internal",
+        userName: member.userName || user.name || "Admin",
+        userEmail: member.userEmail || user.email || "admin@sketchitup.internal",
         action: "DELETE",
         entityType: "INVOICE",
         entityId: invoiceId,
@@ -141,7 +110,6 @@ export async function DELETE(
 
     return NextResponse.json({ success: true })
   } catch (error) {
-    console.error("Error deleting invoice:", error)
-    return NextResponse.json({ error: "Failed to delete invoice" }, { status: 500 })
+    return handleRouteError(error)
   }
 }
