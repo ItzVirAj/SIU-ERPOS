@@ -12,22 +12,47 @@ export async function GET(
     const { teamId } = await params
     await requireTeamAccess(teamId, { module: AppModule.WORK, level: AccessLevel.VIEW })
 
-    // Fetch team members from database (no auto-creation of admin!)
-    const teamMembers = await db.teamMember.findMany({
-      where: { teamId },
+    // Fetch active/suspended employees for the team directory (basic fields only)
+    const employees = await db.employee.findMany({
+      where: {
+        teamId,
+        status: { not: 'TERMINATED' },
+      },
+      select: {
+        id: true,
+        userId: true,
+        fullName: true,
+        email: true,
+        department: true,
+        position: true,
+        status: true,
+        role: {
+          select: {
+            key: true,
+            name: true,
+            legacyTeamRole: true,
+          },
+        },
+      },
       orderBy: { createdAt: 'asc' },
     })
 
-    // Format members for the frontend
-    const formattedMembers = teamMembers.map((member) => ({
-      id: member.id,
-      userId: member.userId,
-      userName: member.userName,
-      userEmail: member.userEmail,
-      displayName: member.userName,
-      email: member.userEmail,
-      role: member.role,
-      profileImageUrl: undefined,
+    // Return only basic directory fields: fullName, email, role key and name, department, position, status
+    // (no phone, personal email, employee code, session or suspension metadata)
+    const formattedMembers = employees.map((emp) => ({
+      id: emp.id,
+      userId: emp.userId,
+      fullName: emp.fullName,
+      userName: emp.fullName,
+      displayName: emp.fullName,
+      email: emp.email,
+      userEmail: emp.email,
+      department: emp.department,
+      position: emp.position,
+      status: emp.status,
+      role: emp.role.legacyTeamRole,
+      roleKey: emp.role.key,
+      roleName: emp.role.name,
     }))
 
     return NextResponse.json(formattedMembers)

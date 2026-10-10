@@ -13,6 +13,12 @@ async function main() {
   `
   console.log("Columns of rateLimit:")
   console.log(columns)
+
+  const migrations = await prisma.$queryRaw<Array<{ migration_name: string; checksum: string; finished_at: string }>>`
+    SELECT migration_name, checksum, finished_at FROM _prisma_migrations ORDER BY finished_at ASC;
+  `
+  console.log("Applied migrations in _prisma_migrations:")
+  console.table(migrations)
 }
 
 main().finally(() => prisma.$disconnect())

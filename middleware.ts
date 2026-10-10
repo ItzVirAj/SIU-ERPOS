@@ -2,6 +2,14 @@ import { NextRequest, NextResponse } from "next/server";
 import { getSessionCookie } from "better-auth/cookies";
 import { safeRedirect } from "@/lib/utils";
 
+import {
+  AUTH_COOKIE_PREFIX,
+  SESSION_COOKIE_NAME_DEV,
+  SESSION_COOKIE_NAME_PROD,
+  FALLBACK_COOKIE_NAME_DEV,
+  FALLBACK_COOKIE_NAME_PROD,
+} from "@/lib/auth-constants";
+
 /**
  * Note: This cookie check in Edge middleware is an optimistic gate for fast navigation and early filtering.
  * Full cryptographic session validation, team tenancy verification, and RBAC authorization are strictly
@@ -11,17 +19,17 @@ import { safeRedirect } from "@/lib/utils";
 function hasSessionCookie(request: NextRequest): boolean {
   try {
     const cookie =
-      getSessionCookie(request, { cookiePrefix: "siu" }) ||
+      getSessionCookie(request, { cookiePrefix: AUTH_COOKIE_PREFIX }) ||
       getSessionCookie(request);
     if (cookie) return true;
   } catch {}
 
   const cookies = request.cookies;
   return (
-    cookies.has("siu.session_token") ||
-    cookies.has("__Secure-siu.session_token") ||
-    cookies.has("better-auth.session_token") ||
-    cookies.has("__Secure-better-auth.session_token")
+    cookies.has(SESSION_COOKIE_NAME_DEV) ||
+    cookies.has(SESSION_COOKIE_NAME_PROD) ||
+    cookies.has(FALLBACK_COOKIE_NAME_DEV) ||
+    cookies.has(FALLBACK_COOKIE_NAME_PROD)
   );
 }
 

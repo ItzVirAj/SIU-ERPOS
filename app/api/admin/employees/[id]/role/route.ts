@@ -7,6 +7,7 @@ import {
 } from '@/lib/authz'
 import { AppModule, AccessLevel } from '@/lib/prisma-client'
 import { changeRole } from '@/lib/employee-service'
+import { canProvision } from '@/lib/employee-policy'
 import { getClientIp } from '@/lib/audit'
 
 function assertOrigin(request: Request) {
@@ -47,6 +48,9 @@ export async function PATCH(
   try {
     assertOrigin(request)
     const actor = await requireAccess(AppModule.EMPLOYEES, AccessLevel.MANAGE)
+    if (!canProvision(actor.role.key)) {
+      throw new HttpError(403, 'Forbidden: Only Owner, HR, or CTO can change employee roles')
+    }
     const { id } = await params
     if (!id || typeof id !== 'string') throw new HttpError(400, 'Invalid employee id')
 

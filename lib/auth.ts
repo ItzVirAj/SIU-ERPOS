@@ -7,6 +7,7 @@ import { sendVerificationEmail, sendResetPasswordEmail } from "./email";
 import { createAuditLog, writeAudit, AUDIT_ACTIONS } from "./audit";
 import { APIError } from "better-auth/api";
 import { EmployeeStatus } from "./prisma-client";
+import { AUTH_COOKIE_PREFIX } from "./auth-constants";
 
 // 1. Fail fast at startup if BETTER_AUTH_SECRET is missing or shorter than 32 chars
 const betterAuthSecret = process.env.BETTER_AUTH_SECRET;
@@ -108,7 +109,7 @@ export const auth = betterAuth({
       sameSite: "lax",
       secure: process.env.NODE_ENV === "production",
     },
-    cookiePrefix: "siu",
+    cookiePrefix: AUTH_COOKIE_PREFIX,
   },
 
   // 5. Trusted Origins (built dynamically without hardcoded IPs or domains)

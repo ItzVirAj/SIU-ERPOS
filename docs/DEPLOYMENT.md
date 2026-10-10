@@ -142,24 +142,92 @@ Trigger deployment in Render and perform the following verification checklist:
 
 ---
 
-## Phase 5: Post-Launch Hardening & Operational Maintenance
+---
 
-1. **Rotate Owner Credentials**: Update the Owner password via `/dashboard/profile` or `/api/me/change-password` to ensure high entropy.
-2. **Audit Log Inspection**: Review `/dashboard` security logs to confirm logins, role checks, and password changes were logged with masked IPs.
-3. **Content Security Policy (CSP)**:
-   - Monitor the browser console and reporting endpoint for any `Content-Security-Policy-Report-Only` violation reports.
-   - Once confirmed that no legitimate assets or external services are blocked, promote `Content-Security-Policy-Report-Only` to enforcing `Content-Security-Policy` in `next.config.mjs`.
+## Phase 5: Production Security Architecture & Guardrails
+
+### 5.1 Database-Backed Rate Limiting (`RateLimit` Model)
+To protect authentication and sensitive export endpoints against brute-force attacks across server restarts and multiple application instances, rate limits are persisted in PostgreSQL:
+- **Prisma Model**: `RateLimit` (`id`, `key`, `count`, `windowStart`, `expiresAt`, `createdAt`, `updatedAt`).
+- **Migration**: Applied automatically via `npx prisma migrate deploy`.
+- **Sign-in Rate Limiting**: Max 5 failed attempts per 10 minutes per IP/identifier on `/api/auth/sign-in/email`. The 6th attempt is blocked with HTTP `429 Too Many Requests`.
+- **Data Export Rate Limiting**: Max 3 exports per 60 minutes per team on `/api/teams/[teamId]/export`. Exceeding limits returns HTTP `429`.
+
+### 5.2 Reverse Proxy Configuration & IP Extraction (`X-Forwarded-For`)
+When deploying behind a reverse proxy or load balancer (e.g., Render, Cloudflare, AWS ALB, Nginx):
+- **Client IP Determination**: Handled via `getClientIp(request)` in `lib/audit.ts` and `lib/rate-limit.ts`.
+- **Header Parsing**: Reads the leftmost IP from `x-forwarded-for` (the client's true originating address before intermediary proxies). Falls back to `x-real-ip` and `cf-connecting-ip`.
+- **Proxy Requirement**: Ensure your reverse proxy is configured to append the true client IP to `X-Forwarded-For` and strips spoofed incoming headers from external clients.
+
+### 5.3 Session Cookie Security & Environment Parity
+Better Auth generates session cookies with strict security flags:
+- **Cookie Name**:
+  - Development (`http://localhost:*`): `siu.session_token`
+  - Production (`https://*` with SSL): `__Secure-siu.session_token`
+- **Security Attributes**: `HttpOnly`, `SameSite=Lax`, `Path=/`, and `Secure` (in production).
+- **Session Lifetimes**: 30 days active sliding window. Sessions are immediately invalidated in PostgreSQL upon role changes, suspension, or manual revocation.
+
+### 5.4 High-Risk Route Protections
+1. **Team Deletion (`DELETE /api/teams/[teamId]`)**:
+   - Strictly reserved for the `owner` role.
+   - Requires explicit body verification: `{ confirmName: "<exact_team_name>" }`. Non-matching names return HTTP 400 without deletion. Non-owners return HTTP 403.
+   - Writes an immutable security audit entry upon execution.
+2. **Single Workspace Enforcement (`POST /api/teams/create`)**:
+   - Returns HTTP 403 if an enterprise workspace already exists.
+3. **Audit Log Immutability (`POST /api/teams/[teamId]/audit-logs`)**:
+   - Client-side creation is deprecated. All client POST attempts return HTTP `405 Method Not Allowed` with `Allow: GET`. Audit entries are append-only server-side via `writeAudit()`.
+4. **Secret Stripping**:
+   - API keys and webhooks strip secret tokens on retrieval (only showing masked previews and metadata).
 
 ---
 
-## Remaining Risks & Mitigations
+## Phase 6: Post-Deploy Verification Checklist & Commands
 
-1. **Default Password Sharing Window**:
-   - *Risk*: Multiple newly provisioned employees receive the company default password during their initial 7-day onboarding period.
-   - *Mitigation*: System enforces immediate forced password reset at first sign-in, hard expiry after 7 days, and rate limits sign-in attempts.
-2. **Legacy Route Literals**:
-   - *Risk*: A small number of legacy team routes reference `role === 'admin'`.
-   - *Mitigation*: The `toLegacyTeamRole` mapping in `lib/permissions.ts` dynamically maps high-level roles (`owner`, `ceo`, `cto`, `hr`, `admin`) to legacy `admin`, maintaining strict backward compatibility without privilege escalation.
-3. **Database-Backed Rate Limiting**:
-   - *Risk*: Database connection spikes during brute-force attacks.
-   - *Mitigation*: Rate limits on `/api/auth/sign-in/email` are capped at 5 attempts per 10-minute window per IP, persisting across server restarts.
+Run the automated verification suite against the deployed production build or staging environment:
+
+```bash
+# 1. Verify strict route guard coverage across all 97 API route files (must be 0 failures)
+npm run check:api-guards
+
+# 2. Verify all admin endpoints and handlers exist
+npm run check:admin-routes
+
+# 3. Verify roles (13 roles, 156 role_access matrix records seeded)
+npm run verify-roles
+
+# 4. Verify employee directory consistency
+npm run verify-employees
+
+# 5. Verify authorization boundary rules (assertCanManage, assertCanAssignRole, single owner guard)
+npm run verify-authz
+
+# 6. Verify admin API operations and password policy
+npm run verify-admin-api
+
+# 7. Verify live route security, IDOR protection, and tenant isolation
+npm run verify-route-security
+
+# 8. Verify the full 13-role x 25-route authorization matrix (325 checks + rate limiter)
+npm run verify-route-matrix
+```
+
+---
+
+## 13-Role Access Model Summary
+
+| Role Key | Name | Level | Legacy Role | Primary Access Capabilities |
+|---|---|---|---|---|
+| `owner` | Owner | 100 | admin | Full system authority, company deletion, billing, role provisioning |
+| `ceo` | Chief Executive Officer | 90 | admin | Full business operations, company settings, reports, employee management |
+| `cto` | Chief Technology Officer | 80 | admin | Full engineering, dev settings, automations, employee management |
+| `hr` | Human Resources | 70 | admin | Employee management, onboarding, team collaboration, reports |
+| `finance_manager` | Finance Manager | 70 | developer | Full finance management, payment approvals, financial reports |
+| `admin` | Admin (IT/Office) | 60 | admin | Developer settings, integrations, office management |
+| `project_manager` | Project Manager | 60 | developer | Project lifecycle, roadmap, product management, automations |
+| `sales_manager` | Sales Manager | 60 | developer | Full CRM management, customer pipelines, sales reporting |
+| `team_lead` | Team Lead | 50 | developer | Sprint tasks, team collaboration, issue assignment |
+| `developer` | Developer | 40 | developer | Code issues, workflow execution, API integrations |
+| `sales_executive` | Sales Executive | 40 | developer | Lead creation, customer outreach, CRM viewing |
+| `accountant` | Accountant | 40 | developer | Expense entry, invoice viewing, financial ledger access |
+| `viewer` | Viewer | 10 | viewer | Read-only access to work items and shared team channels |
+

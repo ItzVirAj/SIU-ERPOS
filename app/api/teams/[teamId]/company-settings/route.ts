@@ -144,3 +144,5 @@ export async function PUT(
     return handleRouteError(error);
   }
 }
+
+export const PATCH = PUT;
