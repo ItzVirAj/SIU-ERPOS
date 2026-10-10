@@ -1,6 +1,8 @@
+import { AppModule, AccessLevel } from "@/lib/prisma-client";
+import { requireTeamAccess } from "@/lib/route-guards";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { requireTeamMember, handleRouteError } from "@/lib/authz";
+import { handleRouteError } from "@/lib/authz";
 import { createStandupEntry, getStandupEntries } from "@/lib/api/calendar";
 
 const createStandupSchema = z.object({
@@ -17,7 +19,7 @@ export async function GET(
 ) {
   try {
     const { teamId } = await params;
-    await requireTeamMember(teamId);
+    await requireTeamAccess(teamId, { module: AppModule.COLLAB, level: AccessLevel.VIEW });
 
     const { searchParams } = new URL(request.url);
     const dateParam = searchParams.get("date");
@@ -36,7 +38,7 @@ export async function POST(
 ) {
   try {
     const { teamId } = await params;
-    const { user } = await requireTeamMember(teamId);
+    const { user } = await requireTeamAccess(teamId, { module: AppModule.COLLAB, level: AccessLevel.WRITE });
     const userId = user.id;
 
     const rawBody = await request.json();

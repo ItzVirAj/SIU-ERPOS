@@ -1,8 +1,10 @@
+import { AppModule, AccessLevel } from "@/lib/prisma-client";
+import { requireTeamAccess } from "@/lib/route-guards";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { getWorkflowStates, createWorkflowState, updateWorkflowState, deleteWorkflowState } from "@/lib/api/labels";
 import { CreateWorkflowStateData } from "@/lib/types";
-import { requireTeamMember, requireTeamAdmin, handleRouteError, HttpError } from "@/lib/authz";
+import { handleRouteError, HttpError } from "@/lib/authz";
 import { db } from "@/lib/db";
 
 const workflowStateType = z.enum(["unstarted", "started", "backlog", "completed", "canceled"]);
@@ -28,7 +30,7 @@ export async function GET(
 ) {
   try {
     const { teamId } = await params;
-    await requireTeamMember(teamId);
+    await requireTeamAccess(teamId, { module: AppModule.WORK, level: AccessLevel.VIEW });
     
     const states = await getWorkflowStates(teamId);
     return NextResponse.json(states);
@@ -43,7 +45,7 @@ export async function POST(
 ) {
   try {
     const { teamId } = await params;
-    await requireTeamAdmin(teamId);
+    await requireTeamAccess(teamId, { module: AppModule.WORK, level: AccessLevel.MANAGE });
 
     const rawBody = await request.json();
     const body = createStateSchema.parse(rawBody);
@@ -68,7 +70,7 @@ export async function PATCH(
 ) {
   try {
     const { teamId } = await params;
-    await requireTeamAdmin(teamId);
+    await requireTeamAccess(teamId, { module: AppModule.WORK, level: AccessLevel.MANAGE });
 
     const rawBody = await request.json();
     const body = updateStateSchema.parse(rawBody);
@@ -104,7 +106,7 @@ export async function DELETE(
 ) {
   try {
     const { teamId } = await params;
-    await requireTeamAdmin(teamId);
+    await requireTeamAccess(teamId, { module: AppModule.WORK, level: AccessLevel.MANAGE });
 
     const stateId = request.nextUrl.searchParams.get("id");
     if (!stateId) {

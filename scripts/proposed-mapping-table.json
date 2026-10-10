@@ -1,0 +1,1162 @@
+[
+  {
+    "method": "GET",
+    "path": "/api/inbox",
+    "currentGuard": "requireAccess",
+    "proposedModule": "COLLAB",
+    "proposedLevel": "VIEW",
+    "notes": ""
+  },
+  {
+    "method": "POST",
+    "path": "/api/inbox",
+    "currentGuard": "requireAccess",
+    "proposedModule": "COLLAB",
+    "proposedLevel": "WRITE",
+    "notes": ""
+  },
+  {
+    "method": "GET",
+    "path": "/api/inbox/unread-count",
+    "currentGuard": "requireAccess",
+    "proposedModule": "COLLAB",
+    "proposedLevel": "VIEW",
+    "notes": ""
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/inbox/[messageId]",
+    "currentGuard": "requireAccess",
+    "proposedModule": "COLLAB",
+    "proposedLevel": "WRITE",
+    "notes": ""
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/inbox/[messageId]",
+    "currentGuard": "requireAccess",
+    "proposedModule": "COLLAB",
+    "proposedLevel": "MANAGE",
+    "notes": ""
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/create",
+    "currentGuard": "requireEmployee",
+    "proposedModule": "OWNER_ONLY",
+    "proposedLevel": "403/410",
+    "notes": "Single-company workspace; closed unless owner & no team exists"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams",
+    "currentGuard": "requireEmployee",
+    "proposedModule": "requireEmployee",
+    "proposedLevel": "N/A",
+    "notes": "Returns only caller's own team"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/announcements",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "COLLAB",
+    "proposedLevel": "VIEW",
+    "notes": ""
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/announcements",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "COLLAB",
+    "proposedLevel": "WRITE",
+    "notes": ""
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/announcements/[announcementId]/ack",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "COLLAB",
+    "proposedLevel": "WRITE",
+    "notes": ""
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/api-key",
+    "currentGuard": "requireTeamAdmin",
+    "proposedModule": "DEV_SETTINGS",
+    "proposedLevel": "VIEW",
+    "notes": ""
+  },
+  {
+    "method": "PUT",
+    "path": "/api/teams/[teamId]/api-key",
+    "currentGuard": "requireTeamAdmin",
+    "proposedModule": "DEV_SETTINGS",
+    "proposedLevel": "WRITE",
+    "notes": ""
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/teams/[teamId]/api-key",
+    "currentGuard": "requireTeamAdmin",
+    "proposedModule": "DEV_SETTINGS",
+    "proposedLevel": "MANAGE",
+    "notes": ""
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/api-keys",
+    "currentGuard": "requireTeamAdmin",
+    "proposedModule": "DEV_SETTINGS",
+    "proposedLevel": "VIEW",
+    "notes": ""
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/api-keys",
+    "currentGuard": "requireTeamAdmin",
+    "proposedModule": "DEV_SETTINGS",
+    "proposedLevel": "WRITE",
+    "notes": ""
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/teams/[teamId]/api-keys/[keyId]",
+    "currentGuard": "requireTeamAdmin",
+    "proposedModule": "DEV_SETTINGS",
+    "proposedLevel": "WRITE",
+    "notes": ""
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/teams/[teamId]/api-keys/[keyId]",
+    "currentGuard": "requireTeamAdmin",
+    "proposedModule": "DEV_SETTINGS",
+    "proposedLevel": "MANAGE",
+    "notes": ""
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/audit-logs",
+    "currentGuard": "requireTeamAdmin",
+    "proposedModule": "AUDIT_LOGS",
+    "proposedLevel": "VIEW",
+    "notes": ""
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/audit-logs",
+    "currentGuard": "requireTeamAdmin",
+    "proposedModule": "AUDIT_LOGS",
+    "proposedLevel": "405 Method Not Allowed",
+    "notes": "Client write access removed; unforgeable audit trail"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/automations",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "AUTOMATIONS",
+    "proposedLevel": "VIEW",
+    "notes": ""
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/automations",
+    "currentGuard": "requireTeamAdmin",
+    "proposedModule": "AUTOMATIONS",
+    "proposedLevel": "WRITE",
+    "notes": ""
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/teams/[teamId]/automations/[ruleId]",
+    "currentGuard": "requireTeamAdmin",
+    "proposedModule": "AUTOMATIONS",
+    "proposedLevel": "WRITE",
+    "notes": ""
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/teams/[teamId]/automations/[ruleId]",
+    "currentGuard": "requireTeamAdmin",
+    "proposedModule": "AUTOMATIONS",
+    "proposedLevel": "MANAGE",
+    "notes": ""
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/automations/[ruleId]",
+    "currentGuard": "requireTeamAdmin",
+    "proposedModule": "AUTOMATIONS",
+    "proposedLevel": "WRITE",
+    "notes": ""
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/calendar/events",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "COLLAB",
+    "proposedLevel": "VIEW",
+    "notes": ""
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/calendar/events",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "COLLAB",
+    "proposedLevel": "WRITE",
+    "notes": ""
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/calendar/events/[eventId]/action-items/[actionItemId]/convert",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "COLLAB",
+    "proposedLevel": "WRITE",
+    "notes": ""
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/calendar/events/[eventId]/notes",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "COLLAB",
+    "proposedLevel": "WRITE",
+    "notes": ""
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/calendar/events/[eventId]",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "COLLAB",
+    "proposedLevel": "VIEW",
+    "notes": ""
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/teams/[teamId]/calendar/events/[eventId]",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "COLLAB",
+    "proposedLevel": "WRITE",
+    "notes": ""
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/teams/[teamId]/calendar/events/[eventId]",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "COLLAB",
+    "proposedLevel": "MANAGE",
+    "notes": ""
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/calendar/events/[eventId]/summarize",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "COLLAB",
+    "proposedLevel": "WRITE",
+    "notes": ""
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/calendar/standup",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "COLLAB",
+    "proposedLevel": "VIEW",
+    "notes": ""
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/calendar/standup",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "COLLAB",
+    "proposedLevel": "WRITE",
+    "notes": ""
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/channels",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "COLLAB",
+    "proposedLevel": "VIEW",
+    "notes": ""
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/channels",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "COLLAB",
+    "proposedLevel": "WRITE",
+    "notes": ""
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/channels/[channelId]/messages",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "COLLAB",
+    "proposedLevel": "VIEW",
+    "notes": ""
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/channels/[channelId]/messages",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "COLLAB",
+    "proposedLevel": "WRITE",
+    "notes": ""
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/channels/[channelId]/messages/[messageId]/reactions",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "COLLAB",
+    "proposedLevel": "WRITE",
+    "notes": ""
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/chat/active",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "COLLAB",
+    "proposedLevel": "VIEW",
+    "notes": ""
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/chat/active",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "COLLAB",
+    "proposedLevel": "WRITE",
+    "notes": ""
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/chat/conversations",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "COLLAB",
+    "proposedLevel": "VIEW",
+    "notes": ""
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/chat/conversations",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "COLLAB",
+    "proposedLevel": "WRITE",
+    "notes": ""
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/chat/conversations/[conversationId]",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "COLLAB",
+    "proposedLevel": "VIEW",
+    "notes": ""
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/teams/[teamId]/chat/conversations/[conversationId]",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "COLLAB",
+    "proposedLevel": "MANAGE",
+    "notes": ""
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/chat",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "COLLAB",
+    "proposedLevel": "WRITE",
+    "notes": ""
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/company-settings",
+    "currentGuard": "requireTeamAccess",
+    "proposedModule": "COMPANY_SETTINGS",
+    "proposedLevel": "VIEW",
+    "notes": ""
+  },
+  {
+    "method": "PUT",
+    "path": "/api/teams/[teamId]/company-settings",
+    "currentGuard": "requireTeamAccess",
+    "proposedModule": "COMPANY_SETTINGS",
+    "proposedLevel": "MANAGE",
+    "notes": ""
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/crm/clients",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "CRM",
+    "proposedLevel": "VIEW",
+    "notes": ""
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/crm/leads",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "CRM",
+    "proposedLevel": "VIEW",
+    "notes": ""
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/crm/leads",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "CRM",
+    "proposedLevel": "WRITE",
+    "notes": ""
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/crm/leads/[leadId]/activities",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "CRM",
+    "proposedLevel": "WRITE",
+    "notes": ""
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/crm/leads/[leadId]/convert",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "CRM",
+    "proposedLevel": "WRITE",
+    "notes": ""
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/crm/leads/[leadId]",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "CRM",
+    "proposedLevel": "VIEW",
+    "notes": ""
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/teams/[teamId]/crm/leads/[leadId]",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "CRM",
+    "proposedLevel": "WRITE",
+    "notes": ""
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/teams/[teamId]/crm/leads/[leadId]",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "CRM",
+    "proposedLevel": "MANAGE",
+    "notes": ""
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/crm/pipelines",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "CRM",
+    "proposedLevel": "VIEW",
+    "notes": ""
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/export",
+    "currentGuard": "requireTeamAdmin",
+    "proposedModule": "COMPANY_SETTINGS",
+    "proposedLevel": "MANAGE",
+    "notes": "Full company data export; audit with writeAudit, rate limit 3/hour"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/finance/expenses",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "FINANCE",
+    "proposedLevel": "VIEW",
+    "notes": ""
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/finance/expenses",
+    "currentGuard": "requireTeamAdmin",
+    "proposedModule": "FINANCE",
+    "proposedLevel": "WRITE",
+    "notes": ""
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/finance/invoices",
+    "currentGuard": "requireTeamAccess",
+    "proposedModule": "FINANCE",
+    "proposedLevel": "VIEW",
+    "notes": ""
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/finance/invoices",
+    "currentGuard": "requireTeamAccess",
+    "proposedModule": "FINANCE",
+    "proposedLevel": "WRITE",
+    "notes": ""
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/finance/invoices/[invoiceId]/payments",
+    "currentGuard": "requireTeamAdmin",
+    "proposedModule": "FINANCE",
+    "proposedLevel": "WRITE",
+    "notes": ""
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/finance/invoices/[invoiceId]",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "FINANCE",
+    "proposedLevel": "VIEW",
+    "notes": ""
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/teams/[teamId]/finance/invoices/[invoiceId]",
+    "currentGuard": "requireTeamAdmin",
+    "proposedModule": "FINANCE",
+    "proposedLevel": "WRITE",
+    "notes": ""
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/teams/[teamId]/finance/invoices/[invoiceId]",
+    "currentGuard": "requireTeamAdmin",
+    "proposedModule": "FINANCE",
+    "proposedLevel": "MANAGE",
+    "notes": ""
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/finance/overview",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "FINANCE",
+    "proposedLevel": "VIEW",
+    "notes": ""
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/finance/payments",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "FINANCE",
+    "proposedLevel": "VIEW",
+    "notes": ""
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/finance/receivables",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "FINANCE",
+    "proposedLevel": "VIEW",
+    "notes": ""
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/finance/subscriptions",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "FINANCE",
+    "proposedLevel": "VIEW",
+    "notes": ""
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/finance/subscriptions",
+    "currentGuard": "requireTeamAdmin",
+    "proposedModule": "FINANCE",
+    "proposedLevel": "WRITE",
+    "notes": ""
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/finance/tax-summary",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "FINANCE",
+    "proposedLevel": "VIEW",
+    "notes": ""
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/flows/history",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "AUTOMATIONS",
+    "proposedLevel": "VIEW",
+    "notes": ""
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/flows",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "AUTOMATIONS",
+    "proposedLevel": "VIEW",
+    "notes": ""
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/flows",
+    "currentGuard": "requireTeamAdmin",
+    "proposedModule": "AUTOMATIONS",
+    "proposedLevel": "WRITE",
+    "notes": ""
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/teams/[teamId]/flows/[flowId]",
+    "currentGuard": "requireTeamAdmin",
+    "proposedModule": "AUTOMATIONS",
+    "proposedLevel": "WRITE",
+    "notes": ""
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/teams/[teamId]/flows/[flowId]",
+    "currentGuard": "requireTeamAdmin",
+    "proposedModule": "AUTOMATIONS",
+    "proposedLevel": "MANAGE",
+    "notes": ""
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/flows/[flowId]/run",
+    "currentGuard": "requireTeamAdmin",
+    "proposedModule": "AUTOMATIONS",
+    "proposedLevel": "WRITE",
+    "notes": ""
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/invitations",
+    "currentGuard": "requireTeamAccess",
+    "proposedModule": "EMPLOYEES",
+    "proposedLevel": "VIEW",
+    "notes": ""
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/invitations",
+    "currentGuard": "other",
+    "proposedModule": "EMPLOYEES",
+    "proposedLevel": "410 Gone",
+    "notes": "Closed registration/invitations deprecated"
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/invitations/[invitationId]/accept",
+    "currentGuard": "requireEmployee",
+    "proposedModule": "EMPLOYEES",
+    "proposedLevel": "410 Gone",
+    "notes": "Closed registration/invitations deprecated"
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/invitations/[invitationId]/resend",
+    "currentGuard": "requireTeamAccess",
+    "proposedModule": "EMPLOYEES",
+    "proposedLevel": "410 Gone",
+    "notes": "Closed registration/invitations deprecated"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/teams/[teamId]/invitations/[invitationId]",
+    "currentGuard": "requireTeamAccess",
+    "proposedModule": "EMPLOYEES",
+    "proposedLevel": "WRITE",
+    "notes": ""
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/issues",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "WORK",
+    "proposedLevel": "VIEW",
+    "notes": ""
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/issues",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "WORK",
+    "proposedLevel": "WRITE",
+    "notes": ""
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/issues/[issueId]",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "WORK",
+    "proposedLevel": "VIEW",
+    "notes": ""
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/teams/[teamId]/issues/[issueId]",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "WORK",
+    "proposedLevel": "WRITE",
+    "notes": ""
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/teams/[teamId]/issues/[issueId]",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "WORK",
+    "proposedLevel": "MANAGE",
+    "notes": ""
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/labels",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "WORK",
+    "proposedLevel": "VIEW",
+    "notes": "Read config"
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/labels",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "WORK",
+    "proposedLevel": "MANAGE",
+    "notes": "Configuration modification requires MANAGE"
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/teams/[teamId]/labels",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "WORK",
+    "proposedLevel": "MANAGE",
+    "notes": "Configuration modification requires MANAGE"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/teams/[teamId]/labels",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "WORK",
+    "proposedLevel": "MANAGE",
+    "notes": "Configuration modification requires MANAGE"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/members",
+    "currentGuard": "requireTeamAccess",
+    "proposedModule": "WORK",
+    "proposedLevel": "VIEW",
+    "notes": ""
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/teams/[teamId]/members",
+    "currentGuard": "other",
+    "proposedModule": "WORK",
+    "proposedLevel": "410 Gone",
+    "notes": "Member mutations deprecated; must use Access Management"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/teams/[teamId]/members",
+    "currentGuard": "other",
+    "proposedModule": "WORK",
+    "proposedLevel": "410 Gone",
+    "notes": "Member mutations deprecated; must use Access Management"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/my-tasks",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "WORK",
+    "proposedLevel": "VIEW",
+    "notes": ""
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/my-tasks",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "WORK",
+    "proposedLevel": "WRITE",
+    "notes": ""
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/products/overview",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "PRODUCTS",
+    "proposedLevel": "VIEW",
+    "notes": ""
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/products/reusable-components",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "PRODUCTS",
+    "proposedLevel": "VIEW",
+    "notes": ""
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/products/reusable-components",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "PRODUCTS",
+    "proposedLevel": "WRITE",
+    "notes": ""
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/products",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "PRODUCTS",
+    "proposedLevel": "VIEW",
+    "notes": ""
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/products",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "PRODUCTS",
+    "proposedLevel": "WRITE",
+    "notes": ""
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/products/[productId]/feature-requests",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "PRODUCTS",
+    "proposedLevel": "VIEW",
+    "notes": ""
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/products/[productId]/feature-requests",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "PRODUCTS",
+    "proposedLevel": "WRITE",
+    "notes": ""
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/teams/[teamId]/products/[productId]/feature-requests",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "PRODUCTS",
+    "proposedLevel": "WRITE",
+    "notes": ""
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/products/[productId]/pilot-customers",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "PRODUCTS",
+    "proposedLevel": "VIEW",
+    "notes": ""
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/products/[productId]/pilot-customers",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "PRODUCTS",
+    "proposedLevel": "WRITE",
+    "notes": ""
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/teams/[teamId]/products/[productId]/pilot-customers",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "PRODUCTS",
+    "proposedLevel": "WRITE",
+    "notes": ""
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/products/[productId]/release-notes",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "PRODUCTS",
+    "proposedLevel": "VIEW",
+    "notes": ""
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/products/[productId]/release-notes",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "PRODUCTS",
+    "proposedLevel": "WRITE",
+    "notes": ""
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/products/[productId]/roadmap",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "PRODUCTS",
+    "proposedLevel": "VIEW",
+    "notes": ""
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/products/[productId]/roadmap",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "PRODUCTS",
+    "proposedLevel": "WRITE",
+    "notes": ""
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/teams/[teamId]/products/[productId]/roadmap/[itemId]",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "PRODUCTS",
+    "proposedLevel": "WRITE",
+    "notes": ""
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/teams/[teamId]/products/[productId]/roadmap/[itemId]",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "PRODUCTS",
+    "proposedLevel": "MANAGE",
+    "notes": ""
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/products/[productId]",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "PRODUCTS",
+    "proposedLevel": "VIEW",
+    "notes": ""
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/teams/[teamId]/products/[productId]",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "PRODUCTS",
+    "proposedLevel": "WRITE",
+    "notes": ""
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/teams/[teamId]/products/[productId]",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "PRODUCTS",
+    "proposedLevel": "MANAGE",
+    "notes": ""
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/projects",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "WORK",
+    "proposedLevel": "VIEW",
+    "notes": ""
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/projects",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "WORK",
+    "proposedLevel": "WRITE",
+    "notes": ""
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/projects/[projectId]/members",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "WORK",
+    "proposedLevel": "VIEW",
+    "notes": ""
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/projects/[projectId]/members",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "WORK",
+    "proposedLevel": "WRITE",
+    "notes": ""
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/teams/[teamId]/projects/[projectId]/members",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "WORK",
+    "proposedLevel": "MANAGE",
+    "notes": ""
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/projects/[projectId]",
+    "currentGuard": "requireTeamAccess",
+    "proposedModule": "WORK",
+    "proposedLevel": "VIEW",
+    "notes": ""
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/teams/[teamId]/projects/[projectId]",
+    "currentGuard": "requireTeamAccess",
+    "proposedModule": "WORK",
+    "proposedLevel": "WRITE",
+    "notes": ""
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/teams/[teamId]/projects/[projectId]",
+    "currentGuard": "requireTeamAccess",
+    "proposedModule": "WORK",
+    "proposedLevel": "MANAGE",
+    "notes": ""
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/reports/delivery",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "WORK + REPORTS",
+    "proposedLevel": "VIEW",
+    "notes": "Requires both WORK: VIEW and REPORTS: VIEW"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/reports/financial",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "FINANCE + REPORTS",
+    "proposedLevel": "VIEW",
+    "notes": "Requires both FINANCE: VIEW and REPORTS: VIEW"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/reports/founder-digest",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "FINANCE + CRM + REPORTS",
+    "proposedLevel": "VIEW",
+    "notes": "Requires FINANCE: VIEW, CRM: VIEW and REPORTS: VIEW"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/reports/kpis",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "REPORTS",
+    "proposedLevel": "VIEW",
+    "notes": ""
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/reports/kpis",
+    "currentGuard": "requireTeamAdmin",
+    "proposedModule": "REPORTS",
+    "proposedLevel": "MANAGE",
+    "notes": ""
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/reports/sales",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "CRM + REPORTS",
+    "proposedLevel": "VIEW",
+    "notes": "Requires both CRM: VIEW and REPORTS: VIEW"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/reports/team-utilization",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "WORK + REPORTS",
+    "proposedLevel": "VIEW",
+    "notes": "Requires both WORK: VIEW and REPORTS: VIEW"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/teams/[teamId]",
+    "currentGuard": "requireTeamAdmin",
+    "proposedModule": "OWNER_ONLY",
+    "proposedLevel": "OWNER",
+    "notes": "Strict check: role.key === 'owner' + confirmName check"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/stats",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "WORK",
+    "proposedLevel": "VIEW",
+    "notes": ""
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/sync",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "WORK",
+    "proposedLevel": "WRITE",
+    "notes": ""
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/system-health",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "COMPANY_SETTINGS",
+    "proposedLevel": "VIEW",
+    "notes": ""
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/webhooks",
+    "currentGuard": "requireTeamAdmin",
+    "proposedModule": "DEV_SETTINGS",
+    "proposedLevel": "VIEW",
+    "notes": ""
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/webhooks",
+    "currentGuard": "requireTeamAdmin",
+    "proposedModule": "DEV_SETTINGS",
+    "proposedLevel": "WRITE",
+    "notes": ""
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/webhooks/[webhookId]/ping",
+    "currentGuard": "requireTeamAdmin",
+    "proposedModule": "DEV_SETTINGS",
+    "proposedLevel": "WRITE",
+    "notes": ""
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/teams/[teamId]/webhooks/[webhookId]",
+    "currentGuard": "requireTeamAdmin",
+    "proposedModule": "DEV_SETTINGS",
+    "proposedLevel": "WRITE",
+    "notes": ""
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/teams/[teamId]/webhooks/[webhookId]",
+    "currentGuard": "requireTeamAdmin",
+    "proposedModule": "DEV_SETTINGS",
+    "proposedLevel": "MANAGE",
+    "notes": ""
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/workflow-states",
+    "currentGuard": "requireTeamMember",
+    "proposedModule": "WORK",
+    "proposedLevel": "VIEW",
+    "notes": "Read config"
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/workflow-states",
+    "currentGuard": "requireTeamAdmin",
+    "proposedModule": "WORK",
+    "proposedLevel": "MANAGE",
+    "notes": "Configuration modification requires MANAGE"
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/teams/[teamId]/workflow-states",
+    "currentGuard": "requireTeamAdmin",
+    "proposedModule": "WORK",
+    "proposedLevel": "MANAGE",
+    "notes": "Configuration modification requires MANAGE"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/teams/[teamId]/workflow-states",
+    "currentGuard": "requireTeamAdmin",
+    "proposedModule": "WORK",
+    "proposedLevel": "MANAGE",
+    "notes": "Configuration modification requires MANAGE"
+  }
+]

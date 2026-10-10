@@ -1,24 +1,18 @@
-"use client"
+import { requireAccess } from "@/lib/authz"
+import { AppModule, AccessLevel } from "@/lib/prisma-client"
+import { AccessDenied } from "@/components/ui/access-denied"
+import { FlowsClient } from "./flows-client"
 
-import { useActiveTeam } from "@/lib/context/team-context"
-import { DashboardLoader } from "@/components/ui/dashboard-loader"
-import { FlowsConsole } from "@/components/dashboard/flows-console"
+export const metadata = {
+  title: "Automations & Flows | SIU-ERPOS",
+  description: "Cross-module workflow automation rules and visual builders",
+}
 
-export default function FlowsPage() {
-  const { teamId, team, loading: teamLoading } = useActiveTeam()
-
-  if (teamLoading || !teamId) {
-    return (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <DashboardLoader message="Loading Flow Engine" submessage="Initializing cross-module listeners..." />
-      </div>
-    )
+export default async function FlowsPage() {
+  try {
+    await requireAccess(AppModule.AUTOMATIONS, AccessLevel.VIEW)
+    return <FlowsClient />
+  } catch {
+    return <AccessDenied moduleName="Automations & Flows" />
   }
-
-  return (
-    <FlowsConsole
-      teamId={teamId}
-      teamName={team?.name || "Workspace"}
-    />
-  )
 }

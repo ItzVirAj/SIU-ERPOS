@@ -48,6 +48,9 @@ import {
 } from "@/components/ui/tooltip";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import { ShieldCheck } from "lucide-react";
+import { useAccess } from "@/lib/hooks/use-access";
+import { AppModule, AccessLevel } from "@/lib/prisma-client";
 
 export type NavigationItem = {
   name: string;
@@ -158,6 +161,12 @@ export const navigationItems = (openApiKeyDialog: () => void): NavigationItem[] 
     name: "Support",
   },
   {
+    name: "Access Management",
+    href: "/dashboard/access-management",
+    icon: ShieldCheck,
+    type: "item",
+  },
+  {
     name: "Audit log",
     href: "/dashboard/management",
     icon: FileText,
@@ -224,19 +233,35 @@ export function DashboardAppSidebar({
   const createProject = useCreateProject(teamId);
   const { data: unreadData } = useInboxUnreadCount();
 
+  const { can } = useAccess();
+  const canViewCollab = can(AppModule.COLLAB, AccessLevel.VIEW);
+  const canViewWork = can(AppModule.WORK, AccessLevel.VIEW);
+  const canViewCrm = can(AppModule.CRM, AccessLevel.VIEW);
+  const canViewReports = can(AppModule.REPORTS, AccessLevel.VIEW);
+  const canViewAutomations = can(AppModule.AUTOMATIONS, AccessLevel.VIEW);
+  const canViewFinance = can(AppModule.FINANCE, AccessLevel.VIEW);
+  const canViewProducts = can(AppModule.PRODUCTS, AccessLevel.VIEW);
+  const canViewEmployees = can(AppModule.EMPLOYEES, AccessLevel.VIEW);
+  const canViewAuditLogs = can(AppModule.AUDIT_LOGS, AccessLevel.VIEW);
+  const canViewDevSettings = can(AppModule.DEV_SETTINGS, AccessLevel.VIEW);
+
   // Group items into sections
   const missionItems = useMemo(() => {
     return items
       .filter((item) => {
         if (item.type === "label") return false;
-        return [
-          "/dashboard",
-          "/dashboard/inbox",
-          "/dashboard/my-tasks",
-          "/dashboard/issues",
-          "/dashboard/calendar",
-          "/dashboard/members",
-        ].includes(item.href || "");
+        if (item.href === "/dashboard") return true;
+        if (item.href === "/dashboard/inbox") return canViewCollab;
+        if (item.href === "/dashboard/calendar") return canViewCollab;
+        if (item.href === "/dashboard/my-tasks") return canViewWork;
+        if (item.href === "/dashboard/issues") return canViewWork;
+        if (item.href === "/dashboard/crm") return canViewCrm;
+        if (item.href === "/dashboard/reports") return canViewReports;
+        if (item.href === "/dashboard/flows") return canViewAutomations;
+        if (item.href === "/dashboard/finance") return canViewFinance;
+        if (item.href === "/dashboard/products") return canViewProducts;
+        if (item.href === "/dashboard/members") return canViewEmployees;
+        return false;
       })
       .map((item) => {
         if (item.href === "/dashboard/inbox" && unreadData?.count && unreadData.count > 0) {
@@ -244,30 +269,49 @@ export function DashboardAppSidebar({
         }
         return item;
       });
-  }, [items, unreadData?.count]);
+  }, [
+    items,
+    unreadData?.count,
+    canViewCollab,
+    canViewWork,
+    canViewCrm,
+    canViewReports,
+    canViewAutomations,
+    canViewFinance,
+    canViewProducts,
+    canViewEmployees,
+  ]);
 
   const teamItems = useMemo(() => {
     return items.filter((item) => {
       if (item.type === "label") return false;
-      return [
-        "/dashboard/team",
-        "/dashboard/team-tasks",
-        "/dashboard/projects",
-        "/dashboard/projects?view=timeline",
-      ].includes(item.href || "");
+      if (item.href === "/dashboard/team") return canViewCollab;
+      if (
+        item.href === "/dashboard/team-tasks" ||
+        item.href === "/dashboard/projects" ||
+        item.href === "/dashboard/projects?view=timeline"
+      ) {
+        return canViewWork;
+      }
+      return false;
     });
-  }, [items]);
+  }, [items, canViewCollab, canViewWork]);
 
   const supportItems = useMemo(() => {
     return items.filter((item) => {
       if (item.type === "label") return false;
-      return (
-        item.href === "/dashboard/management" ||
-        item.name === "Settings" ||
-        item.action !== undefined
-      );
+      if (item.href === "/dashboard/access-management") {
+        return canViewEmployees;
+      }
+      if (item.href === "/dashboard/management") {
+        return canViewAuditLogs;
+      }
+      if (item.action !== undefined || item.name === "API Keys") {
+        return canViewDevSettings;
+      }
+      return item.name === "Settings" || item.href === "/dashboard/settings";
     });
-  }, [items]);
+  }, [items, canViewEmployees, canViewAuditLogs, canViewDevSettings]);
 
   // User initials (e.g. DW)
   const userInitials = useMemo(() => {

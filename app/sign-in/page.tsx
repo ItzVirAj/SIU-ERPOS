@@ -35,8 +35,17 @@ export default function SignInPage() {
   const [useBackupCode, setUseBackupCode] = useState(false)
   const [twoFactorLoading, setTwoFactorLoading] = useState(false)
 
-  // Check if user is already logged in or URL has step=2fa
+  // Check if user is already logged in or URL has step=2fa or error param
   useEffect(() => {
+    const errorParam = searchParams.get("error")
+    if (errorParam === "suspended" || errorParam === "ACCOUNT_SUSPENDED") {
+      setError("Your account has been suspended. Please contact your company administrator.")
+    } else if (errorParam === "expired" || errorParam === "PASSWORD_EXPIRED") {
+      setError("Your temporary default password has expired. Please contact your company administrator for a password reset.")
+    } else if (errorParam === "unusable" || errorParam === "NO_EMPLOYEE_PROFILE") {
+      setError("No active employee profile was found for this account. Please contact your company administrator.")
+    }
+
     if (searchParams.get("step") === "2fa") {
       setIs2FA(true)
     }
@@ -328,16 +337,7 @@ export default function SignInPage() {
                 </Button>
               </form>
 
-              {/* Sign Up Link */}
-              <div className="text-center text-sm text-muted-foreground pt-1">
-                Don&apos;t have an account?{" "}
-                <Link 
-                  href={`/sign-up${sanitizedRedirect ? `?redirect=${encodeURIComponent(sanitizedRedirect)}` : ""}`}
-                  className="text-primary hover:text-primary/80 hover:underline font-medium"
-                >
-                  Sign up
-                </Link>
-              </div>
+
             </>
           )}
         </div>

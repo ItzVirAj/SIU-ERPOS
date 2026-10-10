@@ -2,6 +2,7 @@
 
 import React, { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import {
   Users,
   UserPlus,
@@ -20,12 +21,15 @@ import {
   CheckCircle2,
   Layers,
   Sparkles,
+  ArrowRight,
 } from "lucide-react";
 import { useActiveTeam } from "@/lib/context/team-context";
 import { useTeamMembers, useTeamInvitations } from "@/lib/hooks/use-team-data";
 import { useProjects } from "@/lib/hooks/use-projects";
 import { useIssues } from "@/lib/hooks/use-issues";
 import { authClient } from "@/lib/auth-client";
+import { useAccess } from "@/lib/hooks/use-access";
+import { AppModule, AccessLevel } from "@/lib/prisma-client";
 import { useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -97,6 +101,9 @@ export function MembersView() {
   const { data: invitations = [], isLoading: invitationsLoading } = useTeamInvitations(teamId);
   const { data: projects = [] } = useProjects(teamId);
   const { data: issues = [] } = useIssues(teamId);
+
+  const { can } = useAccess();
+  const hasAccessManagement = can(AppModule.EMPLOYEES, AccessLevel.VIEW);
 
   // UI state
   const [activeTab, setActiveTab] = useState<"members" | "teams" | "roles">("members");
@@ -321,17 +328,39 @@ export function MembersView() {
               {invitations.length > 0 && ` · ${invitations.length} pending`}
             </p>
           </div>
-          <div className="acts flex items-center gap-2">
-            <button
-              type="button"
-              onClick={() => setInviteDialogOpen(true)}
-              className="btn btn-primary inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-medium bg-primary text-primary-foreground hover:bg-primary/90 transition-all shadow-sm"
-              data-a="invite"
-            >
-              <UserPlus className="w-3.5 h-3.5" />
-              <span>Invite member</span>
-            </button>
+        </div>
+
+        {/* Access Management Banner */}
+        <div className="my-4 p-3.5 rounded-xl bg-primary/10 border border-primary/20 text-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div className="flex items-center gap-2.5 text-neutral-200">
+            <Shield className="w-4 h-4 text-primary shrink-0" />
+            <span>
+              Employee accounts and roles are managed in{" "}
+              {hasAccessManagement ? (
+                <Link
+                  href="/dashboard/access-management"
+                  className="text-primary hover:underline font-semibold"
+                >
+                  Access Management
+                </Link>
+              ) : (
+                <span className="font-semibold text-white">Access Management</span>
+              )}
+              .
+            </span>
           </div>
+          {hasAccessManagement && (
+            <Link href="/dashboard/access-management">
+              <Button
+                size="sm"
+                variant="outline"
+                className="h-7 text-xs border-primary/30 text-primary hover:bg-primary/15 shrink-0"
+              >
+                <span>Open Access Management</span>
+                <ArrowRight className="w-3 h-3 ml-1" />
+              </Button>
+            </Link>
+          )}
         </div>
 
         {/* 2. Tabs (.tabs) */}
@@ -493,32 +522,9 @@ export function MembersView() {
                               <span>Owner</span>
                             </span>
                           ) : (
-                            <DropdownMenu>
-                              <DropdownMenuTrigger asChild>
-                                <button
-                                  type="button"
-                                  className="pillbtn bordered inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium bg-white/[0.05] border border-white/[0.1] text-neutral-200 hover:bg-white/[0.09] transition-colors"
-                                  data-a="pop"
-                                  data-pop="role"
-                                  data-id={member.id}
-                                >
-                                  <span>{roleLabel}</span>
-                                  <ChevronDown className="w-3 h-3 text-neutral-400 shrink-0" />
-                                </button>
-                              </DropdownMenuTrigger>
-                              <DropdownMenuContent align="start" className="w-32 bg-[#181a1e] border-white/[0.1]">
-                                {["Owner", "Admin", "Member", "Guest"].map((r) => (
-                                  <DropdownMenuItem
-                                    key={r}
-                                    onClick={() => handleRoleChange(member.id, r)}
-                                    className="text-xs cursor-pointer flex items-center justify-between"
-                                  >
-                                    <span>{r}</span>
-                                    {roleLabel === r && <Check className="w-3 h-3 text-primary" />}
-                                  </DropdownMenuItem>
-                                ))}
-                              </DropdownMenuContent>
-                            </DropdownMenu>
+                            <span className="pillbtn bordered inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium bg-white/[0.05] border border-white/[0.1] text-neutral-200">
+                              <span>{roleLabel}</span>
+                            </span>
                           )}
                         </td>
 
@@ -590,22 +596,7 @@ export function MembersView() {
                                 <CheckCircle2 className="w-3.5 h-3.5 mr-2" />
                                 <span>View tasks</span>
                               </DropdownMenuItem>
-                              {!isCurrentUser && (
-                                <>
-                                  <DropdownMenuSeparator className="bg-white/[0.08]" />
-                                  <DropdownMenuItem
-                                    onClick={() => {
-                                      setMemberToRemove(member);
-                                      setRemoveDialogOpen(true);
-                                    }}
-                                    className="text-xs text-rose-400 hover:text-rose-300 cursor-pointer focus:text-rose-400"
-                                  >
-                                    <Trash2 className="w-3.5 h-3.5 mr-2" />
-                                    <span>Remove from team</span>
-                                  </DropdownMenuItem>
-                                </>
-                              )}
-                            </DropdownMenuContent>
+                              </DropdownMenuContent>
                           </DropdownMenu>
                         </td>
                       </tr>

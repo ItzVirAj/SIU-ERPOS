@@ -1,8 +1,10 @@
+import { AppModule, AccessLevel } from "@/lib/prisma-client";
+import { requireTeamAccess } from "@/lib/route-guards";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { getLabels, createLabel, updateLabel, deleteLabel } from "@/lib/api/labels";
 import { CreateLabelData } from "@/lib/types";
-import { requireTeamMember, handleRouteError, HttpError } from "@/lib/authz";
+import { handleRouteError, HttpError } from "@/lib/authz";
 import { db } from "@/lib/db";
 
 const createLabelSchema = z.object({
@@ -22,7 +24,7 @@ export async function GET(
 ) {
   try {
     const { teamId } = await params;
-    await requireTeamMember(teamId);
+    await requireTeamAccess(teamId, { module: AppModule.WORK, level: AccessLevel.VIEW });
 
     const labels = await getLabels(teamId);
     return NextResponse.json(labels);
@@ -37,7 +39,7 @@ export async function POST(
 ) {
   try {
     const { teamId } = await params;
-    await requireTeamMember(teamId, "developer");
+    await requireTeamAccess(teamId, { module: AppModule.WORK, level: AccessLevel.MANAGE });
 
     const rawBody = await request.json();
     const body = createLabelSchema.parse(rawBody);
@@ -60,7 +62,7 @@ export async function PATCH(
 ) {
   try {
     const { teamId } = await params;
-    await requireTeamMember(teamId, "developer");
+    await requireTeamAccess(teamId, { module: AppModule.WORK, level: AccessLevel.MANAGE });
 
     const rawBody = await request.json();
     const body = updateLabelSchema.parse(rawBody);
@@ -94,7 +96,7 @@ export async function DELETE(
 ) {
   try {
     const { teamId } = await params;
-    await requireTeamMember(teamId, "developer");
+    await requireTeamAccess(teamId, { module: AppModule.WORK, level: AccessLevel.MANAGE });
 
     const labelId = request.nextUrl.searchParams.get("id");
     if (!labelId) {

@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { requireTeamMember, requireTeamAdmin, handleRouteError } from "@/lib/authz";
+import { handleRouteError } from "@/lib/authz";
+import { requireTeamAccess } from "@/lib/route-guards";
+import { AppModule, AccessLevel } from "@/lib/prisma-client";
 import { db } from "@/lib/db";
 
 const DEFAULT_HOLIDAYS = [
@@ -37,7 +39,7 @@ export async function GET(
 ) {
   try {
     const { teamId } = await params;
-    const { user } = await requireTeamMember(teamId);
+    const { user } = await requireTeamAccess(teamId, { module: AppModule.COMPANY_SETTINGS, level: AccessLevel.VIEW });
 
     let settings = await db.companySetting.findUnique({
       where: { teamId },
@@ -79,7 +81,7 @@ export async function PUT(
 ) {
   try {
     const { teamId } = await params;
-    const { user, userId, member } = await requireTeamAdmin(teamId);
+    const { user, userId, member } = await requireTeamAccess(teamId, { module: AppModule.COMPANY_SETTINGS, level: AccessLevel.MANAGE });
 
     const rawBody = await request.json();
     const body = updateSettingsSchema.parse(rawBody);

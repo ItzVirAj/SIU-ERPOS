@@ -1,35 +1,23 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { requireSession, handleRouteError } from '@/lib/authz'
+import { requireEmployee, handleRouteError } from '@/lib/authz'
 import { db } from '@/lib/db'
 
 export async function GET(request: NextRequest) {
   try {
-    const session = await requireSession()
+    const { employee, session } = await requireEmployee()
     const userId = session.user.id
 
     // Only return teams where the user is a member
     const teams = await db.team.findMany({
       where: {
-        members: {
-          some: {
-            userId,
-          },
-        },
-      },
-      include: {
-        members: {
-          where: {
-            userId,
-          },
-        },
+        id: employee.teamId,
       },
       orderBy: {
         createdAt: 'desc',
       },
     })
 
-    const teamsWithoutMembers = teams.map(({ members, ...team }) => team)
-    return NextResponse.json(teamsWithoutMembers)
+    return NextResponse.json(teams)
   } catch (error) {
     return handleRouteError(error)
   }

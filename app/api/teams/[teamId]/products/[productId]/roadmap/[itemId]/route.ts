@@ -1,6 +1,8 @@
+import { AppModule, AccessLevel } from "@/lib/prisma-client";
+import { requireTeamAccess } from "@/lib/route-guards";
 import { NextRequest, NextResponse } from "next/server"
 import { z } from "zod"
-import { requireTeamMember, handleRouteError, HttpError } from "@/lib/authz"
+import { handleRouteError, HttpError } from "@/lib/authz";
 import { db } from "@/lib/db"
 
 const patchRoadmapItemSchema = z.object({
@@ -20,7 +22,7 @@ export async function PATCH(
 ) {
   try {
     const { teamId, productId, itemId } = await params
-    await requireTeamMember(teamId, "developer")
+    await requireTeamAccess(teamId, { module: AppModule.PRODUCTS, level: AccessLevel.WRITE })
 
     const existing = await db.productRoadmapItem.findFirst({
       where: { id: itemId, productId, teamId },
@@ -63,7 +65,7 @@ export async function DELETE(
 ) {
   try {
     const { teamId, productId, itemId } = await params
-    await requireTeamMember(teamId, "developer")
+    await requireTeamAccess(teamId, { module: AppModule.PRODUCTS, level: AccessLevel.MANAGE })
 
     const existing = await db.productRoadmapItem.findFirst({
       where: { id: itemId, productId, teamId },

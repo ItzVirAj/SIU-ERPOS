@@ -1,6 +1,8 @@
+import { AppModule, AccessLevel } from "@/lib/prisma-client";
+import { requireTeamAccess } from "@/lib/route-guards";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { requireTeamMember, handleRouteError } from "@/lib/authz";
+import { handleRouteError } from "@/lib/authz";
 import { getLeads, createLead } from "@/lib/api/crm";
 
 const createLeadSchema = z.object({
@@ -29,7 +31,7 @@ export async function GET(
 ) {
   try {
     const { teamId } = await params;
-    await requireTeamMember(teamId);
+    await requireTeamAccess(teamId, { module: AppModule.CRM, level: AccessLevel.VIEW });
 
     const { searchParams } = new URL(request.url);
     const stageId = searchParams.get("stageId") || undefined;
@@ -58,7 +60,7 @@ export async function POST(
 ) {
   try {
     const { teamId } = await params;
-    const { user, userId } = await requireTeamMember(teamId, "developer");
+    const { user, userId } = await requireTeamAccess(teamId, { module: AppModule.CRM, level: AccessLevel.WRITE });
 
     const rawBody = await request.json();
     const body = createLeadSchema.parse(rawBody);

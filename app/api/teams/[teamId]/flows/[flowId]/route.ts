@@ -1,6 +1,8 @@
+import { AppModule, AccessLevel } from "@/lib/prisma-client";
+import { requireTeamAccess } from "@/lib/route-guards";
 import { NextRequest, NextResponse } from "next/server"
 import { z } from "zod"
-import { requireTeamAdmin, handleRouteError, HttpError } from "@/lib/authz"
+import { handleRouteError, HttpError } from "@/lib/authz";
 import { db } from "@/lib/db"
 
 const patchFlowSchema = z.object({
@@ -15,7 +17,7 @@ export async function PATCH(
 ) {
   try {
     const { teamId, flowId } = await params
-    const { user, userId, member } = await requireTeamAdmin(teamId)
+    const { user, userId, member } = await requireTeamAccess(teamId, { module: AppModule.AUTOMATIONS, level: AccessLevel.WRITE })
 
     const existing = await db.automationRule.findFirst({
       where: { id: flowId, teamId },
@@ -63,7 +65,7 @@ export async function DELETE(
 ) {
   try {
     const { teamId, flowId } = await params
-    const { user, userId, member } = await requireTeamAdmin(teamId)
+    const { user, userId, member } = await requireTeamAccess(teamId, { module: AppModule.AUTOMATIONS, level: AccessLevel.MANAGE })
 
     const existing = await db.automationRule.findFirst({
       where: { id: flowId, teamId },

@@ -1,8 +1,10 @@
+import { AppModule, AccessLevel } from "@/lib/prisma-client";
+import { requireTeamAccess } from "@/lib/route-guards";
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import { getIssueById, updateIssue, deleteIssue } from '@/lib/api/issues'
 import { db } from '@/lib/db'
-import { requireTeamMember, handleRouteError, HttpError } from '@/lib/authz'
+import { handleRouteError, HttpError } from "@/lib/authz";
 
 const updateIssueSchema = z.object({
   title: z.string().min(1).max(255).optional(),
@@ -22,7 +24,7 @@ export async function GET(
 ) {
   try {
     const { teamId, issueId } = await params
-    await requireTeamMember(teamId)
+    await requireTeamAccess(teamId, { module: AppModule.WORK, level: AccessLevel.VIEW })
 
     const issue = await getIssueById(teamId, issueId)
     if (!issue) {
@@ -41,7 +43,7 @@ export async function PATCH(
 ) {
   try {
     const { teamId, issueId } = await params
-    const { user, userId } = await requireTeamMember(teamId, 'developer')
+    const { user, userId } = await requireTeamAccess(teamId, { module: AppModule.WORK, level: AccessLevel.WRITE })
 
     // Verify issue belongs to this team
     const existing = await getIssueById(teamId, issueId)
@@ -99,7 +101,7 @@ export async function DELETE(
 ) {
   try {
     const { teamId, issueId } = await params
-    await requireTeamMember(teamId, 'developer')
+    await requireTeamAccess(teamId, { module: AppModule.WORK, level: AccessLevel.MANAGE })
 
     const existing = await getIssueById(teamId, issueId)
     if (!existing) {

@@ -1,6 +1,8 @@
+import { AppModule, AccessLevel } from "@/lib/prisma-client";
+import { requireTeamAccess } from "@/lib/route-guards";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { requireTeamMember, handleRouteError, HttpError } from "@/lib/authz";
+import { handleRouteError, HttpError } from "@/lib/authz";
 import { db } from "@/lib/db";
 
 const createMessageSchema = z.object({
@@ -18,7 +20,7 @@ export async function GET(
 ) {
   try {
     const { teamId, channelId } = await params;
-    const { user } = await requireTeamMember(teamId);
+    const { user } = await requireTeamAccess(teamId, { module: AppModule.COLLAB, level: AccessLevel.VIEW });
     const userId = user.id;
 
     // Verify channel belongs to this team
@@ -57,7 +59,7 @@ export async function GET(
     let referencedIssues: Record<string, any> = {};
     if (taskIds.length > 0) {
       const issues = await db.issue.findMany({
-        where: { id: { in: taskIds } },
+        where: { id: { in: taskIds }, teamId },
         select: {
           id: true,
           title: true,
@@ -104,7 +106,7 @@ export async function POST(
 ) {
   try {
     const { teamId, channelId } = await params;
-    const { user } = await requireTeamMember(teamId);
+    const { user } = await requireTeamAccess(teamId, { module: AppModule.COLLAB, level: AccessLevel.WRITE });
     const userId = user.id;
     const userEmail = user.email || "";
     const userName = user.name || "Member";
@@ -130,6 +132,24 @@ export async function POST(
 
     if (!content && !isHuddle && !attachments) {
       throw new HttpError(400, "Message content cannot be empty");
+    }
+
+    if (parentId) {
+      const parentMsg = await db.teamChatMessage.findFirst({
+        where: { id: parentId, channelId },
+      });
+      if (!parentMsg) {
+        throw new HttpError(404, "Parent message not found in this channel");
+      }
+    }
+
+    if (referencedTaskId) {
+      const referencedIssue = await db.issue.findFirst({
+        where: { id: referencedTaskId, teamId },
+      });
+      if (!referencedIssue) {
+        throw new HttpError(404, "Referenced task not found in this team");
+      }
     }
 
     // Extract @mentions from text if any

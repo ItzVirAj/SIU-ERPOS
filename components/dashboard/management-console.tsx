@@ -22,6 +22,8 @@ import {
   useSystemHealth,
 } from "@/lib/hooks/use-admin"
 import { useTeamStats } from "@/lib/hooks/use-team-data"
+import { useAccess } from "@/lib/hooks/use-access"
+import { AppModule, AccessLevel } from "@/lib/prisma-client"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 import { Button } from "@/components/ui/button"
@@ -92,6 +94,14 @@ const PRIORITY_COLORS: Record<string, string> = {
 }
 
 export function ManagementConsole({ teamId, teamName = "Workspace" }: ManagementConsoleProps) {
+  const { can } = useAccess()
+  const canAudit = can(AppModule.AUDIT_LOGS, AccessLevel.VIEW)
+  const canCompany = can(AppModule.COMPANY_SETTINGS, AccessLevel.VIEW)
+  const canAutomations = can(AppModule.AUTOMATIONS, AccessLevel.VIEW)
+  const canDev = can(AppModule.DEV_SETTINGS, AccessLevel.VIEW)
+  const canRoles = can(AppModule.ROLES, AccessLevel.VIEW)
+  const canExport = can(AppModule.COMPANY_SETTINGS, AccessLevel.MANAGE)
+
   const [activeTab, setActiveTab] = useState("overview")
 
   // ==================== QUERIES ====================
@@ -100,33 +110,45 @@ export function ManagementConsole({ teamId, teamName = "Workspace" }: Management
   const [auditFilterEntity, setAuditFilterEntity] = useState("all")
   const [auditSearch, setAuditSearch] = useState("")
 
-  const { data: auditData, isLoading: auditLoading, refetch: refetchAudit } = useAuditLogs(teamId, {
-    action: auditFilterAction,
-    entityType: auditFilterEntity,
-    search: auditSearch,
-  })
+  const { data: auditData, isLoading: auditLoading, refetch: refetchAudit } = useAuditLogs(
+    teamId,
+    {
+      action: auditFilterAction,
+      entityType: auditFilterEntity,
+      search: auditSearch,
+    },
+    { enabled: canAudit }
+  )
 
-  const { data: companyData, isLoading: companyLoading } = useCompanySettings(teamId)
+  const { data: companyData, isLoading: companyLoading } = useCompanySettings(teamId, { enabled: canCompany })
   const updateCompanyMutation = useUpdateCompanySettings(teamId)
 
-  const { data: automationsData, isLoading: automationsLoading, refetch: refetchAutomations } = useAutomations(teamId)
+  const { data: automationsData, isLoading: automationsLoading, refetch: refetchAutomations } = useAutomations(teamId, {
+    enabled: canAutomations,
+  })
   const createAutomationMutation = useCreateAutomation(teamId)
   const toggleAutomationMutation = useToggleAutomation(teamId)
   const deleteAutomationMutation = useDeleteAutomation(teamId)
   const testRunAutomationMutation = useTestRunAutomation(teamId)
 
-  const { data: apiKeysData, isLoading: keysLoading, refetch: refetchKeys } = useDeveloperApiKeys(teamId)
+  const { data: apiKeysData, isLoading: keysLoading, refetch: refetchKeys } = useDeveloperApiKeys(teamId, {
+    enabled: canDev,
+  })
   const createApiKeyMutation = useCreateApiKey(teamId)
   const toggleApiKeyMutation = useToggleApiKey(teamId)
   const revokeApiKeyMutation = useRevokeApiKey(teamId)
 
-  const { data: webhooksData, isLoading: webhooksLoading, refetch: refetchWebhooks } = useWebhooks(teamId)
+  const { data: webhooksData, isLoading: webhooksLoading, refetch: refetchWebhooks } = useWebhooks(teamId, {
+    enabled: canDev,
+  })
   const createWebhookMutation = useCreateWebhook(teamId)
   const toggleWebhookMutation = useToggleWebhook(teamId)
   const deleteWebhookMutation = useDeleteWebhook(teamId)
   const pingWebhookMutation = usePingWebhook(teamId)
 
-  const { data: healthData, isLoading: healthLoading, refetch: refetchHealth } = useSystemHealth(teamId)
+  const { data: healthData, isLoading: healthLoading, refetch: refetchHealth } = useSystemHealth(teamId, {
+    enabled: canCompany,
+  })
 
   // ==================== LOCAL FORM STATES ====================
   // Company Settings Form State
@@ -303,44 +325,58 @@ export function ManagementConsole({ teamId, teamName = "Workspace" }: Management
             <Activity className="h-4 w-4" />
             <span>Overview</span>
           </TabsTrigger>
-          <TabsTrigger value="audit-logs" className="gap-2 text-xs py-2 px-3">
-            <FileText className="h-4 w-4" />
-            <span>Audit Trail</span>
-            {auditData?.logs?.length ? (
-              <Badge variant="secondary" className="h-4 px-1 text-[10px] bg-neutral-800">
-                {auditData.logs.length}
-              </Badge>
-            ) : null}
-          </TabsTrigger>
-          <TabsTrigger value="automations" className="gap-2 text-xs py-2 px-3">
-            <Zap className="h-4 w-4 text-amber-400" />
-            <span>Automations</span>
-            {automationsData?.rules?.length ? (
-              <Badge variant="secondary" className="h-4 px-1 text-[10px] bg-amber-500/20 text-amber-300">
-                {automationsData.rules.length}
-              </Badge>
-            ) : null}
-          </TabsTrigger>
-          <TabsTrigger value="company" className="gap-2 text-xs py-2 px-3">
-            <Building2 className="h-4 w-4" />
-            <span>Company & Tax</span>
-          </TabsTrigger>
-          <TabsTrigger value="roles" className="gap-2 text-xs py-2 px-3">
-            <ShieldCheck className="h-4 w-4 text-blue-400" />
-            <span>Roles & RBAC</span>
-          </TabsTrigger>
-          <TabsTrigger value="developers" className="gap-2 text-xs py-2 px-3">
-            <Key className="h-4 w-4 text-purple-400" />
-            <span>API Keys & Webhooks</span>
-          </TabsTrigger>
-          <TabsTrigger value="export" className="gap-2 text-xs py-2 px-3">
-            <Download className="h-4 w-4" />
-            <span>Data Export</span>
-          </TabsTrigger>
-          <TabsTrigger value="diagnostics" className="gap-2 text-xs py-2 px-3">
-            <Database className="h-4 w-4 text-emerald-400" />
-            <span>System Health</span>
-          </TabsTrigger>
+          {canAudit && (
+            <TabsTrigger value="audit-logs" className="gap-2 text-xs py-2 px-3">
+              <FileText className="h-4 w-4" />
+              <span>Audit Trail</span>
+              {auditData?.logs?.length ? (
+                <Badge variant="secondary" className="h-4 px-1 text-[10px] bg-neutral-800">
+                  {auditData.logs.length}
+                </Badge>
+              ) : null}
+            </TabsTrigger>
+          )}
+          {canAutomations && (
+            <TabsTrigger value="automations" className="gap-2 text-xs py-2 px-3">
+              <Zap className="h-4 w-4 text-amber-400" />
+              <span>Automations</span>
+              {automationsData?.rules?.length ? (
+                <Badge variant="secondary" className="h-4 px-1 text-[10px] bg-amber-500/20 text-amber-300">
+                  {automationsData.rules.length}
+                </Badge>
+              ) : null}
+            </TabsTrigger>
+          )}
+          {canCompany && (
+            <TabsTrigger value="company" className="gap-2 text-xs py-2 px-3">
+              <Building2 className="h-4 w-4" />
+              <span>Company & Tax</span>
+            </TabsTrigger>
+          )}
+          {canRoles && (
+            <TabsTrigger value="roles" className="gap-2 text-xs py-2 px-3">
+              <ShieldCheck className="h-4 w-4 text-blue-400" />
+              <span>Roles & RBAC</span>
+            </TabsTrigger>
+          )}
+          {canDev && (
+            <TabsTrigger value="developers" className="gap-2 text-xs py-2 px-3">
+              <Key className="h-4 w-4 text-purple-400" />
+              <span>API Keys & Webhooks</span>
+            </TabsTrigger>
+          )}
+          {canExport && (
+            <TabsTrigger value="export" className="gap-2 text-xs py-2 px-3">
+              <Download className="h-4 w-4" />
+              <span>Data Export</span>
+            </TabsTrigger>
+          )}
+          {canCompany && (
+            <TabsTrigger value="diagnostics" className="gap-2 text-xs py-2 px-3">
+              <Database className="h-4 w-4 text-emerald-400" />
+              <span>System Health</span>
+            </TabsTrigger>
+          )}
         </TabsList>
 
         {/* ============================================================== */}

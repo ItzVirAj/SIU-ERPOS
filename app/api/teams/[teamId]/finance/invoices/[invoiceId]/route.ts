@@ -1,6 +1,8 @@
+import { AppModule, AccessLevel } from "@/lib/prisma-client";
+import { requireTeamAccess } from "@/lib/route-guards";
 import { NextRequest, NextResponse } from "next/server"
 import { z } from "zod"
-import { requireTeamMember, requireTeamAdmin, handleRouteError, HttpError } from "@/lib/authz"
+import { handleRouteError, HttpError } from "@/lib/authz";
 import { db } from "@/lib/db"
 
 const patchInvoiceSchema = z.object({
@@ -15,7 +17,7 @@ export async function GET(
 ) {
   try {
     const { teamId, invoiceId } = await params
-    await requireTeamMember(teamId)
+    await requireTeamAccess(teamId, { module: AppModule.FINANCE, level: AccessLevel.VIEW })
 
     const invoice = await db.invoice.findFirst({
       where: { id: invoiceId, teamId },
@@ -46,7 +48,7 @@ export async function PATCH(
 ) {
   try {
     const { teamId, invoiceId } = await params
-    await requireTeamAdmin(teamId)
+    await requireTeamAccess(teamId, { module: AppModule.FINANCE, level: AccessLevel.WRITE })
 
     const existing = await db.invoice.findFirst({
       where: { id: invoiceId, teamId },
@@ -80,7 +82,7 @@ export async function DELETE(
 ) {
   try {
     const { teamId, invoiceId } = await params
-    const { user, userId, member } = await requireTeamAdmin(teamId)
+    const { user, userId, member } = await requireTeamAccess(teamId, { module: AppModule.FINANCE, level: AccessLevel.MANAGE })
 
     const existing = await db.invoice.findFirst({
       where: { id: invoiceId, teamId },

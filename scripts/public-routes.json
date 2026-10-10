@@ -1,0 +1,4 @@
+[
+  "app/api/auth/[...all]/route.ts",
+  "app/api/invitations/[invitationId]/route.ts"
+]

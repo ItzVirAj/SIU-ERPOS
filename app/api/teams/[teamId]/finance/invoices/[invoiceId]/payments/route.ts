@@ -1,6 +1,8 @@
+import { AppModule, AccessLevel } from "@/lib/prisma-client";
+import { requireTeamAccess } from "@/lib/route-guards";
 import { NextRequest, NextResponse } from "next/server"
 import { z } from "zod"
-import { requireTeamAdmin, handleRouteError, HttpError } from "@/lib/authz"
+import { handleRouteError, HttpError } from "@/lib/authz";
 import { db } from "@/lib/db"
 
 const recordPaymentSchema = z.object({
@@ -17,7 +19,7 @@ export async function POST(
 ) {
   try {
     const { teamId, invoiceId } = await params
-    const { user, userId, member } = await requireTeamAdmin(teamId)
+    const { user, userId, member } = await requireTeamAccess(teamId, { module: AppModule.FINANCE, level: AccessLevel.WRITE })
 
     const rawBody = await request.json()
     const {

@@ -114,7 +114,8 @@ export interface SystemHealthData {
 // ======================== AUDIT LOGS ========================
 export function useAuditLogs(
   teamId: string,
-  filters?: { action?: string; entityType?: string; search?: string }
+  filters?: { action?: string; entityType?: string; search?: string },
+  options?: { enabled?: boolean }
 ) {
   return useQuery<{ logs: AuditLogItem[] }>({
     queryKey: ["audit-logs", teamId, filters],
@@ -128,13 +129,13 @@ export function useAuditLogs(
       if (!res.ok) throw new Error("Failed to fetch audit logs")
       return res.json()
     },
-    enabled: !!teamId,
+    enabled: !!teamId && (options?.enabled ?? true),
     refetchInterval: 30000,
   })
 }
 
 // ======================== COMPANY SETTINGS ========================
-export function useCompanySettings(teamId: string) {
+export function useCompanySettings(teamId: string, options?: { enabled?: boolean }) {
   return useQuery<{ settings: CompanySettingData }>({
     queryKey: ["company-settings", teamId],
     queryFn: async () => {
@@ -142,7 +143,7 @@ export function useCompanySettings(teamId: string) {
       if (!res.ok) throw new Error("Failed to fetch company settings")
       return res.json()
     },
-    enabled: !!teamId,
+    enabled: !!teamId && (options?.enabled ?? true),
   })
 }
 
@@ -173,7 +174,7 @@ export function useUpdateCompanySettings(teamId: string) {
 }
 
 // ======================== AUTOMATIONS ========================
-export function useAutomations(teamId: string) {
+export function useAutomations(teamId: string, options?: { enabled?: boolean }) {
   return useQuery<{ rules: AutomationRuleItem[] }>({
     queryKey: ["automations", teamId],
     queryFn: async () => {
@@ -181,7 +182,7 @@ export function useAutomations(teamId: string) {
       if (!res.ok) throw new Error("Failed to fetch automations")
       return res.json()
     },
-    enabled: !!teamId,
+    enabled: !!teamId && (options?.enabled ?? true),
   })
 }
 
@@ -276,7 +277,7 @@ export function useTestRunAutomation(teamId: string) {
 }
 
 // ======================== API KEYS ========================
-export function useDeveloperApiKeys(teamId: string) {
+export function useDeveloperApiKeys(teamId: string, options?: { enabled?: boolean }) {
   return useQuery<{ keys: DeveloperApiKeyItem[] }>({
     queryKey: ["developer-api-keys", teamId],
     queryFn: async () => {
@@ -284,7 +285,7 @@ export function useDeveloperApiKeys(teamId: string) {
       if (!res.ok) throw new Error("Failed to fetch API keys")
       return res.json()
     },
-    enabled: !!teamId,
+    enabled: !!teamId && (options?.enabled ?? true),
   })
 }
 
@@ -348,7 +349,7 @@ export function useRevokeApiKey(teamId: string) {
 }
 
 // ======================== WEBHOOKS ========================
-export function useWebhooks(teamId: string) {
+export function useWebhooks(teamId: string, options?: { enabled?: boolean }) {
   return useQuery<{ webhooks: WebhookEndpointItem[] }>({
     queryKey: ["webhooks", teamId],
     queryFn: async () => {
@@ -356,7 +357,7 @@ export function useWebhooks(teamId: string) {
       if (!res.ok) throw new Error("Failed to fetch webhooks")
       return res.json()
     },
-    enabled: !!teamId,
+    enabled: !!teamId && (options?.enabled ?? true),
   })
 }
 
@@ -438,7 +439,7 @@ export function usePingWebhook(teamId: string) {
 }
 
 // ======================== SYSTEM HEALTH ========================
-export function useSystemHealth(teamId: string) {
+export function useSystemHealth(teamId: string, options?: { enabled?: boolean }) {
   return useQuery<SystemHealthData>({
     queryKey: ["system-health", teamId],
     queryFn: async () => {
@@ -446,7 +447,7 @@ export function useSystemHealth(teamId: string) {
       if (!res.ok) throw new Error("Failed to fetch system diagnostics")
       return res.json()
     },
-    enabled: !!teamId,
+    enabled: !!teamId && (options?.enabled ?? true),
     refetchInterval: 15000,
   })
 }

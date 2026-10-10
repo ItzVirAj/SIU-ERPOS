@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
-import { requireSession, handleRouteError } from '@/lib/authz'
+import { requireEmployee, handleRouteError, HttpError } from '@/lib/authz'
 import { db } from '@/lib/db'
 
 const createTeamSchema = z.object({
@@ -9,8 +9,17 @@ const createTeamSchema = z.object({
 
 export async function POST(request: NextRequest) {
   try {
-    const session = await requireSession()
-    const user = session.user
+    const actor = await requireEmployee()
+    if (actor.role.key !== 'owner') {
+      throw new HttpError(403, 'Forbidden: Only the Owner can create a workspace team', 'FORBIDDEN')
+    }
+
+    const teamCount = await db.team.count()
+    if (teamCount > 0) {
+      throw new HttpError(403, 'Forbidden: Single-company workspace already initialized', 'FORBIDDEN')
+    }
+
+    const user = actor.session.user
     const userId = user.id
 
     const rawBody = await request.json()

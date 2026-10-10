@@ -3,7 +3,9 @@ import { z } from 'zod'
 import { getProjectById, updateProject, deleteProject } from '@/lib/api/projects'
 import { UpdateProjectData } from '@/lib/types'
 import { db } from '@/lib/db'
-import { requireTeamMember, requireTeamAdmin, handleRouteError, HttpError } from '@/lib/authz'
+import { handleRouteError, HttpError } from '@/lib/authz'
+import { requireTeamAccess } from '@/lib/route-guards'
+import { AppModule, AccessLevel } from '@/lib/prisma-client'
 
 const updateProjectSchema = z.object({
   name: z.string().min(1).max(100).optional(),
@@ -21,7 +23,7 @@ export async function GET(
 ) {
   try {
     const { teamId, projectId } = await params
-    await requireTeamMember(teamId)
+    await requireTeamAccess(teamId, { module: AppModule.WORK, level: AccessLevel.VIEW })
 
     const project = await getProjectById(teamId, projectId)
 
@@ -41,7 +43,7 @@ export async function PATCH(
 ) {
   try {
     const { teamId, projectId } = await params
-    await requireTeamMember(teamId, 'developer')
+    await requireTeamAccess(teamId, { module: AppModule.WORK, level: AccessLevel.WRITE })
 
     // Verify project belongs to teamId
     const existing = await getProjectById(teamId, projectId)
@@ -91,7 +93,7 @@ export async function DELETE(
 ) {
   try {
     const { teamId, projectId } = await params
-    await requireTeamAdmin(teamId)
+    await requireTeamAccess(teamId, { module: AppModule.WORK, level: AccessLevel.MANAGE })
 
     const existing = await getProjectById(teamId, projectId)
     if (!existing) {

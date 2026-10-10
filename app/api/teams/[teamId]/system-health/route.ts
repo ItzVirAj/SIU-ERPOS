@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
-import { requireTeamMember, handleRouteError } from "@/lib/authz"
+import { handleRouteError } from "@/lib/authz"
+import { requireTeamAccess } from "@/lib/route-guards"
+import { AppModule, AccessLevel } from "@/lib/prisma-client"
 import { db } from "@/lib/db"
 
 export async function GET(
@@ -8,7 +10,10 @@ export async function GET(
 ) {
   try {
     const { teamId } = await params
-    await requireTeamMember(teamId)
+    await requireTeamAccess(teamId, {
+      module: AppModule.COMPANY_SETTINGS,
+      level: AccessLevel.VIEW,
+    })
 
     // Measure DB query latency
     const startDb = performance.now()

@@ -1,8 +1,10 @@
+import { AppModule, AccessLevel } from "@/lib/prisma-client";
+import { requireTeamAccess } from "@/lib/route-guards";
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import { db } from '@/lib/db'
 import { getProjectById } from '@/lib/api/projects'
-import { requireTeamMember, handleRouteError, HttpError } from '@/lib/authz'
+import { handleRouteError, HttpError } from "@/lib/authz";
 
 const addMemberSchema = z.object({
   userId: z.string().min(1),
@@ -14,7 +16,7 @@ export async function GET(
 ) {
   try {
     const { teamId, projectId } = await params
-    await requireTeamMember(teamId)
+    await requireTeamAccess(teamId, { module: AppModule.WORK, level: AccessLevel.VIEW })
 
     // Verify project exists and belongs to team
     const project = await getProjectById(teamId, projectId)
@@ -50,7 +52,7 @@ export async function POST(
 ) {
   try {
     const { teamId, projectId } = await params
-    await requireTeamMember(teamId, 'developer')
+    await requireTeamAccess(teamId, { module: AppModule.WORK, level: AccessLevel.WRITE })
 
     // Verify project exists and belongs to team
     const project = await getProjectById(teamId, projectId)
@@ -119,7 +121,7 @@ export async function DELETE(
 ) {
   try {
     const { teamId, projectId } = await params
-    await requireTeamMember(teamId, 'developer')
+    await requireTeamAccess(teamId, { module: AppModule.WORK, level: AccessLevel.MANAGE })
 
     // Verify project exists and belongs to team
     const project = await getProjectById(teamId, projectId)

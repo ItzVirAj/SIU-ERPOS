@@ -4,12 +4,17 @@ import { nextCookies } from "better-auth/next-js";
 import { twoFactor } from "better-auth/plugins";
 import { db } from "./db";
 import { sendVerificationEmail, sendResetPasswordEmail } from "./email";
-import { createAuditLog } from "./audit";
+import { createAuditLog, writeAudit, AUDIT_ACTIONS } from "./audit";
+import { APIError } from "better-auth/api";
+import { EmployeeStatus } from "./prisma-client";
 
 // 1. Fail fast at startup if BETTER_AUTH_SECRET is missing or shorter than 32 chars
 const betterAuthSecret = process.env.BETTER_AUTH_SECRET;
 if (!betterAuthSecret || betterAuthSecret.length < 32) {
   throw new Error("FATAL: BETTER_AUTH_SECRET environment variable is missing or shorter than 32 characters.");
+}
+if (process.env.NODE_ENV === "production" && !process.env.BETTER_AUTH_URL) {
+  throw new Error("FATAL: BETTER_AUTH_URL environment variable is missing in production.");
 }
 
 export const auth = betterAuth({
@@ -22,6 +27,7 @@ export const auth = betterAuth({
   // 2. Email and Password Configuration
   emailAndPassword: {
     enabled: true,
+    disableSignUp: true,
     minPasswordLength: 12,
     maxPasswordLength: 128,
     requireEmailVerification: true,
@@ -93,6 +99,9 @@ export const auth = betterAuth({
     },
   },
   advanced: {
+    ipAddress: {
+      ipAddressHeaders: ["x-forwarded-for"],
+    },
     useSecureCookies: process.env.NODE_ENV === "production",
     defaultCookieAttributes: {
       httpOnly: true,
@@ -116,7 +125,7 @@ export const auth = betterAuth({
       } catch {}
     }
     if (process.env.NODE_ENV !== "production") {
-      origins.push("http://localhost:3000", "http://127.0.0.1:3000");
+      origins.push("http://localhost:3000");
     }
     return Array.from(new Set(origins));
   },
@@ -129,22 +138,77 @@ export const auth = betterAuth({
     },
   },
 
-  // Social OAuth providers (Google only; GitHub removed unless explicitly configured)
+  // Social OAuth providers (Google only; implicit signup strictly disabled)
   socialProviders: {
     ...(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET
       ? {
           google: {
             clientId: process.env.GOOGLE_CLIENT_ID,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+            disableSignUp: true,
+            disableImplicitSignUp: true,
           },
         }
       : {}),
   },
 
-  // 8. Audit Logging via Database Hooks
+  // 8. Audit Logging & Access Enforcement via Database Hooks
   databaseHooks: {
     session: {
       create: {
+        before: async (session) => {
+          const employee = await db.employee.findUnique({
+            where: { userId: session.userId },
+            include: { role: true },
+          });
+
+          if (!employee) {
+            await writeAudit(db, {
+              actor: { id: session.userId },
+              action: AUDIT_ACTIONS.AUTH_LOGIN_BLOCKED,
+              ip: session.ipAddress,
+              before: { reason: "No employee profile" },
+            });
+            throw new APIError("FORBIDDEN", { message: "No employee profile" });
+          }
+
+          if (employee.status === EmployeeStatus.SUSPENDED) {
+            await writeAudit(db, {
+              actor: { id: session.userId, role: employee.role.key },
+              action: AUDIT_ACTIONS.AUTH_LOGIN_BLOCKED,
+              ip: session.ipAddress,
+              before: { reason: "Account suspended" },
+            });
+            throw new APIError("FORBIDDEN", { message: "Account suspended" });
+          }
+
+          if (employee.status === EmployeeStatus.TERMINATED) {
+            await writeAudit(db, {
+              actor: { id: session.userId, role: employee.role.key },
+              action: AUDIT_ACTIONS.AUTH_LOGIN_BLOCKED,
+              ip: session.ipAddress,
+              before: { reason: "Account terminated" },
+            });
+            throw new APIError("FORBIDDEN", { message: "Account terminated" });
+          }
+
+          // Check if temporary default password has expired
+          if (
+            employee.mustChangePassword &&
+            employee.defaultPasswordExpiresAt &&
+            new Date() > new Date(employee.defaultPasswordExpiresAt)
+          ) {
+            await writeAudit(db, {
+              actor: { id: session.userId, role: employee.role.key },
+              action: AUDIT_ACTIONS.AUTH_LOGIN_BLOCKED,
+              ip: session.ipAddress,
+              before: { reason: "Default password expired" },
+            });
+            throw new APIError("FORBIDDEN", {
+              message: "Default password expired. Ask HR to reset your account",
+            });
+          }
+        },
         after: async (session) => {
           await createAuditLog({
             userId: session.userId,

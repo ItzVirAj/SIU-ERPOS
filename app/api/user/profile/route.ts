@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { requireSession, handleRouteError, HttpError } from "@/lib/authz";
+import { requireEmployee, handleRouteError, HttpError } from "@/lib/authz";
 import { db } from "@/lib/db";
 import { generateEmployeeCode } from "@/lib/employee-code";
 
@@ -19,7 +19,7 @@ const updateProfileSchema = z.object({
 
 export async function GET(request: NextRequest) {
   try {
-    const session = await requireSession();
+    const { session } = await requireEmployee();
     const userId = session.user.id;
 
     let user = await db.user.findUnique({
@@ -94,7 +94,7 @@ export async function GET(request: NextRequest) {
 
 export async function PATCH(request: NextRequest) {
   try {
-    const session = await requireSession();
+    const { session } = await requireEmployee();
     const userId = session.user.id;
 
     const rawBody = await request.json();

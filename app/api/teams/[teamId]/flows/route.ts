@@ -1,6 +1,8 @@
+import { AppModule, AccessLevel } from "@/lib/prisma-client";
+import { requireTeamAccess } from "@/lib/route-guards";
 import { NextRequest, NextResponse } from "next/server"
 import { z } from "zod"
-import { requireTeamMember, requireTeamAdmin, handleRouteError } from "@/lib/authz"
+import { handleRouteError } from "@/lib/authz";
 import { db } from "@/lib/db"
 
 const createFlowSchema = z.object({
@@ -18,7 +20,7 @@ export async function GET(
 ) {
   try {
     const { teamId } = await params
-    await requireTeamMember(teamId)
+    await requireTeamAccess(teamId, { module: AppModule.AUTOMATIONS, level: AccessLevel.VIEW })
 
     const rules = await db.automationRule.findMany({
       where: { teamId },
@@ -43,7 +45,7 @@ export async function POST(
 ) {
   try {
     const { teamId } = await params
-    const { user, userId, member } = await requireTeamAdmin(teamId)
+    const { user, userId, member } = await requireTeamAccess(teamId, { module: AppModule.AUTOMATIONS, level: AccessLevel.WRITE })
 
     const rawBody = await request.json()
     const { name, description, triggerType, actionType, triggerConfig, actionConfig } =

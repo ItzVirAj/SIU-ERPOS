@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server"
 import { z } from "zod"
-import { requireTeamAdmin, handleRouteError, HttpError } from "@/lib/authz"
+import { handleRouteError, HttpError } from "@/lib/authz"
+import { requireTeamAccess } from "@/lib/route-guards"
+import { AppModule, AccessLevel } from "@/lib/prisma-client"
 import { db } from "@/lib/db"
 
 const patchApiKeySchema = z.object({
@@ -13,7 +15,10 @@ export async function PATCH(
 ) {
   try {
     const { teamId, keyId } = await params
-    const { user, userId, member } = await requireTeamAdmin(teamId)
+    const { user, userId, member } = await requireTeamAccess(teamId, {
+      module: AppModule.DEV_SETTINGS,
+      level: AccessLevel.WRITE,
+    })
 
     const existingKey = await db.developerApiKey.findFirst({
       where: { id: keyId, teamId },
@@ -30,6 +35,18 @@ export async function PATCH(
       where: { id: keyId },
       data: {
         isActive,
+      },
+      select: {
+        id: true,
+        name: true,
+        keyPrefix: true,
+        scopes: true,
+        createdBy: true,
+        createdByName: true,
+        lastUsedAt: true,
+        expiresAt: true,
+        isActive: true,
+        createdAt: true,
       },
     })
 
@@ -59,7 +76,10 @@ export async function DELETE(
 ) {
   try {
     const { teamId, keyId } = await params
-    const { user, userId, member } = await requireTeamAdmin(teamId)
+    const { user, userId, member } = await requireTeamAccess(teamId, {
+      module: AppModule.DEV_SETTINGS,
+      level: AccessLevel.MANAGE,
+    })
 
     const existingKey = await db.developerApiKey.findFirst({
       where: { id: keyId, teamId },

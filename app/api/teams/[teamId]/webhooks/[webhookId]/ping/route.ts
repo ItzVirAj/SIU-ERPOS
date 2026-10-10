@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
-import { requireTeamAdmin, handleRouteError, HttpError } from "@/lib/authz"
+import { handleRouteError, HttpError } from "@/lib/authz"
+import { requireTeamAccess } from "@/lib/route-guards"
+import { AppModule, AccessLevel } from "@/lib/prisma-client"
 import { db } from "@/lib/db"
 
 export async function POST(
@@ -8,7 +10,10 @@ export async function POST(
 ) {
   try {
     const { teamId, webhookId } = await params
-    const { user, userId, member } = await requireTeamAdmin(teamId)
+    const { user, userId, member } = await requireTeamAccess(teamId, {
+      module: AppModule.DEV_SETTINGS,
+      level: AccessLevel.WRITE,
+    })
 
     const webhook = await db.webhookEndpoint.findFirst({
       where: { id: webhookId, teamId },

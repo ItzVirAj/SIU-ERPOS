@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import { db } from '@/lib/db'
-import { requireTeamAdmin, handleRouteError, HttpError } from '@/lib/authz'
+import { handleRouteError, HttpError } from '@/lib/authz'
+import { requireTeamAccess } from '@/lib/route-guards'
+import { AppModule, AccessLevel } from '@/lib/prisma-client'
 
 const updateKeySchema = z.object({
   apiKey: z.string().min(1).startsWith('gsk_', { message: 'Invalid Groq API key format (must start with gsk_)' }),
@@ -13,7 +15,10 @@ export async function GET(
 ) {
   try {
     const { teamId } = await params
-    await requireTeamAdmin(teamId)
+    await requireTeamAccess(teamId, {
+      module: AppModule.DEV_SETTINGS,
+      level: AccessLevel.VIEW,
+    })
 
     const team = await db.team.findUnique({
       where: { id: teamId },
@@ -42,7 +47,10 @@ export async function PUT(
 ) {
   try {
     const { teamId } = await params
-    await requireTeamAdmin(teamId)
+    await requireTeamAccess(teamId, {
+      module: AppModule.DEV_SETTINGS,
+      level: AccessLevel.WRITE,
+    })
 
     const rawBody = await request.json()
     const { apiKey } = updateKeySchema.parse(rawBody)
@@ -66,7 +74,10 @@ export async function DELETE(
 ) {
   try {
     const { teamId } = await params
-    await requireTeamAdmin(teamId)
+    await requireTeamAccess(teamId, {
+      module: AppModule.DEV_SETTINGS,
+      level: AccessLevel.MANAGE,
+    })
 
     await db.team.update({
       where: { id: teamId },
@@ -80,3 +91,4 @@ export async function DELETE(
     return handleRouteError(error)
   }
 }
+

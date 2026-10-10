@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { requireTeamAdmin, handleRouteError, HttpError } from '@/lib/authz'
+import { requireTeamAccess } from '@/lib/route-guards'
+import { AppModule, AccessLevel } from '@/lib/prisma-client'
+import { handleRouteError, HttpError } from '@/lib/authz'
 import { db } from '@/lib/db'
 
 export async function DELETE(
@@ -8,7 +10,10 @@ export async function DELETE(
 ) {
   try {
     const { teamId, invitationId } = await params
-    await requireTeamAdmin(teamId)
+    await requireTeamAccess(teamId, {
+      module: AppModule.EMPLOYEES,
+      level: AccessLevel.WRITE,
+    })
 
     const invitation = await db.invitation.findFirst({
       where: {

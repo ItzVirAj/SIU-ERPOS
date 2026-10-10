@@ -1,6 +1,8 @@
+import { AppModule, AccessLevel } from "@/lib/prisma-client";
+import { requireTeamAccess } from "@/lib/route-guards";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { requireTeamMember, handleRouteError, HttpError } from "@/lib/authz";
+import { handleRouteError, HttpError } from "@/lib/authz";
 import { addLeadActivity, getLeadById } from "@/lib/api/crm";
 
 const addActivitySchema = z.object({
@@ -15,7 +17,7 @@ export async function POST(
 ) {
   try {
     const { teamId, leadId } = await params;
-    const { user } = await requireTeamMember(teamId, "developer");
+    const { user } = await requireTeamAccess(teamId, { module: AppModule.CRM, level: AccessLevel.WRITE });
 
     const lead = await getLeadById(teamId, leadId);
     if (!lead) {

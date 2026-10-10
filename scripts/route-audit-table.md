@@ -1,0 +1,169 @@
+# Route Security Audit Summary
+
+| Method | Path | Auth Mechanism | Team Check | Role/Access | Touches Data | Public | Flags |
+|---|---|---|---|---|---|---|---|
+| `GET` | `/api/admin/employees` | requireAccess | no | yes | no | no | - |
+| `POST` | `/api/admin/employees` | requireAccess | no | yes | no | no | - |
+| `POST` | `/api/admin/employees/[id]/reset-password` | requireAccess | no | yes | no | no | - |
+| `POST` | `/api/admin/employees/[id]/restore` | requireAccess | no | yes | no | no | - |
+| `POST` | `/api/admin/employees/[id]/revoke-sessions` | requireAccess | no | yes | no | no | - |
+| `PATCH` | `/api/admin/employees/[id]/role` | requireAccess | no | yes | no | no | - |
+| `GET` | `/api/admin/employees/[id]` | requireAccess | no | yes | no | no | - |
+| `PATCH` | `/api/admin/employees/[id]` | requireAccess | no | yes | no | no | - |
+| `DELETE` | `/api/admin/employees/[id]` | requireAccess | no | yes | no | no | - |
+| `POST` | `/api/admin/employees/[id]/suspend` | requireAccess | no | yes | no | no | - |
+| `GET` | `/api/admin/roles` | requireAccess | no | yes | no | no | - |
+| `ALL` | `/api/auth/[...all]` | none | no | no | no | yes | - |
+| `GET` | `/api/inbox` | requireSession | yes | no | yes | no | (2) session direct bypass assertEmployeeUsable |
+| `POST` | `/api/inbox` | requireSession | yes | no | yes | no | (2) session direct bypass assertEmployeeUsable |
+| `GET` | `/api/inbox/unread-count` | requireSession | no | no | yes | no | (2) session direct bypass assertEmployeeUsable |
+| `PATCH` | `/api/inbox/[messageId]` | requireSession | no | no | yes | no | (2) session direct bypass assertEmployeeUsable |
+| `DELETE` | `/api/inbox/[messageId]` | requireSession | no | no | yes | no | (2) session direct bypass assertEmployeeUsable |
+| `GET` | `/api/invitations/[invitationId]` | none | no | no | yes | yes | - |
+| `GET` | `/api/me/access` | requireEmployee | no | no | no | no | - |
+| `POST` | `/api/me/change-password` | requireEmployee | yes | no | yes | no | - |
+| `POST` | `/api/teams/create` | requireEmployee | yes | no | yes | no | - |
+| `GET` | `/api/teams` | requireSession | no | no | yes | no | (2) session direct bypass assertEmployeeUsable |
+| `GET` | `/api/teams/[teamId]/announcements` | requireTeamMember | yes | no | yes | no | - |
+| `POST` | `/api/teams/[teamId]/announcements` | requireTeamMember | yes | no | yes | no | - |
+| `POST` | `/api/teams/[teamId]/announcements/[announcementId]/ack` | requireTeamMember | yes | no | yes | no | - |
+| `GET` | `/api/teams/[teamId]/api-key` | requireTeamAdmin | yes | yes | yes | no | - |
+| `PUT` | `/api/teams/[teamId]/api-key` | requireTeamAdmin | yes | yes | yes | no | - |
+| `DELETE` | `/api/teams/[teamId]/api-key` | requireTeamAdmin | yes | yes | yes | no | - |
+| `GET` | `/api/teams/[teamId]/api-keys` | requireTeamAdmin | yes | yes | yes | no | - |
+| `POST` | `/api/teams/[teamId]/api-keys` | requireTeamAdmin | yes | yes | yes | no | - |
+| `PATCH` | `/api/teams/[teamId]/api-keys/[keyId]` | requireTeamAdmin | yes | yes | yes | no | - |
+| `DELETE` | `/api/teams/[teamId]/api-keys/[keyId]` | requireTeamAdmin | yes | yes | yes | no | - |
+| `GET` | `/api/teams/[teamId]/audit-logs` | requireTeamAdmin | yes | yes | yes | no | - |
+| `POST` | `/api/teams/[teamId]/audit-logs` | requireTeamAdmin | yes | yes | yes | no | - |
+| `GET` | `/api/teams/[teamId]/automations` | requireTeamAdmin | yes | yes | yes | no | - |
+| `POST` | `/api/teams/[teamId]/automations` | requireTeamAdmin | yes | yes | yes | no | - |
+| `POST` | `/api/teams/[teamId]/automations/[ruleId]` | requireTeamAdmin | yes | yes | yes | no | - |
+| `PATCH` | `/api/teams/[teamId]/automations/[ruleId]` | requireTeamAdmin | yes | yes | yes | no | - |
+| `DELETE` | `/api/teams/[teamId]/automations/[ruleId]` | requireTeamAdmin | yes | yes | yes | no | - |
+| `GET` | `/api/teams/[teamId]/calendar/events` | requireTeamMember | yes | no | yes | no | - |
+| `POST` | `/api/teams/[teamId]/calendar/events` | requireTeamMember | yes | no | yes | no | - |
+| `POST` | `/api/teams/[teamId]/calendar/events/[eventId]/action-items/[actionItemId]/convert` | requireTeamMember | yes | no | no | no | - |
+| `POST` | `/api/teams/[teamId]/calendar/events/[eventId]/notes` | requireTeamMember | yes | no | no | no | - |
+| `GET` | `/api/teams/[teamId]/calendar/events/[eventId]` | requireTeamMember | yes | no | no | no | - |
+| `PATCH` | `/api/teams/[teamId]/calendar/events/[eventId]` | requireTeamMember | yes | no | no | no | - |
+| `DELETE` | `/api/teams/[teamId]/calendar/events/[eventId]` | requireTeamMember | yes | no | no | no | - |
+| `POST` | `/api/teams/[teamId]/calendar/events/[eventId]/summarize` | requireTeamMember | yes | no | yes | no | - |
+| `GET` | `/api/teams/[teamId]/calendar/standup` | requireTeamMember | yes | no | no | no | - |
+| `POST` | `/api/teams/[teamId]/calendar/standup` | requireTeamMember | yes | no | no | no | - |
+| `GET` | `/api/teams/[teamId]/channels` | requireTeamMember | yes | no | yes | no | - |
+| `POST` | `/api/teams/[teamId]/channels` | requireTeamMember | yes | no | yes | no | - |
+| `GET` | `/api/teams/[teamId]/channels/[channelId]/messages` | requireTeamMember | yes | no | yes | no | - |
+| `POST` | `/api/teams/[teamId]/channels/[channelId]/messages` | requireTeamMember | yes | no | yes | no | - |
+| `POST` | `/api/teams/[teamId]/channels/[channelId]/messages/[messageId]/reactions` | requireTeamMember | yes | no | yes | no | - |
+| `GET` | `/api/teams/[teamId]/chat/active` | requireTeamMember | yes | no | no | no | - |
+| `POST` | `/api/teams/[teamId]/chat/active` | requireTeamMember | yes | no | no | no | - |
+| `GET` | `/api/teams/[teamId]/chat/conversations` | requireTeamMember | yes | no | no | no | - |
+| `POST` | `/api/teams/[teamId]/chat/conversations` | requireTeamMember | yes | no | no | no | - |
+| `GET` | `/api/teams/[teamId]/chat/conversations/[conversationId]` | requireTeamMember | yes | no | no | no | - |
+| `DELETE` | `/api/teams/[teamId]/chat/conversations/[conversationId]` | requireTeamMember | yes | no | no | no | - |
+| `POST` | `/api/teams/[teamId]/chat` | requireTeamMember | yes | no | yes | no | - |
+| `GET` | `/api/teams/[teamId]/company-settings` | requireTeamAdmin | yes | yes | yes | no | - |
+| `PUT` | `/api/teams/[teamId]/company-settings` | requireTeamAdmin | yes | yes | yes | no | - |
+| `GET` | `/api/teams/[teamId]/crm/clients` | requireTeamMember | yes | no | no | no | - |
+| `GET` | `/api/teams/[teamId]/crm/leads` | requireTeamMember | yes | no | no | no | - |
+| `POST` | `/api/teams/[teamId]/crm/leads` | requireTeamMember | yes | no | no | no | - |
+| `POST` | `/api/teams/[teamId]/crm/leads/[leadId]/activities` | requireTeamMember | yes | no | no | no | - |
+| `POST` | `/api/teams/[teamId]/crm/leads/[leadId]/convert` | requireTeamMember | yes | no | no | no | - |
+| `GET` | `/api/teams/[teamId]/crm/leads/[leadId]` | requireTeamMember | yes | no | no | no | - |
+| `PATCH` | `/api/teams/[teamId]/crm/leads/[leadId]` | requireTeamMember | yes | no | no | no | - |
+| `DELETE` | `/api/teams/[teamId]/crm/leads/[leadId]` | requireTeamMember | yes | no | no | no | - |
+| `GET` | `/api/teams/[teamId]/crm/pipelines` | requireTeamMember | yes | no | no | no | - |
+| `GET` | `/api/teams/[teamId]/export` | requireTeamAdmin | yes | yes | yes | no | - |
+| `GET` | `/api/teams/[teamId]/finance/expenses` | requireTeamAdmin | yes | yes | yes | no | - |
+| `POST` | `/api/teams/[teamId]/finance/expenses` | requireTeamAdmin | yes | yes | yes | no | - |
+| `GET` | `/api/teams/[teamId]/finance/invoices` | requireTeamAdmin | yes | yes | yes | no | - |
+| `POST` | `/api/teams/[teamId]/finance/invoices` | requireTeamAdmin | yes | yes | yes | no | - |
+| `POST` | `/api/teams/[teamId]/finance/invoices/[invoiceId]/payments` | requireTeamAdmin | yes | yes | yes | no | - |
+| `GET` | `/api/teams/[teamId]/finance/invoices/[invoiceId]` | requireTeamAdmin | yes | yes | yes | no | - |
+| `PATCH` | `/api/teams/[teamId]/finance/invoices/[invoiceId]` | requireTeamAdmin | yes | yes | yes | no | - |
+| `DELETE` | `/api/teams/[teamId]/finance/invoices/[invoiceId]` | requireTeamAdmin | yes | yes | yes | no | - |
+| `GET` | `/api/teams/[teamId]/finance/overview` | requireTeamMember | yes | no | yes | no | - |
+| `GET` | `/api/teams/[teamId]/finance/payments` | requireTeamMember | yes | no | yes | no | - |
+| `GET` | `/api/teams/[teamId]/finance/receivables` | requireTeamMember | yes | no | yes | no | - |
+| `GET` | `/api/teams/[teamId]/finance/subscriptions` | requireTeamAdmin | yes | yes | yes | no | - |
+| `POST` | `/api/teams/[teamId]/finance/subscriptions` | requireTeamAdmin | yes | yes | yes | no | - |
+| `GET` | `/api/teams/[teamId]/finance/tax-summary` | requireTeamMember | yes | no | yes | no | - |
+| `GET` | `/api/teams/[teamId]/flows/history` | requireTeamMember | yes | no | yes | no | - |
+| `GET` | `/api/teams/[teamId]/flows` | requireTeamAdmin | yes | yes | yes | no | - |
+| `POST` | `/api/teams/[teamId]/flows` | requireTeamAdmin | yes | yes | yes | no | - |
+| `PATCH` | `/api/teams/[teamId]/flows/[flowId]` | requireTeamAdmin | yes | yes | yes | no | - |
+| `DELETE` | `/api/teams/[teamId]/flows/[flowId]` | requireTeamAdmin | yes | yes | yes | no | - |
+| `POST` | `/api/teams/[teamId]/flows/[flowId]/run` | requireTeamAdmin | yes | yes | yes | no | - |
+| `GET` | `/api/teams/[teamId]/invitations` | requireTeamAdmin | yes | yes | yes | no | - |
+| `POST` | `/api/teams/[teamId]/invitations` | requireTeamAdmin | yes | yes | yes | no | - |
+| `POST` | `/api/teams/[teamId]/invitations/[invitationId]/accept` | requireSession | yes | no | no | no | (2) session direct bypass assertEmployeeUsable; (3) unverified team member |
+| `POST` | `/api/teams/[teamId]/invitations/[invitationId]/resend` | requireTeamAdmin | yes | yes | yes | no | - |
+| `DELETE` | `/api/teams/[teamId]/invitations/[invitationId]` | requireTeamAdmin | yes | yes | yes | no | - |
+| `GET` | `/api/teams/[teamId]/issues` | requireTeamMember | yes | no | yes | no | - |
+| `POST` | `/api/teams/[teamId]/issues` | requireTeamMember | yes | no | yes | no | - |
+| `GET` | `/api/teams/[teamId]/issues/[issueId]` | requireTeamMember | yes | no | yes | no | - |
+| `PATCH` | `/api/teams/[teamId]/issues/[issueId]` | requireTeamMember | yes | no | yes | no | - |
+| `DELETE` | `/api/teams/[teamId]/issues/[issueId]` | requireTeamMember | yes | no | yes | no | - |
+| `GET` | `/api/teams/[teamId]/labels` | requireTeamMember | yes | no | yes | no | - |
+| `POST` | `/api/teams/[teamId]/labels` | requireTeamMember | yes | no | yes | no | - |
+| `PATCH` | `/api/teams/[teamId]/labels` | requireTeamMember | yes | no | yes | no | - |
+| `DELETE` | `/api/teams/[teamId]/labels` | requireTeamMember | yes | no | yes | no | - |
+| `GET` | `/api/teams/[teamId]/members` | requireTeamAdmin | yes | yes | yes | no | - |
+| `PATCH` | `/api/teams/[teamId]/members` | requireTeamAdmin | yes | yes | yes | no | - |
+| `DELETE` | `/api/teams/[teamId]/members` | requireTeamAdmin | yes | yes | yes | no | - |
+| `GET` | `/api/teams/[teamId]/my-tasks` | requireTeamMember | yes | no | yes | no | - |
+| `POST` | `/api/teams/[teamId]/my-tasks` | requireTeamMember | yes | no | yes | no | - |
+| `GET` | `/api/teams/[teamId]/products/overview` | requireTeamMember | yes | no | yes | no | - |
+| `GET` | `/api/teams/[teamId]/products/reusable-components` | requireTeamMember | yes | no | yes | no | - |
+| `POST` | `/api/teams/[teamId]/products/reusable-components` | requireTeamMember | yes | no | yes | no | - |
+| `GET` | `/api/teams/[teamId]/products` | requireTeamMember | yes | no | yes | no | - |
+| `POST` | `/api/teams/[teamId]/products` | requireTeamMember | yes | no | yes | no | - |
+| `GET` | `/api/teams/[teamId]/products/[productId]/feature-requests` | requireTeamMember | yes | no | yes | no | - |
+| `POST` | `/api/teams/[teamId]/products/[productId]/feature-requests` | requireTeamMember | yes | no | yes | no | - |
+| `PATCH` | `/api/teams/[teamId]/products/[productId]/feature-requests` | requireTeamMember | yes | no | yes | no | - |
+| `GET` | `/api/teams/[teamId]/products/[productId]/pilot-customers` | requireTeamMember | yes | no | yes | no | - |
+| `POST` | `/api/teams/[teamId]/products/[productId]/pilot-customers` | requireTeamMember | yes | no | yes | no | - |
+| `PATCH` | `/api/teams/[teamId]/products/[productId]/pilot-customers` | requireTeamMember | yes | no | yes | no | - |
+| `GET` | `/api/teams/[teamId]/products/[productId]/release-notes` | requireTeamMember | yes | no | yes | no | - |
+| `POST` | `/api/teams/[teamId]/products/[productId]/release-notes` | requireTeamMember | yes | no | yes | no | - |
+| `GET` | `/api/teams/[teamId]/products/[productId]/roadmap` | requireTeamMember | yes | no | yes | no | - |
+| `POST` | `/api/teams/[teamId]/products/[productId]/roadmap` | requireTeamMember | yes | no | yes | no | - |
+| `PATCH` | `/api/teams/[teamId]/products/[productId]/roadmap/[itemId]` | requireTeamMember | yes | no | yes | no | - |
+| `DELETE` | `/api/teams/[teamId]/products/[productId]/roadmap/[itemId]` | requireTeamMember | yes | no | yes | no | - |
+| `GET` | `/api/teams/[teamId]/products/[productId]` | requireTeamMember | yes | no | yes | no | - |
+| `PATCH` | `/api/teams/[teamId]/products/[productId]` | requireTeamMember | yes | no | yes | no | - |
+| `DELETE` | `/api/teams/[teamId]/products/[productId]` | requireTeamMember | yes | no | yes | no | - |
+| `GET` | `/api/teams/[teamId]/projects` | requireTeamMember | yes | no | yes | no | - |
+| `POST` | `/api/teams/[teamId]/projects` | requireTeamMember | yes | no | yes | no | - |
+| `GET` | `/api/teams/[teamId]/projects/[projectId]/members` | requireTeamMember | yes | no | yes | no | - |
+| `POST` | `/api/teams/[teamId]/projects/[projectId]/members` | requireTeamMember | yes | no | yes | no | - |
+| `DELETE` | `/api/teams/[teamId]/projects/[projectId]/members` | requireTeamMember | yes | no | yes | no | - |
+| `GET` | `/api/teams/[teamId]/projects/[projectId]` | requireTeamAdmin | yes | yes | yes | no | - |
+| `PATCH` | `/api/teams/[teamId]/projects/[projectId]` | requireTeamAdmin | yes | yes | yes | no | - |
+| `DELETE` | `/api/teams/[teamId]/projects/[projectId]` | requireTeamAdmin | yes | yes | yes | no | - |
+| `GET` | `/api/teams/[teamId]/reports/delivery` | requireTeamMember | yes | no | yes | no | - |
+| `GET` | `/api/teams/[teamId]/reports/financial` | requireTeamMember | yes | no | yes | no | - |
+| `GET` | `/api/teams/[teamId]/reports/founder-digest` | requireTeamMember | yes | no | yes | no | - |
+| `GET` | `/api/teams/[teamId]/reports/kpis` | requireTeamAdmin | yes | yes | yes | no | - |
+| `POST` | `/api/teams/[teamId]/reports/kpis` | requireTeamAdmin | yes | yes | yes | no | - |
+| `GET` | `/api/teams/[teamId]/reports/sales` | requireTeamMember | yes | no | yes | no | - |
+| `GET` | `/api/teams/[teamId]/reports/team-utilization` | requireTeamMember | yes | no | yes | no | - |
+| `DELETE` | `/api/teams/[teamId]` | requireTeamAdmin | yes | yes | yes | no | - |
+| `GET` | `/api/teams/[teamId]/stats` | requireTeamMember | yes | no | yes | no | - |
+| `POST` | `/api/teams/[teamId]/sync` | requireTeamMember | yes | no | yes | no | - |
+| `GET` | `/api/teams/[teamId]/system-health` | requireTeamMember | yes | no | yes | no | - |
+| `GET` | `/api/teams/[teamId]/webhooks` | requireTeamAdmin | yes | yes | yes | no | - |
+| `POST` | `/api/teams/[teamId]/webhooks` | requireTeamAdmin | yes | yes | yes | no | - |
+| `POST` | `/api/teams/[teamId]/webhooks/[webhookId]/ping` | requireTeamAdmin | yes | yes | yes | no | - |
+| `PATCH` | `/api/teams/[teamId]/webhooks/[webhookId]` | requireTeamAdmin | yes | yes | yes | no | - |
+| `DELETE` | `/api/teams/[teamId]/webhooks/[webhookId]` | requireTeamAdmin | yes | yes | yes | no | - |
+| `GET` | `/api/teams/[teamId]/workflow-states` | requireTeamAdmin | yes | yes | yes | no | - |
+| `POST` | `/api/teams/[teamId]/workflow-states` | requireTeamAdmin | yes | yes | yes | no | - |
+| `PATCH` | `/api/teams/[teamId]/workflow-states` | requireTeamAdmin | yes | yes | yes | no | - |
+| `DELETE` | `/api/teams/[teamId]/workflow-states` | requireTeamAdmin | yes | yes | yes | no | - |
+| `POST` | `/api/user/password` | requireSession | no | no | yes | no | (2) session direct bypass assertEmployeeUsable |
+| `GET` | `/api/user/profile` | requireSession | no | no | yes | no | (2) session direct bypass assertEmployeeUsable |
+| `PATCH` | `/api/user/profile` | requireSession | no | no | yes | no | (2) session direct bypass assertEmployeeUsable |
+| `GET` | `/api/user/sessions` | requireSession | no | no | yes | no | (2) session direct bypass assertEmployeeUsable |
+| `DELETE` | `/api/user/sessions` | requireSession | no | no | yes | no | (2) session direct bypass assertEmployeeUsable |

@@ -1,6 +1,8 @@
+import { AppModule, AccessLevel } from "@/lib/prisma-client";
+import { requireTeamAccess } from "@/lib/route-guards";
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
-import { requireTeamMember, handleRouteError } from '@/lib/authz'
+import { handleRouteError } from "@/lib/authz";
 
 export async function POST(
   request: NextRequest,
@@ -8,7 +10,7 @@ export async function POST(
 ) {
   try {
     const { teamId } = await params
-    await requireTeamMember(teamId)
+    await requireTeamAccess(teamId, { module: AppModule.WORK, level: AccessLevel.WRITE })
 
     const existingTeam = await db.team.findUnique({
       where: { id: teamId },

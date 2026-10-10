@@ -1,5 +1,7 @@
+import { AppModule, AccessLevel } from "@/lib/prisma-client";
+import { requireTeamAccess } from "@/lib/route-guards";
 import { NextRequest, NextResponse } from "next/server";
-import { requireTeamMember, handleRouteError, HttpError } from "@/lib/authz";
+import { handleRouteError, HttpError } from "@/lib/authz";
 import { getChatConversation, deleteChatConversation } from "@/lib/api/chat";
 
 export async function GET(
@@ -8,7 +10,7 @@ export async function GET(
 ) {
   try {
     const { teamId, conversationId } = await params;
-    const { user } = await requireTeamMember(teamId);
+    const { user } = await requireTeamAccess(teamId, { module: AppModule.COLLAB, level: AccessLevel.VIEW });
 
     const conversation = await getChatConversation(conversationId);
 
@@ -32,7 +34,7 @@ export async function DELETE(
 ) {
   try {
     const { teamId, conversationId } = await params;
-    const { user, member } = await requireTeamMember(teamId);
+    const { user, member } = await requireTeamAccess(teamId, { module: AppModule.COLLAB, level: AccessLevel.MANAGE });
 
     const conversation = await getChatConversation(conversationId);
 

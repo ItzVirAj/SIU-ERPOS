@@ -1,5 +1,7 @@
+import { AppModule, AccessLevel } from "@/lib/prisma-client";
+import { requireTeamAccess } from "@/lib/route-guards";
 import { NextRequest, NextResponse } from 'next/server'
-import { requireTeamMember, handleRouteError } from '@/lib/authz'
+import { handleRouteError } from "@/lib/authz";
 import { streamText, tool, convertToModelMessages } from 'ai'
 import { createGroq } from '@ai-sdk/groq'
 import { z } from 'zod'
@@ -40,7 +42,7 @@ export async function POST(
       )
     }
 
-    const { user } = await requireTeamMember(teamId)
+    const { user } = await requireTeamAccess(teamId, { module: AppModule.COLLAB, level: AccessLevel.WRITE })
     const userId = user.id
 
     // Get or create conversation

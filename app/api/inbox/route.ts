@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { requireSession, handleRouteError } from "@/lib/authz";
+import { requireAccess, handleRouteError } from "@/lib/authz";
+import { AppModule, AccessLevel } from "@/lib/prisma-client";
 import { db } from "@/lib/db";
 
 const createMessageSchema = z.object({
@@ -13,8 +14,8 @@ const createMessageSchema = z.object({
 
 export async function GET(request: NextRequest) {
   try {
-    const session = await requireSession();
-    const userId = session.user.id;
+    const actor = await requireAccess(AppModule.COLLAB, AccessLevel.VIEW);
+    const userId = actor.session.user.id;
     const { searchParams } = new URL(request.url);
     const category = searchParams.get("category") || "all";
     const search = searchParams.get("search") || "";
@@ -91,11 +92,11 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const session = await requireSession();
-    const senderId = session.user.id;
-    const senderName = session.user.name || "User";
-    const senderEmail = session.user.email || "";
-    const senderAvatar = session.user.image || null;
+    const actor = await requireAccess(AppModule.COLLAB, AccessLevel.WRITE);
+    const senderId = actor.session.user.id;
+    const senderName = actor.session.user.name || "User";
+    const senderEmail = actor.session.user.email || "";
+    const senderAvatar = actor.session.user.image || null;
 
     const rawBody = await request.json();
     const { recipientId, subject, content, category, teamId } = createMessageSchema.parse(rawBody);

@@ -1,15 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { z } from "zod";
-import { requireTeamAdmin, handleRouteError } from "@/lib/authz";
+import { handleRouteError } from "@/lib/authz";
+import { requireTeamAccess } from "@/lib/route-guards";
+import { AppModule, AccessLevel } from "@/lib/prisma-client";
 import { db } from "@/lib/db";
-
-const createAuditLogSchema = z.object({
-  action: z.string().optional(),
-  entityType: z.string().optional(),
-  entityId: z.string().nullable().optional(),
-  entityTitle: z.string().nullable().optional(),
-  details: z.any().optional(),
-}).strict()
 
 export async function GET(
   request: NextRequest,
@@ -17,7 +10,10 @@ export async function GET(
 ) {
   try {
     const { teamId } = await params;
-    const { user, userId, member } = await requireTeamAdmin(teamId);
+    const { user, userId, member } = await requireTeamAccess(teamId, {
+      module: AppModule.AUDIT_LOGS,
+      level: AccessLevel.VIEW,
+    });
 
     const { searchParams } = new URL(request.url);
     const action = searchParams.get("action");
@@ -76,33 +72,11 @@ export async function GET(
 }
 
 export async function POST(
-  request: NextRequest,
-  { params }: { params: Promise<{ teamId: string }> }
+  _request: NextRequest,
+  _context: { params: Promise<{ teamId: string }> }
 ) {
-  try {
-    const { teamId } = await params;
-    const { user, userId, member } = await requireTeamAdmin(teamId);
-
-    const rawBody = await request.json();
-    const body = createAuditLogSchema.parse(rawBody);
-
-    const log = await db.auditLog.create({
-      data: {
-        teamId,
-        userId,
-        userName: member.userName || user.name || "Administrator",
-        userEmail: member.userEmail || user.email || "admin@sketchitup.internal",
-        action: body.action || "UPDATE",
-        entityType: body.entityType || "general",
-        entityId: body.entityId,
-        entityTitle: body.entityTitle,
-        details: body.details,
-        ipAddress: request.headers.get("x-forwarded-for") || "127.0.0.1",
-      },
-    });
-
-    return NextResponse.json(log, { status: 201 });
-  } catch (error) {
-    return handleRouteError(error);
-  }
+  return NextResponse.json(
+    { error: "Method Not Allowed. Audit logs are append-only and cannot be created via client API." },
+    { status: 405, headers: { Allow: "GET" } }
+  );
 }

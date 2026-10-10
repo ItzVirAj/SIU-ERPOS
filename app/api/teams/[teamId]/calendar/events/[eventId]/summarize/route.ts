@@ -1,5 +1,7 @@
+import { AppModule, AccessLevel } from "@/lib/prisma-client";
+import { requireTeamAccess } from "@/lib/route-guards";
 import { NextRequest, NextResponse } from "next/server";
-import { requireTeamMember, handleRouteError, HttpError } from "@/lib/authz";
+import { handleRouteError, HttpError } from "@/lib/authz";
 import { getEventById, upsertMeetingNote } from "@/lib/api/calendar";
 import { generateText } from "ai";
 import { createGroq } from "@ai-sdk/groq";
@@ -11,7 +13,7 @@ export async function POST(
 ) {
   try {
     const { teamId, eventId } = await params;
-    await requireTeamMember(teamId, "developer");
+    await requireTeamAccess(teamId, { module: AppModule.COLLAB, level: AccessLevel.WRITE });
 
     const event = await getEventById(teamId, eventId);
     if (!event) {

@@ -1,5 +1,7 @@
+import { AppModule, AccessLevel } from "@/lib/prisma-client";
+import { requireTeamAccess } from "@/lib/route-guards";
 import { NextRequest, NextResponse } from "next/server";
-import { requireTeamMember, handleRouteError, HttpError } from "@/lib/authz";
+import { handleRouteError, HttpError } from "@/lib/authz";
 import { getLeadById, updateLead, deleteLead } from "@/lib/api/crm";
 
 export async function GET(
@@ -8,7 +10,7 @@ export async function GET(
 ) {
   try {
     const { teamId, leadId } = await params;
-    await requireTeamMember(teamId);
+    await requireTeamAccess(teamId, { module: AppModule.CRM, level: AccessLevel.VIEW });
 
     const lead = await getLeadById(teamId, leadId);
     if (!lead) {
@@ -27,7 +29,7 @@ export async function PATCH(
 ) {
   try {
     const { teamId, leadId } = await params;
-    const { user } = await requireTeamMember(teamId, "developer");
+    const { user } = await requireTeamAccess(teamId, { module: AppModule.CRM, level: AccessLevel.WRITE });
 
     const existing = await getLeadById(teamId, leadId);
     if (!existing) {
@@ -49,7 +51,7 @@ export async function DELETE(
 ) {
   try {
     const { teamId, leadId } = await params;
-    await requireTeamMember(teamId, "developer");
+    await requireTeamAccess(teamId, { module: AppModule.CRM, level: AccessLevel.MANAGE });
 
     const existing = await getLeadById(teamId, leadId);
     if (!existing) {

@@ -52,6 +52,7 @@ model Team {
   subscriptions      ToolSubscription[]
   domainProducts     DomainProduct[]
   reusableComponents ReusableComponent[]
+  employees          Employee[]
 
   @@map("teams")
 }
@@ -262,6 +263,7 @@ model User {
   accounts         Account[]
   twoFactorEnabled Boolean?    @default(false)
   twofactors       TwoFactor[]
+  employee         Employee?
 
   @@unique([email])
   @@map("user")
@@ -771,6 +773,11 @@ model AuditLog {
   entityTitle String?
   details     Json? // Context diff or metadata
   ipAddress   String?
+  actorRole   String?
+  targetId    String?
+  targetEmail String?
+  before      Json?
+  after       Json?
   createdAt   DateTime @default(now())
 
   @@index([teamId, createdAt])
@@ -1168,4 +1175,93 @@ model ReusableComponent {
 
   @@index([teamId, category])
   @@map("reusable_components")
+}
+
+enum AccessLevel {
+  NONE
+  VIEW
+  WRITE
+  MANAGE
+}
+
+enum AppModule {
+  WORK
+  COLLAB
+  CRM
+  FINANCE
+  PRODUCTS
+  REPORTS
+  AUTOMATIONS
+  EMPLOYEES
+  ROLES
+  DEV_SETTINGS
+  COMPANY_SETTINGS
+  AUDIT_LOGS
+}
+
+model Role {
+  id             String       @id @default(cuid())
+  key            String       @unique
+  name           String
+  description    String
+  level          Int
+  legacyTeamRole String // admin | developer | viewer
+  isSystem       Boolean      @default(true)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  access         RoleAccess[]
+  employees      Employee[]
+
+  @@map("roles")
+}
+
+model RoleAccess {
+  id     String      @id @default(cuid())
+  roleId String
+  role   Role        @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  module AppModule
+  level  AccessLevel
+
+  @@unique([roleId, module])
+  @@index([module])
+  @@map("role_access")
+}
+
+enum EmployeeStatus {
+  ACTIVE
+  SUSPENDED
+  TERMINATED
+}
+
+model Employee {
+  id                       String         @id @default(cuid())
+  userId                   String         @unique
+  user                     User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  email                    String         @unique
+  personalEmail            String?
+  fullName                 String
+  employeeCode             String?        @unique
+  position                 String?
+  department               String?
+  phone                    String?
+  joiningDate              DateTime?
+  roleId                   String
+  role                     Role           @relation(fields: [roleId], references: [id], onDelete: Restrict)
+  teamId                   String
+  team                     Team           @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  status                   EmployeeStatus @default(ACTIVE)
+  mustChangePassword       Boolean        @default(false)
+  defaultPasswordExpiresAt DateTime?
+  suspendedAt              DateTime?
+  suspendedBy              String?
+  suspendedReason          String?
+  terminatedAt             DateTime?
+  createdBy                String?
+  createdAt                DateTime       @default(now())
+  updatedAt                DateTime       @updatedAt
+
+  @@index([teamId])
+  @@index([roleId])
+  @@index([status])
+  @@map("employees")
 }

@@ -1,6 +1,8 @@
+import { AppModule, AccessLevel } from "@/lib/prisma-client";
+import { requireTeamAccess } from "@/lib/route-guards";
 import { NextRequest, NextResponse } from "next/server"
 import { z } from "zod"
-import { requireTeamMember, handleRouteError } from "@/lib/authz"
+import { handleRouteError } from "@/lib/authz";
 import { db } from "@/lib/db"
 
 function slugify(text: string): string {
@@ -32,7 +34,7 @@ export async function GET(
 ) {
   try {
     const { teamId } = await params
-    await requireTeamMember(teamId)
+    await requireTeamAccess(teamId, { module: AppModule.PRODUCTS, level: AccessLevel.VIEW })
 
     const products = await db.domainProduct.findMany({
       where: { teamId },
@@ -57,7 +59,7 @@ export async function POST(
 ) {
   try {
     const { teamId } = await params
-    await requireTeamMember(teamId, "developer")
+    await requireTeamAccess(teamId, { module: AppModule.PRODUCTS, level: AccessLevel.WRITE })
 
     const rawBody = await request.json()
     const {

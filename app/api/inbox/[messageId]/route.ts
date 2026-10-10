@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { requireSession, handleRouteError, HttpError } from "@/lib/authz";
+import { requireAccess, handleRouteError, HttpError } from "@/lib/authz";
+import { AppModule, AccessLevel } from "@/lib/prisma-client";
 import { db } from "@/lib/db";
 
 const updateMessageSchema = z.object({
@@ -14,9 +15,9 @@ export async function PATCH(
   { params }: { params: Promise<{ messageId: string }> }
 ) {
   try {
-    const session = await requireSession();
+    const actor = await requireAccess(AppModule.COLLAB, AccessLevel.WRITE);
     const { messageId } = await params;
-    const userId = session.user.id;
+    const userId = actor.session.user.id;
 
     // Verify ownership
     const message = await db.inboxMessage.findFirst({
@@ -46,9 +47,9 @@ export async function DELETE(
   { params }: { params: Promise<{ messageId: string }> }
 ) {
   try {
-    const session = await requireSession();
+    const actor = await requireAccess(AppModule.COLLAB, AccessLevel.WRITE);
     const { messageId } = await params;
-    const userId = session.user.id;
+    const userId = actor.session.user.id;
 
     const message = await db.inboxMessage.findFirst({
       where: { id: messageId, userId },

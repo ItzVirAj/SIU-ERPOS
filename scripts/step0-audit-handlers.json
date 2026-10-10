@@ -1,0 +1,1150 @@
+[
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\admin\\employees\\route.ts",
+    "relPath": "app/api/admin/employees/route.ts",
+    "method": "GET",
+    "guard": "requireAccess",
+    "isTeamRoute": false
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\admin\\employees\\route.ts",
+    "relPath": "app/api/admin/employees/route.ts",
+    "method": "POST",
+    "guard": "requireAccess",
+    "isTeamRoute": false
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\admin\\employees\\[id]\\reset-password\\route.ts",
+    "relPath": "app/api/admin/employees/[id]/reset-password/route.ts",
+    "method": "POST",
+    "guard": "requireAccess",
+    "isTeamRoute": false
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\admin\\employees\\[id]\\restore\\route.ts",
+    "relPath": "app/api/admin/employees/[id]/restore/route.ts",
+    "method": "POST",
+    "guard": "requireAccess",
+    "isTeamRoute": false
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\admin\\employees\\[id]\\revoke-sessions\\route.ts",
+    "relPath": "app/api/admin/employees/[id]/revoke-sessions/route.ts",
+    "method": "POST",
+    "guard": "requireAccess",
+    "isTeamRoute": false
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\admin\\employees\\[id]\\role\\route.ts",
+    "relPath": "app/api/admin/employees/[id]/role/route.ts",
+    "method": "PATCH",
+    "guard": "requireAccess",
+    "isTeamRoute": false
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\admin\\employees\\[id]\\route.ts",
+    "relPath": "app/api/admin/employees/[id]/route.ts",
+    "method": "GET",
+    "guard": "requireAccess",
+    "isTeamRoute": false
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\admin\\employees\\[id]\\route.ts",
+    "relPath": "app/api/admin/employees/[id]/route.ts",
+    "method": "PATCH",
+    "guard": "requireAccess",
+    "isTeamRoute": false
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\admin\\employees\\[id]\\route.ts",
+    "relPath": "app/api/admin/employees/[id]/route.ts",
+    "method": "DELETE",
+    "guard": "requireAccess",
+    "isTeamRoute": false
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\admin\\employees\\[id]\\suspend\\route.ts",
+    "relPath": "app/api/admin/employees/[id]/suspend/route.ts",
+    "method": "POST",
+    "guard": "requireAccess",
+    "isTeamRoute": false
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\admin\\roles\\route.ts",
+    "relPath": "app/api/admin/roles/route.ts",
+    "method": "GET",
+    "guard": "requireAccess",
+    "isTeamRoute": false
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\inbox\\route.ts",
+    "relPath": "app/api/inbox/route.ts",
+    "method": "GET",
+    "guard": "requireAccess",
+    "isTeamRoute": false
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\inbox\\route.ts",
+    "relPath": "app/api/inbox/route.ts",
+    "method": "POST",
+    "guard": "requireAccess",
+    "isTeamRoute": false
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\inbox\\unread-count\\route.ts",
+    "relPath": "app/api/inbox/unread-count/route.ts",
+    "method": "GET",
+    "guard": "requireAccess",
+    "isTeamRoute": false
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\inbox\\[messageId]\\route.ts",
+    "relPath": "app/api/inbox/[messageId]/route.ts",
+    "method": "PATCH",
+    "guard": "requireAccess",
+    "isTeamRoute": false
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\inbox\\[messageId]\\route.ts",
+    "relPath": "app/api/inbox/[messageId]/route.ts",
+    "method": "DELETE",
+    "guard": "requireAccess",
+    "isTeamRoute": false
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\invitations\\[invitationId]\\route.ts",
+    "relPath": "app/api/invitations/[invitationId]/route.ts",
+    "method": "GET",
+    "guard": "publicAllowlist",
+    "isTeamRoute": false
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\me\\access\\route.ts",
+    "relPath": "app/api/me/access/route.ts",
+    "method": "GET",
+    "guard": "requireEmployee",
+    "isTeamRoute": false
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\me\\change-password\\route.ts",
+    "relPath": "app/api/me/change-password/route.ts",
+    "method": "POST",
+    "guard": "requireEmployee",
+    "isTeamRoute": false
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\create\\route.ts",
+    "relPath": "app/api/teams/create/route.ts",
+    "method": "POST",
+    "guard": "requireEmployee",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\route.ts",
+    "relPath": "app/api/teams/route.ts",
+    "method": "GET",
+    "guard": "requireEmployee",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\announcements\\route.ts",
+    "relPath": "app/api/teams/[teamId]/announcements/route.ts",
+    "method": "GET",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\announcements\\route.ts",
+    "relPath": "app/api/teams/[teamId]/announcements/route.ts",
+    "method": "POST",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\announcements\\[announcementId]\\ack\\route.ts",
+    "relPath": "app/api/teams/[teamId]/announcements/[announcementId]/ack/route.ts",
+    "method": "POST",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\api-key\\route.ts",
+    "relPath": "app/api/teams/[teamId]/api-key/route.ts",
+    "method": "GET",
+    "guard": "requireTeamAdmin",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\api-key\\route.ts",
+    "relPath": "app/api/teams/[teamId]/api-key/route.ts",
+    "method": "PUT",
+    "guard": "requireTeamAdmin",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\api-key\\route.ts",
+    "relPath": "app/api/teams/[teamId]/api-key/route.ts",
+    "method": "DELETE",
+    "guard": "requireTeamAdmin",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\api-keys\\route.ts",
+    "relPath": "app/api/teams/[teamId]/api-keys/route.ts",
+    "method": "GET",
+    "guard": "requireTeamAdmin",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\api-keys\\route.ts",
+    "relPath": "app/api/teams/[teamId]/api-keys/route.ts",
+    "method": "POST",
+    "guard": "requireTeamAdmin",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\api-keys\\[keyId]\\route.ts",
+    "relPath": "app/api/teams/[teamId]/api-keys/[keyId]/route.ts",
+    "method": "PATCH",
+    "guard": "requireTeamAdmin",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\api-keys\\[keyId]\\route.ts",
+    "relPath": "app/api/teams/[teamId]/api-keys/[keyId]/route.ts",
+    "method": "DELETE",
+    "guard": "requireTeamAdmin",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\audit-logs\\route.ts",
+    "relPath": "app/api/teams/[teamId]/audit-logs/route.ts",
+    "method": "GET",
+    "guard": "requireTeamAdmin",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\audit-logs\\route.ts",
+    "relPath": "app/api/teams/[teamId]/audit-logs/route.ts",
+    "method": "POST",
+    "guard": "requireTeamAdmin",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\automations\\route.ts",
+    "relPath": "app/api/teams/[teamId]/automations/route.ts",
+    "method": "GET",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\automations\\route.ts",
+    "relPath": "app/api/teams/[teamId]/automations/route.ts",
+    "method": "POST",
+    "guard": "requireTeamAdmin",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\automations\\[ruleId]\\route.ts",
+    "relPath": "app/api/teams/[teamId]/automations/[ruleId]/route.ts",
+    "method": "PATCH",
+    "guard": "requireTeamAdmin",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\automations\\[ruleId]\\route.ts",
+    "relPath": "app/api/teams/[teamId]/automations/[ruleId]/route.ts",
+    "method": "DELETE",
+    "guard": "requireTeamAdmin",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\automations\\[ruleId]\\route.ts",
+    "relPath": "app/api/teams/[teamId]/automations/[ruleId]/route.ts",
+    "method": "POST",
+    "guard": "requireTeamAdmin",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\calendar\\events\\route.ts",
+    "relPath": "app/api/teams/[teamId]/calendar/events/route.ts",
+    "method": "GET",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\calendar\\events\\route.ts",
+    "relPath": "app/api/teams/[teamId]/calendar/events/route.ts",
+    "method": "POST",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\calendar\\events\\[eventId]\\action-items\\[actionItemId]\\convert\\route.ts",
+    "relPath": "app/api/teams/[teamId]/calendar/events/[eventId]/action-items/[actionItemId]/convert/route.ts",
+    "method": "POST",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\calendar\\events\\[eventId]\\notes\\route.ts",
+    "relPath": "app/api/teams/[teamId]/calendar/events/[eventId]/notes/route.ts",
+    "method": "POST",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\calendar\\events\\[eventId]\\route.ts",
+    "relPath": "app/api/teams/[teamId]/calendar/events/[eventId]/route.ts",
+    "method": "GET",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\calendar\\events\\[eventId]\\route.ts",
+    "relPath": "app/api/teams/[teamId]/calendar/events/[eventId]/route.ts",
+    "method": "PATCH",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\calendar\\events\\[eventId]\\route.ts",
+    "relPath": "app/api/teams/[teamId]/calendar/events/[eventId]/route.ts",
+    "method": "DELETE",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\calendar\\events\\[eventId]\\summarize\\route.ts",
+    "relPath": "app/api/teams/[teamId]/calendar/events/[eventId]/summarize/route.ts",
+    "method": "POST",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\calendar\\standup\\route.ts",
+    "relPath": "app/api/teams/[teamId]/calendar/standup/route.ts",
+    "method": "GET",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\calendar\\standup\\route.ts",
+    "relPath": "app/api/teams/[teamId]/calendar/standup/route.ts",
+    "method": "POST",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\channels\\route.ts",
+    "relPath": "app/api/teams/[teamId]/channels/route.ts",
+    "method": "GET",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\channels\\route.ts",
+    "relPath": "app/api/teams/[teamId]/channels/route.ts",
+    "method": "POST",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\channels\\[channelId]\\messages\\route.ts",
+    "relPath": "app/api/teams/[teamId]/channels/[channelId]/messages/route.ts",
+    "method": "GET",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\channels\\[channelId]\\messages\\route.ts",
+    "relPath": "app/api/teams/[teamId]/channels/[channelId]/messages/route.ts",
+    "method": "POST",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\channels\\[channelId]\\messages\\[messageId]\\reactions\\route.ts",
+    "relPath": "app/api/teams/[teamId]/channels/[channelId]/messages/[messageId]/reactions/route.ts",
+    "method": "POST",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\chat\\active\\route.ts",
+    "relPath": "app/api/teams/[teamId]/chat/active/route.ts",
+    "method": "GET",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\chat\\active\\route.ts",
+    "relPath": "app/api/teams/[teamId]/chat/active/route.ts",
+    "method": "POST",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\chat\\conversations\\route.ts",
+    "relPath": "app/api/teams/[teamId]/chat/conversations/route.ts",
+    "method": "GET",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\chat\\conversations\\route.ts",
+    "relPath": "app/api/teams/[teamId]/chat/conversations/route.ts",
+    "method": "POST",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\chat\\conversations\\[conversationId]\\route.ts",
+    "relPath": "app/api/teams/[teamId]/chat/conversations/[conversationId]/route.ts",
+    "method": "GET",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\chat\\conversations\\[conversationId]\\route.ts",
+    "relPath": "app/api/teams/[teamId]/chat/conversations/[conversationId]/route.ts",
+    "method": "DELETE",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\chat\\route.ts",
+    "relPath": "app/api/teams/[teamId]/chat/route.ts",
+    "method": "POST",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\company-settings\\route.ts",
+    "relPath": "app/api/teams/[teamId]/company-settings/route.ts",
+    "method": "GET",
+    "guard": "requireTeamAccess",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\company-settings\\route.ts",
+    "relPath": "app/api/teams/[teamId]/company-settings/route.ts",
+    "method": "PUT",
+    "guard": "requireTeamAccess",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\crm\\clients\\route.ts",
+    "relPath": "app/api/teams/[teamId]/crm/clients/route.ts",
+    "method": "GET",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\crm\\leads\\route.ts",
+    "relPath": "app/api/teams/[teamId]/crm/leads/route.ts",
+    "method": "GET",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\crm\\leads\\route.ts",
+    "relPath": "app/api/teams/[teamId]/crm/leads/route.ts",
+    "method": "POST",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\crm\\leads\\[leadId]\\activities\\route.ts",
+    "relPath": "app/api/teams/[teamId]/crm/leads/[leadId]/activities/route.ts",
+    "method": "POST",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\crm\\leads\\[leadId]\\convert\\route.ts",
+    "relPath": "app/api/teams/[teamId]/crm/leads/[leadId]/convert/route.ts",
+    "method": "POST",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\crm\\leads\\[leadId]\\route.ts",
+    "relPath": "app/api/teams/[teamId]/crm/leads/[leadId]/route.ts",
+    "method": "GET",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\crm\\leads\\[leadId]\\route.ts",
+    "relPath": "app/api/teams/[teamId]/crm/leads/[leadId]/route.ts",
+    "method": "PATCH",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\crm\\leads\\[leadId]\\route.ts",
+    "relPath": "app/api/teams/[teamId]/crm/leads/[leadId]/route.ts",
+    "method": "DELETE",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\crm\\pipelines\\route.ts",
+    "relPath": "app/api/teams/[teamId]/crm/pipelines/route.ts",
+    "method": "GET",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\export\\route.ts",
+    "relPath": "app/api/teams/[teamId]/export/route.ts",
+    "method": "GET",
+    "guard": "requireTeamAdmin",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\finance\\expenses\\route.ts",
+    "relPath": "app/api/teams/[teamId]/finance/expenses/route.ts",
+    "method": "GET",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\finance\\expenses\\route.ts",
+    "relPath": "app/api/teams/[teamId]/finance/expenses/route.ts",
+    "method": "POST",
+    "guard": "requireTeamAdmin",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\finance\\invoices\\route.ts",
+    "relPath": "app/api/teams/[teamId]/finance/invoices/route.ts",
+    "method": "GET",
+    "guard": "requireTeamAccess",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\finance\\invoices\\route.ts",
+    "relPath": "app/api/teams/[teamId]/finance/invoices/route.ts",
+    "method": "POST",
+    "guard": "requireTeamAccess",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\finance\\invoices\\[invoiceId]\\payments\\route.ts",
+    "relPath": "app/api/teams/[teamId]/finance/invoices/[invoiceId]/payments/route.ts",
+    "method": "POST",
+    "guard": "requireTeamAdmin",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\finance\\invoices\\[invoiceId]\\route.ts",
+    "relPath": "app/api/teams/[teamId]/finance/invoices/[invoiceId]/route.ts",
+    "method": "GET",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\finance\\invoices\\[invoiceId]\\route.ts",
+    "relPath": "app/api/teams/[teamId]/finance/invoices/[invoiceId]/route.ts",
+    "method": "PATCH",
+    "guard": "requireTeamAdmin",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\finance\\invoices\\[invoiceId]\\route.ts",
+    "relPath": "app/api/teams/[teamId]/finance/invoices/[invoiceId]/route.ts",
+    "method": "DELETE",
+    "guard": "requireTeamAdmin",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\finance\\overview\\route.ts",
+    "relPath": "app/api/teams/[teamId]/finance/overview/route.ts",
+    "method": "GET",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\finance\\payments\\route.ts",
+    "relPath": "app/api/teams/[teamId]/finance/payments/route.ts",
+    "method": "GET",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\finance\\receivables\\route.ts",
+    "relPath": "app/api/teams/[teamId]/finance/receivables/route.ts",
+    "method": "GET",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\finance\\subscriptions\\route.ts",
+    "relPath": "app/api/teams/[teamId]/finance/subscriptions/route.ts",
+    "method": "GET",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\finance\\subscriptions\\route.ts",
+    "relPath": "app/api/teams/[teamId]/finance/subscriptions/route.ts",
+    "method": "POST",
+    "guard": "requireTeamAdmin",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\finance\\tax-summary\\route.ts",
+    "relPath": "app/api/teams/[teamId]/finance/tax-summary/route.ts",
+    "method": "GET",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\flows\\history\\route.ts",
+    "relPath": "app/api/teams/[teamId]/flows/history/route.ts",
+    "method": "GET",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\flows\\route.ts",
+    "relPath": "app/api/teams/[teamId]/flows/route.ts",
+    "method": "GET",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\flows\\route.ts",
+    "relPath": "app/api/teams/[teamId]/flows/route.ts",
+    "method": "POST",
+    "guard": "requireTeamAdmin",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\flows\\[flowId]\\route.ts",
+    "relPath": "app/api/teams/[teamId]/flows/[flowId]/route.ts",
+    "method": "PATCH",
+    "guard": "requireTeamAdmin",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\flows\\[flowId]\\route.ts",
+    "relPath": "app/api/teams/[teamId]/flows/[flowId]/route.ts",
+    "method": "DELETE",
+    "guard": "requireTeamAdmin",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\flows\\[flowId]\\run\\route.ts",
+    "relPath": "app/api/teams/[teamId]/flows/[flowId]/run/route.ts",
+    "method": "POST",
+    "guard": "requireTeamAdmin",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\invitations\\route.ts",
+    "relPath": "app/api/teams/[teamId]/invitations/route.ts",
+    "method": "GET",
+    "guard": "requireTeamAccess",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\invitations\\route.ts",
+    "relPath": "app/api/teams/[teamId]/invitations/route.ts",
+    "method": "POST",
+    "guard": "other",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\invitations\\[invitationId]\\accept\\route.ts",
+    "relPath": "app/api/teams/[teamId]/invitations/[invitationId]/accept/route.ts",
+    "method": "POST",
+    "guard": "requireEmployee",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\invitations\\[invitationId]\\resend\\route.ts",
+    "relPath": "app/api/teams/[teamId]/invitations/[invitationId]/resend/route.ts",
+    "method": "POST",
+    "guard": "requireTeamAccess",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\invitations\\[invitationId]\\route.ts",
+    "relPath": "app/api/teams/[teamId]/invitations/[invitationId]/route.ts",
+    "method": "DELETE",
+    "guard": "requireTeamAccess",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\issues\\route.ts",
+    "relPath": "app/api/teams/[teamId]/issues/route.ts",
+    "method": "GET",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\issues\\route.ts",
+    "relPath": "app/api/teams/[teamId]/issues/route.ts",
+    "method": "POST",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\issues\\[issueId]\\route.ts",
+    "relPath": "app/api/teams/[teamId]/issues/[issueId]/route.ts",
+    "method": "GET",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\issues\\[issueId]\\route.ts",
+    "relPath": "app/api/teams/[teamId]/issues/[issueId]/route.ts",
+    "method": "PATCH",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\issues\\[issueId]\\route.ts",
+    "relPath": "app/api/teams/[teamId]/issues/[issueId]/route.ts",
+    "method": "DELETE",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\labels\\route.ts",
+    "relPath": "app/api/teams/[teamId]/labels/route.ts",
+    "method": "GET",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\labels\\route.ts",
+    "relPath": "app/api/teams/[teamId]/labels/route.ts",
+    "method": "POST",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\labels\\route.ts",
+    "relPath": "app/api/teams/[teamId]/labels/route.ts",
+    "method": "PATCH",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\labels\\route.ts",
+    "relPath": "app/api/teams/[teamId]/labels/route.ts",
+    "method": "DELETE",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\members\\route.ts",
+    "relPath": "app/api/teams/[teamId]/members/route.ts",
+    "method": "GET",
+    "guard": "requireTeamAccess",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\members\\route.ts",
+    "relPath": "app/api/teams/[teamId]/members/route.ts",
+    "method": "PATCH",
+    "guard": "other",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\members\\route.ts",
+    "relPath": "app/api/teams/[teamId]/members/route.ts",
+    "method": "DELETE",
+    "guard": "other",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\my-tasks\\route.ts",
+    "relPath": "app/api/teams/[teamId]/my-tasks/route.ts",
+    "method": "GET",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\my-tasks\\route.ts",
+    "relPath": "app/api/teams/[teamId]/my-tasks/route.ts",
+    "method": "POST",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\products\\overview\\route.ts",
+    "relPath": "app/api/teams/[teamId]/products/overview/route.ts",
+    "method": "GET",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\products\\reusable-components\\route.ts",
+    "relPath": "app/api/teams/[teamId]/products/reusable-components/route.ts",
+    "method": "GET",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\products\\reusable-components\\route.ts",
+    "relPath": "app/api/teams/[teamId]/products/reusable-components/route.ts",
+    "method": "POST",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\products\\route.ts",
+    "relPath": "app/api/teams/[teamId]/products/route.ts",
+    "method": "GET",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\products\\route.ts",
+    "relPath": "app/api/teams/[teamId]/products/route.ts",
+    "method": "POST",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\products\\[productId]\\feature-requests\\route.ts",
+    "relPath": "app/api/teams/[teamId]/products/[productId]/feature-requests/route.ts",
+    "method": "GET",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\products\\[productId]\\feature-requests\\route.ts",
+    "relPath": "app/api/teams/[teamId]/products/[productId]/feature-requests/route.ts",
+    "method": "POST",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\products\\[productId]\\feature-requests\\route.ts",
+    "relPath": "app/api/teams/[teamId]/products/[productId]/feature-requests/route.ts",
+    "method": "PATCH",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\products\\[productId]\\pilot-customers\\route.ts",
+    "relPath": "app/api/teams/[teamId]/products/[productId]/pilot-customers/route.ts",
+    "method": "GET",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\products\\[productId]\\pilot-customers\\route.ts",
+    "relPath": "app/api/teams/[teamId]/products/[productId]/pilot-customers/route.ts",
+    "method": "POST",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\products\\[productId]\\pilot-customers\\route.ts",
+    "relPath": "app/api/teams/[teamId]/products/[productId]/pilot-customers/route.ts",
+    "method": "PATCH",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\products\\[productId]\\release-notes\\route.ts",
+    "relPath": "app/api/teams/[teamId]/products/[productId]/release-notes/route.ts",
+    "method": "GET",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\products\\[productId]\\release-notes\\route.ts",
+    "relPath": "app/api/teams/[teamId]/products/[productId]/release-notes/route.ts",
+    "method": "POST",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\products\\[productId]\\roadmap\\route.ts",
+    "relPath": "app/api/teams/[teamId]/products/[productId]/roadmap/route.ts",
+    "method": "GET",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\products\\[productId]\\roadmap\\route.ts",
+    "relPath": "app/api/teams/[teamId]/products/[productId]/roadmap/route.ts",
+    "method": "POST",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\products\\[productId]\\roadmap\\[itemId]\\route.ts",
+    "relPath": "app/api/teams/[teamId]/products/[productId]/roadmap/[itemId]/route.ts",
+    "method": "PATCH",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\products\\[productId]\\roadmap\\[itemId]\\route.ts",
+    "relPath": "app/api/teams/[teamId]/products/[productId]/roadmap/[itemId]/route.ts",
+    "method": "DELETE",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\products\\[productId]\\route.ts",
+    "relPath": "app/api/teams/[teamId]/products/[productId]/route.ts",
+    "method": "GET",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\products\\[productId]\\route.ts",
+    "relPath": "app/api/teams/[teamId]/products/[productId]/route.ts",
+    "method": "PATCH",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\products\\[productId]\\route.ts",
+    "relPath": "app/api/teams/[teamId]/products/[productId]/route.ts",
+    "method": "DELETE",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\projects\\route.ts",
+    "relPath": "app/api/teams/[teamId]/projects/route.ts",
+    "method": "GET",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\projects\\route.ts",
+    "relPath": "app/api/teams/[teamId]/projects/route.ts",
+    "method": "POST",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\projects\\[projectId]\\members\\route.ts",
+    "relPath": "app/api/teams/[teamId]/projects/[projectId]/members/route.ts",
+    "method": "GET",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\projects\\[projectId]\\members\\route.ts",
+    "relPath": "app/api/teams/[teamId]/projects/[projectId]/members/route.ts",
+    "method": "POST",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\projects\\[projectId]\\members\\route.ts",
+    "relPath": "app/api/teams/[teamId]/projects/[projectId]/members/route.ts",
+    "method": "DELETE",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\projects\\[projectId]\\route.ts",
+    "relPath": "app/api/teams/[teamId]/projects/[projectId]/route.ts",
+    "method": "GET",
+    "guard": "requireTeamAccess",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\projects\\[projectId]\\route.ts",
+    "relPath": "app/api/teams/[teamId]/projects/[projectId]/route.ts",
+    "method": "PATCH",
+    "guard": "requireTeamAccess",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\projects\\[projectId]\\route.ts",
+    "relPath": "app/api/teams/[teamId]/projects/[projectId]/route.ts",
+    "method": "DELETE",
+    "guard": "requireTeamAccess",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\reports\\delivery\\route.ts",
+    "relPath": "app/api/teams/[teamId]/reports/delivery/route.ts",
+    "method": "GET",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\reports\\financial\\route.ts",
+    "relPath": "app/api/teams/[teamId]/reports/financial/route.ts",
+    "method": "GET",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\reports\\founder-digest\\route.ts",
+    "relPath": "app/api/teams/[teamId]/reports/founder-digest/route.ts",
+    "method": "GET",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\reports\\kpis\\route.ts",
+    "relPath": "app/api/teams/[teamId]/reports/kpis/route.ts",
+    "method": "GET",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\reports\\kpis\\route.ts",
+    "relPath": "app/api/teams/[teamId]/reports/kpis/route.ts",
+    "method": "POST",
+    "guard": "requireTeamAdmin",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\reports\\sales\\route.ts",
+    "relPath": "app/api/teams/[teamId]/reports/sales/route.ts",
+    "method": "GET",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\reports\\team-utilization\\route.ts",
+    "relPath": "app/api/teams/[teamId]/reports/team-utilization/route.ts",
+    "method": "GET",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\route.ts",
+    "relPath": "app/api/teams/[teamId]/route.ts",
+    "method": "DELETE",
+    "guard": "requireTeamAdmin",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\stats\\route.ts",
+    "relPath": "app/api/teams/[teamId]/stats/route.ts",
+    "method": "GET",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\sync\\route.ts",
+    "relPath": "app/api/teams/[teamId]/sync/route.ts",
+    "method": "POST",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\system-health\\route.ts",
+    "relPath": "app/api/teams/[teamId]/system-health/route.ts",
+    "method": "GET",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\webhooks\\route.ts",
+    "relPath": "app/api/teams/[teamId]/webhooks/route.ts",
+    "method": "GET",
+    "guard": "requireTeamAdmin",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\webhooks\\route.ts",
+    "relPath": "app/api/teams/[teamId]/webhooks/route.ts",
+    "method": "POST",
+    "guard": "requireTeamAdmin",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\webhooks\\[webhookId]\\ping\\route.ts",
+    "relPath": "app/api/teams/[teamId]/webhooks/[webhookId]/ping/route.ts",
+    "method": "POST",
+    "guard": "requireTeamAdmin",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\webhooks\\[webhookId]\\route.ts",
+    "relPath": "app/api/teams/[teamId]/webhooks/[webhookId]/route.ts",
+    "method": "PATCH",
+    "guard": "requireTeamAdmin",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\webhooks\\[webhookId]\\route.ts",
+    "relPath": "app/api/teams/[teamId]/webhooks/[webhookId]/route.ts",
+    "method": "DELETE",
+    "guard": "requireTeamAdmin",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\workflow-states\\route.ts",
+    "relPath": "app/api/teams/[teamId]/workflow-states/route.ts",
+    "method": "GET",
+    "guard": "requireTeamMember",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\workflow-states\\route.ts",
+    "relPath": "app/api/teams/[teamId]/workflow-states/route.ts",
+    "method": "POST",
+    "guard": "requireTeamAdmin",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\workflow-states\\route.ts",
+    "relPath": "app/api/teams/[teamId]/workflow-states/route.ts",
+    "method": "PATCH",
+    "guard": "requireTeamAdmin",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\teams\\[teamId]\\workflow-states\\route.ts",
+    "relPath": "app/api/teams/[teamId]/workflow-states/route.ts",
+    "method": "DELETE",
+    "guard": "requireTeamAdmin",
+    "isTeamRoute": true
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\user\\password\\route.ts",
+    "relPath": "app/api/user/password/route.ts",
+    "method": "POST",
+    "guard": "requireEmployee",
+    "isTeamRoute": false
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\user\\profile\\route.ts",
+    "relPath": "app/api/user/profile/route.ts",
+    "method": "GET",
+    "guard": "requireEmployee",
+    "isTeamRoute": false
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\user\\profile\\route.ts",
+    "relPath": "app/api/user/profile/route.ts",
+    "method": "PATCH",
+    "guard": "requireEmployee",
+    "isTeamRoute": false
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\user\\sessions\\route.ts",
+    "relPath": "app/api/user/sessions/route.ts",
+    "method": "GET",
+    "guard": "requireEmployee",
+    "isTeamRoute": false
+  },
+  {
+    "file": "C:\\proj\\SIU-ERPOS\\app\\api\\user\\sessions\\route.ts",
+    "relPath": "app/api/user/sessions/route.ts",
+    "method": "DELETE",
+    "guard": "requireEmployee",
+    "isTeamRoute": false
+  }
+]

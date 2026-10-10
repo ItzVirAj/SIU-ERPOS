@@ -1,5 +1,9 @@
 import { NextRequest, NextResponse } from "next/server"
-import { requireTeamAdmin, handleRouteError } from "@/lib/authz"
+import { handleRouteError } from "@/lib/authz"
+import { requireTeamAccess } from "@/lib/route-guards"
+import { AppModule, AccessLevel } from "@/lib/prisma-client"
+import { enforceRateLimit } from "@/lib/rate-limit"
+import { writeAudit, AUDIT_ACTIONS } from "@/lib/audit"
 import { db } from "@/lib/db"
 
 function escapeCsvCell(val: any): string {
@@ -22,7 +26,14 @@ export async function GET(
 ) {
   try {
     const { teamId } = await params
-    const { user, userId, member } = await requireTeamAdmin(teamId)
+    const actor = await requireTeamAccess(teamId, {
+      module: AppModule.COMPANY_SETTINGS,
+      level: AccessLevel.MANAGE,
+    })
+    const { user, userId, member } = actor
+
+    // Rate-limit: 3/hour per actor
+    enforceRateLimit(userId, "export", { limit: 3, windowMs: 3_600_000 })
 
     const { searchParams } = new URL(request.url)
     const entity = searchParams.get("entity") || "all" // "tasks", "projects", "audit_logs", "automations", "all"
@@ -30,19 +41,17 @@ export async function GET(
 
     const timestampStr = new Date().toISOString().replace(/[:.]/g, "-")
 
-    // Audit the export action
-    await db.auditLog.create({
-      data: {
-        teamId,
-        userId,
-        userName: member.userName || user.name || "Admin",
-        userEmail: member.userEmail || user.email || "admin@sketchitup.internal",
-        action: "EXPORT",
-        entityType: entity.toUpperCase(),
-        entityId: teamId,
-        entityTitle: `Export ${entity}`,
-        details: { entity, format, timestamp: timestampStr },
+    // Audit the export action with writeAudit
+    await writeAudit(db, {
+      actor: {
+        id: userId,
+        name: actor.employee.fullName,
+        email: actor.employee.email,
+        role: actor.role.key,
       },
+      action: AUDIT_ACTIONS.TEAM_EXPORT,
+      target: { id: teamId, email: teamId },
+      after: { entity, format, timestamp: timestampStr },
     })
 
     if (entity === "tasks") {

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { requireSession, handleRouteError, HttpError } from "@/lib/authz";
+import { requireEmployee, handleRouteError, HttpError } from "@/lib/authz";
 import { db } from "@/lib/db";
 import { createAuditLog } from "@/lib/audit";
 
@@ -82,7 +82,7 @@ function formatRelativeTime(date: Date, isCurrent: boolean) {
 
 export async function GET(request: NextRequest) {
   try {
-    const session = await requireSession();
+    const { session } = await requireEmployee();
     const userId = session.user.id;
     const currentToken = session.session?.token;
 
@@ -118,7 +118,7 @@ export async function GET(request: NextRequest) {
 
 export async function DELETE(request: NextRequest) {
   try {
-    const session = await requireSession();
+    const { session } = await requireEmployee();
     const { searchParams } = new URL(request.url);
     const sessionId = searchParams.get("id");
     const revokeAllOthers =

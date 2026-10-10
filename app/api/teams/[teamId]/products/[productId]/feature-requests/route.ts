@@ -1,6 +1,8 @@
+import { AppModule, AccessLevel } from "@/lib/prisma-client";
+import { requireTeamAccess } from "@/lib/route-guards";
 import { NextRequest, NextResponse } from "next/server"
 import { z } from "zod"
-import { requireTeamMember, handleRouteError, HttpError } from "@/lib/authz"
+import { handleRouteError, HttpError } from "@/lib/authz";
 import { db } from "@/lib/db"
 
 const createFeatureRequestSchema = z.object({
@@ -23,7 +25,7 @@ export async function GET(
 ) {
   try {
     const { teamId, productId } = await params
-    await requireTeamMember(teamId)
+    await requireTeamAccess(teamId, { module: AppModule.PRODUCTS, level: AccessLevel.VIEW })
 
     const requests = await db.productFeatureRequest.findMany({
       where: { productId, teamId },
@@ -42,7 +44,7 @@ export async function POST(
 ) {
   try {
     const { teamId, productId } = await params
-    const { userId } = await requireTeamMember(teamId, "developer")
+    const { userId } = await requireTeamAccess(teamId, { module: AppModule.PRODUCTS, level: AccessLevel.WRITE })
 
     const product = await db.domainProduct.findFirst({
       where: { id: productId, teamId },
@@ -81,7 +83,7 @@ export async function PATCH(
 ) {
   try {
     const { teamId, productId } = await params
-    const { userId } = await requireTeamMember(teamId, "developer")
+    const { userId } = await requireTeamAccess(teamId, { module: AppModule.PRODUCTS, level: AccessLevel.WRITE })
 
     const rawBody = await request.json()
     const { requestId, action, status } = patchFeatureRequestSchema.parse(rawBody)

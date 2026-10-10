@@ -1,6 +1,8 @@
+import { AppModule, AccessLevel } from "@/lib/prisma-client";
+import { requireTeamAccess } from "@/lib/route-guards";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { requireTeamMember, handleRouteError, HttpError } from "@/lib/authz";
+import { handleRouteError, HttpError } from "@/lib/authz";
 import { getEventById, updateEvent, deleteEvent } from "@/lib/api/calendar";
 
 const updateEventSchema = z.object({
@@ -23,7 +25,7 @@ export async function GET(
 ) {
   try {
     const { teamId, eventId } = await params;
-    await requireTeamMember(teamId);
+    await requireTeamAccess(teamId, { module: AppModule.COLLAB, level: AccessLevel.VIEW });
 
     const event = await getEventById(teamId, eventId);
     if (!event) {
@@ -42,7 +44,7 @@ export async function PATCH(
 ) {
   try {
     const { teamId, eventId } = await params;
-    await requireTeamMember(teamId, "developer");
+    await requireTeamAccess(teamId, { module: AppModule.COLLAB, level: AccessLevel.WRITE });
 
     const existing = await getEventById(teamId, eventId);
     if (!existing) {
@@ -69,7 +71,7 @@ export async function DELETE(
 ) {
   try {
     const { teamId, eventId } = await params;
-    await requireTeamMember(teamId, "developer");
+    await requireTeamAccess(teamId, { module: AppModule.COLLAB, level: AccessLevel.MANAGE });
 
     const existing = await getEventById(teamId, eventId);
     if (!existing) {

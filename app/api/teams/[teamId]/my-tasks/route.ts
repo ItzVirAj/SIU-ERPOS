@@ -1,8 +1,10 @@
+import { AppModule, AccessLevel } from "@/lib/prisma-client";
+import { requireTeamAccess } from "@/lib/route-guards";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { db } from "@/lib/db";
 import { createIssue } from "@/lib/api/issues";
-import { requireTeamMember, handleRouteError } from "@/lib/authz";
+import { handleRouteError } from "@/lib/authz";
 
 const createTaskSchema = z.object({
   title: z.string().min(1).max(255),
@@ -22,7 +24,7 @@ export async function GET(
 ) {
   try {
     const { teamId } = await params;
-    const { user } = await requireTeamMember(teamId);
+    const { user } = await requireTeamAccess(teamId, { module: AppModule.WORK, level: AccessLevel.VIEW });
     const userId = user.id;
 
     const { searchParams } = new URL(request.url);
@@ -168,7 +170,7 @@ export async function POST(
 ) {
   try {
     const { teamId } = await params;
-    const { user } = await requireTeamMember(teamId, "developer");
+    const { user } = await requireTeamAccess(teamId, { module: AppModule.WORK, level: AccessLevel.WRITE });
     const userId = user.id;
 
     const rawBody = await request.json();

@@ -1,0 +1,1652 @@
+[
+  {
+    "method": "GET",
+    "path": "/api/admin/employees",
+    "authMechanism": "requireAccess",
+    "hasTeamCheck": "no",
+    "hasRoleAccessCheck": "yes",
+    "touchesCompanyData": "no",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "POST",
+    "path": "/api/admin/employees",
+    "authMechanism": "requireAccess",
+    "hasTeamCheck": "no",
+    "hasRoleAccessCheck": "yes",
+    "touchesCompanyData": "no",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "POST",
+    "path": "/api/admin/employees/[id]/reset-password",
+    "authMechanism": "requireAccess",
+    "hasTeamCheck": "no",
+    "hasRoleAccessCheck": "yes",
+    "touchesCompanyData": "no",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "POST",
+    "path": "/api/admin/employees/[id]/restore",
+    "authMechanism": "requireAccess",
+    "hasTeamCheck": "no",
+    "hasRoleAccessCheck": "yes",
+    "touchesCompanyData": "no",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "POST",
+    "path": "/api/admin/employees/[id]/revoke-sessions",
+    "authMechanism": "requireAccess",
+    "hasTeamCheck": "no",
+    "hasRoleAccessCheck": "yes",
+    "touchesCompanyData": "no",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/admin/employees/[id]/role",
+    "authMechanism": "requireAccess",
+    "hasTeamCheck": "no",
+    "hasRoleAccessCheck": "yes",
+    "touchesCompanyData": "no",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "GET",
+    "path": "/api/admin/employees/[id]",
+    "authMechanism": "requireAccess",
+    "hasTeamCheck": "no",
+    "hasRoleAccessCheck": "yes",
+    "touchesCompanyData": "no",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/admin/employees/[id]",
+    "authMechanism": "requireAccess",
+    "hasTeamCheck": "no",
+    "hasRoleAccessCheck": "yes",
+    "touchesCompanyData": "no",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/admin/employees/[id]",
+    "authMechanism": "requireAccess",
+    "hasTeamCheck": "no",
+    "hasRoleAccessCheck": "yes",
+    "touchesCompanyData": "no",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "POST",
+    "path": "/api/admin/employees/[id]/suspend",
+    "authMechanism": "requireAccess",
+    "hasTeamCheck": "no",
+    "hasRoleAccessCheck": "yes",
+    "touchesCompanyData": "no",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "GET",
+    "path": "/api/admin/roles",
+    "authMechanism": "requireAccess",
+    "hasTeamCheck": "no",
+    "hasRoleAccessCheck": "yes",
+    "touchesCompanyData": "no",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "ALL",
+    "path": "/api/auth/[...all]",
+    "authMechanism": "none",
+    "hasTeamCheck": "no",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "no",
+    "intentionallyPublic": "yes",
+    "flags": "-"
+  },
+  {
+    "method": "GET",
+    "path": "/api/inbox",
+    "authMechanism": "requireSession",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "(2) session direct bypass assertEmployeeUsable"
+  },
+  {
+    "method": "POST",
+    "path": "/api/inbox",
+    "authMechanism": "requireSession",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "(2) session direct bypass assertEmployeeUsable"
+  },
+  {
+    "method": "GET",
+    "path": "/api/inbox/unread-count",
+    "authMechanism": "requireSession",
+    "hasTeamCheck": "no",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "(2) session direct bypass assertEmployeeUsable"
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/inbox/[messageId]",
+    "authMechanism": "requireSession",
+    "hasTeamCheck": "no",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "(2) session direct bypass assertEmployeeUsable"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/inbox/[messageId]",
+    "authMechanism": "requireSession",
+    "hasTeamCheck": "no",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "(2) session direct bypass assertEmployeeUsable"
+  },
+  {
+    "method": "GET",
+    "path": "/api/invitations/[invitationId]",
+    "authMechanism": "none",
+    "hasTeamCheck": "no",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "yes",
+    "flags": "-"
+  },
+  {
+    "method": "GET",
+    "path": "/api/me/access",
+    "authMechanism": "requireEmployee",
+    "hasTeamCheck": "no",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "no",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "POST",
+    "path": "/api/me/change-password",
+    "authMechanism": "requireEmployee",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/create",
+    "authMechanism": "requireEmployee",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams",
+    "authMechanism": "requireSession",
+    "hasTeamCheck": "no",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "(2) session direct bypass assertEmployeeUsable"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/announcements",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/announcements",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/announcements/[announcementId]/ack",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/api-key",
+    "authMechanism": "requireTeamAdmin",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "yes",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "PUT",
+    "path": "/api/teams/[teamId]/api-key",
+    "authMechanism": "requireTeamAdmin",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "yes",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/teams/[teamId]/api-key",
+    "authMechanism": "requireTeamAdmin",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "yes",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/api-keys",
+    "authMechanism": "requireTeamAdmin",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "yes",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/api-keys",
+    "authMechanism": "requireTeamAdmin",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "yes",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/teams/[teamId]/api-keys/[keyId]",
+    "authMechanism": "requireTeamAdmin",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "yes",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/teams/[teamId]/api-keys/[keyId]",
+    "authMechanism": "requireTeamAdmin",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "yes",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/audit-logs",
+    "authMechanism": "requireTeamAdmin",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "yes",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/audit-logs",
+    "authMechanism": "requireTeamAdmin",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "yes",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/automations",
+    "authMechanism": "requireTeamAdmin",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "yes",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/automations",
+    "authMechanism": "requireTeamAdmin",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "yes",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/automations/[ruleId]",
+    "authMechanism": "requireTeamAdmin",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "yes",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/teams/[teamId]/automations/[ruleId]",
+    "authMechanism": "requireTeamAdmin",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "yes",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/teams/[teamId]/automations/[ruleId]",
+    "authMechanism": "requireTeamAdmin",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "yes",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/calendar/events",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/calendar/events",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/calendar/events/[eventId]/action-items/[actionItemId]/convert",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "no",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/calendar/events/[eventId]/notes",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "no",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/calendar/events/[eventId]",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "no",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/teams/[teamId]/calendar/events/[eventId]",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "no",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/teams/[teamId]/calendar/events/[eventId]",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "no",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/calendar/events/[eventId]/summarize",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/calendar/standup",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "no",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/calendar/standup",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "no",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/channels",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/channels",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/channels/[channelId]/messages",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/channels/[channelId]/messages",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/channels/[channelId]/messages/[messageId]/reactions",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/chat/active",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "no",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/chat/active",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "no",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/chat/conversations",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "no",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/chat/conversations",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "no",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/chat/conversations/[conversationId]",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "no",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/teams/[teamId]/chat/conversations/[conversationId]",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "no",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/chat",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/company-settings",
+    "authMechanism": "requireTeamAdmin",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "yes",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "PUT",
+    "path": "/api/teams/[teamId]/company-settings",
+    "authMechanism": "requireTeamAdmin",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "yes",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/crm/clients",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "no",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/crm/leads",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "no",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/crm/leads",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "no",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/crm/leads/[leadId]/activities",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "no",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/crm/leads/[leadId]/convert",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "no",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/crm/leads/[leadId]",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "no",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/teams/[teamId]/crm/leads/[leadId]",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "no",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/teams/[teamId]/crm/leads/[leadId]",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "no",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/crm/pipelines",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "no",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/export",
+    "authMechanism": "requireTeamAdmin",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "yes",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/finance/expenses",
+    "authMechanism": "requireTeamAdmin",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "yes",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/finance/expenses",
+    "authMechanism": "requireTeamAdmin",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "yes",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/finance/invoices",
+    "authMechanism": "requireTeamAdmin",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "yes",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/finance/invoices",
+    "authMechanism": "requireTeamAdmin",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "yes",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/finance/invoices/[invoiceId]/payments",
+    "authMechanism": "requireTeamAdmin",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "yes",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/finance/invoices/[invoiceId]",
+    "authMechanism": "requireTeamAdmin",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "yes",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/teams/[teamId]/finance/invoices/[invoiceId]",
+    "authMechanism": "requireTeamAdmin",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "yes",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/teams/[teamId]/finance/invoices/[invoiceId]",
+    "authMechanism": "requireTeamAdmin",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "yes",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/finance/overview",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/finance/payments",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/finance/receivables",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/finance/subscriptions",
+    "authMechanism": "requireTeamAdmin",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "yes",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/finance/subscriptions",
+    "authMechanism": "requireTeamAdmin",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "yes",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/finance/tax-summary",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/flows/history",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/flows",
+    "authMechanism": "requireTeamAdmin",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "yes",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/flows",
+    "authMechanism": "requireTeamAdmin",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "yes",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/teams/[teamId]/flows/[flowId]",
+    "authMechanism": "requireTeamAdmin",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "yes",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/teams/[teamId]/flows/[flowId]",
+    "authMechanism": "requireTeamAdmin",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "yes",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/flows/[flowId]/run",
+    "authMechanism": "requireTeamAdmin",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "yes",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/invitations",
+    "authMechanism": "requireTeamAdmin",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "yes",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/invitations",
+    "authMechanism": "requireTeamAdmin",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "yes",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/invitations/[invitationId]/accept",
+    "authMechanism": "requireSession",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "no",
+    "intentionallyPublic": "no",
+    "flags": "(2) session direct bypass assertEmployeeUsable; (3) unverified team member"
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/invitations/[invitationId]/resend",
+    "authMechanism": "requireTeamAdmin",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "yes",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/teams/[teamId]/invitations/[invitationId]",
+    "authMechanism": "requireTeamAdmin",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "yes",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/issues",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/issues",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/issues/[issueId]",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/teams/[teamId]/issues/[issueId]",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/teams/[teamId]/issues/[issueId]",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/labels",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/labels",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/teams/[teamId]/labels",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/teams/[teamId]/labels",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/members",
+    "authMechanism": "requireTeamAdmin",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "yes",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/teams/[teamId]/members",
+    "authMechanism": "requireTeamAdmin",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "yes",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/teams/[teamId]/members",
+    "authMechanism": "requireTeamAdmin",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "yes",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/my-tasks",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/my-tasks",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/products/overview",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/products/reusable-components",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/products/reusable-components",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/products",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/products",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/products/[productId]/feature-requests",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/products/[productId]/feature-requests",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/teams/[teamId]/products/[productId]/feature-requests",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/products/[productId]/pilot-customers",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/products/[productId]/pilot-customers",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/teams/[teamId]/products/[productId]/pilot-customers",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/products/[productId]/release-notes",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/products/[productId]/release-notes",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/products/[productId]/roadmap",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/products/[productId]/roadmap",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/teams/[teamId]/products/[productId]/roadmap/[itemId]",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/teams/[teamId]/products/[productId]/roadmap/[itemId]",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/products/[productId]",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/teams/[teamId]/products/[productId]",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/teams/[teamId]/products/[productId]",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/projects",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/projects",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/projects/[projectId]/members",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/projects/[projectId]/members",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/teams/[teamId]/projects/[projectId]/members",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/projects/[projectId]",
+    "authMechanism": "requireTeamAdmin",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "yes",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/teams/[teamId]/projects/[projectId]",
+    "authMechanism": "requireTeamAdmin",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "yes",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/teams/[teamId]/projects/[projectId]",
+    "authMechanism": "requireTeamAdmin",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "yes",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/reports/delivery",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/reports/financial",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/reports/founder-digest",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/reports/kpis",
+    "authMechanism": "requireTeamAdmin",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "yes",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/reports/kpis",
+    "authMechanism": "requireTeamAdmin",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "yes",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/reports/sales",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/reports/team-utilization",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/teams/[teamId]",
+    "authMechanism": "requireTeamAdmin",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "yes",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/stats",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/sync",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/system-health",
+    "authMechanism": "requireTeamMember",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/webhooks",
+    "authMechanism": "requireTeamAdmin",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "yes",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/webhooks",
+    "authMechanism": "requireTeamAdmin",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "yes",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/webhooks/[webhookId]/ping",
+    "authMechanism": "requireTeamAdmin",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "yes",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/teams/[teamId]/webhooks/[webhookId]",
+    "authMechanism": "requireTeamAdmin",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "yes",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/teams/[teamId]/webhooks/[webhookId]",
+    "authMechanism": "requireTeamAdmin",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "yes",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teams/[teamId]/workflow-states",
+    "authMechanism": "requireTeamAdmin",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "yes",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "POST",
+    "path": "/api/teams/[teamId]/workflow-states",
+    "authMechanism": "requireTeamAdmin",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "yes",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/teams/[teamId]/workflow-states",
+    "authMechanism": "requireTeamAdmin",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "yes",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/teams/[teamId]/workflow-states",
+    "authMechanism": "requireTeamAdmin",
+    "hasTeamCheck": "yes",
+    "hasRoleAccessCheck": "yes",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "-"
+  },
+  {
+    "method": "POST",
+    "path": "/api/user/password",
+    "authMechanism": "requireSession",
+    "hasTeamCheck": "no",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "(2) session direct bypass assertEmployeeUsable"
+  },
+  {
+    "method": "GET",
+    "path": "/api/user/profile",
+    "authMechanism": "requireSession",
+    "hasTeamCheck": "no",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "(2) session direct bypass assertEmployeeUsable"
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/user/profile",
+    "authMechanism": "requireSession",
+    "hasTeamCheck": "no",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "(2) session direct bypass assertEmployeeUsable"
+  },
+  {
+    "method": "GET",
+    "path": "/api/user/sessions",
+    "authMechanism": "requireSession",
+    "hasTeamCheck": "no",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "(2) session direct bypass assertEmployeeUsable"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/user/sessions",
+    "authMechanism": "requireSession",
+    "hasTeamCheck": "no",
+    "hasRoleAccessCheck": "no",
+    "touchesCompanyData": "yes",
+    "intentionallyPublic": "no",
+    "flags": "(2) session direct bypass assertEmployeeUsable"
+  }
+]

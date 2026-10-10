@@ -1,6 +1,8 @@
+import { AppModule, AccessLevel } from "@/lib/prisma-client";
+import { requireTeamAccess } from "@/lib/route-guards";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { requireTeamMember, handleRouteError, HttpError } from "@/lib/authz";
+import { handleRouteError, HttpError } from "@/lib/authz";
 import { db } from "@/lib/db";
 
 const createChannelSchema = z.object({
@@ -16,7 +18,7 @@ export async function GET(
 ) {
   try {
     const { teamId } = await params;
-    const { user } = await requireTeamMember(teamId);
+    const { user } = await requireTeamAccess(teamId, { module: AppModule.COLLAB, level: AccessLevel.VIEW });
     const userId = user.id;
     const userEmail = user.email || "";
     const userName = user.name || "Member";
@@ -147,7 +149,7 @@ export async function POST(
 ) {
   try {
     const { teamId } = await params;
-    const { user } = await requireTeamMember(teamId, "developer");
+    const { user } = await requireTeamAccess(teamId, { module: AppModule.COLLAB, level: AccessLevel.WRITE });
     const userId = user.id;
     const userEmail = user.email || "";
     const userName = user.name || "Member";
