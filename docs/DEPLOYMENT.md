@@ -231,3 +231,21 @@ npm run verify-route-matrix
 | `accountant` | Accountant | 40 | developer | Expense entry, invoice viewing, financial ledger access |
 | `viewer` | Viewer | 10 | viewer | Read-only access to work items and shared team channels |
 
+---
+
+## Dependency Policy & Security Overrides
+
+### Dependency Policy
+1. **Pre-Deploy Audit**: Always execute `npm run audit:prod` before deploying to staging or production. Zero critical and zero high-severity vulnerabilities are permitted in production dependencies.
+2. **Monthly Dependency Maintenance**: Review direct dependencies monthly to upgrade within the same major release line and incorporate security patches.
+3. **Regression Verification**: Re-run all verification suites (`npm run check:api-guards`, `npm run check:admin-routes`, `npm run verify-roles`, `npm run verify-employees`, `npm run verify-authz`, `npm run verify-admin-api`, `npm run verify-route-security`, `npm run verify-route-matrix`) after any dependency changes.
+4. **No Unsafe Fixes**: Never run `npm audit fix --force`. Transitive dependencies must only be updated through verified, compatible `package.json` overrides.
+
+### Transitive Dependency Overrides in `package.json`
+- **`next` -> `postcss`: `$postcss`**: Next.js 15.5.27 internally bundles `postcss@8.4.31`, which has known advisories (GHSA-qx2v-qp2m-jg93, GHSA-6g55-p6wh-862q). Overridden to reference root `$postcss` (`^8.5.3`), resolving the vulnerability without breaking build tools.
+- **`@fastify/busboy`: `^3.2.3`**: Transitive dependency inside `undici@5` vulnerable to DoS/CRLF multipart parsing (GHSA-x8mw-p69m-v3mx, GHSA-gxm5-99cw-xjw9). Overridden to patched `^3.2.3`.
+- **`undici`: `^6.29.0`**: Transitive dependency under AI SDK `@ai-sdk/provider-utils` vulnerable to header/cookie injection and resource exhaustion (GHSA-g9mf-h72j-4rw9, GHSA-2mjp-6q6p-2qxm). Overridden to patched 6.x release `^6.29.0`.
+- **`katex`: `^0.19.0`**: Transitive dependency in `mermaid`/`streamdown` vulnerable to prototype pollution trust bypass (GHSA-238p-pmpm-9mq7). Overridden to `^0.19.0`.
+- **`braces`: `^3.0.3`**: Transitive dependency under `chokidar@3` in `tailwindcss@3.4.1` vulnerable to stack exhaustion (GHSA-vfj7-8cjw-p6xm). Overridden to `^3.0.3`.
+- **`postcss-selector-parser`: `^7.1.6`**: Transitive dependency in `postcss-nested` vulnerable to CPU exhaustion (GHSA-rj75-hqrm-r3gf). Overridden to patched `^7.1.6`.
+
