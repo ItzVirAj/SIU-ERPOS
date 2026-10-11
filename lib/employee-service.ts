@@ -23,7 +23,7 @@ import { enforceRateLimit, rateLimit } from './rate-limit'
 import { revokeAllSessions, revokeSession } from './session-admin'
 import {
   canProvision,
-  DEFAULT_PASSWORD,
+  getDefaultPassword,
   defaultPasswordExpiry,
 } from './employee-policy'
 import {
@@ -474,7 +474,8 @@ export async function createEmployee(
     })
 
     // Create credential account with default password hash
-    const hashedPassword = await hashPassword(DEFAULT_PASSWORD)
+    const defaultPassword = getDefaultPassword()
+    const hashedPassword = await hashPassword(defaultPassword)
     const accountId = crypto.randomBytes(24).toString('base64url').slice(0, 32)
 
     await tx.account.create({
@@ -1029,7 +1030,8 @@ export async function resetEmployeePassword(
   enforceRateLimit(actor.session.user.id, 'reset_password')
 
   const expiresAt = defaultPasswordExpiry()
-  const hashedDefaultPassword = await hashPassword(DEFAULT_PASSWORD)
+  const defaultPassword = getDefaultPassword()
+  const hashedDefaultPassword = await hashPassword(defaultPassword)
 
   await db.$transaction(async (tx) => {
     const targetAccount = await tx.account.findFirst({

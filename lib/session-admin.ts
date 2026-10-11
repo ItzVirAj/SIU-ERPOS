@@ -1,6 +1,6 @@
 import { Prisma, PrismaClient } from './prisma-client'
 
-type PrismaOrTx = PrismaClient | Prisma.TransactionClient
+type PrismaOrTx = PrismaClient<any, any, any> | Prisma.TransactionClient
 
 /**
  * Revokes all active sessions for a given user.

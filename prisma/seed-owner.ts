@@ -11,6 +11,7 @@ import { PrismaClient, EmployeeStatus, User } from '../lib/prisma-client'
 import { seedRoles } from './seed-roles'
 import { normalizeEmail, syncTeamMemberRole } from '../lib/employee-sync'
 import { generateEmployeeCode } from '../lib/employee-code'
+import { validatePasswordStrength } from '../lib/production-config'
 
 export async function seedOwner(prismaClient?: PrismaClient) {
   const prisma = prismaClient ?? new PrismaClient()
@@ -23,9 +24,9 @@ export async function seedOwner(prismaClient?: PrismaClient) {
 
   const parsedUrl = new URL(databaseUrl)
   const host = parsedUrl.hostname.toLowerCase()
+  const isLocalHost = host === 'localhost' || host === '127.0.0.1' || host === '::1'
   const isDevHost =
-    host === 'localhost' ||
-    host === '127.0.0.1' ||
+    isLocalHost ||
     host.includes('neon.tech') ||
     host.includes('dev') ||
     host.includes('local')
@@ -41,6 +42,29 @@ export async function seedOwner(prismaClient?: PrismaClient) {
         'Example: ALLOW_PROD_SEED=1 OWNER_PASSWORD="<strong password>" npm run db:seed:owner'
     )
     process.exit(1)
+  }
+
+  let ownerPassword = process.env.OWNER_PASSWORD || ''
+  if (isProduction || !isLocalHost) {
+    if (!ownerPassword || ownerPassword.trim() === '') {
+      console.error(
+        '❌ OWNER_PASSWORD is required when running seed-owner for a non-local database host or in production.'
+      )
+      process.exit(1)
+    }
+    const pwIssues = validatePasswordStrength(ownerPassword)
+    if (pwIssues.length > 0) {
+      console.error(
+        `❌ OWNER_PASSWORD does not meet security requirements:\n` +
+          pwIssues.map((i) => `  - ${i}`).join('\n')
+      )
+      process.exit(1)
+    }
+  } else {
+    if (!ownerPassword) {
+      ownerPassword = 'Pass@123'
+      console.warn('⚠️  [seed-owner] Using default development password for local database.')
+    }
   }
 
   console.log(`[seed-owner] Environment guard passed (Host: ${host})`)
@@ -59,7 +83,6 @@ export async function seedOwner(prismaClient?: PrismaClient) {
 
   const ownerEmail = normalizeEmail(process.env.OWNER_EMAIL || 'owner@sketchitup.in')
   const ownerName = process.env.OWNER_NAME || 'Owner'
-  const ownerPassword = process.env.OWNER_PASSWORD || 'Pass@123'
   const isDefaultPassword = ownerPassword === 'Pass@123'
   const shouldResetPassword = process.env.RESET_PASSWORD === '1'
 
@@ -338,13 +361,8 @@ export async function seedOwner(prismaClient?: PrismaClient) {
   ])
 
   if (isDefaultPassword) {
-    console.warn('\n⚠️  SECURITY WARNING:')
-    console.warn('   Initial default password "Pass@123" is currently set for the owner account.')
+    console.warn('\n⚠️  SECURITY WARNING: Default development password is set for the owner account.')
     console.warn('   The owner must change this password immediately after the first login.')
-    console.warn(
-      '   Exact command for production deployment:\n' +
-        '   ALLOW_PROD_SEED=1 OWNER_PASSWORD="<strong password>" npm run db:seed:owner\n'
-    )
   }
 }
 

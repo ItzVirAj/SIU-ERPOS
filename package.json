@@ -28,6 +28,7 @@
     "verify-admin-api": "tsx scripts/verify-admin-api.ts",
     "verify-route-security": "tsx scripts/verify-route-security.ts",
     "verify-route-matrix": "tsx scripts/verify-route-matrix.ts",
+    "secrets:encrypt-groq": "tsx scripts/encrypt-groq-keys.ts",
     "audit:prod": "npm audit --omit=dev --audit-level=critical",
     "audit:prod:high": "npm audit --omit=dev --audit-level=high"
   },

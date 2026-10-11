@@ -56,12 +56,14 @@ Configure the following environment variables in your Render Dashboard (**Settin
 | `NODE_ENV` | `production` |
 | `DEFAULT_PASSWORD` | Strong default temporary password for provisioned staff (e.g., `InitCompany#2026!`) |
 | `DEFAULT_PASSWORD_TTL_DAYS` | `7` (Enforces mandatory password rotation within 7 days) |
-| `ALLOW_HARD_DELETE` | `false` (Prevents irreversible deletion of employee records; preserves audit logs) |
+| `ALLOW_HARD_DELETE` | `0` or `1` (Controls irreversible deletion of employee records; defaults to soft delete) |
+| `APP_ENCRYPTION_KEY` | 32-byte base64 AES-256-GCM key (`openssl rand -base64 32`). Encrypts BYOK Groq API keys at rest. *Note: Losing this key means re-entering Groq API keys in Settings.* |
+| `APP_ENCRYPTION_KEY_PREVIOUS` | (Optional) Previous 32-byte base64 encryption key during key rotation |
 | `RESEND_API_KEY` | Production API key from Resend |
 | `RESEND_FROM_EMAIL` | Official transactional email (e.g., `noreply@sketchitup.in`) |
 | `GOOGLE_CLIENT_ID` | Production Google OAuth Client ID (Optional for verified employees) |
 | `GOOGLE_CLIENT_SECRET` | Production Google OAuth Client Secret |
-| `GROQ_API_KEY` | Production API key for AI assistant & summarization features |
+| `GROQ_API_KEY` | Platform fallback API key for AI assistant & summarization features |
 
 ---
 
@@ -98,6 +100,22 @@ ALLOW_PROD_SEED=1 OWNER_PASSWORD="<SuperSecureOwnerPassword123!>" npm run db:see
 *Check:*
 1. Output prints `Owner account successfully seeded/verified`.
 2. Initial default password warning is NOT printed if a custom `OWNER_PASSWORD` was supplied.
+
+### 3.5 Encrypt Plaintext Groq Keys at Rest
+Generate a 32-byte base64 encryption key:
+```bash
+openssl rand -base64 32
+```
+Set this value in Render environment as `APP_ENCRYPTION_KEY`. *Note: Losing this key means BYOK Groq API keys will be undecryptable and must be re-entered by team administrators in Settings.*
+
+Run the migration script:
+```bash
+# 1. Dry run inspection (shows rows requiring encryption, never logs keys):
+npm run secrets:encrypt-groq
+
+# 2. Apply encryption in place (idempotent, skips existing v1: encrypted keys):
+npm run secrets:encrypt-groq -- --apply
+```
 
 ---
 

@@ -1,9 +1,5 @@
 import { PrismaClient } from '@/lib/prisma-client'
 
-const globalForPrisma = globalThis as unknown as {
-  prisma: PrismaClient | undefined
-}
-
 function createPrismaClient() {
   return new PrismaClient({
     omit: {
@@ -13,6 +9,12 @@ function createPrismaClient() {
     },
     log: process.env.NODE_ENV === 'development' ? ['query'] : [],
   })
+}
+
+type ExtendedPrismaClient = ReturnType<typeof createPrismaClient>
+
+const globalForPrisma = globalThis as unknown as {
+  prisma: ExtendedPrismaClient | undefined
 }
 
 export const db = globalForPrisma.prisma ?? createPrismaClient()

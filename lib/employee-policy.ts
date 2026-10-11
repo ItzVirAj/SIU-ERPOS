@@ -3,6 +3,9 @@
  * Authoritative business rules for employee lifecycle and authentication.
  */
 
+import { HttpError } from './authz'
+import { validatePasswordStrength } from './production-config'
+
 export const PROVISIONER_ROLES = ['owner', 'hr', 'cto'] as const
 
 export type ProvisionerRole = (typeof PROVISIONER_ROLES)[number]
@@ -16,7 +19,27 @@ export function canProvision(actorRoleKey?: string | null): boolean {
   return (PROVISIONER_ROLES as readonly string[]).includes(normalized)
 }
 
-export const DEFAULT_PASSWORD = process.env.DEFAULT_PASSWORD || 'Pass@123'
+/**
+ * Returns the active default password.
+ * In development / test, falls back to "Pass@123".
+ * In production, requires a valid, compliant DEFAULT_PASSWORD or throws HttpError(500).
+ */
+export function getDefaultPassword(): string {
+  if (process.env.NODE_ENV === 'production') {
+    const pw = process.env.DEFAULT_PASSWORD
+    if (!pw || validatePasswordStrength(pw).length > 0) {
+      throw new HttpError(500, 'Default password is not configured')
+    }
+    return pw
+  }
+  return process.env.DEFAULT_PASSWORD || 'Pass@123'
+}
+
+export const DEFAULT_PASSWORD =
+  process.env.NODE_ENV === 'production'
+    ? process.env.DEFAULT_PASSWORD || ''
+    : process.env.DEFAULT_PASSWORD || 'Pass@123'
+
 export const DEFAULT_PASSWORD_TTL_DAYS = parseInt(
   process.env.DEFAULT_PASSWORD_TTL_DAYS || '7',
   10
@@ -29,13 +52,10 @@ export function defaultPasswordExpiry(): Date {
   return new Date(Date.now() + DEFAULT_PASSWORD_TTL_DAYS * 24 * 60 * 60 * 1000)
 }
 
-// Startup warning guard:
+// Startup warning guard for non-production environments using fallback
 if (
-  process.env.NODE_ENV === 'production' &&
-  (DEFAULT_PASSWORD === 'Pass@123' || !process.env.DEFAULT_PASSWORD)
+  process.env.NODE_ENV !== 'production' &&
+  (!process.env.DEFAULT_PASSWORD || process.env.DEFAULT_PASSWORD === 'Pass@123')
 ) {
-  console.warn(
-    '[SECURITY WARNING] DEFAULT_PASSWORD is set to the default development value in production! ' +
-      'Set DEFAULT_PASSWORD to a strong random value immediately.'
-  )
+  // Silent or info in dev
 }

@@ -34,22 +34,39 @@ interface ApiKeyDialogProps {
 export function ApiKeyDialog({
   open,
   onOpenChange,
+  teamId,
   onSuccess,
 }: ApiKeyDialogProps) {
   const [showKey, setShowKey] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isTesting, setIsTesting] = useState(false)
   const [currentApiKey, setCurrentApiKey] = useState<string | null>(null)
+  const [hasTeamKey, setHasTeamKey] = useState<boolean>(false)
+  const [teamKeyLast4, setTeamKeyLast4] = useState<string | null>(null)
 
-  // Load API key from localStorage when dialog opens
+  // Load API key from API / localStorage when dialog opens
   useEffect(() => {
     if (open) {
+      if (teamId) {
+        fetch(`/api/teams/${teamId}/api-key`)
+          .then((res) => (res.ok ? res.json() : null))
+          .then((data) => {
+            if (data?.hasKey) {
+              setHasTeamKey(true)
+              setTeamKeyLast4(data.last4 || null)
+            } else {
+              setHasTeamKey(false)
+              setTeamKeyLast4(null)
+            }
+          })
+          .catch(() => {})
+      }
       const savedKey = localStorage.getItem('groq_api_key')
       setCurrentApiKey(savedKey)
       form.reset({ apiKey: savedKey || '' })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open])
+  }, [open, teamId])
 
   const form = useForm<ApiKeyFormData>({
     resolver: zodResolver(apiKeySchema),
@@ -105,6 +122,18 @@ export function ApiKeyDialog({
         return
       }
 
+      if (teamId) {
+        const res = await fetch(`/api/teams/${teamId}/api-key`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ apiKey: data.apiKey }),
+        })
+        if (res.ok) {
+          setHasTeamKey(true)
+          setTeamKeyLast4(data.apiKey.slice(-4))
+        }
+      }
+
       // Save to localStorage
       localStorage.setItem('groq_api_key', data.apiKey)
       setCurrentApiKey(data.apiKey)
@@ -114,7 +143,6 @@ export function ApiKeyDialog({
       resetForm()
     } catch (error) {
       console.error('Error saving API key:', error)
-      const errorMessage = error instanceof Error ? error.message : 'Could not save your API key.'
     } finally {
       setIsSubmitting(false)
     }
@@ -123,6 +151,14 @@ export function ApiKeyDialog({
   const handleRemove = async () => {
     setIsSubmitting(true)
     try {
+      if (teamId) {
+        await fetch(`/api/teams/${teamId}/api-key`, {
+          method: 'DELETE',
+        })
+        setHasTeamKey(false)
+        setTeamKeyLast4(null)
+      }
+
       // Remove from localStorage
       localStorage.removeItem('groq_api_key')
       setCurrentApiKey(null)
@@ -158,6 +194,12 @@ export function ApiKeyDialog({
           </DialogDescription>
         </DialogHeader>
 
+        {hasTeamKey && teamKeyLast4 && (
+          <div className="rounded-md bg-muted p-3 text-sm text-muted-foreground">
+            Current team key configured: <span className="font-mono font-medium text-foreground">•••• {teamKeyLast4}</span>
+          </div>
+        )}
+
         <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="apiKey">Groq API Key</Label>
@@ -191,7 +233,7 @@ export function ApiKeyDialog({
           </div>
 
           <DialogFooter className="flex-col sm:flex-row gap-2">
-            {currentApiKey && (
+            {(currentApiKey || hasTeamKey) && (
               <Button
                 type="button"
                 variant="outline"

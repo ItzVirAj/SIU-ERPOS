@@ -133,7 +133,7 @@ export interface WriteAuditParams {
   teamId?: string | null
 }
 
-type PrismaOrTx = PrismaClient | Prisma.TransactionClient
+type PrismaOrTx = PrismaClient<any, any, any> | Prisma.TransactionClient
 
 /**
  * Writes an immutable audit log row using the shared schema.
