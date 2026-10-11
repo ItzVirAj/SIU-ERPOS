@@ -95,7 +95,7 @@
   },
   "overrides": {
     "next": {
-      "postcss": "$postcss"
+      "postcss": "^8.5.29"
     },
     "@fastify/busboy": "^3.2.3",
     "undici": "^6.29.0",
