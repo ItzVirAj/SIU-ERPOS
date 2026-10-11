@@ -38,15 +38,6 @@ export async function middleware(request: NextRequest) {
 
   // 1. Bypass Better Auth internal authentication handlers
   if (pathname.startsWith("/api/auth")) {
-    if (!request.headers.get("origin")) {
-      const requestHeaders = new Headers(request.headers);
-      requestHeaders.set("origin", request.nextUrl.origin);
-      return NextResponse.next({
-        request: {
-          headers: requestHeaders,
-        },
-      });
-    }
     return NextResponse.next();
   }
 

@@ -287,7 +287,10 @@ async function runSecurityVerification() {
     for (const [key, user] of Object.entries(createdUsers)) {
       const signInRes = await fetch(`${BASE_URL}/api/auth/sign-in/email`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Origin: BASE_URL,
+        },
         body: JSON.stringify({ email: user.email, password: TEST_PASSWORD }),
       })
       if (!signInRes.ok) {
@@ -312,6 +315,7 @@ async function runSecurityVerification() {
     ) => {
       const headers: Record<string, string> = {
         "Content-Type": "application/json",
+        Origin: BASE_URL,
       }
       if (options.cookie) {
         headers["Cookie"] = options.cookie

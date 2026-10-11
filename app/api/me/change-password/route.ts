@@ -5,35 +5,12 @@ import {
   requireEmployee,
   handleRouteError,
   HttpError,
+  assertOrigin,
 } from '@/lib/authz'
 import { db } from '@/lib/db'
 import { validateNewPassword } from '@/lib/passwords'
 import { rateLimit } from '@/lib/rate-limit'
 import { writeAudit, getClientIp, AUDIT_ACTIONS } from '@/lib/audit'
-
-function assertOrigin(request: Request) {
-  const origin = request.headers.get('origin')
-  if (!origin) return
-  const allowedOrigins = [
-    process.env.BETTER_AUTH_URL,
-    process.env.NEXT_PUBLIC_APP_URL,
-    'http://localhost:3000',
-    'http://127.0.0.1:3000',
-  ]
-    .filter(Boolean)
-    .map((u) => {
-      try {
-        return new URL(u!).origin
-      } catch {
-        return null
-      }
-    })
-    .filter(Boolean)
-
-  if (!allowedOrigins.includes(origin)) {
-    throw new HttpError(403, 'Forbidden: Origin mismatch')
-  }
-}
 
 const changePasswordSchema = z
   .object({

@@ -280,6 +280,7 @@ async function runMatrixVerification() {
         headers: {
           "Content-Type": "application/json",
           "X-Forwarded-For": clientIp,
+          Origin: BASE_URL,
         },
         body: JSON.stringify({ email: userObj.email, password: TEST_PASSWORD }),
       })
@@ -711,6 +712,7 @@ async function runMatrixVerification() {
           method: route.method,
           headers: {
             Cookie: cookie,
+            Origin: BASE_URL,
             ...(route.bodyFn ? { "Content-Type": "application/json" } : {}),
           },
           ...(route.bodyFn ? { body: JSON.stringify(route.bodyFn(testTeam)) } : {}),
@@ -872,6 +874,7 @@ async function runMatrixVerification() {
         headers: {
           "Content-Type": "application/json",
           "X-Forwarded-For": attackIp,
+          Origin: BASE_URL,
         },
         body: JSON.stringify({ email: attackEmail, password: "WrongPassword123!" }),
       })

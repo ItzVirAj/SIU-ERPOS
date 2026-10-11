@@ -241,11 +241,19 @@ npm run verify-route-matrix
 3. **Regression Verification**: Re-run all verification suites (`npm run check:api-guards`, `npm run check:admin-routes`, `npm run verify-roles`, `npm run verify-employees`, `npm run verify-authz`, `npm run verify-admin-api`, `npm run verify-route-security`, `npm run verify-route-matrix`) after any dependency changes.
 4. **No Unsafe Fixes**: Never run `npm audit fix --force`. Transitive dependencies must only be updated through verified, compatible `package.json` overrides.
 
-### Transitive Dependency Overrides in `package.json`
-- **`next` -> `postcss`: `$postcss`**: Next.js 15.5.27 internally bundles `postcss@8.4.31`, which has known advisories (GHSA-qx2v-qp2m-jg93, GHSA-6g55-p6wh-862q). Overridden to reference root `$postcss` (`^8.5.3`), resolving the vulnerability without breaking build tools.
-- **`@fastify/busboy`: `^3.2.3`**: Transitive dependency inside `undici@5` vulnerable to DoS/CRLF multipart parsing (GHSA-x8mw-p69m-v3mx, GHSA-gxm5-99cw-xjw9). Overridden to patched `^3.2.3`.
-- **`undici`: `^6.29.0`**: Transitive dependency under AI SDK `@ai-sdk/provider-utils` vulnerable to header/cookie injection and resource exhaustion (GHSA-g9mf-h72j-4rw9, GHSA-2mjp-6q6p-2qxm). Overridden to patched 6.x release `^6.29.0`.
-- **`katex`: `^0.19.0`**: Transitive dependency in `mermaid`/`streamdown` vulnerable to prototype pollution trust bypass (GHSA-238p-pmpm-9mq7). Overridden to `^0.19.0`.
-- **`braces`: `^3.0.3`**: Transitive dependency under `chokidar@3` in `tailwindcss@3.4.1` vulnerable to stack exhaustion (GHSA-vfj7-8cjw-p6xm). Overridden to `^3.0.3`.
-- **`postcss-selector-parser`: `^7.1.6`**: Transitive dependency in `postcss-nested` vulnerable to CPU exhaustion (GHSA-rj75-hqrm-r3gf). Overridden to patched `^7.1.6`.
+### Accepted High Findings in Production Dependencies (`audit:prod:high`)
+The following 10 high-severity findings are identified by `npm audit --omit=dev --audit-level=high` (exit code 1) and are accepted as non-exploitable build/CLI tooling:
+
+| Package | Severity | Advisory ID / Title | Direct / Transitive | Why it is Build or CLI Tooling Only | Why Not Reachable at Runtime |
+|---|---|---|---|---|---|
+| `braces` | High | GHSA-vfj7-8cjw-p6xm (stack-exhaustion DoS) | Transitive (via `micromatch` / `chokidar`) | Glob string expansion used exclusively by developer build watcher / bundler. | No file watching occurs on production servers; all assets are pre-compiled static bundles. |
+| `chokidar` | High | Transitive via `braces` | Transitive (via `tailwindcss`) | File watching library used by Tailwind compiler to regenerate utility classes during development. | The file watcher is not started in production `next start`; CSS is precompiled. |
+| `micromatch` | High | Transitive via `braces` | Transitive (via `tailwindcss` / `fast-glob`) | Glob pattern matcher used during build time. | Not invoked in production server request loops. |
+| `fast-glob` | High | Transitive via `micromatch` | Transitive (via `tailwindcss`) | Filesystem glob traversing during compile time. | Precompiled static assets; no dynamic globbing on incoming HTTP requests. |
+| `tailwindcss` | High | Transitive via `chokidar` / `micromatch` | Direct / Transitive | CSS utility compiler used during `next build`. | Only static compiled CSS files (`.css`) are served at runtime. |
+| `tailwindcss-animate` | High | Transitive via `tailwindcss` | Direct | Keyframe CSS plugin for Tailwind. | Pure CSS animation definitions; no executable code at runtime. |
+| `deepmerge-ts` | High | GHSA-ggr8-5vv4-36mx (stack exhaustion) | Transitive (via `@prisma/config`) | Object-merging utility used by Prisma CLI to parse `prisma.config.ts`. | Used only during `prisma generate` / `prisma migrate`. Never invoked by runtime queries. |
+| `@prisma/config` | High | Transitive via `deepmerge-ts` | Transitive (via `prisma`) | Configuration parser for the Prisma CLI. Downgrade to 6.12.0 suggested by npm would break Prisma 6.18 features. | CLI tool only; runtime uses `@prisma/client` engine binaries. |
+| `prisma` | High | Transitive via `@prisma/config` | Direct | Prisma CLI package. | Not imported in runtime application routes (runtime strictly imports `@prisma/client`). |
+| `postcss` | High | GHSA-6g55-p6wh-862q, GHSA-r28c-9q8g-f849 | Transitive (bundled inside `next@15.5.27`) | CSS post-processing parser bundled internally by Next.js 15.5.27. | Only invoked during `next build` to bundle Tailwind CSS. Never processes untrusted user CSS input at runtime. |
 

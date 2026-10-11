@@ -27,6 +27,33 @@ export class HttpError extends Error {
   }
 }
 
+export function assertOrigin(request: Request): void {
+  const origin = request.headers.get('origin')
+  if (!origin) {
+    throw new HttpError(403, 'Forbidden: Missing Origin header')
+  }
+  const allowedOrigins = [
+    process.env.BETTER_AUTH_URL,
+    process.env.NEXT_PUBLIC_APP_URL,
+    ...(process.env.NODE_ENV !== 'production'
+      ? ['http://localhost:3000', 'http://127.0.0.1:3000']
+      : []),
+  ]
+    .filter(Boolean)
+    .map((u) => {
+      try {
+        return new URL(u!).origin
+      } catch {
+        return null
+      }
+    })
+    .filter(Boolean)
+
+  if (!allowedOrigins.includes(origin)) {
+    throw new HttpError(403, 'Forbidden: Origin mismatch')
+  }
+}
+
 export const ROLE_HIERARCHY = {
   viewer: 1,
   developer: 2,

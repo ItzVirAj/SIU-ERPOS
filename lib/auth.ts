@@ -112,7 +112,7 @@ export const auth = betterAuth({
     cookiePrefix: AUTH_COOKIE_PREFIX,
   },
 
-  // 5. Trusted Origins (built dynamically without hardcoded IPs or domains)
+  // 5. Trusted Origins (strictly BETTER_AUTH_URL and NEXT_PUBLIC_APP_URL in production)
   trustedOrigins: async () => {
     const origins: string[] = [];
     if (process.env.BETTER_AUTH_URL) {
@@ -125,7 +125,9 @@ export const auth = betterAuth({
         origins.push(new URL(process.env.NEXT_PUBLIC_APP_URL).origin);
       } catch {}
     }
-    origins.push("http://localhost:*", "http://127.0.0.1:*");
+    if (process.env.NODE_ENV !== "production") {
+      origins.push("http://localhost:3000");
+    }
     return Array.from(new Set(origins));
   },
 
