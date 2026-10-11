@@ -1,6 +1,7 @@
 import { db } from '@/lib/db'
 import { TeamContext, CreateChatConversationData, SaveChatMessagesData } from '@/lib/types/chat'
 import { getSystemPrompt } from '@/lib/prompts/assistant-prompt'
+import { encryptSecret, decryptSecret } from '@/lib/secrets'
 
 export async function getTeamContext(teamId: string): Promise<TeamContext> {
   // Fetch all team-related data in parallel for efficiency
@@ -127,13 +128,17 @@ export async function getTeamSettings(teamId: string) {
 
   return {
     hasApiKey: !!team?.groqApiKey,
-    apiKey: team?.groqApiKey || null,
+    apiKey: team?.groqApiKey ? decryptSecret(team.groqApiKey) : null,
   }
 }
 
 export async function updateTeamSettings(teamId: string, settings: { groqApiKey?: string | null }) {
+  const data: { groqApiKey?: string | null } = { ...settings }
+  if (data.groqApiKey) {
+    data.groqApiKey = encryptSecret(data.groqApiKey)
+  }
   return await db.team.update({
     where: { id: teamId },
-    data: settings,
+    data,
   })
 }

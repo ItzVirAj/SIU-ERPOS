@@ -1,5 +1,6 @@
 import { db } from '@/lib/db'
 import { CreateIssueData, UpdateIssueData, IssueFilters, IssueSort } from '@/lib/types'
+import { publicTeamSelect } from '@/lib/team-select'
 
 export async function getIssues(
   teamId: string,
@@ -94,7 +95,9 @@ export async function getIssues(
       assignee: true,
       creatorId: true,
       creator: true,
-      team: true,
+      team: {
+        select: publicTeamSelect,
+      },
       labels: {
         include: {
           label: true,
@@ -141,7 +144,9 @@ export async function getIssueById(teamId: string, issueId: string) {
       assignee: true,
       creatorId: true,
       creator: true,
-      team: true,
+      team: {
+        select: publicTeamSelect,
+      },
       labels: {
         include: {
           label: true,
@@ -380,7 +385,9 @@ export async function updateIssue(teamId: string, issueId: string, data: UpdateI
       assignee: true,
       creatorId: true,
       creator: true,
-      team: true,
+      team: {
+        select: publicTeamSelect,
+      },
       labels: {
         include: {
           label: true,

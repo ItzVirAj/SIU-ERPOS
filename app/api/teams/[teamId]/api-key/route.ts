@@ -4,9 +4,15 @@ import { db } from '@/lib/db'
 import { handleRouteError, HttpError } from '@/lib/authz'
 import { requireTeamAccess } from '@/lib/route-guards'
 import { AppModule, AccessLevel } from '@/lib/prisma-client'
+import { encryptSecret, decryptSecret } from '@/lib/secrets'
 
 const updateKeySchema = z.object({
-  apiKey: z.string().min(1).startsWith('gsk_', { message: 'Invalid Groq API key format (must start with gsk_)' }),
+  apiKey: z
+    .string()
+    .trim()
+    .min(10, { message: 'Groq API key must be at least 10 characters' })
+    .max(256, { message: 'Groq API key is too long' })
+    .startsWith('gsk_', { message: 'Invalid Groq API key format (must start with gsk_)' }),
 }).strict()
 
 export async function GET(
@@ -31,11 +37,13 @@ export async function GET(
       throw new HttpError(404, 'Team not found')
     }
 
-    const maskedKey = team.groqApiKey
-      ? `${team.groqApiKey.substring(0, 8)}...${team.groqApiKey.substring(team.groqApiKey.length - 4)}`
-      : null
+    let last4: string | null = null
+    if (team.groqApiKey) {
+      const decrypted = decryptSecret(team.groqApiKey)
+      last4 = decrypted.length >= 4 ? decrypted.slice(-4) : decrypted
+    }
 
-    return NextResponse.json({ apiKey: maskedKey, hasKey: !!team.groqApiKey })
+    return NextResponse.json({ hasKey: !!team.groqApiKey, last4 })
   } catch (error) {
     return handleRouteError(error)
   }
@@ -55,10 +63,12 @@ export async function PUT(
     const rawBody = await request.json()
     const { apiKey } = updateKeySchema.parse(rawBody)
 
+    const encryptedKey = encryptSecret(apiKey)
+
     await db.team.update({
       where: { id: teamId },
       data: {
-        groqApiKey: apiKey,
+        groqApiKey: encryptedKey,
       },
     })
 

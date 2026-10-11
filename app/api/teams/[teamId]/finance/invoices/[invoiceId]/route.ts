@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { z } from "zod"
 import { handleRouteError, HttpError } from "@/lib/authz";
 import { db } from "@/lib/db"
+import { publicTeamSelect } from "@/lib/team-select"
 
 const patchInvoiceSchema = z.object({
   status: z.enum(["draft", "sent", "paid", "partially_paid", "overdue", "cancelled"]).optional(),
@@ -27,7 +28,10 @@ export async function GET(
         items: true,
         payments: { orderBy: { paymentDate: "desc" } },
         team: {
-          include: { companySettings: true },
+          select: {
+            ...publicTeamSelect,
+            companySettings: true,
+          },
         },
       },
     })

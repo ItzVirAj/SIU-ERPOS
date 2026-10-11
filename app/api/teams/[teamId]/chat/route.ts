@@ -1201,7 +1201,7 @@ Always use the provided tools for actions.`
             })
 
             // Send email
-            const team = await db.team.findUnique({ where: { id: teamId } })
+            const team = await db.team.findUnique({ where: { id: teamId }, select: { name: true } })
             const inviterName = user.name || user.email || 'Someone'
 
             if (process.env.RESEND_API_KEY) {
@@ -1244,7 +1244,7 @@ Always use the provided tools for actions.`
 
             const sentInvitations = []
             const errors = []
-            const team = await db.team.findUnique({ where: { id: teamId } })
+            const team = await db.team.findUnique({ where: { id: teamId }, select: { name: true } })
             const inviterName = user.name || user.email || 'Someone'
 
             for (const invitationData of invitations) {

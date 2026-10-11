@@ -12,7 +12,7 @@ export async function createIssueAction(teamId: string, data: CreateIssueData) {
     const [userId, user, teamCheck] = await Promise.all([
       getUserId(),
       getUser(),
-      db.team.findUnique({ where: { id: teamId } }).then(team => {
+      db.team.findUnique({ where: { id: teamId }, select: { id: true } }).then(team => {
         if (!team) throw new Error('Team not found')
         return team
       })

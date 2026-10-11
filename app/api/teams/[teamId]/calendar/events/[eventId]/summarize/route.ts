@@ -6,6 +6,7 @@ import { getEventById, upsertMeetingNote } from "@/lib/api/calendar";
 import { generateText } from "ai";
 import { createGroq } from "@ai-sdk/groq";
 import { db } from "@/lib/db";
+import { decryptSecret } from "@/lib/secrets";
 
 export async function POST(
   request: NextRequest,
@@ -33,8 +34,9 @@ export async function POST(
       select: { groqApiKey: true },
     });
 
+    const decryptedTeamKey = team?.groqApiKey ? decryptSecret(team.groqApiKey) : null;
     const apiKey =
-      team?.groqApiKey ||
+      decryptedTeamKey ||
       body.apiKey ||
       process.env.GROQ_API_KEY;
 

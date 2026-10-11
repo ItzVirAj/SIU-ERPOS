@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { requireEmployee, handleRouteError } from '@/lib/authz'
 import { db } from '@/lib/db'
+import { publicTeamSelect } from '@/lib/team-select'
 
 export async function GET(request: NextRequest) {
   try {
@@ -12,6 +13,7 @@ export async function GET(request: NextRequest) {
       where: {
         id: employee.teamId,
       },
+      select: publicTeamSelect,
       orderBy: {
         createdAt: 'desc',
       },

@@ -6,6 +6,11 @@ const globalForPrisma = globalThis as unknown as {
 
 function createPrismaClient() {
   return new PrismaClient({
+    omit: {
+      team: {
+        groqApiKey: true,
+      },
+    },
     log: process.env.NODE_ENV === 'development' ? ['query'] : [],
   })
 }

@@ -3,6 +3,7 @@ import { requireTeamAccess } from "@/lib/route-guards";
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { handleRouteError } from "@/lib/authz";
+import { publicTeamSelect } from "@/lib/team-select";
 
 export async function POST(
   request: NextRequest,
@@ -14,6 +15,7 @@ export async function POST(
 
     const existingTeam = await db.team.findUnique({
       where: { id: teamId },
+      select: publicTeamSelect,
     })
 
     if (!existingTeam) {

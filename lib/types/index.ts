@@ -1,10 +1,11 @@
-import { Issue, Project, WorkflowState, Label, Comment, Team, IssueLabel, ProjectMember } from '@/lib/prisma-client'
+import { Issue, Project, WorkflowState, Label, Comment, IssueLabel, ProjectMember } from '@/lib/prisma-client'
+import { PublicTeam } from '@/lib/team-select'
 
 // Extended types with relations
 export type IssueWithRelations = Issue & {
   project?: Project | null
   workflowState: WorkflowState
-  team: Team
+  team: PublicTeam
   assignee?: string | null
   creator: string
   labels: (IssueLabel & { label: Label })[]
@@ -12,7 +13,7 @@ export type IssueWithRelations = Issue & {
 }
 
 export type ProjectWithRelations = Project & {
-  team: Team
+  team: PublicTeam
   lead?: string | null
   issues: Issue[]
   members: ProjectMember[]

@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server'
 import { z } from 'zod'
 import { auth } from './auth'
 import { db } from './db'
+import { publicTeamSelect } from './team-select'
 import {
   AppModule,
   AccessLevel,
@@ -126,7 +127,9 @@ export async function assertEmployeeUsable(
     where: { userId },
     include: {
       role: true,
-      team: true,
+      team: {
+        select: publicTeamSelect,
+      },
     },
   })
 
