@@ -125,9 +125,7 @@ export const auth = betterAuth({
         origins.push(new URL(process.env.NEXT_PUBLIC_APP_URL).origin);
       } catch {}
     }
-    if (process.env.NODE_ENV !== "production") {
-      origins.push("http://localhost:3000");
-    }
+    origins.push("http://localhost:*", "http://127.0.0.1:*");
     return Array.from(new Set(origins));
   },
 

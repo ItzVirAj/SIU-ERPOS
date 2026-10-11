@@ -1113,8 +1113,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 6.18.0
-   * Query Engine version: 34b5a692b7bd79939a9a2c3ef97d816e749cda2f
+   * Prisma Client JS version: 6.19.3
+   * Query Engine version: c2990dca591cba766e3b7ef5d9e8a84796e47ab7
    */
   export type PrismaVersion = {
     client: string
@@ -23909,8 +23909,18 @@ export namespace Prisma {
 
   export type AggregateTwoFactor = {
     _count: TwoFactorCountAggregateOutputType | null
+    _avg: TwoFactorAvgAggregateOutputType | null
+    _sum: TwoFactorSumAggregateOutputType | null
     _min: TwoFactorMinAggregateOutputType | null
     _max: TwoFactorMaxAggregateOutputType | null
+  }
+
+  export type TwoFactorAvgAggregateOutputType = {
+    failedVerificationCount: number | null
+  }
+
+  export type TwoFactorSumAggregateOutputType = {
+    failedVerificationCount: number | null
   }
 
   export type TwoFactorMinAggregateOutputType = {
@@ -23918,6 +23928,9 @@ export namespace Prisma {
     secret: string | null
     backupCodes: string | null
     userId: string | null
+    verified: boolean | null
+    failedVerificationCount: number | null
+    lockedUntil: Date | null
   }
 
   export type TwoFactorMaxAggregateOutputType = {
@@ -23925,6 +23938,9 @@ export namespace Prisma {
     secret: string | null
     backupCodes: string | null
     userId: string | null
+    verified: boolean | null
+    failedVerificationCount: number | null
+    lockedUntil: Date | null
   }
 
   export type TwoFactorCountAggregateOutputType = {
@@ -23932,15 +23948,29 @@ export namespace Prisma {
     secret: number
     backupCodes: number
     userId: number
+    verified: number
+    failedVerificationCount: number
+    lockedUntil: number
     _all: number
   }
 
+
+  export type TwoFactorAvgAggregateInputType = {
+    failedVerificationCount?: true
+  }
+
+  export type TwoFactorSumAggregateInputType = {
+    failedVerificationCount?: true
+  }
 
   export type TwoFactorMinAggregateInputType = {
     id?: true
     secret?: true
     backupCodes?: true
     userId?: true
+    verified?: true
+    failedVerificationCount?: true
+    lockedUntil?: true
   }
 
   export type TwoFactorMaxAggregateInputType = {
@@ -23948,6 +23978,9 @@ export namespace Prisma {
     secret?: true
     backupCodes?: true
     userId?: true
+    verified?: true
+    failedVerificationCount?: true
+    lockedUntil?: true
   }
 
   export type TwoFactorCountAggregateInputType = {
@@ -23955,6 +23988,9 @@ export namespace Prisma {
     secret?: true
     backupCodes?: true
     userId?: true
+    verified?: true
+    failedVerificationCount?: true
+    lockedUntil?: true
     _all?: true
   }
 
@@ -23996,6 +24032,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: TwoFactorAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: TwoFactorSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: TwoFactorMinAggregateInputType
@@ -24026,6 +24074,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: TwoFactorCountAggregateInputType | true
+    _avg?: TwoFactorAvgAggregateInputType
+    _sum?: TwoFactorSumAggregateInputType
     _min?: TwoFactorMinAggregateInputType
     _max?: TwoFactorMaxAggregateInputType
   }
@@ -24035,7 +24085,12 @@ export namespace Prisma {
     secret: string
     backupCodes: string
     userId: string
+    verified: boolean | null
+    failedVerificationCount: number | null
+    lockedUntil: Date | null
     _count: TwoFactorCountAggregateOutputType | null
+    _avg: TwoFactorAvgAggregateOutputType | null
+    _sum: TwoFactorSumAggregateOutputType | null
     _min: TwoFactorMinAggregateOutputType | null
     _max: TwoFactorMaxAggregateOutputType | null
   }
@@ -24059,6 +24114,9 @@ export namespace Prisma {
     secret?: boolean
     backupCodes?: boolean
     userId?: boolean
+    verified?: boolean
+    failedVerificationCount?: boolean
+    lockedUntil?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["twoFactor"]>
 
@@ -24067,6 +24125,9 @@ export namespace Prisma {
     secret?: boolean
     backupCodes?: boolean
     userId?: boolean
+    verified?: boolean
+    failedVerificationCount?: boolean
+    lockedUntil?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["twoFactor"]>
 
@@ -24075,6 +24136,9 @@ export namespace Prisma {
     secret?: boolean
     backupCodes?: boolean
     userId?: boolean
+    verified?: boolean
+    failedVerificationCount?: boolean
+    lockedUntil?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["twoFactor"]>
 
@@ -24083,9 +24147,12 @@ export namespace Prisma {
     secret?: boolean
     backupCodes?: boolean
     userId?: boolean
+    verified?: boolean
+    failedVerificationCount?: boolean
+    lockedUntil?: boolean
   }
 
-  export type TwoFactorOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "secret" | "backupCodes" | "userId", ExtArgs["result"]["twoFactor"]>
+  export type TwoFactorOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "secret" | "backupCodes" | "userId" | "verified" | "failedVerificationCount" | "lockedUntil", ExtArgs["result"]["twoFactor"]>
   export type TwoFactorInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
@@ -24106,6 +24173,9 @@ export namespace Prisma {
       secret: string
       backupCodes: string
       userId: string
+      verified: boolean | null
+      failedVerificationCount: number | null
+      lockedUntil: Date | null
     }, ExtArgs["result"]["twoFactor"]>
     composites: {}
   }
@@ -24534,6 +24604,9 @@ export namespace Prisma {
     readonly secret: FieldRef<"TwoFactor", 'String'>
     readonly backupCodes: FieldRef<"TwoFactor", 'String'>
     readonly userId: FieldRef<"TwoFactor", 'String'>
+    readonly verified: FieldRef<"TwoFactor", 'Boolean'>
+    readonly failedVerificationCount: FieldRef<"TwoFactor", 'Int'>
+    readonly lockedUntil: FieldRef<"TwoFactor", 'DateTime'>
   }
     
 
@@ -75852,7 +75925,10 @@ export namespace Prisma {
     id: 'id',
     secret: 'secret',
     backupCodes: 'backupCodes',
-    userId: 'userId'
+    userId: 'userId',
+    verified: 'verified',
+    failedVerificationCount: 'failedVerificationCount',
+    lockedUntil: 'lockedUntil'
   };
 
   export type TwoFactorScalarFieldEnum = (typeof TwoFactorScalarFieldEnum)[keyof typeof TwoFactorScalarFieldEnum]
@@ -77999,6 +78075,9 @@ export namespace Prisma {
     secret?: StringFilter<"TwoFactor"> | string
     backupCodes?: StringFilter<"TwoFactor"> | string
     userId?: StringFilter<"TwoFactor"> | string
+    verified?: BoolNullableFilter<"TwoFactor"> | boolean | null
+    failedVerificationCount?: IntNullableFilter<"TwoFactor"> | number | null
+    lockedUntil?: DateTimeNullableFilter<"TwoFactor"> | Date | string | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
@@ -78007,6 +78086,9 @@ export namespace Prisma {
     secret?: SortOrder
     backupCodes?: SortOrder
     userId?: SortOrder
+    verified?: SortOrderInput | SortOrder
+    failedVerificationCount?: SortOrderInput | SortOrder
+    lockedUntil?: SortOrderInput | SortOrder
     user?: UserOrderByWithRelationInput
   }
 
@@ -78018,6 +78100,9 @@ export namespace Prisma {
     secret?: StringFilter<"TwoFactor"> | string
     backupCodes?: StringFilter<"TwoFactor"> | string
     userId?: StringFilter<"TwoFactor"> | string
+    verified?: BoolNullableFilter<"TwoFactor"> | boolean | null
+    failedVerificationCount?: IntNullableFilter<"TwoFactor"> | number | null
+    lockedUntil?: DateTimeNullableFilter<"TwoFactor"> | Date | string | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id">
 
@@ -78026,9 +78111,14 @@ export namespace Prisma {
     secret?: SortOrder
     backupCodes?: SortOrder
     userId?: SortOrder
+    verified?: SortOrderInput | SortOrder
+    failedVerificationCount?: SortOrderInput | SortOrder
+    lockedUntil?: SortOrderInput | SortOrder
     _count?: TwoFactorCountOrderByAggregateInput
+    _avg?: TwoFactorAvgOrderByAggregateInput
     _max?: TwoFactorMaxOrderByAggregateInput
     _min?: TwoFactorMinOrderByAggregateInput
+    _sum?: TwoFactorSumOrderByAggregateInput
   }
 
   export type TwoFactorScalarWhereWithAggregatesInput = {
@@ -78039,6 +78129,9 @@ export namespace Prisma {
     secret?: StringWithAggregatesFilter<"TwoFactor"> | string
     backupCodes?: StringWithAggregatesFilter<"TwoFactor"> | string
     userId?: StringWithAggregatesFilter<"TwoFactor"> | string
+    verified?: BoolNullableWithAggregatesFilter<"TwoFactor"> | boolean | null
+    failedVerificationCount?: IntNullableWithAggregatesFilter<"TwoFactor"> | number | null
+    lockedUntil?: DateTimeNullableWithAggregatesFilter<"TwoFactor"> | Date | string | null
   }
 
   export type RateLimitWhereInput = {
@@ -78060,13 +78153,13 @@ export namespace Prisma {
 
   export type RateLimitWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    key?: string
     AND?: RateLimitWhereInput | RateLimitWhereInput[]
     OR?: RateLimitWhereInput[]
     NOT?: RateLimitWhereInput | RateLimitWhereInput[]
-    key?: StringFilter<"RateLimit"> | string
     count?: IntFilter<"RateLimit"> | number
     lastRequest?: BigIntFilter<"RateLimit"> | bigint | number
-  }, "id">
+  }, "id" | "key">
 
   export type RateLimitOrderByWithAggregationInput = {
     id?: SortOrder
@@ -83324,6 +83417,9 @@ export namespace Prisma {
     id: string
     secret: string
     backupCodes: string
+    verified?: boolean | null
+    failedVerificationCount?: number | null
+    lockedUntil?: Date | string | null
     user: UserCreateNestedOneWithoutTwofactorsInput
   }
 
@@ -83332,12 +83428,18 @@ export namespace Prisma {
     secret: string
     backupCodes: string
     userId: string
+    verified?: boolean | null
+    failedVerificationCount?: number | null
+    lockedUntil?: Date | string | null
   }
 
   export type TwoFactorUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     secret?: StringFieldUpdateOperationsInput | string
     backupCodes?: StringFieldUpdateOperationsInput | string
+    verified?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    failedVerificationCount?: NullableIntFieldUpdateOperationsInput | number | null
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user?: UserUpdateOneRequiredWithoutTwofactorsNestedInput
   }
 
@@ -83346,6 +83448,9 @@ export namespace Prisma {
     secret?: StringFieldUpdateOperationsInput | string
     backupCodes?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    verified?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    failedVerificationCount?: NullableIntFieldUpdateOperationsInput | number | null
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type TwoFactorCreateManyInput = {
@@ -83353,12 +83458,18 @@ export namespace Prisma {
     secret: string
     backupCodes: string
     userId: string
+    verified?: boolean | null
+    failedVerificationCount?: number | null
+    lockedUntil?: Date | string | null
   }
 
   export type TwoFactorUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     secret?: StringFieldUpdateOperationsInput | string
     backupCodes?: StringFieldUpdateOperationsInput | string
+    verified?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    failedVerificationCount?: NullableIntFieldUpdateOperationsInput | number | null
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type TwoFactorUncheckedUpdateManyInput = {
@@ -83366,6 +83477,9 @@ export namespace Prisma {
     secret?: StringFieldUpdateOperationsInput | string
     backupCodes?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    verified?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    failedVerificationCount?: NullableIntFieldUpdateOperationsInput | number | null
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type RateLimitCreateInput = {
@@ -88971,6 +89085,13 @@ export namespace Prisma {
     secret?: SortOrder
     backupCodes?: SortOrder
     userId?: SortOrder
+    verified?: SortOrder
+    failedVerificationCount?: SortOrder
+    lockedUntil?: SortOrder
+  }
+
+  export type TwoFactorAvgOrderByAggregateInput = {
+    failedVerificationCount?: SortOrder
   }
 
   export type TwoFactorMaxOrderByAggregateInput = {
@@ -88978,6 +89099,9 @@ export namespace Prisma {
     secret?: SortOrder
     backupCodes?: SortOrder
     userId?: SortOrder
+    verified?: SortOrder
+    failedVerificationCount?: SortOrder
+    lockedUntil?: SortOrder
   }
 
   export type TwoFactorMinOrderByAggregateInput = {
@@ -88985,6 +89109,13 @@ export namespace Prisma {
     secret?: SortOrder
     backupCodes?: SortOrder
     userId?: SortOrder
+    verified?: SortOrder
+    failedVerificationCount?: SortOrder
+    lockedUntil?: SortOrder
+  }
+
+  export type TwoFactorSumOrderByAggregateInput = {
+    failedVerificationCount?: SortOrder
   }
 
   export type BigIntFilter<$PrismaModel = never> = {
@@ -100120,12 +100251,18 @@ export namespace Prisma {
     id: string
     secret: string
     backupCodes: string
+    verified?: boolean | null
+    failedVerificationCount?: number | null
+    lockedUntil?: Date | string | null
   }
 
   export type TwoFactorUncheckedCreateWithoutUserInput = {
     id: string
     secret: string
     backupCodes: string
+    verified?: boolean | null
+    failedVerificationCount?: number | null
+    lockedUntil?: Date | string | null
   }
 
   export type TwoFactorCreateOrConnectWithoutUserInput = {
@@ -100280,6 +100417,9 @@ export namespace Prisma {
     secret?: StringFilter<"TwoFactor"> | string
     backupCodes?: StringFilter<"TwoFactor"> | string
     userId?: StringFilter<"TwoFactor"> | string
+    verified?: BoolNullableFilter<"TwoFactor"> | boolean | null
+    failedVerificationCount?: IntNullableFilter<"TwoFactor"> | number | null
+    lockedUntil?: DateTimeNullableFilter<"TwoFactor"> | Date | string | null
   }
 
   export type EmployeeUpsertWithoutUserInput = {
@@ -111036,6 +111176,9 @@ export namespace Prisma {
     id: string
     secret: string
     backupCodes: string
+    verified?: boolean | null
+    failedVerificationCount?: number | null
+    lockedUntil?: Date | string | null
   }
 
   export type SessionUpdateWithoutUserInput = {
@@ -111117,18 +111260,27 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     secret?: StringFieldUpdateOperationsInput | string
     backupCodes?: StringFieldUpdateOperationsInput | string
+    verified?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    failedVerificationCount?: NullableIntFieldUpdateOperationsInput | number | null
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type TwoFactorUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     secret?: StringFieldUpdateOperationsInput | string
     backupCodes?: StringFieldUpdateOperationsInput | string
+    verified?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    failedVerificationCount?: NullableIntFieldUpdateOperationsInput | number | null
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type TwoFactorUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     secret?: StringFieldUpdateOperationsInput | string
     backupCodes?: StringFieldUpdateOperationsInput | string
+    verified?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    failedVerificationCount?: NullableIntFieldUpdateOperationsInput | number | null
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type ChatMessageCreateManyConversationInput = {
