@@ -166,7 +166,12 @@ export async function createIssue(teamId: string, data: CreateIssueData, creator
   const { labelIds, projectId, ...issueData } = data
 
   // Verify project if provided
-  const project = projectId ? await db.project.findFirst({ where: { id: projectId, teamId }, select: { id: true } }) : null
+  if (projectId) {
+    const project = await db.project.findFirst({ where: { id: projectId, teamId }, select: { id: true } })
+    if (!project) {
+      throw new Error('Project not found')
+    }
+  }
 
   // Prepare issue data (without number first, will be set in transaction)
   const issueDataToCreate: any = {
@@ -180,7 +185,7 @@ export async function createIssue(teamId: string, data: CreateIssueData, creator
     teamId,
     creatorId,
     creator: creatorName,
-    ...(project && projectId ? { projectId } : {}),
+    ...(projectId ? { projectId } : {}),
   }
 
   // Create the issue with a select that includes all necessary relations
@@ -275,8 +280,8 @@ export async function createIssue(teamId: string, data: CreateIssueData, creator
 
 export async function updateIssue(teamId: string, issueId: string, data: UpdateIssueData) {
   // Get current issue to check if project is changing
-  const currentIssue = await db.issue.findUnique({
-    where: { id: issueId },
+  const currentIssue = await db.issue.findFirst({
+    where: { id: issueId, teamId },
     select: { projectId: true, number: true },
   })
 
@@ -286,6 +291,12 @@ export async function updateIssue(teamId: string, issueId: string, data: UpdateI
 
   // Handle project change - renumber the issue if project is being changed
   if (data.projectId !== undefined && data.projectId !== currentIssue.projectId) {
+    if (data.projectId !== null) {
+      const project = await db.project.findFirst({ where: { id: data.projectId, teamId }, select: { id: true } })
+      if (!project) {
+        throw new Error('Project not found')
+      }
+    }
     // Get the last issue number for the entire team (not per project)
     const lastIssue = await db.issue.findFirst({
       where: { teamId },

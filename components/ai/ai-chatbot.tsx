@@ -70,9 +70,6 @@ export function AIChatbot({ teamId: explicitTeamId, onClose }: AIChatbotProps) {
     transport: new DefaultChatTransport({
       api: `/api/teams/${teamId}/chat`,
       async prepareSendMessagesRequest({ messages }) {
-        // Get API key from localStorage if available
-        const apiKey = typeof window !== 'undefined' ? localStorage.getItem('groq_api_key') : null
-        
         // Ensure messages is an array and properly formatted
         if (!messages || !Array.isArray(messages) || messages.length === 0) {
           console.error('Invalid messages in prepareSendMessagesRequest:', messages)
@@ -104,7 +101,6 @@ export function AIChatbot({ teamId: explicitTeamId, onClose }: AIChatbotProps) {
         return {
           body: {
             messages: formattedMessages,
-            ...(apiKey && { apiKey }),
             ...(conversationId && { conversationId }),
           },
         }

@@ -16,6 +16,7 @@ export const AUDIT_ACTIONS = {
   AUTH_LOGIN_BLOCKED: 'auth.login_blocked',
   TEAM_EXPORT: 'team.export',
   TEAM_DELETE: 'team.delete',
+  AI_TOOL_CALL: 'ai.tool_call',
 } as const
 
 export type AuditAction = (typeof AUDIT_ACTIONS)[keyof typeof AUDIT_ACTIONS]

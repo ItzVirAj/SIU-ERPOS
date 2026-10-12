@@ -20,6 +20,7 @@
     "check:videos": "tsx scripts/check-cloudinary-videos.ts",
     "check:admin-routes": "tsx scripts/check-admin-routes.ts",
     "check:api-guards": "tsx scripts/check-api-guards.ts",
+    "check:ai-tools": "tsx scripts/check-ai-tools.ts",
     "test:security": "tsx scripts/run-security-tests.ts",
     "test:routes": "tsx scripts/verify-api-auth.ts",
     "verify-roles": "tsx scripts/verify-roles.ts",

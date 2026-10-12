@@ -5,7 +5,7 @@ import { encryptSecret, decryptSecret } from '@/lib/secrets'
 
 export async function getTeamContext(teamId: string): Promise<TeamContext> {
   // Fetch all team-related data in parallel for efficiency
-  const [projects, workflowStates, labels, members] = await Promise.all([
+  const [projects, workflowStates, labels, activeEmployees] = await Promise.all([
     db.project.findMany({
       where: { teamId },
       orderBy: { name: 'asc' },
@@ -23,7 +23,31 @@ export async function getTeamContext(teamId: string): Promise<TeamContext> {
       where: { teamId },
       orderBy: { name: 'asc' },
     }),
-    db.teamMember.findMany({
+    db.employee.findMany({
+      where: { teamId, status: 'ACTIVE' },
+      select: {
+        userId: true,
+        fullName: true,
+        email: true,
+        role: {
+          select: {
+            legacyTeamRole: true,
+          },
+        },
+      },
+      orderBy: { fullName: 'asc' },
+    }),
+  ])
+
+  let members = activeEmployees.map((e) => ({
+    userId: e.userId,
+    userName: e.fullName,
+    userEmail: e.email,
+    role: e.role.legacyTeamRole,
+  }))
+
+  if (members.length === 0) {
+    const fallbackMembers = await db.teamMember.findMany({
       where: { teamId },
       select: {
         userId: true,
@@ -31,8 +55,14 @@ export async function getTeamContext(teamId: string): Promise<TeamContext> {
         userEmail: true,
         role: true,
       },
-    }),
-  ])
+    })
+    members = fallbackMembers.map((m) => ({
+      userId: m.userId,
+      userName: m.userName,
+      userEmail: m.userEmail,
+      role: m.role,
+    }))
+  }
 
   return {
     projects,
@@ -126,9 +156,19 @@ export async function getTeamSettings(teamId: string) {
     },
   })
 
+  let last4: string | null = null
+  if (team?.groqApiKey) {
+    try {
+      const decrypted = decryptSecret(team.groqApiKey)
+      last4 = decrypted.length >= 4 ? decrypted.slice(-4) : decrypted
+    } catch {
+      last4 = null
+    }
+  }
+
   return {
-    hasApiKey: !!team?.groqApiKey,
-    apiKey: team?.groqApiKey ? decryptSecret(team.groqApiKey) : null,
+    hasKey: !!team?.groqApiKey,
+    last4,
   }
 }
 

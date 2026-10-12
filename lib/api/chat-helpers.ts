@@ -75,7 +75,7 @@ export function resolveLabelIds(
       const label = teamContext.labels.find(
         (l) => l.id === labelIdOrName || l.name.toLowerCase() === (labelIdOrName || '').toLowerCase()
       )
-      return label ? label.id : labelIdOrName!
+      return label ? label.id : null
     })
     .filter((id): id is string => id !== null && id !== undefined)
 }
