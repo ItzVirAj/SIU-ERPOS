@@ -130,8 +130,8 @@ export const navigationItems = (openApiKeyDialog: () => void): NavigationItem[] 
     type: "item",
   },
   {
-    name: "Members",
-    href: "/dashboard/members",
+    name: "People Operations (HR)",
+    href: "/dashboard/hr",
     icon: Users,
     type: "item",
   },
@@ -268,7 +268,7 @@ export function DashboardAppSidebar({
         if (item.href === "/dashboard/flows") return canViewAutomations;
         if (item.href === "/dashboard/finance") return canViewFinance;
         if (item.href === "/dashboard/products") return canViewProducts;
-        if (item.href === "/dashboard/members") return canViewEmployees;
+        if (item.href === "/dashboard/hr" || item.href === "/dashboard/members") return canViewEmployees;
         return false;
       })
       .map((item) => {

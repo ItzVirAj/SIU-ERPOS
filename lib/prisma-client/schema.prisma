@@ -26,37 +26,43 @@ model Team {
   updatedAt  DateTime @updatedAt
 
   // Relations
-  projects            Project[]
-  issues              Issue[]
-  workflowStates      WorkflowState[]
-  labels              Label[]
-  members             TeamMember[]
-  invitations         Invitation[]
-  chatConversations   ChatConversation[]
-  events              Event[]
-  standupEntries      StandupEntry[]
-  clients             Client[]
-  leadPipelines       LeadPipeline[]
-  leads               Lead[]
-  teamChannels        TeamChannel[]
-  announcements       TeamAnnouncement[]
-  auditLogs           AuditLog[]
-  companySettings     CompanySetting?
-  automationRules     AutomationRule[]
-  developerApiKeys    DeveloperApiKey[]
-  webhookEndpoints    WebhookEndpoint[]
-  kpis                CompanyKpi[]
-  invoices            Invoice[]
-  payments            Payment[]
-  expenses            Expense[]
-  subscriptions       ToolSubscription[]
-  domainProducts      DomainProduct[]
-  reusableComponents  ReusableComponent[]
-  employees           Employee[]
-  timesheets          Timesheet[]
-  timeEntries         TimeEntry[]
-  resourceAllocations ResourceAllocation[]
-  rateCards           RateCard[]
+  projects             Project[]
+  issues               Issue[]
+  workflowStates       WorkflowState[]
+  labels               Label[]
+  members              TeamMember[]
+  invitations          Invitation[]
+  chatConversations    ChatConversation[]
+  events               Event[]
+  standupEntries       StandupEntry[]
+  clients              Client[]
+  leadPipelines        LeadPipeline[]
+  leads                Lead[]
+  teamChannels         TeamChannel[]
+  announcements        TeamAnnouncement[]
+  auditLogs            AuditLog[]
+  companySettings      CompanySetting?
+  automationRules      AutomationRule[]
+  developerApiKeys     DeveloperApiKey[]
+  webhookEndpoints     WebhookEndpoint[]
+  kpis                 CompanyKpi[]
+  invoices             Invoice[]
+  payments             Payment[]
+  expenses             Expense[]
+  subscriptions        ToolSubscription[]
+  domainProducts       DomainProduct[]
+  reusableComponents   ReusableComponent[]
+  employees            Employee[]
+  timesheets           Timesheet[]
+  timeEntries          TimeEntry[]
+  resourceAllocations  ResourceAllocation[]
+  rateCards            RateCard[]
+  leaveRequests        LeaveRequest[]
+  leaveBalances        LeaveBalance[]
+  attendances          Attendance[]
+  onboardingChecklists OnboardingChecklist[]
+  jobOpenings          JobOpening[]
+  candidates           Candidate[]
 
   @@map("teams")
 }
@@ -1290,6 +1296,11 @@ model Employee {
   createdAt                DateTime       @default(now())
   updatedAt                DateTime       @updatedAt
 
+  leaveRequests        LeaveRequest[]
+  leaveBalances        LeaveBalance[]
+  attendances          Attendance[]
+  onboardingChecklists OnboardingChecklist[]
+
   @@index([teamId])
   @@index([roleId])
   @@index([status])
@@ -1402,4 +1413,136 @@ model RateCard {
 
   @@index([teamId])
   @@map("rate_cards")
+}
+
+model LeaveRequest {
+  id               String    @id @default(cuid())
+  teamId           String
+  team             Team      @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  employeeId       String
+  employee         Employee  @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  userId           String
+  leaveType        String // CASUAL, SICK, PAID, UNPAID
+  startDate        DateTime
+  endDate          DateTime
+  totalDays        Float
+  reason           String
+  status           String    @default("PENDING") // PENDING, APPROVED, REJECTED, CANCELLED
+  approvedBy       String?
+  approvedAt       DateTime?
+  rejectionReason  String?
+  emergencyContact String?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  @@index([teamId, status])
+  @@index([employeeId])
+  @@map("leave_requests")
+}
+
+model LeaveBalance {
+  id          String   @id @default(cuid())
+  teamId      String
+  team        Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  employeeId  String
+  employee    Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  year        Int
+  casualTotal Float    @default(12)
+  casualUsed  Float    @default(0)
+  sickTotal   Float    @default(10)
+  sickUsed    Float    @default(0)
+  paidTotal   Float    @default(15)
+  paidUsed    Float    @default(0)
+  unpaidUsed  Float    @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([employeeId, year])
+  @@index([teamId])
+  @@map("leave_balances")
+}
+
+model Attendance {
+  id           String    @id @default(cuid())
+  teamId       String
+  team         Team      @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  employeeId   String
+  employee     Employee  @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  userId       String
+  date         DateTime
+  checkInTime  DateTime
+  checkOutTime DateTime?
+  workMode     String    @default("OFFICE") // OFFICE, WFH, CLIENT_SITE, HALF_DAY
+  status       String    @default("PRESENT") // PRESENT, HALF_DAY, ABSENT
+  totalHours   Float?
+  notes        String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@unique([employeeId, date])
+  @@index([teamId, date])
+  @@map("attendances")
+}
+
+model OnboardingChecklist {
+  id          String    @id @default(cuid())
+  teamId      String
+  team        Team      @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  employeeId  String
+  employee    Employee  @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  type        String    @default("ONBOARDING") // ONBOARDING, OFFBOARDING
+  title       String
+  items       Json
+  isCompleted Boolean   @default(false)
+  completedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([teamId, employeeId])
+  @@map("onboarding_checklists")
+}
+
+model JobOpening {
+  id            String      @id @default(cuid())
+  teamId        String
+  team          Team        @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  title         String
+  department    String
+  location      String      @default("Remote (India)")
+  type          String      @default("FULL_TIME") // FULL_TIME, PART_TIME, CONTRACT
+  status        String      @default("OPEN") // OPEN, PAUSED, CLOSED
+  openingsCount Int         @default(1)
+  description   String?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  candidates    Candidate[]
+
+  @@index([teamId, status])
+  @@map("job_openings")
+}
+
+model Candidate {
+  id               String      @id @default(cuid())
+  teamId           String
+  team             Team        @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  jobOpeningId     String?
+  jobOpening       JobOpening? @relation(fields: [jobOpeningId], references: [id], onDelete: SetNull)
+  fullName         String
+  email            String
+  phone            String?
+  stage            String      @default("SOURCED") // SOURCED, SCREENING, TECHNICAL, FINAL, OFFER, HIRED, REJECTED
+  resumeUrl        String?
+  portfolioUrl     String?
+  experienceYears  Float?
+  currentCtc       Float?
+  expectedCtc      Float?
+  noticePeriodDays Int?
+  rating           Int? // 1 to 5
+  notes            String?
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+
+  @@index([teamId, stage])
+  @@index([jobOpeningId])
+  @@map("candidates")
 }

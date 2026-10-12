@@ -42,7 +42,7 @@ The codebase (`SIU-ERPOS`) is built on **Next.js 15.5.27**, **React 19**, **Bett
 | **6.9 PORT**| Client Portal | P1 / P2 | 🔴 Not Started | 0% | **Pending:** Branded client login, approval workflows, shared deliverables, tickets. |
 | **6.10 FIN**| Finance, Invoicing & GST | P0 / P1 / P2 | 🟢 Completed | 100% | **Built:** Full Live Finance Ledger (`/dashboard/finance`): Indian GST Invoicing (SAC 998314, CGST/SGST/IGST), Sequential Series (`INV-2026-XXXX`), Printable Tax Invoice Preview, Payment & Receipt Ledger (`REC-2026-XXXX`), Receivables Ageing (0-30, 31-60, 61-90, 90+ days), Direct 1-Click Payment Notices, Expense Tracking, SaaS Tool Register, and GSTR-1 CSV Tax Export. |
 | **6.11 TIME**| Timesheets & Resource Planning | P0 / P1 / P2 | 🟢 Completed | 100% | **Built:** Dedicated Timesheets & Capacity Console (`/dashboard/timesheets`): Live Stopwatch Task Timer, Weekly Mon-Sun Matrix Grid, Manager Certification & Lock Workflow (TIME-02), Weekly Capacity Planning Grid with Over/Under Load Indicators (TIME-03), External Contractor & Freelancer Rate Ledger (TIME-07), Billable Utilization Analytics (TIME-05), and Story Point Estimate Accuracy Rating vs Actual Logged Hours (TIME-06). |
-| **6.12 HR** | People Operations (HR Lite) | P0 / P1 / P2 | 🟡 Partial | 35% | **Built:** Employee directory, employee profile records, active/suspended/terminated lifecycle, department & position tracking.<br>**Pending:** Leave management & balances, Onboarding checklists, ATS. |
+| **6.12 HR** | People Operations (HR Lite) | P0 / P1 / P2 | 🟢 Completed | 100% | **Built:** Comprehensive People Operations & HR Command Center (`/dashboard/hr`): Staff Directory & Employee Provisioning (`HR-01`), Leave Balances & Approval Workflow (`HR-02`), Daily Remote Attendance Check-In Register (`HR-03`), Onboarding & Offboarding Task Checklists (`HR-04`), and Hiring Pipeline & Candidate Tracking ATS Lite (`HR-05`). |
 | **6.13 SUP**| Support, Maintenance & AMC | P1 / P2 | 🔴 Not Started | 0% | **Pending:** Tickets, SLA policies, AMC contracts, Client uptime register. |
 | **6.14 PROD**| Own Products & Roadmap | P1 / P2 | 🟢 Completed | 100% | **Built:** Full SaaS Portfolio Console (`/dashboard/products`): Domain Product Registry, Dual Quarterly/Kanban Roadmap Board, Feature Request & Feedback Inbox with voting, Pilot Customer & Cohort Tracker, Release Notes Publisher, and Shared Reusable Agency IP Catalog. |
 | **6.15 KB** | Knowledge Base & SOPs | P1 / P2 | 🔴 Not Started | 0% | **Pending:** Wiki hierarchy, SOP library, Cross-module reusable templates. |
@@ -189,16 +189,15 @@ The codebase (`SIU-ERPOS`) is built on **Next.js 15.5.27**, **React 19**, **Bett
 
 ---
 
-### 3.12 People Operations (HR Lite) — `HR`
-* **PRD Scope:** Employee directory, leave management & approval, remote attendance, onboarding/offboarding task checklists, and hiring pipeline.
+### 3.12 People Operations (HR Lite) — `HR` (🟢 100% Completed)
 * **What is DONE:**
-  * Dedicated `Employee` model with employee code, department, position, joining date, and lifecycle status (`ACTIVE`, `SUSPENDED`, `TERMINATED`).
-  * Administrative management of employees via `/dashboard/access-management`.
-* **What is LEFT:**
-  * Leave types, balances, leave request forms, and team absence calendar (`HR-02`).
-  * Remote daily check-in / attendance log (`HR-03`).
-  * Onboarding & offboarding checklist templates auto-generating tasks (`HR-04`).
-  * Hiring pipeline Kanban (`HR-05`).
+  * **Dedicated People Operations Route (`/dashboard/hr`):** Full 5-submodule operational command center for people management.
+  * **Staff Directory & Employee Provisioning (`HR-01`):** Complete employee records with department, position, employee code, role assignment, and integrated employee creation modal with auto-generated passwords.
+  * **Leave Balances & Absence Management (`HR-02`):** Casual Leave (CL), Sick Leave (SL), and Paid Leave (PL) annual quotas, employee leave requests, manager review queue (Approve/Reject with feedback), and automatic quota balance deductions.
+  * **Remote Attendance Check-In (`HR-03`):** 1-click daily check-in / check-out with work mode classification (`Office`, `Work From Home`, `Client Site`), elapsed work timers, and team daily attendance register.
+  * **Onboarding & Offboarding Task Checklists (`HR-04`):** Standardized joiner & leaver workflows covering account setup (Google Workspace, Better Auth, GitHub), hardware provisioning, NDA e-signing, and access revocation.
+  * **Hiring Pipeline / ATS Lite (`HR-05`):** Open job position manager, candidate applications register, 6-stage recruitment Kanban pipeline (`SOURCED` to `HIRED`), and candidate rating scorecards.
+* **What is LEFT:** Nothing. Fully implemented.
 
 ---
 

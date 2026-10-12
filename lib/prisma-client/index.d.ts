@@ -328,6 +328,36 @@ export type ResourceAllocation = $Result.DefaultSelection<Prisma.$ResourceAlloca
  * 
  */
 export type RateCard = $Result.DefaultSelection<Prisma.$RateCardPayload>
+/**
+ * Model LeaveRequest
+ * 
+ */
+export type LeaveRequest = $Result.DefaultSelection<Prisma.$LeaveRequestPayload>
+/**
+ * Model LeaveBalance
+ * 
+ */
+export type LeaveBalance = $Result.DefaultSelection<Prisma.$LeaveBalancePayload>
+/**
+ * Model Attendance
+ * 
+ */
+export type Attendance = $Result.DefaultSelection<Prisma.$AttendancePayload>
+/**
+ * Model OnboardingChecklist
+ * 
+ */
+export type OnboardingChecklist = $Result.DefaultSelection<Prisma.$OnboardingChecklistPayload>
+/**
+ * Model JobOpening
+ * 
+ */
+export type JobOpening = $Result.DefaultSelection<Prisma.$JobOpeningPayload>
+/**
+ * Model Candidate
+ * 
+ */
+export type Candidate = $Result.DefaultSelection<Prisma.$CandidatePayload>
 
 /**
  * Enums
@@ -1144,6 +1174,66 @@ export class PrismaClient<
     * ```
     */
   get rateCard(): Prisma.RateCardDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.leaveRequest`: Exposes CRUD operations for the **LeaveRequest** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more LeaveRequests
+    * const leaveRequests = await prisma.leaveRequest.findMany()
+    * ```
+    */
+  get leaveRequest(): Prisma.LeaveRequestDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.leaveBalance`: Exposes CRUD operations for the **LeaveBalance** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more LeaveBalances
+    * const leaveBalances = await prisma.leaveBalance.findMany()
+    * ```
+    */
+  get leaveBalance(): Prisma.LeaveBalanceDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.attendance`: Exposes CRUD operations for the **Attendance** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Attendances
+    * const attendances = await prisma.attendance.findMany()
+    * ```
+    */
+  get attendance(): Prisma.AttendanceDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.onboardingChecklist`: Exposes CRUD operations for the **OnboardingChecklist** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more OnboardingChecklists
+    * const onboardingChecklists = await prisma.onboardingChecklist.findMany()
+    * ```
+    */
+  get onboardingChecklist(): Prisma.OnboardingChecklistDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.jobOpening`: Exposes CRUD operations for the **JobOpening** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more JobOpenings
+    * const jobOpenings = await prisma.jobOpening.findMany()
+    * ```
+    */
+  get jobOpening(): Prisma.JobOpeningDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.candidate`: Exposes CRUD operations for the **Candidate** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Candidates
+    * const candidates = await prisma.candidate.findMany()
+    * ```
+    */
+  get candidate(): Prisma.CandidateDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1647,7 +1737,13 @@ export namespace Prisma {
     Timesheet: 'Timesheet',
     TimeEntry: 'TimeEntry',
     ResourceAllocation: 'ResourceAllocation',
-    RateCard: 'RateCard'
+    RateCard: 'RateCard',
+    LeaveRequest: 'LeaveRequest',
+    LeaveBalance: 'LeaveBalance',
+    Attendance: 'Attendance',
+    OnboardingChecklist: 'OnboardingChecklist',
+    JobOpening: 'JobOpening',
+    Candidate: 'Candidate'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1666,7 +1762,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "team" | "project" | "workflowState" | "label" | "issue" | "issueLabel" | "comment" | "teamMember" | "projectMember" | "invitation" | "user" | "session" | "account" | "verification" | "twoFactor" | "rateLimit" | "loginThrottle" | "chatConversation" | "chatMessage" | "event" | "eventAttendee" | "meetingNote" | "meetingActionItem" | "standupEntry" | "client" | "contact" | "leadPipeline" | "leadStage" | "lead" | "leadActivity" | "teamChannel" | "teamChannelMember" | "teamChatMessage" | "teamChatReaction" | "teamAnnouncement" | "teamAnnouncementAck" | "inboxMessage" | "auditLog" | "companySetting" | "automationRule" | "automationLog" | "developerApiKey" | "webhookEndpoint" | "webhookDelivery" | "companyKpi" | "invoice" | "invoiceItem" | "payment" | "expense" | "toolSubscription" | "domainProduct" | "productRoadmapItem" | "productFeatureRequest" | "productPilotCustomer" | "productReleaseNote" | "reusableComponent" | "role" | "roleAccess" | "employee" | "timesheet" | "timeEntry" | "resourceAllocation" | "rateCard"
+      modelProps: "team" | "project" | "workflowState" | "label" | "issue" | "issueLabel" | "comment" | "teamMember" | "projectMember" | "invitation" | "user" | "session" | "account" | "verification" | "twoFactor" | "rateLimit" | "loginThrottle" | "chatConversation" | "chatMessage" | "event" | "eventAttendee" | "meetingNote" | "meetingActionItem" | "standupEntry" | "client" | "contact" | "leadPipeline" | "leadStage" | "lead" | "leadActivity" | "teamChannel" | "teamChannelMember" | "teamChatMessage" | "teamChatReaction" | "teamAnnouncement" | "teamAnnouncementAck" | "inboxMessage" | "auditLog" | "companySetting" | "automationRule" | "automationLog" | "developerApiKey" | "webhookEndpoint" | "webhookDelivery" | "companyKpi" | "invoice" | "invoiceItem" | "payment" | "expense" | "toolSubscription" | "domainProduct" | "productRoadmapItem" | "productFeatureRequest" | "productPilotCustomer" | "productReleaseNote" | "reusableComponent" | "role" | "roleAccess" | "employee" | "timesheet" | "timeEntry" | "resourceAllocation" | "rateCard" | "leaveRequest" | "leaveBalance" | "attendance" | "onboardingChecklist" | "jobOpening" | "candidate"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -6332,6 +6428,450 @@ export namespace Prisma {
           }
         }
       }
+      LeaveRequest: {
+        payload: Prisma.$LeaveRequestPayload<ExtArgs>
+        fields: Prisma.LeaveRequestFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.LeaveRequestFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeaveRequestPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.LeaveRequestFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeaveRequestPayload>
+          }
+          findFirst: {
+            args: Prisma.LeaveRequestFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeaveRequestPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.LeaveRequestFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeaveRequestPayload>
+          }
+          findMany: {
+            args: Prisma.LeaveRequestFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeaveRequestPayload>[]
+          }
+          create: {
+            args: Prisma.LeaveRequestCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeaveRequestPayload>
+          }
+          createMany: {
+            args: Prisma.LeaveRequestCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.LeaveRequestCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeaveRequestPayload>[]
+          }
+          delete: {
+            args: Prisma.LeaveRequestDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeaveRequestPayload>
+          }
+          update: {
+            args: Prisma.LeaveRequestUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeaveRequestPayload>
+          }
+          deleteMany: {
+            args: Prisma.LeaveRequestDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.LeaveRequestUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.LeaveRequestUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeaveRequestPayload>[]
+          }
+          upsert: {
+            args: Prisma.LeaveRequestUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeaveRequestPayload>
+          }
+          aggregate: {
+            args: Prisma.LeaveRequestAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateLeaveRequest>
+          }
+          groupBy: {
+            args: Prisma.LeaveRequestGroupByArgs<ExtArgs>
+            result: $Utils.Optional<LeaveRequestGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.LeaveRequestCountArgs<ExtArgs>
+            result: $Utils.Optional<LeaveRequestCountAggregateOutputType> | number
+          }
+        }
+      }
+      LeaveBalance: {
+        payload: Prisma.$LeaveBalancePayload<ExtArgs>
+        fields: Prisma.LeaveBalanceFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.LeaveBalanceFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeaveBalancePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.LeaveBalanceFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeaveBalancePayload>
+          }
+          findFirst: {
+            args: Prisma.LeaveBalanceFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeaveBalancePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.LeaveBalanceFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeaveBalancePayload>
+          }
+          findMany: {
+            args: Prisma.LeaveBalanceFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeaveBalancePayload>[]
+          }
+          create: {
+            args: Prisma.LeaveBalanceCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeaveBalancePayload>
+          }
+          createMany: {
+            args: Prisma.LeaveBalanceCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.LeaveBalanceCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeaveBalancePayload>[]
+          }
+          delete: {
+            args: Prisma.LeaveBalanceDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeaveBalancePayload>
+          }
+          update: {
+            args: Prisma.LeaveBalanceUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeaveBalancePayload>
+          }
+          deleteMany: {
+            args: Prisma.LeaveBalanceDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.LeaveBalanceUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.LeaveBalanceUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeaveBalancePayload>[]
+          }
+          upsert: {
+            args: Prisma.LeaveBalanceUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeaveBalancePayload>
+          }
+          aggregate: {
+            args: Prisma.LeaveBalanceAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateLeaveBalance>
+          }
+          groupBy: {
+            args: Prisma.LeaveBalanceGroupByArgs<ExtArgs>
+            result: $Utils.Optional<LeaveBalanceGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.LeaveBalanceCountArgs<ExtArgs>
+            result: $Utils.Optional<LeaveBalanceCountAggregateOutputType> | number
+          }
+        }
+      }
+      Attendance: {
+        payload: Prisma.$AttendancePayload<ExtArgs>
+        fields: Prisma.AttendanceFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AttendanceFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendancePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AttendanceFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendancePayload>
+          }
+          findFirst: {
+            args: Prisma.AttendanceFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendancePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AttendanceFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendancePayload>
+          }
+          findMany: {
+            args: Prisma.AttendanceFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendancePayload>[]
+          }
+          create: {
+            args: Prisma.AttendanceCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendancePayload>
+          }
+          createMany: {
+            args: Prisma.AttendanceCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AttendanceCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendancePayload>[]
+          }
+          delete: {
+            args: Prisma.AttendanceDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendancePayload>
+          }
+          update: {
+            args: Prisma.AttendanceUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendancePayload>
+          }
+          deleteMany: {
+            args: Prisma.AttendanceDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AttendanceUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.AttendanceUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendancePayload>[]
+          }
+          upsert: {
+            args: Prisma.AttendanceUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendancePayload>
+          }
+          aggregate: {
+            args: Prisma.AttendanceAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAttendance>
+          }
+          groupBy: {
+            args: Prisma.AttendanceGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AttendanceGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AttendanceCountArgs<ExtArgs>
+            result: $Utils.Optional<AttendanceCountAggregateOutputType> | number
+          }
+        }
+      }
+      OnboardingChecklist: {
+        payload: Prisma.$OnboardingChecklistPayload<ExtArgs>
+        fields: Prisma.OnboardingChecklistFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.OnboardingChecklistFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OnboardingChecklistPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.OnboardingChecklistFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OnboardingChecklistPayload>
+          }
+          findFirst: {
+            args: Prisma.OnboardingChecklistFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OnboardingChecklistPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.OnboardingChecklistFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OnboardingChecklistPayload>
+          }
+          findMany: {
+            args: Prisma.OnboardingChecklistFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OnboardingChecklistPayload>[]
+          }
+          create: {
+            args: Prisma.OnboardingChecklistCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OnboardingChecklistPayload>
+          }
+          createMany: {
+            args: Prisma.OnboardingChecklistCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.OnboardingChecklistCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OnboardingChecklistPayload>[]
+          }
+          delete: {
+            args: Prisma.OnboardingChecklistDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OnboardingChecklistPayload>
+          }
+          update: {
+            args: Prisma.OnboardingChecklistUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OnboardingChecklistPayload>
+          }
+          deleteMany: {
+            args: Prisma.OnboardingChecklistDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.OnboardingChecklistUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.OnboardingChecklistUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OnboardingChecklistPayload>[]
+          }
+          upsert: {
+            args: Prisma.OnboardingChecklistUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OnboardingChecklistPayload>
+          }
+          aggregate: {
+            args: Prisma.OnboardingChecklistAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateOnboardingChecklist>
+          }
+          groupBy: {
+            args: Prisma.OnboardingChecklistGroupByArgs<ExtArgs>
+            result: $Utils.Optional<OnboardingChecklistGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.OnboardingChecklistCountArgs<ExtArgs>
+            result: $Utils.Optional<OnboardingChecklistCountAggregateOutputType> | number
+          }
+        }
+      }
+      JobOpening: {
+        payload: Prisma.$JobOpeningPayload<ExtArgs>
+        fields: Prisma.JobOpeningFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.JobOpeningFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JobOpeningPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.JobOpeningFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JobOpeningPayload>
+          }
+          findFirst: {
+            args: Prisma.JobOpeningFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JobOpeningPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.JobOpeningFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JobOpeningPayload>
+          }
+          findMany: {
+            args: Prisma.JobOpeningFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JobOpeningPayload>[]
+          }
+          create: {
+            args: Prisma.JobOpeningCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JobOpeningPayload>
+          }
+          createMany: {
+            args: Prisma.JobOpeningCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.JobOpeningCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JobOpeningPayload>[]
+          }
+          delete: {
+            args: Prisma.JobOpeningDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JobOpeningPayload>
+          }
+          update: {
+            args: Prisma.JobOpeningUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JobOpeningPayload>
+          }
+          deleteMany: {
+            args: Prisma.JobOpeningDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.JobOpeningUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.JobOpeningUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JobOpeningPayload>[]
+          }
+          upsert: {
+            args: Prisma.JobOpeningUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JobOpeningPayload>
+          }
+          aggregate: {
+            args: Prisma.JobOpeningAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateJobOpening>
+          }
+          groupBy: {
+            args: Prisma.JobOpeningGroupByArgs<ExtArgs>
+            result: $Utils.Optional<JobOpeningGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.JobOpeningCountArgs<ExtArgs>
+            result: $Utils.Optional<JobOpeningCountAggregateOutputType> | number
+          }
+        }
+      }
+      Candidate: {
+        payload: Prisma.$CandidatePayload<ExtArgs>
+        fields: Prisma.CandidateFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CandidateFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CandidatePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CandidateFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CandidatePayload>
+          }
+          findFirst: {
+            args: Prisma.CandidateFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CandidatePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CandidateFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CandidatePayload>
+          }
+          findMany: {
+            args: Prisma.CandidateFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CandidatePayload>[]
+          }
+          create: {
+            args: Prisma.CandidateCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CandidatePayload>
+          }
+          createMany: {
+            args: Prisma.CandidateCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CandidateCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CandidatePayload>[]
+          }
+          delete: {
+            args: Prisma.CandidateDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CandidatePayload>
+          }
+          update: {
+            args: Prisma.CandidateUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CandidatePayload>
+          }
+          deleteMany: {
+            args: Prisma.CandidateDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CandidateUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.CandidateUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CandidatePayload>[]
+          }
+          upsert: {
+            args: Prisma.CandidateUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CandidatePayload>
+          }
+          aggregate: {
+            args: Prisma.CandidateAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCandidate>
+          }
+          groupBy: {
+            args: Prisma.CandidateGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CandidateGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CandidateCountArgs<ExtArgs>
+            result: $Utils.Optional<CandidateCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -6491,6 +7031,12 @@ export namespace Prisma {
     timeEntry?: TimeEntryOmit
     resourceAllocation?: ResourceAllocationOmit
     rateCard?: RateCardOmit
+    leaveRequest?: LeaveRequestOmit
+    leaveBalance?: LeaveBalanceOmit
+    attendance?: AttendanceOmit
+    onboardingChecklist?: OnboardingChecklistOmit
+    jobOpening?: JobOpeningOmit
+    candidate?: CandidateOmit
   }
 
   /* Types for Logging */
@@ -6601,6 +7147,12 @@ export namespace Prisma {
     timeEntries: number
     resourceAllocations: number
     rateCards: number
+    leaveRequests: number
+    leaveBalances: number
+    attendances: number
+    onboardingChecklists: number
+    jobOpenings: number
+    candidates: number
   }
 
   export type TeamCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6634,6 +7186,12 @@ export namespace Prisma {
     timeEntries?: boolean | TeamCountOutputTypeCountTimeEntriesArgs
     resourceAllocations?: boolean | TeamCountOutputTypeCountResourceAllocationsArgs
     rateCards?: boolean | TeamCountOutputTypeCountRateCardsArgs
+    leaveRequests?: boolean | TeamCountOutputTypeCountLeaveRequestsArgs
+    leaveBalances?: boolean | TeamCountOutputTypeCountLeaveBalancesArgs
+    attendances?: boolean | TeamCountOutputTypeCountAttendancesArgs
+    onboardingChecklists?: boolean | TeamCountOutputTypeCountOnboardingChecklistsArgs
+    jobOpenings?: boolean | TeamCountOutputTypeCountJobOpeningsArgs
+    candidates?: boolean | TeamCountOutputTypeCountCandidatesArgs
   }
 
   // Custom InputTypes
@@ -6855,6 +7413,48 @@ export namespace Prisma {
    */
   export type TeamCountOutputTypeCountRateCardsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: RateCardWhereInput
+  }
+
+  /**
+   * TeamCountOutputType without action
+   */
+  export type TeamCountOutputTypeCountLeaveRequestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LeaveRequestWhereInput
+  }
+
+  /**
+   * TeamCountOutputType without action
+   */
+  export type TeamCountOutputTypeCountLeaveBalancesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LeaveBalanceWhereInput
+  }
+
+  /**
+   * TeamCountOutputType without action
+   */
+  export type TeamCountOutputTypeCountAttendancesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AttendanceWhereInput
+  }
+
+  /**
+   * TeamCountOutputType without action
+   */
+  export type TeamCountOutputTypeCountOnboardingChecklistsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OnboardingChecklistWhereInput
+  }
+
+  /**
+   * TeamCountOutputType without action
+   */
+  export type TeamCountOutputTypeCountJobOpeningsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: JobOpeningWhereInput
+  }
+
+  /**
+   * TeamCountOutputType without action
+   */
+  export type TeamCountOutputTypeCountCandidatesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CandidateWhereInput
   }
 
 
@@ -7713,6 +8313,64 @@ export namespace Prisma {
 
 
   /**
+   * Count Type EmployeeCountOutputType
+   */
+
+  export type EmployeeCountOutputType = {
+    leaveRequests: number
+    leaveBalances: number
+    attendances: number
+    onboardingChecklists: number
+  }
+
+  export type EmployeeCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    leaveRequests?: boolean | EmployeeCountOutputTypeCountLeaveRequestsArgs
+    leaveBalances?: boolean | EmployeeCountOutputTypeCountLeaveBalancesArgs
+    attendances?: boolean | EmployeeCountOutputTypeCountAttendancesArgs
+    onboardingChecklists?: boolean | EmployeeCountOutputTypeCountOnboardingChecklistsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * EmployeeCountOutputType without action
+   */
+  export type EmployeeCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmployeeCountOutputType
+     */
+    select?: EmployeeCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * EmployeeCountOutputType without action
+   */
+  export type EmployeeCountOutputTypeCountLeaveRequestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LeaveRequestWhereInput
+  }
+
+  /**
+   * EmployeeCountOutputType without action
+   */
+  export type EmployeeCountOutputTypeCountLeaveBalancesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LeaveBalanceWhereInput
+  }
+
+  /**
+   * EmployeeCountOutputType without action
+   */
+  export type EmployeeCountOutputTypeCountAttendancesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AttendanceWhereInput
+  }
+
+  /**
+   * EmployeeCountOutputType without action
+   */
+  export type EmployeeCountOutputTypeCountOnboardingChecklistsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OnboardingChecklistWhereInput
+  }
+
+
+  /**
    * Count Type TimesheetCountOutputType
    */
 
@@ -7740,6 +8398,37 @@ export namespace Prisma {
    */
   export type TimesheetCountOutputTypeCountEntriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: TimeEntryWhereInput
+  }
+
+
+  /**
+   * Count Type JobOpeningCountOutputType
+   */
+
+  export type JobOpeningCountOutputType = {
+    candidates: number
+  }
+
+  export type JobOpeningCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    candidates?: boolean | JobOpeningCountOutputTypeCountCandidatesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * JobOpeningCountOutputType without action
+   */
+  export type JobOpeningCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JobOpeningCountOutputType
+     */
+    select?: JobOpeningCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * JobOpeningCountOutputType without action
+   */
+  export type JobOpeningCountOutputTypeCountCandidatesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CandidateWhereInput
   }
 
 
@@ -7950,6 +8639,12 @@ export namespace Prisma {
     timeEntries?: boolean | Team$timeEntriesArgs<ExtArgs>
     resourceAllocations?: boolean | Team$resourceAllocationsArgs<ExtArgs>
     rateCards?: boolean | Team$rateCardsArgs<ExtArgs>
+    leaveRequests?: boolean | Team$leaveRequestsArgs<ExtArgs>
+    leaveBalances?: boolean | Team$leaveBalancesArgs<ExtArgs>
+    attendances?: boolean | Team$attendancesArgs<ExtArgs>
+    onboardingChecklists?: boolean | Team$onboardingChecklistsArgs<ExtArgs>
+    jobOpenings?: boolean | Team$jobOpeningsArgs<ExtArgs>
+    candidates?: boolean | Team$candidatesArgs<ExtArgs>
     _count?: boolean | TeamCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["team"]>
 
@@ -8013,6 +8708,12 @@ export namespace Prisma {
     timeEntries?: boolean | Team$timeEntriesArgs<ExtArgs>
     resourceAllocations?: boolean | Team$resourceAllocationsArgs<ExtArgs>
     rateCards?: boolean | Team$rateCardsArgs<ExtArgs>
+    leaveRequests?: boolean | Team$leaveRequestsArgs<ExtArgs>
+    leaveBalances?: boolean | Team$leaveBalancesArgs<ExtArgs>
+    attendances?: boolean | Team$attendancesArgs<ExtArgs>
+    onboardingChecklists?: boolean | Team$onboardingChecklistsArgs<ExtArgs>
+    jobOpenings?: boolean | Team$jobOpeningsArgs<ExtArgs>
+    candidates?: boolean | Team$candidatesArgs<ExtArgs>
     _count?: boolean | TeamCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TeamIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -8052,6 +8753,12 @@ export namespace Prisma {
       timeEntries: Prisma.$TimeEntryPayload<ExtArgs>[]
       resourceAllocations: Prisma.$ResourceAllocationPayload<ExtArgs>[]
       rateCards: Prisma.$RateCardPayload<ExtArgs>[]
+      leaveRequests: Prisma.$LeaveRequestPayload<ExtArgs>[]
+      leaveBalances: Prisma.$LeaveBalancePayload<ExtArgs>[]
+      attendances: Prisma.$AttendancePayload<ExtArgs>[]
+      onboardingChecklists: Prisma.$OnboardingChecklistPayload<ExtArgs>[]
+      jobOpenings: Prisma.$JobOpeningPayload<ExtArgs>[]
+      candidates: Prisma.$CandidatePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -8485,6 +9192,12 @@ export namespace Prisma {
     timeEntries<T extends Team$timeEntriesArgs<ExtArgs> = {}>(args?: Subset<T, Team$timeEntriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TimeEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     resourceAllocations<T extends Team$resourceAllocationsArgs<ExtArgs> = {}>(args?: Subset<T, Team$resourceAllocationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ResourceAllocationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     rateCards<T extends Team$rateCardsArgs<ExtArgs> = {}>(args?: Subset<T, Team$rateCardsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RateCardPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    leaveRequests<T extends Team$leaveRequestsArgs<ExtArgs> = {}>(args?: Subset<T, Team$leaveRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeaveRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    leaveBalances<T extends Team$leaveBalancesArgs<ExtArgs> = {}>(args?: Subset<T, Team$leaveBalancesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeaveBalancePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    attendances<T extends Team$attendancesArgs<ExtArgs> = {}>(args?: Subset<T, Team$attendancesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttendancePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    onboardingChecklists<T extends Team$onboardingChecklistsArgs<ExtArgs> = {}>(args?: Subset<T, Team$onboardingChecklistsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OnboardingChecklistPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    jobOpenings<T extends Team$jobOpeningsArgs<ExtArgs> = {}>(args?: Subset<T, Team$jobOpeningsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JobOpeningPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    candidates<T extends Team$candidatesArgs<ExtArgs> = {}>(args?: Subset<T, Team$candidatesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CandidatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -9644,6 +10357,150 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: RateCardScalarFieldEnum | RateCardScalarFieldEnum[]
+  }
+
+  /**
+   * Team.leaveRequests
+   */
+  export type Team$leaveRequestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeaveRequest
+     */
+    select?: LeaveRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeaveRequest
+     */
+    omit?: LeaveRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeaveRequestInclude<ExtArgs> | null
+    where?: LeaveRequestWhereInput
+    orderBy?: LeaveRequestOrderByWithRelationInput | LeaveRequestOrderByWithRelationInput[]
+    cursor?: LeaveRequestWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: LeaveRequestScalarFieldEnum | LeaveRequestScalarFieldEnum[]
+  }
+
+  /**
+   * Team.leaveBalances
+   */
+  export type Team$leaveBalancesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeaveBalance
+     */
+    select?: LeaveBalanceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeaveBalance
+     */
+    omit?: LeaveBalanceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeaveBalanceInclude<ExtArgs> | null
+    where?: LeaveBalanceWhereInput
+    orderBy?: LeaveBalanceOrderByWithRelationInput | LeaveBalanceOrderByWithRelationInput[]
+    cursor?: LeaveBalanceWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: LeaveBalanceScalarFieldEnum | LeaveBalanceScalarFieldEnum[]
+  }
+
+  /**
+   * Team.attendances
+   */
+  export type Team$attendancesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attendance
+     */
+    select?: AttendanceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attendance
+     */
+    omit?: AttendanceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceInclude<ExtArgs> | null
+    where?: AttendanceWhereInput
+    orderBy?: AttendanceOrderByWithRelationInput | AttendanceOrderByWithRelationInput[]
+    cursor?: AttendanceWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AttendanceScalarFieldEnum | AttendanceScalarFieldEnum[]
+  }
+
+  /**
+   * Team.onboardingChecklists
+   */
+  export type Team$onboardingChecklistsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OnboardingChecklist
+     */
+    select?: OnboardingChecklistSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OnboardingChecklist
+     */
+    omit?: OnboardingChecklistOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OnboardingChecklistInclude<ExtArgs> | null
+    where?: OnboardingChecklistWhereInput
+    orderBy?: OnboardingChecklistOrderByWithRelationInput | OnboardingChecklistOrderByWithRelationInput[]
+    cursor?: OnboardingChecklistWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: OnboardingChecklistScalarFieldEnum | OnboardingChecklistScalarFieldEnum[]
+  }
+
+  /**
+   * Team.jobOpenings
+   */
+  export type Team$jobOpeningsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JobOpening
+     */
+    select?: JobOpeningSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JobOpening
+     */
+    omit?: JobOpeningOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobOpeningInclude<ExtArgs> | null
+    where?: JobOpeningWhereInput
+    orderBy?: JobOpeningOrderByWithRelationInput | JobOpeningOrderByWithRelationInput[]
+    cursor?: JobOpeningWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: JobOpeningScalarFieldEnum | JobOpeningScalarFieldEnum[]
+  }
+
+  /**
+   * Team.candidates
+   */
+  export type Team$candidatesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Candidate
+     */
+    select?: CandidateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Candidate
+     */
+    omit?: CandidateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CandidateInclude<ExtArgs> | null
+    where?: CandidateWhereInput
+    orderBy?: CandidateOrderByWithRelationInput | CandidateOrderByWithRelationInput[]
+    cursor?: CandidateWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CandidateScalarFieldEnum | CandidateScalarFieldEnum[]
   }
 
   /**
@@ -76633,6 +77490,11 @@ export namespace Prisma {
     user?: boolean | UserDefaultArgs<ExtArgs>
     role?: boolean | RoleDefaultArgs<ExtArgs>
     team?: boolean | TeamDefaultArgs<ExtArgs>
+    leaveRequests?: boolean | Employee$leaveRequestsArgs<ExtArgs>
+    leaveBalances?: boolean | Employee$leaveBalancesArgs<ExtArgs>
+    attendances?: boolean | Employee$attendancesArgs<ExtArgs>
+    onboardingChecklists?: boolean | Employee$onboardingChecklistsArgs<ExtArgs>
+    _count?: boolean | EmployeeCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["employee"]>
 
   export type EmployeeSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -76721,6 +77583,11 @@ export namespace Prisma {
     user?: boolean | UserDefaultArgs<ExtArgs>
     role?: boolean | RoleDefaultArgs<ExtArgs>
     team?: boolean | TeamDefaultArgs<ExtArgs>
+    leaveRequests?: boolean | Employee$leaveRequestsArgs<ExtArgs>
+    leaveBalances?: boolean | Employee$leaveBalancesArgs<ExtArgs>
+    attendances?: boolean | Employee$attendancesArgs<ExtArgs>
+    onboardingChecklists?: boolean | Employee$onboardingChecklistsArgs<ExtArgs>
+    _count?: boolean | EmployeeCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type EmployeeIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -76739,6 +77606,10 @@ export namespace Prisma {
       user: Prisma.$UserPayload<ExtArgs>
       role: Prisma.$RolePayload<ExtArgs>
       team: Prisma.$TeamPayload<ExtArgs>
+      leaveRequests: Prisma.$LeaveRequestPayload<ExtArgs>[]
+      leaveBalances: Prisma.$LeaveBalancePayload<ExtArgs>[]
+      attendances: Prisma.$AttendancePayload<ExtArgs>[]
+      onboardingChecklists: Prisma.$OnboardingChecklistPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -77160,6 +78031,10 @@ export namespace Prisma {
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     role<T extends RoleDefaultArgs<ExtArgs> = {}>(args?: Subset<T, RoleDefaultArgs<ExtArgs>>): Prisma__RoleClient<$Result.GetResult<Prisma.$RolePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     team<T extends TeamDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TeamDefaultArgs<ExtArgs>>): Prisma__TeamClient<$Result.GetResult<Prisma.$TeamPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    leaveRequests<T extends Employee$leaveRequestsArgs<ExtArgs> = {}>(args?: Subset<T, Employee$leaveRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeaveRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    leaveBalances<T extends Employee$leaveBalancesArgs<ExtArgs> = {}>(args?: Subset<T, Employee$leaveBalancesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeaveBalancePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    attendances<T extends Employee$attendancesArgs<ExtArgs> = {}>(args?: Subset<T, Employee$attendancesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttendancePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    onboardingChecklists<T extends Employee$onboardingChecklistsArgs<ExtArgs> = {}>(args?: Subset<T, Employee$onboardingChecklistsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OnboardingChecklistPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -77604,6 +78479,102 @@ export namespace Prisma {
      * Limit how many Employees to delete.
      */
     limit?: number
+  }
+
+  /**
+   * Employee.leaveRequests
+   */
+  export type Employee$leaveRequestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeaveRequest
+     */
+    select?: LeaveRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeaveRequest
+     */
+    omit?: LeaveRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeaveRequestInclude<ExtArgs> | null
+    where?: LeaveRequestWhereInput
+    orderBy?: LeaveRequestOrderByWithRelationInput | LeaveRequestOrderByWithRelationInput[]
+    cursor?: LeaveRequestWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: LeaveRequestScalarFieldEnum | LeaveRequestScalarFieldEnum[]
+  }
+
+  /**
+   * Employee.leaveBalances
+   */
+  export type Employee$leaveBalancesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeaveBalance
+     */
+    select?: LeaveBalanceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeaveBalance
+     */
+    omit?: LeaveBalanceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeaveBalanceInclude<ExtArgs> | null
+    where?: LeaveBalanceWhereInput
+    orderBy?: LeaveBalanceOrderByWithRelationInput | LeaveBalanceOrderByWithRelationInput[]
+    cursor?: LeaveBalanceWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: LeaveBalanceScalarFieldEnum | LeaveBalanceScalarFieldEnum[]
+  }
+
+  /**
+   * Employee.attendances
+   */
+  export type Employee$attendancesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attendance
+     */
+    select?: AttendanceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attendance
+     */
+    omit?: AttendanceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceInclude<ExtArgs> | null
+    where?: AttendanceWhereInput
+    orderBy?: AttendanceOrderByWithRelationInput | AttendanceOrderByWithRelationInput[]
+    cursor?: AttendanceWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AttendanceScalarFieldEnum | AttendanceScalarFieldEnum[]
+  }
+
+  /**
+   * Employee.onboardingChecklists
+   */
+  export type Employee$onboardingChecklistsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OnboardingChecklist
+     */
+    select?: OnboardingChecklistSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OnboardingChecklist
+     */
+    omit?: OnboardingChecklistOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OnboardingChecklistInclude<ExtArgs> | null
+    where?: OnboardingChecklistWhereInput
+    orderBy?: OnboardingChecklistOrderByWithRelationInput | OnboardingChecklistOrderByWithRelationInput[]
+    cursor?: OnboardingChecklistWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: OnboardingChecklistScalarFieldEnum | OnboardingChecklistScalarFieldEnum[]
   }
 
   /**
@@ -82612,6 +83583,7303 @@ export namespace Prisma {
 
 
   /**
+   * Model LeaveRequest
+   */
+
+  export type AggregateLeaveRequest = {
+    _count: LeaveRequestCountAggregateOutputType | null
+    _avg: LeaveRequestAvgAggregateOutputType | null
+    _sum: LeaveRequestSumAggregateOutputType | null
+    _min: LeaveRequestMinAggregateOutputType | null
+    _max: LeaveRequestMaxAggregateOutputType | null
+  }
+
+  export type LeaveRequestAvgAggregateOutputType = {
+    totalDays: number | null
+  }
+
+  export type LeaveRequestSumAggregateOutputType = {
+    totalDays: number | null
+  }
+
+  export type LeaveRequestMinAggregateOutputType = {
+    id: string | null
+    teamId: string | null
+    employeeId: string | null
+    userId: string | null
+    leaveType: string | null
+    startDate: Date | null
+    endDate: Date | null
+    totalDays: number | null
+    reason: string | null
+    status: string | null
+    approvedBy: string | null
+    approvedAt: Date | null
+    rejectionReason: string | null
+    emergencyContact: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type LeaveRequestMaxAggregateOutputType = {
+    id: string | null
+    teamId: string | null
+    employeeId: string | null
+    userId: string | null
+    leaveType: string | null
+    startDate: Date | null
+    endDate: Date | null
+    totalDays: number | null
+    reason: string | null
+    status: string | null
+    approvedBy: string | null
+    approvedAt: Date | null
+    rejectionReason: string | null
+    emergencyContact: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type LeaveRequestCountAggregateOutputType = {
+    id: number
+    teamId: number
+    employeeId: number
+    userId: number
+    leaveType: number
+    startDate: number
+    endDate: number
+    totalDays: number
+    reason: number
+    status: number
+    approvedBy: number
+    approvedAt: number
+    rejectionReason: number
+    emergencyContact: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type LeaveRequestAvgAggregateInputType = {
+    totalDays?: true
+  }
+
+  export type LeaveRequestSumAggregateInputType = {
+    totalDays?: true
+  }
+
+  export type LeaveRequestMinAggregateInputType = {
+    id?: true
+    teamId?: true
+    employeeId?: true
+    userId?: true
+    leaveType?: true
+    startDate?: true
+    endDate?: true
+    totalDays?: true
+    reason?: true
+    status?: true
+    approvedBy?: true
+    approvedAt?: true
+    rejectionReason?: true
+    emergencyContact?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type LeaveRequestMaxAggregateInputType = {
+    id?: true
+    teamId?: true
+    employeeId?: true
+    userId?: true
+    leaveType?: true
+    startDate?: true
+    endDate?: true
+    totalDays?: true
+    reason?: true
+    status?: true
+    approvedBy?: true
+    approvedAt?: true
+    rejectionReason?: true
+    emergencyContact?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type LeaveRequestCountAggregateInputType = {
+    id?: true
+    teamId?: true
+    employeeId?: true
+    userId?: true
+    leaveType?: true
+    startDate?: true
+    endDate?: true
+    totalDays?: true
+    reason?: true
+    status?: true
+    approvedBy?: true
+    approvedAt?: true
+    rejectionReason?: true
+    emergencyContact?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type LeaveRequestAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LeaveRequest to aggregate.
+     */
+    where?: LeaveRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LeaveRequests to fetch.
+     */
+    orderBy?: LeaveRequestOrderByWithRelationInput | LeaveRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: LeaveRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LeaveRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LeaveRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned LeaveRequests
+    **/
+    _count?: true | LeaveRequestCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: LeaveRequestAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: LeaveRequestSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: LeaveRequestMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: LeaveRequestMaxAggregateInputType
+  }
+
+  export type GetLeaveRequestAggregateType<T extends LeaveRequestAggregateArgs> = {
+        [P in keyof T & keyof AggregateLeaveRequest]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateLeaveRequest[P]>
+      : GetScalarType<T[P], AggregateLeaveRequest[P]>
+  }
+
+
+
+
+  export type LeaveRequestGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LeaveRequestWhereInput
+    orderBy?: LeaveRequestOrderByWithAggregationInput | LeaveRequestOrderByWithAggregationInput[]
+    by: LeaveRequestScalarFieldEnum[] | LeaveRequestScalarFieldEnum
+    having?: LeaveRequestScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: LeaveRequestCountAggregateInputType | true
+    _avg?: LeaveRequestAvgAggregateInputType
+    _sum?: LeaveRequestSumAggregateInputType
+    _min?: LeaveRequestMinAggregateInputType
+    _max?: LeaveRequestMaxAggregateInputType
+  }
+
+  export type LeaveRequestGroupByOutputType = {
+    id: string
+    teamId: string
+    employeeId: string
+    userId: string
+    leaveType: string
+    startDate: Date
+    endDate: Date
+    totalDays: number
+    reason: string
+    status: string
+    approvedBy: string | null
+    approvedAt: Date | null
+    rejectionReason: string | null
+    emergencyContact: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: LeaveRequestCountAggregateOutputType | null
+    _avg: LeaveRequestAvgAggregateOutputType | null
+    _sum: LeaveRequestSumAggregateOutputType | null
+    _min: LeaveRequestMinAggregateOutputType | null
+    _max: LeaveRequestMaxAggregateOutputType | null
+  }
+
+  type GetLeaveRequestGroupByPayload<T extends LeaveRequestGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<LeaveRequestGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof LeaveRequestGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], LeaveRequestGroupByOutputType[P]>
+            : GetScalarType<T[P], LeaveRequestGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type LeaveRequestSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    teamId?: boolean
+    employeeId?: boolean
+    userId?: boolean
+    leaveType?: boolean
+    startDate?: boolean
+    endDate?: boolean
+    totalDays?: boolean
+    reason?: boolean
+    status?: boolean
+    approvedBy?: boolean
+    approvedAt?: boolean
+    rejectionReason?: boolean
+    emergencyContact?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["leaveRequest"]>
+
+  export type LeaveRequestSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    teamId?: boolean
+    employeeId?: boolean
+    userId?: boolean
+    leaveType?: boolean
+    startDate?: boolean
+    endDate?: boolean
+    totalDays?: boolean
+    reason?: boolean
+    status?: boolean
+    approvedBy?: boolean
+    approvedAt?: boolean
+    rejectionReason?: boolean
+    emergencyContact?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["leaveRequest"]>
+
+  export type LeaveRequestSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    teamId?: boolean
+    employeeId?: boolean
+    userId?: boolean
+    leaveType?: boolean
+    startDate?: boolean
+    endDate?: boolean
+    totalDays?: boolean
+    reason?: boolean
+    status?: boolean
+    approvedBy?: boolean
+    approvedAt?: boolean
+    rejectionReason?: boolean
+    emergencyContact?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["leaveRequest"]>
+
+  export type LeaveRequestSelectScalar = {
+    id?: boolean
+    teamId?: boolean
+    employeeId?: boolean
+    userId?: boolean
+    leaveType?: boolean
+    startDate?: boolean
+    endDate?: boolean
+    totalDays?: boolean
+    reason?: boolean
+    status?: boolean
+    approvedBy?: boolean
+    approvedAt?: boolean
+    rejectionReason?: boolean
+    emergencyContact?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type LeaveRequestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "teamId" | "employeeId" | "userId" | "leaveType" | "startDate" | "endDate" | "totalDays" | "reason" | "status" | "approvedBy" | "approvedAt" | "rejectionReason" | "emergencyContact" | "createdAt" | "updatedAt", ExtArgs["result"]["leaveRequest"]>
+  export type LeaveRequestInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }
+  export type LeaveRequestIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }
+  export type LeaveRequestIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }
+
+  export type $LeaveRequestPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "LeaveRequest"
+    objects: {
+      team: Prisma.$TeamPayload<ExtArgs>
+      employee: Prisma.$EmployeePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      teamId: string
+      employeeId: string
+      userId: string
+      leaveType: string
+      startDate: Date
+      endDate: Date
+      totalDays: number
+      reason: string
+      status: string
+      approvedBy: string | null
+      approvedAt: Date | null
+      rejectionReason: string | null
+      emergencyContact: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["leaveRequest"]>
+    composites: {}
+  }
+
+  type LeaveRequestGetPayload<S extends boolean | null | undefined | LeaveRequestDefaultArgs> = $Result.GetResult<Prisma.$LeaveRequestPayload, S>
+
+  type LeaveRequestCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<LeaveRequestFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: LeaveRequestCountAggregateInputType | true
+    }
+
+  export interface LeaveRequestDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['LeaveRequest'], meta: { name: 'LeaveRequest' } }
+    /**
+     * Find zero or one LeaveRequest that matches the filter.
+     * @param {LeaveRequestFindUniqueArgs} args - Arguments to find a LeaveRequest
+     * @example
+     * // Get one LeaveRequest
+     * const leaveRequest = await prisma.leaveRequest.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends LeaveRequestFindUniqueArgs>(args: SelectSubset<T, LeaveRequestFindUniqueArgs<ExtArgs>>): Prisma__LeaveRequestClient<$Result.GetResult<Prisma.$LeaveRequestPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one LeaveRequest that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {LeaveRequestFindUniqueOrThrowArgs} args - Arguments to find a LeaveRequest
+     * @example
+     * // Get one LeaveRequest
+     * const leaveRequest = await prisma.leaveRequest.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends LeaveRequestFindUniqueOrThrowArgs>(args: SelectSubset<T, LeaveRequestFindUniqueOrThrowArgs<ExtArgs>>): Prisma__LeaveRequestClient<$Result.GetResult<Prisma.$LeaveRequestPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LeaveRequest that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LeaveRequestFindFirstArgs} args - Arguments to find a LeaveRequest
+     * @example
+     * // Get one LeaveRequest
+     * const leaveRequest = await prisma.leaveRequest.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends LeaveRequestFindFirstArgs>(args?: SelectSubset<T, LeaveRequestFindFirstArgs<ExtArgs>>): Prisma__LeaveRequestClient<$Result.GetResult<Prisma.$LeaveRequestPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LeaveRequest that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LeaveRequestFindFirstOrThrowArgs} args - Arguments to find a LeaveRequest
+     * @example
+     * // Get one LeaveRequest
+     * const leaveRequest = await prisma.leaveRequest.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends LeaveRequestFindFirstOrThrowArgs>(args?: SelectSubset<T, LeaveRequestFindFirstOrThrowArgs<ExtArgs>>): Prisma__LeaveRequestClient<$Result.GetResult<Prisma.$LeaveRequestPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more LeaveRequests that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LeaveRequestFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all LeaveRequests
+     * const leaveRequests = await prisma.leaveRequest.findMany()
+     * 
+     * // Get first 10 LeaveRequests
+     * const leaveRequests = await prisma.leaveRequest.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const leaveRequestWithIdOnly = await prisma.leaveRequest.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends LeaveRequestFindManyArgs>(args?: SelectSubset<T, LeaveRequestFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeaveRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a LeaveRequest.
+     * @param {LeaveRequestCreateArgs} args - Arguments to create a LeaveRequest.
+     * @example
+     * // Create one LeaveRequest
+     * const LeaveRequest = await prisma.leaveRequest.create({
+     *   data: {
+     *     // ... data to create a LeaveRequest
+     *   }
+     * })
+     * 
+     */
+    create<T extends LeaveRequestCreateArgs>(args: SelectSubset<T, LeaveRequestCreateArgs<ExtArgs>>): Prisma__LeaveRequestClient<$Result.GetResult<Prisma.$LeaveRequestPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many LeaveRequests.
+     * @param {LeaveRequestCreateManyArgs} args - Arguments to create many LeaveRequests.
+     * @example
+     * // Create many LeaveRequests
+     * const leaveRequest = await prisma.leaveRequest.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends LeaveRequestCreateManyArgs>(args?: SelectSubset<T, LeaveRequestCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many LeaveRequests and returns the data saved in the database.
+     * @param {LeaveRequestCreateManyAndReturnArgs} args - Arguments to create many LeaveRequests.
+     * @example
+     * // Create many LeaveRequests
+     * const leaveRequest = await prisma.leaveRequest.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many LeaveRequests and only return the `id`
+     * const leaveRequestWithIdOnly = await prisma.leaveRequest.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends LeaveRequestCreateManyAndReturnArgs>(args?: SelectSubset<T, LeaveRequestCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeaveRequestPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a LeaveRequest.
+     * @param {LeaveRequestDeleteArgs} args - Arguments to delete one LeaveRequest.
+     * @example
+     * // Delete one LeaveRequest
+     * const LeaveRequest = await prisma.leaveRequest.delete({
+     *   where: {
+     *     // ... filter to delete one LeaveRequest
+     *   }
+     * })
+     * 
+     */
+    delete<T extends LeaveRequestDeleteArgs>(args: SelectSubset<T, LeaveRequestDeleteArgs<ExtArgs>>): Prisma__LeaveRequestClient<$Result.GetResult<Prisma.$LeaveRequestPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one LeaveRequest.
+     * @param {LeaveRequestUpdateArgs} args - Arguments to update one LeaveRequest.
+     * @example
+     * // Update one LeaveRequest
+     * const leaveRequest = await prisma.leaveRequest.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends LeaveRequestUpdateArgs>(args: SelectSubset<T, LeaveRequestUpdateArgs<ExtArgs>>): Prisma__LeaveRequestClient<$Result.GetResult<Prisma.$LeaveRequestPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more LeaveRequests.
+     * @param {LeaveRequestDeleteManyArgs} args - Arguments to filter LeaveRequests to delete.
+     * @example
+     * // Delete a few LeaveRequests
+     * const { count } = await prisma.leaveRequest.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends LeaveRequestDeleteManyArgs>(args?: SelectSubset<T, LeaveRequestDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LeaveRequests.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LeaveRequestUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many LeaveRequests
+     * const leaveRequest = await prisma.leaveRequest.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends LeaveRequestUpdateManyArgs>(args: SelectSubset<T, LeaveRequestUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LeaveRequests and returns the data updated in the database.
+     * @param {LeaveRequestUpdateManyAndReturnArgs} args - Arguments to update many LeaveRequests.
+     * @example
+     * // Update many LeaveRequests
+     * const leaveRequest = await prisma.leaveRequest.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more LeaveRequests and only return the `id`
+     * const leaveRequestWithIdOnly = await prisma.leaveRequest.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends LeaveRequestUpdateManyAndReturnArgs>(args: SelectSubset<T, LeaveRequestUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeaveRequestPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one LeaveRequest.
+     * @param {LeaveRequestUpsertArgs} args - Arguments to update or create a LeaveRequest.
+     * @example
+     * // Update or create a LeaveRequest
+     * const leaveRequest = await prisma.leaveRequest.upsert({
+     *   create: {
+     *     // ... data to create a LeaveRequest
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the LeaveRequest we want to update
+     *   }
+     * })
+     */
+    upsert<T extends LeaveRequestUpsertArgs>(args: SelectSubset<T, LeaveRequestUpsertArgs<ExtArgs>>): Prisma__LeaveRequestClient<$Result.GetResult<Prisma.$LeaveRequestPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of LeaveRequests.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LeaveRequestCountArgs} args - Arguments to filter LeaveRequests to count.
+     * @example
+     * // Count the number of LeaveRequests
+     * const count = await prisma.leaveRequest.count({
+     *   where: {
+     *     // ... the filter for the LeaveRequests we want to count
+     *   }
+     * })
+    **/
+    count<T extends LeaveRequestCountArgs>(
+      args?: Subset<T, LeaveRequestCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], LeaveRequestCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a LeaveRequest.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LeaveRequestAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends LeaveRequestAggregateArgs>(args: Subset<T, LeaveRequestAggregateArgs>): Prisma.PrismaPromise<GetLeaveRequestAggregateType<T>>
+
+    /**
+     * Group by LeaveRequest.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LeaveRequestGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends LeaveRequestGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: LeaveRequestGroupByArgs['orderBy'] }
+        : { orderBy?: LeaveRequestGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, LeaveRequestGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetLeaveRequestGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the LeaveRequest model
+   */
+  readonly fields: LeaveRequestFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for LeaveRequest.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__LeaveRequestClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    team<T extends TeamDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TeamDefaultArgs<ExtArgs>>): Prisma__TeamClient<$Result.GetResult<Prisma.$TeamPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    employee<T extends EmployeeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, EmployeeDefaultArgs<ExtArgs>>): Prisma__EmployeeClient<$Result.GetResult<Prisma.$EmployeePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the LeaveRequest model
+   */
+  interface LeaveRequestFieldRefs {
+    readonly id: FieldRef<"LeaveRequest", 'String'>
+    readonly teamId: FieldRef<"LeaveRequest", 'String'>
+    readonly employeeId: FieldRef<"LeaveRequest", 'String'>
+    readonly userId: FieldRef<"LeaveRequest", 'String'>
+    readonly leaveType: FieldRef<"LeaveRequest", 'String'>
+    readonly startDate: FieldRef<"LeaveRequest", 'DateTime'>
+    readonly endDate: FieldRef<"LeaveRequest", 'DateTime'>
+    readonly totalDays: FieldRef<"LeaveRequest", 'Float'>
+    readonly reason: FieldRef<"LeaveRequest", 'String'>
+    readonly status: FieldRef<"LeaveRequest", 'String'>
+    readonly approvedBy: FieldRef<"LeaveRequest", 'String'>
+    readonly approvedAt: FieldRef<"LeaveRequest", 'DateTime'>
+    readonly rejectionReason: FieldRef<"LeaveRequest", 'String'>
+    readonly emergencyContact: FieldRef<"LeaveRequest", 'String'>
+    readonly createdAt: FieldRef<"LeaveRequest", 'DateTime'>
+    readonly updatedAt: FieldRef<"LeaveRequest", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * LeaveRequest findUnique
+   */
+  export type LeaveRequestFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeaveRequest
+     */
+    select?: LeaveRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeaveRequest
+     */
+    omit?: LeaveRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeaveRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which LeaveRequest to fetch.
+     */
+    where: LeaveRequestWhereUniqueInput
+  }
+
+  /**
+   * LeaveRequest findUniqueOrThrow
+   */
+  export type LeaveRequestFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeaveRequest
+     */
+    select?: LeaveRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeaveRequest
+     */
+    omit?: LeaveRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeaveRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which LeaveRequest to fetch.
+     */
+    where: LeaveRequestWhereUniqueInput
+  }
+
+  /**
+   * LeaveRequest findFirst
+   */
+  export type LeaveRequestFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeaveRequest
+     */
+    select?: LeaveRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeaveRequest
+     */
+    omit?: LeaveRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeaveRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which LeaveRequest to fetch.
+     */
+    where?: LeaveRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LeaveRequests to fetch.
+     */
+    orderBy?: LeaveRequestOrderByWithRelationInput | LeaveRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LeaveRequests.
+     */
+    cursor?: LeaveRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LeaveRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LeaveRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LeaveRequests.
+     */
+    distinct?: LeaveRequestScalarFieldEnum | LeaveRequestScalarFieldEnum[]
+  }
+
+  /**
+   * LeaveRequest findFirstOrThrow
+   */
+  export type LeaveRequestFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeaveRequest
+     */
+    select?: LeaveRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeaveRequest
+     */
+    omit?: LeaveRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeaveRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which LeaveRequest to fetch.
+     */
+    where?: LeaveRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LeaveRequests to fetch.
+     */
+    orderBy?: LeaveRequestOrderByWithRelationInput | LeaveRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LeaveRequests.
+     */
+    cursor?: LeaveRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LeaveRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LeaveRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LeaveRequests.
+     */
+    distinct?: LeaveRequestScalarFieldEnum | LeaveRequestScalarFieldEnum[]
+  }
+
+  /**
+   * LeaveRequest findMany
+   */
+  export type LeaveRequestFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeaveRequest
+     */
+    select?: LeaveRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeaveRequest
+     */
+    omit?: LeaveRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeaveRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which LeaveRequests to fetch.
+     */
+    where?: LeaveRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LeaveRequests to fetch.
+     */
+    orderBy?: LeaveRequestOrderByWithRelationInput | LeaveRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing LeaveRequests.
+     */
+    cursor?: LeaveRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LeaveRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LeaveRequests.
+     */
+    skip?: number
+    distinct?: LeaveRequestScalarFieldEnum | LeaveRequestScalarFieldEnum[]
+  }
+
+  /**
+   * LeaveRequest create
+   */
+  export type LeaveRequestCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeaveRequest
+     */
+    select?: LeaveRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeaveRequest
+     */
+    omit?: LeaveRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeaveRequestInclude<ExtArgs> | null
+    /**
+     * The data needed to create a LeaveRequest.
+     */
+    data: XOR<LeaveRequestCreateInput, LeaveRequestUncheckedCreateInput>
+  }
+
+  /**
+   * LeaveRequest createMany
+   */
+  export type LeaveRequestCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many LeaveRequests.
+     */
+    data: LeaveRequestCreateManyInput | LeaveRequestCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * LeaveRequest createManyAndReturn
+   */
+  export type LeaveRequestCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeaveRequest
+     */
+    select?: LeaveRequestSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeaveRequest
+     */
+    omit?: LeaveRequestOmit<ExtArgs> | null
+    /**
+     * The data used to create many LeaveRequests.
+     */
+    data: LeaveRequestCreateManyInput | LeaveRequestCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeaveRequestIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * LeaveRequest update
+   */
+  export type LeaveRequestUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeaveRequest
+     */
+    select?: LeaveRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeaveRequest
+     */
+    omit?: LeaveRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeaveRequestInclude<ExtArgs> | null
+    /**
+     * The data needed to update a LeaveRequest.
+     */
+    data: XOR<LeaveRequestUpdateInput, LeaveRequestUncheckedUpdateInput>
+    /**
+     * Choose, which LeaveRequest to update.
+     */
+    where: LeaveRequestWhereUniqueInput
+  }
+
+  /**
+   * LeaveRequest updateMany
+   */
+  export type LeaveRequestUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update LeaveRequests.
+     */
+    data: XOR<LeaveRequestUpdateManyMutationInput, LeaveRequestUncheckedUpdateManyInput>
+    /**
+     * Filter which LeaveRequests to update
+     */
+    where?: LeaveRequestWhereInput
+    /**
+     * Limit how many LeaveRequests to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * LeaveRequest updateManyAndReturn
+   */
+  export type LeaveRequestUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeaveRequest
+     */
+    select?: LeaveRequestSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeaveRequest
+     */
+    omit?: LeaveRequestOmit<ExtArgs> | null
+    /**
+     * The data used to update LeaveRequests.
+     */
+    data: XOR<LeaveRequestUpdateManyMutationInput, LeaveRequestUncheckedUpdateManyInput>
+    /**
+     * Filter which LeaveRequests to update
+     */
+    where?: LeaveRequestWhereInput
+    /**
+     * Limit how many LeaveRequests to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeaveRequestIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * LeaveRequest upsert
+   */
+  export type LeaveRequestUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeaveRequest
+     */
+    select?: LeaveRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeaveRequest
+     */
+    omit?: LeaveRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeaveRequestInclude<ExtArgs> | null
+    /**
+     * The filter to search for the LeaveRequest to update in case it exists.
+     */
+    where: LeaveRequestWhereUniqueInput
+    /**
+     * In case the LeaveRequest found by the `where` argument doesn't exist, create a new LeaveRequest with this data.
+     */
+    create: XOR<LeaveRequestCreateInput, LeaveRequestUncheckedCreateInput>
+    /**
+     * In case the LeaveRequest was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<LeaveRequestUpdateInput, LeaveRequestUncheckedUpdateInput>
+  }
+
+  /**
+   * LeaveRequest delete
+   */
+  export type LeaveRequestDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeaveRequest
+     */
+    select?: LeaveRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeaveRequest
+     */
+    omit?: LeaveRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeaveRequestInclude<ExtArgs> | null
+    /**
+     * Filter which LeaveRequest to delete.
+     */
+    where: LeaveRequestWhereUniqueInput
+  }
+
+  /**
+   * LeaveRequest deleteMany
+   */
+  export type LeaveRequestDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LeaveRequests to delete
+     */
+    where?: LeaveRequestWhereInput
+    /**
+     * Limit how many LeaveRequests to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * LeaveRequest without action
+   */
+  export type LeaveRequestDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeaveRequest
+     */
+    select?: LeaveRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeaveRequest
+     */
+    omit?: LeaveRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeaveRequestInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model LeaveBalance
+   */
+
+  export type AggregateLeaveBalance = {
+    _count: LeaveBalanceCountAggregateOutputType | null
+    _avg: LeaveBalanceAvgAggregateOutputType | null
+    _sum: LeaveBalanceSumAggregateOutputType | null
+    _min: LeaveBalanceMinAggregateOutputType | null
+    _max: LeaveBalanceMaxAggregateOutputType | null
+  }
+
+  export type LeaveBalanceAvgAggregateOutputType = {
+    year: number | null
+    casualTotal: number | null
+    casualUsed: number | null
+    sickTotal: number | null
+    sickUsed: number | null
+    paidTotal: number | null
+    paidUsed: number | null
+    unpaidUsed: number | null
+  }
+
+  export type LeaveBalanceSumAggregateOutputType = {
+    year: number | null
+    casualTotal: number | null
+    casualUsed: number | null
+    sickTotal: number | null
+    sickUsed: number | null
+    paidTotal: number | null
+    paidUsed: number | null
+    unpaidUsed: number | null
+  }
+
+  export type LeaveBalanceMinAggregateOutputType = {
+    id: string | null
+    teamId: string | null
+    employeeId: string | null
+    year: number | null
+    casualTotal: number | null
+    casualUsed: number | null
+    sickTotal: number | null
+    sickUsed: number | null
+    paidTotal: number | null
+    paidUsed: number | null
+    unpaidUsed: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type LeaveBalanceMaxAggregateOutputType = {
+    id: string | null
+    teamId: string | null
+    employeeId: string | null
+    year: number | null
+    casualTotal: number | null
+    casualUsed: number | null
+    sickTotal: number | null
+    sickUsed: number | null
+    paidTotal: number | null
+    paidUsed: number | null
+    unpaidUsed: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type LeaveBalanceCountAggregateOutputType = {
+    id: number
+    teamId: number
+    employeeId: number
+    year: number
+    casualTotal: number
+    casualUsed: number
+    sickTotal: number
+    sickUsed: number
+    paidTotal: number
+    paidUsed: number
+    unpaidUsed: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type LeaveBalanceAvgAggregateInputType = {
+    year?: true
+    casualTotal?: true
+    casualUsed?: true
+    sickTotal?: true
+    sickUsed?: true
+    paidTotal?: true
+    paidUsed?: true
+    unpaidUsed?: true
+  }
+
+  export type LeaveBalanceSumAggregateInputType = {
+    year?: true
+    casualTotal?: true
+    casualUsed?: true
+    sickTotal?: true
+    sickUsed?: true
+    paidTotal?: true
+    paidUsed?: true
+    unpaidUsed?: true
+  }
+
+  export type LeaveBalanceMinAggregateInputType = {
+    id?: true
+    teamId?: true
+    employeeId?: true
+    year?: true
+    casualTotal?: true
+    casualUsed?: true
+    sickTotal?: true
+    sickUsed?: true
+    paidTotal?: true
+    paidUsed?: true
+    unpaidUsed?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type LeaveBalanceMaxAggregateInputType = {
+    id?: true
+    teamId?: true
+    employeeId?: true
+    year?: true
+    casualTotal?: true
+    casualUsed?: true
+    sickTotal?: true
+    sickUsed?: true
+    paidTotal?: true
+    paidUsed?: true
+    unpaidUsed?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type LeaveBalanceCountAggregateInputType = {
+    id?: true
+    teamId?: true
+    employeeId?: true
+    year?: true
+    casualTotal?: true
+    casualUsed?: true
+    sickTotal?: true
+    sickUsed?: true
+    paidTotal?: true
+    paidUsed?: true
+    unpaidUsed?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type LeaveBalanceAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LeaveBalance to aggregate.
+     */
+    where?: LeaveBalanceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LeaveBalances to fetch.
+     */
+    orderBy?: LeaveBalanceOrderByWithRelationInput | LeaveBalanceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: LeaveBalanceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LeaveBalances from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LeaveBalances.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned LeaveBalances
+    **/
+    _count?: true | LeaveBalanceCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: LeaveBalanceAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: LeaveBalanceSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: LeaveBalanceMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: LeaveBalanceMaxAggregateInputType
+  }
+
+  export type GetLeaveBalanceAggregateType<T extends LeaveBalanceAggregateArgs> = {
+        [P in keyof T & keyof AggregateLeaveBalance]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateLeaveBalance[P]>
+      : GetScalarType<T[P], AggregateLeaveBalance[P]>
+  }
+
+
+
+
+  export type LeaveBalanceGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LeaveBalanceWhereInput
+    orderBy?: LeaveBalanceOrderByWithAggregationInput | LeaveBalanceOrderByWithAggregationInput[]
+    by: LeaveBalanceScalarFieldEnum[] | LeaveBalanceScalarFieldEnum
+    having?: LeaveBalanceScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: LeaveBalanceCountAggregateInputType | true
+    _avg?: LeaveBalanceAvgAggregateInputType
+    _sum?: LeaveBalanceSumAggregateInputType
+    _min?: LeaveBalanceMinAggregateInputType
+    _max?: LeaveBalanceMaxAggregateInputType
+  }
+
+  export type LeaveBalanceGroupByOutputType = {
+    id: string
+    teamId: string
+    employeeId: string
+    year: number
+    casualTotal: number
+    casualUsed: number
+    sickTotal: number
+    sickUsed: number
+    paidTotal: number
+    paidUsed: number
+    unpaidUsed: number
+    createdAt: Date
+    updatedAt: Date
+    _count: LeaveBalanceCountAggregateOutputType | null
+    _avg: LeaveBalanceAvgAggregateOutputType | null
+    _sum: LeaveBalanceSumAggregateOutputType | null
+    _min: LeaveBalanceMinAggregateOutputType | null
+    _max: LeaveBalanceMaxAggregateOutputType | null
+  }
+
+  type GetLeaveBalanceGroupByPayload<T extends LeaveBalanceGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<LeaveBalanceGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof LeaveBalanceGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], LeaveBalanceGroupByOutputType[P]>
+            : GetScalarType<T[P], LeaveBalanceGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type LeaveBalanceSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    teamId?: boolean
+    employeeId?: boolean
+    year?: boolean
+    casualTotal?: boolean
+    casualUsed?: boolean
+    sickTotal?: boolean
+    sickUsed?: boolean
+    paidTotal?: boolean
+    paidUsed?: boolean
+    unpaidUsed?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["leaveBalance"]>
+
+  export type LeaveBalanceSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    teamId?: boolean
+    employeeId?: boolean
+    year?: boolean
+    casualTotal?: boolean
+    casualUsed?: boolean
+    sickTotal?: boolean
+    sickUsed?: boolean
+    paidTotal?: boolean
+    paidUsed?: boolean
+    unpaidUsed?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["leaveBalance"]>
+
+  export type LeaveBalanceSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    teamId?: boolean
+    employeeId?: boolean
+    year?: boolean
+    casualTotal?: boolean
+    casualUsed?: boolean
+    sickTotal?: boolean
+    sickUsed?: boolean
+    paidTotal?: boolean
+    paidUsed?: boolean
+    unpaidUsed?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["leaveBalance"]>
+
+  export type LeaveBalanceSelectScalar = {
+    id?: boolean
+    teamId?: boolean
+    employeeId?: boolean
+    year?: boolean
+    casualTotal?: boolean
+    casualUsed?: boolean
+    sickTotal?: boolean
+    sickUsed?: boolean
+    paidTotal?: boolean
+    paidUsed?: boolean
+    unpaidUsed?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type LeaveBalanceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "teamId" | "employeeId" | "year" | "casualTotal" | "casualUsed" | "sickTotal" | "sickUsed" | "paidTotal" | "paidUsed" | "unpaidUsed" | "createdAt" | "updatedAt", ExtArgs["result"]["leaveBalance"]>
+  export type LeaveBalanceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }
+  export type LeaveBalanceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }
+  export type LeaveBalanceIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }
+
+  export type $LeaveBalancePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "LeaveBalance"
+    objects: {
+      team: Prisma.$TeamPayload<ExtArgs>
+      employee: Prisma.$EmployeePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      teamId: string
+      employeeId: string
+      year: number
+      casualTotal: number
+      casualUsed: number
+      sickTotal: number
+      sickUsed: number
+      paidTotal: number
+      paidUsed: number
+      unpaidUsed: number
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["leaveBalance"]>
+    composites: {}
+  }
+
+  type LeaveBalanceGetPayload<S extends boolean | null | undefined | LeaveBalanceDefaultArgs> = $Result.GetResult<Prisma.$LeaveBalancePayload, S>
+
+  type LeaveBalanceCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<LeaveBalanceFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: LeaveBalanceCountAggregateInputType | true
+    }
+
+  export interface LeaveBalanceDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['LeaveBalance'], meta: { name: 'LeaveBalance' } }
+    /**
+     * Find zero or one LeaveBalance that matches the filter.
+     * @param {LeaveBalanceFindUniqueArgs} args - Arguments to find a LeaveBalance
+     * @example
+     * // Get one LeaveBalance
+     * const leaveBalance = await prisma.leaveBalance.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends LeaveBalanceFindUniqueArgs>(args: SelectSubset<T, LeaveBalanceFindUniqueArgs<ExtArgs>>): Prisma__LeaveBalanceClient<$Result.GetResult<Prisma.$LeaveBalancePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one LeaveBalance that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {LeaveBalanceFindUniqueOrThrowArgs} args - Arguments to find a LeaveBalance
+     * @example
+     * // Get one LeaveBalance
+     * const leaveBalance = await prisma.leaveBalance.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends LeaveBalanceFindUniqueOrThrowArgs>(args: SelectSubset<T, LeaveBalanceFindUniqueOrThrowArgs<ExtArgs>>): Prisma__LeaveBalanceClient<$Result.GetResult<Prisma.$LeaveBalancePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LeaveBalance that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LeaveBalanceFindFirstArgs} args - Arguments to find a LeaveBalance
+     * @example
+     * // Get one LeaveBalance
+     * const leaveBalance = await prisma.leaveBalance.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends LeaveBalanceFindFirstArgs>(args?: SelectSubset<T, LeaveBalanceFindFirstArgs<ExtArgs>>): Prisma__LeaveBalanceClient<$Result.GetResult<Prisma.$LeaveBalancePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LeaveBalance that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LeaveBalanceFindFirstOrThrowArgs} args - Arguments to find a LeaveBalance
+     * @example
+     * // Get one LeaveBalance
+     * const leaveBalance = await prisma.leaveBalance.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends LeaveBalanceFindFirstOrThrowArgs>(args?: SelectSubset<T, LeaveBalanceFindFirstOrThrowArgs<ExtArgs>>): Prisma__LeaveBalanceClient<$Result.GetResult<Prisma.$LeaveBalancePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more LeaveBalances that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LeaveBalanceFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all LeaveBalances
+     * const leaveBalances = await prisma.leaveBalance.findMany()
+     * 
+     * // Get first 10 LeaveBalances
+     * const leaveBalances = await prisma.leaveBalance.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const leaveBalanceWithIdOnly = await prisma.leaveBalance.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends LeaveBalanceFindManyArgs>(args?: SelectSubset<T, LeaveBalanceFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeaveBalancePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a LeaveBalance.
+     * @param {LeaveBalanceCreateArgs} args - Arguments to create a LeaveBalance.
+     * @example
+     * // Create one LeaveBalance
+     * const LeaveBalance = await prisma.leaveBalance.create({
+     *   data: {
+     *     // ... data to create a LeaveBalance
+     *   }
+     * })
+     * 
+     */
+    create<T extends LeaveBalanceCreateArgs>(args: SelectSubset<T, LeaveBalanceCreateArgs<ExtArgs>>): Prisma__LeaveBalanceClient<$Result.GetResult<Prisma.$LeaveBalancePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many LeaveBalances.
+     * @param {LeaveBalanceCreateManyArgs} args - Arguments to create many LeaveBalances.
+     * @example
+     * // Create many LeaveBalances
+     * const leaveBalance = await prisma.leaveBalance.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends LeaveBalanceCreateManyArgs>(args?: SelectSubset<T, LeaveBalanceCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many LeaveBalances and returns the data saved in the database.
+     * @param {LeaveBalanceCreateManyAndReturnArgs} args - Arguments to create many LeaveBalances.
+     * @example
+     * // Create many LeaveBalances
+     * const leaveBalance = await prisma.leaveBalance.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many LeaveBalances and only return the `id`
+     * const leaveBalanceWithIdOnly = await prisma.leaveBalance.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends LeaveBalanceCreateManyAndReturnArgs>(args?: SelectSubset<T, LeaveBalanceCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeaveBalancePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a LeaveBalance.
+     * @param {LeaveBalanceDeleteArgs} args - Arguments to delete one LeaveBalance.
+     * @example
+     * // Delete one LeaveBalance
+     * const LeaveBalance = await prisma.leaveBalance.delete({
+     *   where: {
+     *     // ... filter to delete one LeaveBalance
+     *   }
+     * })
+     * 
+     */
+    delete<T extends LeaveBalanceDeleteArgs>(args: SelectSubset<T, LeaveBalanceDeleteArgs<ExtArgs>>): Prisma__LeaveBalanceClient<$Result.GetResult<Prisma.$LeaveBalancePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one LeaveBalance.
+     * @param {LeaveBalanceUpdateArgs} args - Arguments to update one LeaveBalance.
+     * @example
+     * // Update one LeaveBalance
+     * const leaveBalance = await prisma.leaveBalance.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends LeaveBalanceUpdateArgs>(args: SelectSubset<T, LeaveBalanceUpdateArgs<ExtArgs>>): Prisma__LeaveBalanceClient<$Result.GetResult<Prisma.$LeaveBalancePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more LeaveBalances.
+     * @param {LeaveBalanceDeleteManyArgs} args - Arguments to filter LeaveBalances to delete.
+     * @example
+     * // Delete a few LeaveBalances
+     * const { count } = await prisma.leaveBalance.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends LeaveBalanceDeleteManyArgs>(args?: SelectSubset<T, LeaveBalanceDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LeaveBalances.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LeaveBalanceUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many LeaveBalances
+     * const leaveBalance = await prisma.leaveBalance.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends LeaveBalanceUpdateManyArgs>(args: SelectSubset<T, LeaveBalanceUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LeaveBalances and returns the data updated in the database.
+     * @param {LeaveBalanceUpdateManyAndReturnArgs} args - Arguments to update many LeaveBalances.
+     * @example
+     * // Update many LeaveBalances
+     * const leaveBalance = await prisma.leaveBalance.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more LeaveBalances and only return the `id`
+     * const leaveBalanceWithIdOnly = await prisma.leaveBalance.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends LeaveBalanceUpdateManyAndReturnArgs>(args: SelectSubset<T, LeaveBalanceUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeaveBalancePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one LeaveBalance.
+     * @param {LeaveBalanceUpsertArgs} args - Arguments to update or create a LeaveBalance.
+     * @example
+     * // Update or create a LeaveBalance
+     * const leaveBalance = await prisma.leaveBalance.upsert({
+     *   create: {
+     *     // ... data to create a LeaveBalance
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the LeaveBalance we want to update
+     *   }
+     * })
+     */
+    upsert<T extends LeaveBalanceUpsertArgs>(args: SelectSubset<T, LeaveBalanceUpsertArgs<ExtArgs>>): Prisma__LeaveBalanceClient<$Result.GetResult<Prisma.$LeaveBalancePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of LeaveBalances.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LeaveBalanceCountArgs} args - Arguments to filter LeaveBalances to count.
+     * @example
+     * // Count the number of LeaveBalances
+     * const count = await prisma.leaveBalance.count({
+     *   where: {
+     *     // ... the filter for the LeaveBalances we want to count
+     *   }
+     * })
+    **/
+    count<T extends LeaveBalanceCountArgs>(
+      args?: Subset<T, LeaveBalanceCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], LeaveBalanceCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a LeaveBalance.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LeaveBalanceAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends LeaveBalanceAggregateArgs>(args: Subset<T, LeaveBalanceAggregateArgs>): Prisma.PrismaPromise<GetLeaveBalanceAggregateType<T>>
+
+    /**
+     * Group by LeaveBalance.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LeaveBalanceGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends LeaveBalanceGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: LeaveBalanceGroupByArgs['orderBy'] }
+        : { orderBy?: LeaveBalanceGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, LeaveBalanceGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetLeaveBalanceGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the LeaveBalance model
+   */
+  readonly fields: LeaveBalanceFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for LeaveBalance.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__LeaveBalanceClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    team<T extends TeamDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TeamDefaultArgs<ExtArgs>>): Prisma__TeamClient<$Result.GetResult<Prisma.$TeamPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    employee<T extends EmployeeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, EmployeeDefaultArgs<ExtArgs>>): Prisma__EmployeeClient<$Result.GetResult<Prisma.$EmployeePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the LeaveBalance model
+   */
+  interface LeaveBalanceFieldRefs {
+    readonly id: FieldRef<"LeaveBalance", 'String'>
+    readonly teamId: FieldRef<"LeaveBalance", 'String'>
+    readonly employeeId: FieldRef<"LeaveBalance", 'String'>
+    readonly year: FieldRef<"LeaveBalance", 'Int'>
+    readonly casualTotal: FieldRef<"LeaveBalance", 'Float'>
+    readonly casualUsed: FieldRef<"LeaveBalance", 'Float'>
+    readonly sickTotal: FieldRef<"LeaveBalance", 'Float'>
+    readonly sickUsed: FieldRef<"LeaveBalance", 'Float'>
+    readonly paidTotal: FieldRef<"LeaveBalance", 'Float'>
+    readonly paidUsed: FieldRef<"LeaveBalance", 'Float'>
+    readonly unpaidUsed: FieldRef<"LeaveBalance", 'Float'>
+    readonly createdAt: FieldRef<"LeaveBalance", 'DateTime'>
+    readonly updatedAt: FieldRef<"LeaveBalance", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * LeaveBalance findUnique
+   */
+  export type LeaveBalanceFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeaveBalance
+     */
+    select?: LeaveBalanceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeaveBalance
+     */
+    omit?: LeaveBalanceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeaveBalanceInclude<ExtArgs> | null
+    /**
+     * Filter, which LeaveBalance to fetch.
+     */
+    where: LeaveBalanceWhereUniqueInput
+  }
+
+  /**
+   * LeaveBalance findUniqueOrThrow
+   */
+  export type LeaveBalanceFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeaveBalance
+     */
+    select?: LeaveBalanceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeaveBalance
+     */
+    omit?: LeaveBalanceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeaveBalanceInclude<ExtArgs> | null
+    /**
+     * Filter, which LeaveBalance to fetch.
+     */
+    where: LeaveBalanceWhereUniqueInput
+  }
+
+  /**
+   * LeaveBalance findFirst
+   */
+  export type LeaveBalanceFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeaveBalance
+     */
+    select?: LeaveBalanceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeaveBalance
+     */
+    omit?: LeaveBalanceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeaveBalanceInclude<ExtArgs> | null
+    /**
+     * Filter, which LeaveBalance to fetch.
+     */
+    where?: LeaveBalanceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LeaveBalances to fetch.
+     */
+    orderBy?: LeaveBalanceOrderByWithRelationInput | LeaveBalanceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LeaveBalances.
+     */
+    cursor?: LeaveBalanceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LeaveBalances from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LeaveBalances.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LeaveBalances.
+     */
+    distinct?: LeaveBalanceScalarFieldEnum | LeaveBalanceScalarFieldEnum[]
+  }
+
+  /**
+   * LeaveBalance findFirstOrThrow
+   */
+  export type LeaveBalanceFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeaveBalance
+     */
+    select?: LeaveBalanceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeaveBalance
+     */
+    omit?: LeaveBalanceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeaveBalanceInclude<ExtArgs> | null
+    /**
+     * Filter, which LeaveBalance to fetch.
+     */
+    where?: LeaveBalanceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LeaveBalances to fetch.
+     */
+    orderBy?: LeaveBalanceOrderByWithRelationInput | LeaveBalanceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LeaveBalances.
+     */
+    cursor?: LeaveBalanceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LeaveBalances from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LeaveBalances.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LeaveBalances.
+     */
+    distinct?: LeaveBalanceScalarFieldEnum | LeaveBalanceScalarFieldEnum[]
+  }
+
+  /**
+   * LeaveBalance findMany
+   */
+  export type LeaveBalanceFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeaveBalance
+     */
+    select?: LeaveBalanceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeaveBalance
+     */
+    omit?: LeaveBalanceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeaveBalanceInclude<ExtArgs> | null
+    /**
+     * Filter, which LeaveBalances to fetch.
+     */
+    where?: LeaveBalanceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LeaveBalances to fetch.
+     */
+    orderBy?: LeaveBalanceOrderByWithRelationInput | LeaveBalanceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing LeaveBalances.
+     */
+    cursor?: LeaveBalanceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LeaveBalances from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LeaveBalances.
+     */
+    skip?: number
+    distinct?: LeaveBalanceScalarFieldEnum | LeaveBalanceScalarFieldEnum[]
+  }
+
+  /**
+   * LeaveBalance create
+   */
+  export type LeaveBalanceCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeaveBalance
+     */
+    select?: LeaveBalanceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeaveBalance
+     */
+    omit?: LeaveBalanceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeaveBalanceInclude<ExtArgs> | null
+    /**
+     * The data needed to create a LeaveBalance.
+     */
+    data: XOR<LeaveBalanceCreateInput, LeaveBalanceUncheckedCreateInput>
+  }
+
+  /**
+   * LeaveBalance createMany
+   */
+  export type LeaveBalanceCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many LeaveBalances.
+     */
+    data: LeaveBalanceCreateManyInput | LeaveBalanceCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * LeaveBalance createManyAndReturn
+   */
+  export type LeaveBalanceCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeaveBalance
+     */
+    select?: LeaveBalanceSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeaveBalance
+     */
+    omit?: LeaveBalanceOmit<ExtArgs> | null
+    /**
+     * The data used to create many LeaveBalances.
+     */
+    data: LeaveBalanceCreateManyInput | LeaveBalanceCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeaveBalanceIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * LeaveBalance update
+   */
+  export type LeaveBalanceUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeaveBalance
+     */
+    select?: LeaveBalanceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeaveBalance
+     */
+    omit?: LeaveBalanceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeaveBalanceInclude<ExtArgs> | null
+    /**
+     * The data needed to update a LeaveBalance.
+     */
+    data: XOR<LeaveBalanceUpdateInput, LeaveBalanceUncheckedUpdateInput>
+    /**
+     * Choose, which LeaveBalance to update.
+     */
+    where: LeaveBalanceWhereUniqueInput
+  }
+
+  /**
+   * LeaveBalance updateMany
+   */
+  export type LeaveBalanceUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update LeaveBalances.
+     */
+    data: XOR<LeaveBalanceUpdateManyMutationInput, LeaveBalanceUncheckedUpdateManyInput>
+    /**
+     * Filter which LeaveBalances to update
+     */
+    where?: LeaveBalanceWhereInput
+    /**
+     * Limit how many LeaveBalances to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * LeaveBalance updateManyAndReturn
+   */
+  export type LeaveBalanceUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeaveBalance
+     */
+    select?: LeaveBalanceSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeaveBalance
+     */
+    omit?: LeaveBalanceOmit<ExtArgs> | null
+    /**
+     * The data used to update LeaveBalances.
+     */
+    data: XOR<LeaveBalanceUpdateManyMutationInput, LeaveBalanceUncheckedUpdateManyInput>
+    /**
+     * Filter which LeaveBalances to update
+     */
+    where?: LeaveBalanceWhereInput
+    /**
+     * Limit how many LeaveBalances to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeaveBalanceIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * LeaveBalance upsert
+   */
+  export type LeaveBalanceUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeaveBalance
+     */
+    select?: LeaveBalanceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeaveBalance
+     */
+    omit?: LeaveBalanceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeaveBalanceInclude<ExtArgs> | null
+    /**
+     * The filter to search for the LeaveBalance to update in case it exists.
+     */
+    where: LeaveBalanceWhereUniqueInput
+    /**
+     * In case the LeaveBalance found by the `where` argument doesn't exist, create a new LeaveBalance with this data.
+     */
+    create: XOR<LeaveBalanceCreateInput, LeaveBalanceUncheckedCreateInput>
+    /**
+     * In case the LeaveBalance was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<LeaveBalanceUpdateInput, LeaveBalanceUncheckedUpdateInput>
+  }
+
+  /**
+   * LeaveBalance delete
+   */
+  export type LeaveBalanceDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeaveBalance
+     */
+    select?: LeaveBalanceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeaveBalance
+     */
+    omit?: LeaveBalanceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeaveBalanceInclude<ExtArgs> | null
+    /**
+     * Filter which LeaveBalance to delete.
+     */
+    where: LeaveBalanceWhereUniqueInput
+  }
+
+  /**
+   * LeaveBalance deleteMany
+   */
+  export type LeaveBalanceDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LeaveBalances to delete
+     */
+    where?: LeaveBalanceWhereInput
+    /**
+     * Limit how many LeaveBalances to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * LeaveBalance without action
+   */
+  export type LeaveBalanceDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeaveBalance
+     */
+    select?: LeaveBalanceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeaveBalance
+     */
+    omit?: LeaveBalanceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeaveBalanceInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Attendance
+   */
+
+  export type AggregateAttendance = {
+    _count: AttendanceCountAggregateOutputType | null
+    _avg: AttendanceAvgAggregateOutputType | null
+    _sum: AttendanceSumAggregateOutputType | null
+    _min: AttendanceMinAggregateOutputType | null
+    _max: AttendanceMaxAggregateOutputType | null
+  }
+
+  export type AttendanceAvgAggregateOutputType = {
+    totalHours: number | null
+  }
+
+  export type AttendanceSumAggregateOutputType = {
+    totalHours: number | null
+  }
+
+  export type AttendanceMinAggregateOutputType = {
+    id: string | null
+    teamId: string | null
+    employeeId: string | null
+    userId: string | null
+    date: Date | null
+    checkInTime: Date | null
+    checkOutTime: Date | null
+    workMode: string | null
+    status: string | null
+    totalHours: number | null
+    notes: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AttendanceMaxAggregateOutputType = {
+    id: string | null
+    teamId: string | null
+    employeeId: string | null
+    userId: string | null
+    date: Date | null
+    checkInTime: Date | null
+    checkOutTime: Date | null
+    workMode: string | null
+    status: string | null
+    totalHours: number | null
+    notes: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AttendanceCountAggregateOutputType = {
+    id: number
+    teamId: number
+    employeeId: number
+    userId: number
+    date: number
+    checkInTime: number
+    checkOutTime: number
+    workMode: number
+    status: number
+    totalHours: number
+    notes: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type AttendanceAvgAggregateInputType = {
+    totalHours?: true
+  }
+
+  export type AttendanceSumAggregateInputType = {
+    totalHours?: true
+  }
+
+  export type AttendanceMinAggregateInputType = {
+    id?: true
+    teamId?: true
+    employeeId?: true
+    userId?: true
+    date?: true
+    checkInTime?: true
+    checkOutTime?: true
+    workMode?: true
+    status?: true
+    totalHours?: true
+    notes?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AttendanceMaxAggregateInputType = {
+    id?: true
+    teamId?: true
+    employeeId?: true
+    userId?: true
+    date?: true
+    checkInTime?: true
+    checkOutTime?: true
+    workMode?: true
+    status?: true
+    totalHours?: true
+    notes?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AttendanceCountAggregateInputType = {
+    id?: true
+    teamId?: true
+    employeeId?: true
+    userId?: true
+    date?: true
+    checkInTime?: true
+    checkOutTime?: true
+    workMode?: true
+    status?: true
+    totalHours?: true
+    notes?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type AttendanceAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Attendance to aggregate.
+     */
+    where?: AttendanceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Attendances to fetch.
+     */
+    orderBy?: AttendanceOrderByWithRelationInput | AttendanceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AttendanceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Attendances from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Attendances.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Attendances
+    **/
+    _count?: true | AttendanceCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: AttendanceAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: AttendanceSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AttendanceMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AttendanceMaxAggregateInputType
+  }
+
+  export type GetAttendanceAggregateType<T extends AttendanceAggregateArgs> = {
+        [P in keyof T & keyof AggregateAttendance]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAttendance[P]>
+      : GetScalarType<T[P], AggregateAttendance[P]>
+  }
+
+
+
+
+  export type AttendanceGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AttendanceWhereInput
+    orderBy?: AttendanceOrderByWithAggregationInput | AttendanceOrderByWithAggregationInput[]
+    by: AttendanceScalarFieldEnum[] | AttendanceScalarFieldEnum
+    having?: AttendanceScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AttendanceCountAggregateInputType | true
+    _avg?: AttendanceAvgAggregateInputType
+    _sum?: AttendanceSumAggregateInputType
+    _min?: AttendanceMinAggregateInputType
+    _max?: AttendanceMaxAggregateInputType
+  }
+
+  export type AttendanceGroupByOutputType = {
+    id: string
+    teamId: string
+    employeeId: string
+    userId: string
+    date: Date
+    checkInTime: Date
+    checkOutTime: Date | null
+    workMode: string
+    status: string
+    totalHours: number | null
+    notes: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: AttendanceCountAggregateOutputType | null
+    _avg: AttendanceAvgAggregateOutputType | null
+    _sum: AttendanceSumAggregateOutputType | null
+    _min: AttendanceMinAggregateOutputType | null
+    _max: AttendanceMaxAggregateOutputType | null
+  }
+
+  type GetAttendanceGroupByPayload<T extends AttendanceGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AttendanceGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AttendanceGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AttendanceGroupByOutputType[P]>
+            : GetScalarType<T[P], AttendanceGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AttendanceSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    teamId?: boolean
+    employeeId?: boolean
+    userId?: boolean
+    date?: boolean
+    checkInTime?: boolean
+    checkOutTime?: boolean
+    workMode?: boolean
+    status?: boolean
+    totalHours?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["attendance"]>
+
+  export type AttendanceSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    teamId?: boolean
+    employeeId?: boolean
+    userId?: boolean
+    date?: boolean
+    checkInTime?: boolean
+    checkOutTime?: boolean
+    workMode?: boolean
+    status?: boolean
+    totalHours?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["attendance"]>
+
+  export type AttendanceSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    teamId?: boolean
+    employeeId?: boolean
+    userId?: boolean
+    date?: boolean
+    checkInTime?: boolean
+    checkOutTime?: boolean
+    workMode?: boolean
+    status?: boolean
+    totalHours?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["attendance"]>
+
+  export type AttendanceSelectScalar = {
+    id?: boolean
+    teamId?: boolean
+    employeeId?: boolean
+    userId?: boolean
+    date?: boolean
+    checkInTime?: boolean
+    checkOutTime?: boolean
+    workMode?: boolean
+    status?: boolean
+    totalHours?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type AttendanceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "teamId" | "employeeId" | "userId" | "date" | "checkInTime" | "checkOutTime" | "workMode" | "status" | "totalHours" | "notes" | "createdAt" | "updatedAt", ExtArgs["result"]["attendance"]>
+  export type AttendanceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }
+  export type AttendanceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }
+  export type AttendanceIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }
+
+  export type $AttendancePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Attendance"
+    objects: {
+      team: Prisma.$TeamPayload<ExtArgs>
+      employee: Prisma.$EmployeePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      teamId: string
+      employeeId: string
+      userId: string
+      date: Date
+      checkInTime: Date
+      checkOutTime: Date | null
+      workMode: string
+      status: string
+      totalHours: number | null
+      notes: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["attendance"]>
+    composites: {}
+  }
+
+  type AttendanceGetPayload<S extends boolean | null | undefined | AttendanceDefaultArgs> = $Result.GetResult<Prisma.$AttendancePayload, S>
+
+  type AttendanceCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AttendanceFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AttendanceCountAggregateInputType | true
+    }
+
+  export interface AttendanceDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Attendance'], meta: { name: 'Attendance' } }
+    /**
+     * Find zero or one Attendance that matches the filter.
+     * @param {AttendanceFindUniqueArgs} args - Arguments to find a Attendance
+     * @example
+     * // Get one Attendance
+     * const attendance = await prisma.attendance.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AttendanceFindUniqueArgs>(args: SelectSubset<T, AttendanceFindUniqueArgs<ExtArgs>>): Prisma__AttendanceClient<$Result.GetResult<Prisma.$AttendancePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Attendance that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AttendanceFindUniqueOrThrowArgs} args - Arguments to find a Attendance
+     * @example
+     * // Get one Attendance
+     * const attendance = await prisma.attendance.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AttendanceFindUniqueOrThrowArgs>(args: SelectSubset<T, AttendanceFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AttendanceClient<$Result.GetResult<Prisma.$AttendancePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Attendance that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttendanceFindFirstArgs} args - Arguments to find a Attendance
+     * @example
+     * // Get one Attendance
+     * const attendance = await prisma.attendance.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AttendanceFindFirstArgs>(args?: SelectSubset<T, AttendanceFindFirstArgs<ExtArgs>>): Prisma__AttendanceClient<$Result.GetResult<Prisma.$AttendancePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Attendance that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttendanceFindFirstOrThrowArgs} args - Arguments to find a Attendance
+     * @example
+     * // Get one Attendance
+     * const attendance = await prisma.attendance.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AttendanceFindFirstOrThrowArgs>(args?: SelectSubset<T, AttendanceFindFirstOrThrowArgs<ExtArgs>>): Prisma__AttendanceClient<$Result.GetResult<Prisma.$AttendancePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Attendances that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttendanceFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Attendances
+     * const attendances = await prisma.attendance.findMany()
+     * 
+     * // Get first 10 Attendances
+     * const attendances = await prisma.attendance.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const attendanceWithIdOnly = await prisma.attendance.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AttendanceFindManyArgs>(args?: SelectSubset<T, AttendanceFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttendancePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Attendance.
+     * @param {AttendanceCreateArgs} args - Arguments to create a Attendance.
+     * @example
+     * // Create one Attendance
+     * const Attendance = await prisma.attendance.create({
+     *   data: {
+     *     // ... data to create a Attendance
+     *   }
+     * })
+     * 
+     */
+    create<T extends AttendanceCreateArgs>(args: SelectSubset<T, AttendanceCreateArgs<ExtArgs>>): Prisma__AttendanceClient<$Result.GetResult<Prisma.$AttendancePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Attendances.
+     * @param {AttendanceCreateManyArgs} args - Arguments to create many Attendances.
+     * @example
+     * // Create many Attendances
+     * const attendance = await prisma.attendance.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AttendanceCreateManyArgs>(args?: SelectSubset<T, AttendanceCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Attendances and returns the data saved in the database.
+     * @param {AttendanceCreateManyAndReturnArgs} args - Arguments to create many Attendances.
+     * @example
+     * // Create many Attendances
+     * const attendance = await prisma.attendance.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Attendances and only return the `id`
+     * const attendanceWithIdOnly = await prisma.attendance.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AttendanceCreateManyAndReturnArgs>(args?: SelectSubset<T, AttendanceCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttendancePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Attendance.
+     * @param {AttendanceDeleteArgs} args - Arguments to delete one Attendance.
+     * @example
+     * // Delete one Attendance
+     * const Attendance = await prisma.attendance.delete({
+     *   where: {
+     *     // ... filter to delete one Attendance
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AttendanceDeleteArgs>(args: SelectSubset<T, AttendanceDeleteArgs<ExtArgs>>): Prisma__AttendanceClient<$Result.GetResult<Prisma.$AttendancePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Attendance.
+     * @param {AttendanceUpdateArgs} args - Arguments to update one Attendance.
+     * @example
+     * // Update one Attendance
+     * const attendance = await prisma.attendance.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AttendanceUpdateArgs>(args: SelectSubset<T, AttendanceUpdateArgs<ExtArgs>>): Prisma__AttendanceClient<$Result.GetResult<Prisma.$AttendancePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Attendances.
+     * @param {AttendanceDeleteManyArgs} args - Arguments to filter Attendances to delete.
+     * @example
+     * // Delete a few Attendances
+     * const { count } = await prisma.attendance.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AttendanceDeleteManyArgs>(args?: SelectSubset<T, AttendanceDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Attendances.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttendanceUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Attendances
+     * const attendance = await prisma.attendance.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AttendanceUpdateManyArgs>(args: SelectSubset<T, AttendanceUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Attendances and returns the data updated in the database.
+     * @param {AttendanceUpdateManyAndReturnArgs} args - Arguments to update many Attendances.
+     * @example
+     * // Update many Attendances
+     * const attendance = await prisma.attendance.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Attendances and only return the `id`
+     * const attendanceWithIdOnly = await prisma.attendance.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends AttendanceUpdateManyAndReturnArgs>(args: SelectSubset<T, AttendanceUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttendancePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Attendance.
+     * @param {AttendanceUpsertArgs} args - Arguments to update or create a Attendance.
+     * @example
+     * // Update or create a Attendance
+     * const attendance = await prisma.attendance.upsert({
+     *   create: {
+     *     // ... data to create a Attendance
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Attendance we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AttendanceUpsertArgs>(args: SelectSubset<T, AttendanceUpsertArgs<ExtArgs>>): Prisma__AttendanceClient<$Result.GetResult<Prisma.$AttendancePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Attendances.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttendanceCountArgs} args - Arguments to filter Attendances to count.
+     * @example
+     * // Count the number of Attendances
+     * const count = await prisma.attendance.count({
+     *   where: {
+     *     // ... the filter for the Attendances we want to count
+     *   }
+     * })
+    **/
+    count<T extends AttendanceCountArgs>(
+      args?: Subset<T, AttendanceCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AttendanceCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Attendance.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttendanceAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AttendanceAggregateArgs>(args: Subset<T, AttendanceAggregateArgs>): Prisma.PrismaPromise<GetAttendanceAggregateType<T>>
+
+    /**
+     * Group by Attendance.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttendanceGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AttendanceGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AttendanceGroupByArgs['orderBy'] }
+        : { orderBy?: AttendanceGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AttendanceGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAttendanceGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Attendance model
+   */
+  readonly fields: AttendanceFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Attendance.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AttendanceClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    team<T extends TeamDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TeamDefaultArgs<ExtArgs>>): Prisma__TeamClient<$Result.GetResult<Prisma.$TeamPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    employee<T extends EmployeeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, EmployeeDefaultArgs<ExtArgs>>): Prisma__EmployeeClient<$Result.GetResult<Prisma.$EmployeePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Attendance model
+   */
+  interface AttendanceFieldRefs {
+    readonly id: FieldRef<"Attendance", 'String'>
+    readonly teamId: FieldRef<"Attendance", 'String'>
+    readonly employeeId: FieldRef<"Attendance", 'String'>
+    readonly userId: FieldRef<"Attendance", 'String'>
+    readonly date: FieldRef<"Attendance", 'DateTime'>
+    readonly checkInTime: FieldRef<"Attendance", 'DateTime'>
+    readonly checkOutTime: FieldRef<"Attendance", 'DateTime'>
+    readonly workMode: FieldRef<"Attendance", 'String'>
+    readonly status: FieldRef<"Attendance", 'String'>
+    readonly totalHours: FieldRef<"Attendance", 'Float'>
+    readonly notes: FieldRef<"Attendance", 'String'>
+    readonly createdAt: FieldRef<"Attendance", 'DateTime'>
+    readonly updatedAt: FieldRef<"Attendance", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Attendance findUnique
+   */
+  export type AttendanceFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attendance
+     */
+    select?: AttendanceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attendance
+     */
+    omit?: AttendanceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceInclude<ExtArgs> | null
+    /**
+     * Filter, which Attendance to fetch.
+     */
+    where: AttendanceWhereUniqueInput
+  }
+
+  /**
+   * Attendance findUniqueOrThrow
+   */
+  export type AttendanceFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attendance
+     */
+    select?: AttendanceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attendance
+     */
+    omit?: AttendanceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceInclude<ExtArgs> | null
+    /**
+     * Filter, which Attendance to fetch.
+     */
+    where: AttendanceWhereUniqueInput
+  }
+
+  /**
+   * Attendance findFirst
+   */
+  export type AttendanceFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attendance
+     */
+    select?: AttendanceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attendance
+     */
+    omit?: AttendanceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceInclude<ExtArgs> | null
+    /**
+     * Filter, which Attendance to fetch.
+     */
+    where?: AttendanceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Attendances to fetch.
+     */
+    orderBy?: AttendanceOrderByWithRelationInput | AttendanceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Attendances.
+     */
+    cursor?: AttendanceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Attendances from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Attendances.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Attendances.
+     */
+    distinct?: AttendanceScalarFieldEnum | AttendanceScalarFieldEnum[]
+  }
+
+  /**
+   * Attendance findFirstOrThrow
+   */
+  export type AttendanceFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attendance
+     */
+    select?: AttendanceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attendance
+     */
+    omit?: AttendanceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceInclude<ExtArgs> | null
+    /**
+     * Filter, which Attendance to fetch.
+     */
+    where?: AttendanceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Attendances to fetch.
+     */
+    orderBy?: AttendanceOrderByWithRelationInput | AttendanceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Attendances.
+     */
+    cursor?: AttendanceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Attendances from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Attendances.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Attendances.
+     */
+    distinct?: AttendanceScalarFieldEnum | AttendanceScalarFieldEnum[]
+  }
+
+  /**
+   * Attendance findMany
+   */
+  export type AttendanceFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attendance
+     */
+    select?: AttendanceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attendance
+     */
+    omit?: AttendanceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceInclude<ExtArgs> | null
+    /**
+     * Filter, which Attendances to fetch.
+     */
+    where?: AttendanceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Attendances to fetch.
+     */
+    orderBy?: AttendanceOrderByWithRelationInput | AttendanceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Attendances.
+     */
+    cursor?: AttendanceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Attendances from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Attendances.
+     */
+    skip?: number
+    distinct?: AttendanceScalarFieldEnum | AttendanceScalarFieldEnum[]
+  }
+
+  /**
+   * Attendance create
+   */
+  export type AttendanceCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attendance
+     */
+    select?: AttendanceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attendance
+     */
+    omit?: AttendanceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Attendance.
+     */
+    data: XOR<AttendanceCreateInput, AttendanceUncheckedCreateInput>
+  }
+
+  /**
+   * Attendance createMany
+   */
+  export type AttendanceCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Attendances.
+     */
+    data: AttendanceCreateManyInput | AttendanceCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Attendance createManyAndReturn
+   */
+  export type AttendanceCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attendance
+     */
+    select?: AttendanceSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attendance
+     */
+    omit?: AttendanceOmit<ExtArgs> | null
+    /**
+     * The data used to create many Attendances.
+     */
+    data: AttendanceCreateManyInput | AttendanceCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Attendance update
+   */
+  export type AttendanceUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attendance
+     */
+    select?: AttendanceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attendance
+     */
+    omit?: AttendanceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Attendance.
+     */
+    data: XOR<AttendanceUpdateInput, AttendanceUncheckedUpdateInput>
+    /**
+     * Choose, which Attendance to update.
+     */
+    where: AttendanceWhereUniqueInput
+  }
+
+  /**
+   * Attendance updateMany
+   */
+  export type AttendanceUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Attendances.
+     */
+    data: XOR<AttendanceUpdateManyMutationInput, AttendanceUncheckedUpdateManyInput>
+    /**
+     * Filter which Attendances to update
+     */
+    where?: AttendanceWhereInput
+    /**
+     * Limit how many Attendances to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Attendance updateManyAndReturn
+   */
+  export type AttendanceUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attendance
+     */
+    select?: AttendanceSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attendance
+     */
+    omit?: AttendanceOmit<ExtArgs> | null
+    /**
+     * The data used to update Attendances.
+     */
+    data: XOR<AttendanceUpdateManyMutationInput, AttendanceUncheckedUpdateManyInput>
+    /**
+     * Filter which Attendances to update
+     */
+    where?: AttendanceWhereInput
+    /**
+     * Limit how many Attendances to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Attendance upsert
+   */
+  export type AttendanceUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attendance
+     */
+    select?: AttendanceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attendance
+     */
+    omit?: AttendanceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Attendance to update in case it exists.
+     */
+    where: AttendanceWhereUniqueInput
+    /**
+     * In case the Attendance found by the `where` argument doesn't exist, create a new Attendance with this data.
+     */
+    create: XOR<AttendanceCreateInput, AttendanceUncheckedCreateInput>
+    /**
+     * In case the Attendance was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AttendanceUpdateInput, AttendanceUncheckedUpdateInput>
+  }
+
+  /**
+   * Attendance delete
+   */
+  export type AttendanceDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attendance
+     */
+    select?: AttendanceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attendance
+     */
+    omit?: AttendanceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceInclude<ExtArgs> | null
+    /**
+     * Filter which Attendance to delete.
+     */
+    where: AttendanceWhereUniqueInput
+  }
+
+  /**
+   * Attendance deleteMany
+   */
+  export type AttendanceDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Attendances to delete
+     */
+    where?: AttendanceWhereInput
+    /**
+     * Limit how many Attendances to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Attendance without action
+   */
+  export type AttendanceDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attendance
+     */
+    select?: AttendanceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attendance
+     */
+    omit?: AttendanceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model OnboardingChecklist
+   */
+
+  export type AggregateOnboardingChecklist = {
+    _count: OnboardingChecklistCountAggregateOutputType | null
+    _min: OnboardingChecklistMinAggregateOutputType | null
+    _max: OnboardingChecklistMaxAggregateOutputType | null
+  }
+
+  export type OnboardingChecklistMinAggregateOutputType = {
+    id: string | null
+    teamId: string | null
+    employeeId: string | null
+    type: string | null
+    title: string | null
+    isCompleted: boolean | null
+    completedAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type OnboardingChecklistMaxAggregateOutputType = {
+    id: string | null
+    teamId: string | null
+    employeeId: string | null
+    type: string | null
+    title: string | null
+    isCompleted: boolean | null
+    completedAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type OnboardingChecklistCountAggregateOutputType = {
+    id: number
+    teamId: number
+    employeeId: number
+    type: number
+    title: number
+    items: number
+    isCompleted: number
+    completedAt: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type OnboardingChecklistMinAggregateInputType = {
+    id?: true
+    teamId?: true
+    employeeId?: true
+    type?: true
+    title?: true
+    isCompleted?: true
+    completedAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type OnboardingChecklistMaxAggregateInputType = {
+    id?: true
+    teamId?: true
+    employeeId?: true
+    type?: true
+    title?: true
+    isCompleted?: true
+    completedAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type OnboardingChecklistCountAggregateInputType = {
+    id?: true
+    teamId?: true
+    employeeId?: true
+    type?: true
+    title?: true
+    items?: true
+    isCompleted?: true
+    completedAt?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type OnboardingChecklistAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which OnboardingChecklist to aggregate.
+     */
+    where?: OnboardingChecklistWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OnboardingChecklists to fetch.
+     */
+    orderBy?: OnboardingChecklistOrderByWithRelationInput | OnboardingChecklistOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: OnboardingChecklistWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OnboardingChecklists from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OnboardingChecklists.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned OnboardingChecklists
+    **/
+    _count?: true | OnboardingChecklistCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: OnboardingChecklistMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: OnboardingChecklistMaxAggregateInputType
+  }
+
+  export type GetOnboardingChecklistAggregateType<T extends OnboardingChecklistAggregateArgs> = {
+        [P in keyof T & keyof AggregateOnboardingChecklist]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateOnboardingChecklist[P]>
+      : GetScalarType<T[P], AggregateOnboardingChecklist[P]>
+  }
+
+
+
+
+  export type OnboardingChecklistGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OnboardingChecklistWhereInput
+    orderBy?: OnboardingChecklistOrderByWithAggregationInput | OnboardingChecklistOrderByWithAggregationInput[]
+    by: OnboardingChecklistScalarFieldEnum[] | OnboardingChecklistScalarFieldEnum
+    having?: OnboardingChecklistScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: OnboardingChecklistCountAggregateInputType | true
+    _min?: OnboardingChecklistMinAggregateInputType
+    _max?: OnboardingChecklistMaxAggregateInputType
+  }
+
+  export type OnboardingChecklistGroupByOutputType = {
+    id: string
+    teamId: string
+    employeeId: string
+    type: string
+    title: string
+    items: JsonValue
+    isCompleted: boolean
+    completedAt: Date | null
+    createdAt: Date
+    updatedAt: Date
+    _count: OnboardingChecklistCountAggregateOutputType | null
+    _min: OnboardingChecklistMinAggregateOutputType | null
+    _max: OnboardingChecklistMaxAggregateOutputType | null
+  }
+
+  type GetOnboardingChecklistGroupByPayload<T extends OnboardingChecklistGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<OnboardingChecklistGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof OnboardingChecklistGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], OnboardingChecklistGroupByOutputType[P]>
+            : GetScalarType<T[P], OnboardingChecklistGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type OnboardingChecklistSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    teamId?: boolean
+    employeeId?: boolean
+    type?: boolean
+    title?: boolean
+    items?: boolean
+    isCompleted?: boolean
+    completedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["onboardingChecklist"]>
+
+  export type OnboardingChecklistSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    teamId?: boolean
+    employeeId?: boolean
+    type?: boolean
+    title?: boolean
+    items?: boolean
+    isCompleted?: boolean
+    completedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["onboardingChecklist"]>
+
+  export type OnboardingChecklistSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    teamId?: boolean
+    employeeId?: boolean
+    type?: boolean
+    title?: boolean
+    items?: boolean
+    isCompleted?: boolean
+    completedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["onboardingChecklist"]>
+
+  export type OnboardingChecklistSelectScalar = {
+    id?: boolean
+    teamId?: boolean
+    employeeId?: boolean
+    type?: boolean
+    title?: boolean
+    items?: boolean
+    isCompleted?: boolean
+    completedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type OnboardingChecklistOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "teamId" | "employeeId" | "type" | "title" | "items" | "isCompleted" | "completedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["onboardingChecklist"]>
+  export type OnboardingChecklistInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }
+  export type OnboardingChecklistIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }
+  export type OnboardingChecklistIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }
+
+  export type $OnboardingChecklistPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "OnboardingChecklist"
+    objects: {
+      team: Prisma.$TeamPayload<ExtArgs>
+      employee: Prisma.$EmployeePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      teamId: string
+      employeeId: string
+      type: string
+      title: string
+      items: Prisma.JsonValue
+      isCompleted: boolean
+      completedAt: Date | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["onboardingChecklist"]>
+    composites: {}
+  }
+
+  type OnboardingChecklistGetPayload<S extends boolean | null | undefined | OnboardingChecklistDefaultArgs> = $Result.GetResult<Prisma.$OnboardingChecklistPayload, S>
+
+  type OnboardingChecklistCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<OnboardingChecklistFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: OnboardingChecklistCountAggregateInputType | true
+    }
+
+  export interface OnboardingChecklistDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['OnboardingChecklist'], meta: { name: 'OnboardingChecklist' } }
+    /**
+     * Find zero or one OnboardingChecklist that matches the filter.
+     * @param {OnboardingChecklistFindUniqueArgs} args - Arguments to find a OnboardingChecklist
+     * @example
+     * // Get one OnboardingChecklist
+     * const onboardingChecklist = await prisma.onboardingChecklist.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends OnboardingChecklistFindUniqueArgs>(args: SelectSubset<T, OnboardingChecklistFindUniqueArgs<ExtArgs>>): Prisma__OnboardingChecklistClient<$Result.GetResult<Prisma.$OnboardingChecklistPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one OnboardingChecklist that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {OnboardingChecklistFindUniqueOrThrowArgs} args - Arguments to find a OnboardingChecklist
+     * @example
+     * // Get one OnboardingChecklist
+     * const onboardingChecklist = await prisma.onboardingChecklist.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends OnboardingChecklistFindUniqueOrThrowArgs>(args: SelectSubset<T, OnboardingChecklistFindUniqueOrThrowArgs<ExtArgs>>): Prisma__OnboardingChecklistClient<$Result.GetResult<Prisma.$OnboardingChecklistPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first OnboardingChecklist that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OnboardingChecklistFindFirstArgs} args - Arguments to find a OnboardingChecklist
+     * @example
+     * // Get one OnboardingChecklist
+     * const onboardingChecklist = await prisma.onboardingChecklist.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends OnboardingChecklistFindFirstArgs>(args?: SelectSubset<T, OnboardingChecklistFindFirstArgs<ExtArgs>>): Prisma__OnboardingChecklistClient<$Result.GetResult<Prisma.$OnboardingChecklistPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first OnboardingChecklist that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OnboardingChecklistFindFirstOrThrowArgs} args - Arguments to find a OnboardingChecklist
+     * @example
+     * // Get one OnboardingChecklist
+     * const onboardingChecklist = await prisma.onboardingChecklist.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends OnboardingChecklistFindFirstOrThrowArgs>(args?: SelectSubset<T, OnboardingChecklistFindFirstOrThrowArgs<ExtArgs>>): Prisma__OnboardingChecklistClient<$Result.GetResult<Prisma.$OnboardingChecklistPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more OnboardingChecklists that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OnboardingChecklistFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all OnboardingChecklists
+     * const onboardingChecklists = await prisma.onboardingChecklist.findMany()
+     * 
+     * // Get first 10 OnboardingChecklists
+     * const onboardingChecklists = await prisma.onboardingChecklist.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const onboardingChecklistWithIdOnly = await prisma.onboardingChecklist.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends OnboardingChecklistFindManyArgs>(args?: SelectSubset<T, OnboardingChecklistFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OnboardingChecklistPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a OnboardingChecklist.
+     * @param {OnboardingChecklistCreateArgs} args - Arguments to create a OnboardingChecklist.
+     * @example
+     * // Create one OnboardingChecklist
+     * const OnboardingChecklist = await prisma.onboardingChecklist.create({
+     *   data: {
+     *     // ... data to create a OnboardingChecklist
+     *   }
+     * })
+     * 
+     */
+    create<T extends OnboardingChecklistCreateArgs>(args: SelectSubset<T, OnboardingChecklistCreateArgs<ExtArgs>>): Prisma__OnboardingChecklistClient<$Result.GetResult<Prisma.$OnboardingChecklistPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many OnboardingChecklists.
+     * @param {OnboardingChecklistCreateManyArgs} args - Arguments to create many OnboardingChecklists.
+     * @example
+     * // Create many OnboardingChecklists
+     * const onboardingChecklist = await prisma.onboardingChecklist.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends OnboardingChecklistCreateManyArgs>(args?: SelectSubset<T, OnboardingChecklistCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many OnboardingChecklists and returns the data saved in the database.
+     * @param {OnboardingChecklistCreateManyAndReturnArgs} args - Arguments to create many OnboardingChecklists.
+     * @example
+     * // Create many OnboardingChecklists
+     * const onboardingChecklist = await prisma.onboardingChecklist.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many OnboardingChecklists and only return the `id`
+     * const onboardingChecklistWithIdOnly = await prisma.onboardingChecklist.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends OnboardingChecklistCreateManyAndReturnArgs>(args?: SelectSubset<T, OnboardingChecklistCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OnboardingChecklistPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a OnboardingChecklist.
+     * @param {OnboardingChecklistDeleteArgs} args - Arguments to delete one OnboardingChecklist.
+     * @example
+     * // Delete one OnboardingChecklist
+     * const OnboardingChecklist = await prisma.onboardingChecklist.delete({
+     *   where: {
+     *     // ... filter to delete one OnboardingChecklist
+     *   }
+     * })
+     * 
+     */
+    delete<T extends OnboardingChecklistDeleteArgs>(args: SelectSubset<T, OnboardingChecklistDeleteArgs<ExtArgs>>): Prisma__OnboardingChecklistClient<$Result.GetResult<Prisma.$OnboardingChecklistPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one OnboardingChecklist.
+     * @param {OnboardingChecklistUpdateArgs} args - Arguments to update one OnboardingChecklist.
+     * @example
+     * // Update one OnboardingChecklist
+     * const onboardingChecklist = await prisma.onboardingChecklist.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends OnboardingChecklistUpdateArgs>(args: SelectSubset<T, OnboardingChecklistUpdateArgs<ExtArgs>>): Prisma__OnboardingChecklistClient<$Result.GetResult<Prisma.$OnboardingChecklistPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more OnboardingChecklists.
+     * @param {OnboardingChecklistDeleteManyArgs} args - Arguments to filter OnboardingChecklists to delete.
+     * @example
+     * // Delete a few OnboardingChecklists
+     * const { count } = await prisma.onboardingChecklist.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends OnboardingChecklistDeleteManyArgs>(args?: SelectSubset<T, OnboardingChecklistDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more OnboardingChecklists.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OnboardingChecklistUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many OnboardingChecklists
+     * const onboardingChecklist = await prisma.onboardingChecklist.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends OnboardingChecklistUpdateManyArgs>(args: SelectSubset<T, OnboardingChecklistUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more OnboardingChecklists and returns the data updated in the database.
+     * @param {OnboardingChecklistUpdateManyAndReturnArgs} args - Arguments to update many OnboardingChecklists.
+     * @example
+     * // Update many OnboardingChecklists
+     * const onboardingChecklist = await prisma.onboardingChecklist.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more OnboardingChecklists and only return the `id`
+     * const onboardingChecklistWithIdOnly = await prisma.onboardingChecklist.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends OnboardingChecklistUpdateManyAndReturnArgs>(args: SelectSubset<T, OnboardingChecklistUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OnboardingChecklistPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one OnboardingChecklist.
+     * @param {OnboardingChecklistUpsertArgs} args - Arguments to update or create a OnboardingChecklist.
+     * @example
+     * // Update or create a OnboardingChecklist
+     * const onboardingChecklist = await prisma.onboardingChecklist.upsert({
+     *   create: {
+     *     // ... data to create a OnboardingChecklist
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the OnboardingChecklist we want to update
+     *   }
+     * })
+     */
+    upsert<T extends OnboardingChecklistUpsertArgs>(args: SelectSubset<T, OnboardingChecklistUpsertArgs<ExtArgs>>): Prisma__OnboardingChecklistClient<$Result.GetResult<Prisma.$OnboardingChecklistPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of OnboardingChecklists.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OnboardingChecklistCountArgs} args - Arguments to filter OnboardingChecklists to count.
+     * @example
+     * // Count the number of OnboardingChecklists
+     * const count = await prisma.onboardingChecklist.count({
+     *   where: {
+     *     // ... the filter for the OnboardingChecklists we want to count
+     *   }
+     * })
+    **/
+    count<T extends OnboardingChecklistCountArgs>(
+      args?: Subset<T, OnboardingChecklistCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], OnboardingChecklistCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a OnboardingChecklist.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OnboardingChecklistAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends OnboardingChecklistAggregateArgs>(args: Subset<T, OnboardingChecklistAggregateArgs>): Prisma.PrismaPromise<GetOnboardingChecklistAggregateType<T>>
+
+    /**
+     * Group by OnboardingChecklist.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OnboardingChecklistGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends OnboardingChecklistGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: OnboardingChecklistGroupByArgs['orderBy'] }
+        : { orderBy?: OnboardingChecklistGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, OnboardingChecklistGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetOnboardingChecklistGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the OnboardingChecklist model
+   */
+  readonly fields: OnboardingChecklistFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for OnboardingChecklist.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__OnboardingChecklistClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    team<T extends TeamDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TeamDefaultArgs<ExtArgs>>): Prisma__TeamClient<$Result.GetResult<Prisma.$TeamPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    employee<T extends EmployeeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, EmployeeDefaultArgs<ExtArgs>>): Prisma__EmployeeClient<$Result.GetResult<Prisma.$EmployeePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the OnboardingChecklist model
+   */
+  interface OnboardingChecklistFieldRefs {
+    readonly id: FieldRef<"OnboardingChecklist", 'String'>
+    readonly teamId: FieldRef<"OnboardingChecklist", 'String'>
+    readonly employeeId: FieldRef<"OnboardingChecklist", 'String'>
+    readonly type: FieldRef<"OnboardingChecklist", 'String'>
+    readonly title: FieldRef<"OnboardingChecklist", 'String'>
+    readonly items: FieldRef<"OnboardingChecklist", 'Json'>
+    readonly isCompleted: FieldRef<"OnboardingChecklist", 'Boolean'>
+    readonly completedAt: FieldRef<"OnboardingChecklist", 'DateTime'>
+    readonly createdAt: FieldRef<"OnboardingChecklist", 'DateTime'>
+    readonly updatedAt: FieldRef<"OnboardingChecklist", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * OnboardingChecklist findUnique
+   */
+  export type OnboardingChecklistFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OnboardingChecklist
+     */
+    select?: OnboardingChecklistSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OnboardingChecklist
+     */
+    omit?: OnboardingChecklistOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OnboardingChecklistInclude<ExtArgs> | null
+    /**
+     * Filter, which OnboardingChecklist to fetch.
+     */
+    where: OnboardingChecklistWhereUniqueInput
+  }
+
+  /**
+   * OnboardingChecklist findUniqueOrThrow
+   */
+  export type OnboardingChecklistFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OnboardingChecklist
+     */
+    select?: OnboardingChecklistSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OnboardingChecklist
+     */
+    omit?: OnboardingChecklistOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OnboardingChecklistInclude<ExtArgs> | null
+    /**
+     * Filter, which OnboardingChecklist to fetch.
+     */
+    where: OnboardingChecklistWhereUniqueInput
+  }
+
+  /**
+   * OnboardingChecklist findFirst
+   */
+  export type OnboardingChecklistFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OnboardingChecklist
+     */
+    select?: OnboardingChecklistSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OnboardingChecklist
+     */
+    omit?: OnboardingChecklistOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OnboardingChecklistInclude<ExtArgs> | null
+    /**
+     * Filter, which OnboardingChecklist to fetch.
+     */
+    where?: OnboardingChecklistWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OnboardingChecklists to fetch.
+     */
+    orderBy?: OnboardingChecklistOrderByWithRelationInput | OnboardingChecklistOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for OnboardingChecklists.
+     */
+    cursor?: OnboardingChecklistWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OnboardingChecklists from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OnboardingChecklists.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of OnboardingChecklists.
+     */
+    distinct?: OnboardingChecklistScalarFieldEnum | OnboardingChecklistScalarFieldEnum[]
+  }
+
+  /**
+   * OnboardingChecklist findFirstOrThrow
+   */
+  export type OnboardingChecklistFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OnboardingChecklist
+     */
+    select?: OnboardingChecklistSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OnboardingChecklist
+     */
+    omit?: OnboardingChecklistOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OnboardingChecklistInclude<ExtArgs> | null
+    /**
+     * Filter, which OnboardingChecklist to fetch.
+     */
+    where?: OnboardingChecklistWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OnboardingChecklists to fetch.
+     */
+    orderBy?: OnboardingChecklistOrderByWithRelationInput | OnboardingChecklistOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for OnboardingChecklists.
+     */
+    cursor?: OnboardingChecklistWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OnboardingChecklists from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OnboardingChecklists.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of OnboardingChecklists.
+     */
+    distinct?: OnboardingChecklistScalarFieldEnum | OnboardingChecklistScalarFieldEnum[]
+  }
+
+  /**
+   * OnboardingChecklist findMany
+   */
+  export type OnboardingChecklistFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OnboardingChecklist
+     */
+    select?: OnboardingChecklistSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OnboardingChecklist
+     */
+    omit?: OnboardingChecklistOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OnboardingChecklistInclude<ExtArgs> | null
+    /**
+     * Filter, which OnboardingChecklists to fetch.
+     */
+    where?: OnboardingChecklistWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OnboardingChecklists to fetch.
+     */
+    orderBy?: OnboardingChecklistOrderByWithRelationInput | OnboardingChecklistOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing OnboardingChecklists.
+     */
+    cursor?: OnboardingChecklistWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OnboardingChecklists from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OnboardingChecklists.
+     */
+    skip?: number
+    distinct?: OnboardingChecklistScalarFieldEnum | OnboardingChecklistScalarFieldEnum[]
+  }
+
+  /**
+   * OnboardingChecklist create
+   */
+  export type OnboardingChecklistCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OnboardingChecklist
+     */
+    select?: OnboardingChecklistSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OnboardingChecklist
+     */
+    omit?: OnboardingChecklistOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OnboardingChecklistInclude<ExtArgs> | null
+    /**
+     * The data needed to create a OnboardingChecklist.
+     */
+    data: XOR<OnboardingChecklistCreateInput, OnboardingChecklistUncheckedCreateInput>
+  }
+
+  /**
+   * OnboardingChecklist createMany
+   */
+  export type OnboardingChecklistCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many OnboardingChecklists.
+     */
+    data: OnboardingChecklistCreateManyInput | OnboardingChecklistCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * OnboardingChecklist createManyAndReturn
+   */
+  export type OnboardingChecklistCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OnboardingChecklist
+     */
+    select?: OnboardingChecklistSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the OnboardingChecklist
+     */
+    omit?: OnboardingChecklistOmit<ExtArgs> | null
+    /**
+     * The data used to create many OnboardingChecklists.
+     */
+    data: OnboardingChecklistCreateManyInput | OnboardingChecklistCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OnboardingChecklistIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * OnboardingChecklist update
+   */
+  export type OnboardingChecklistUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OnboardingChecklist
+     */
+    select?: OnboardingChecklistSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OnboardingChecklist
+     */
+    omit?: OnboardingChecklistOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OnboardingChecklistInclude<ExtArgs> | null
+    /**
+     * The data needed to update a OnboardingChecklist.
+     */
+    data: XOR<OnboardingChecklistUpdateInput, OnboardingChecklistUncheckedUpdateInput>
+    /**
+     * Choose, which OnboardingChecklist to update.
+     */
+    where: OnboardingChecklistWhereUniqueInput
+  }
+
+  /**
+   * OnboardingChecklist updateMany
+   */
+  export type OnboardingChecklistUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update OnboardingChecklists.
+     */
+    data: XOR<OnboardingChecklistUpdateManyMutationInput, OnboardingChecklistUncheckedUpdateManyInput>
+    /**
+     * Filter which OnboardingChecklists to update
+     */
+    where?: OnboardingChecklistWhereInput
+    /**
+     * Limit how many OnboardingChecklists to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * OnboardingChecklist updateManyAndReturn
+   */
+  export type OnboardingChecklistUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OnboardingChecklist
+     */
+    select?: OnboardingChecklistSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the OnboardingChecklist
+     */
+    omit?: OnboardingChecklistOmit<ExtArgs> | null
+    /**
+     * The data used to update OnboardingChecklists.
+     */
+    data: XOR<OnboardingChecklistUpdateManyMutationInput, OnboardingChecklistUncheckedUpdateManyInput>
+    /**
+     * Filter which OnboardingChecklists to update
+     */
+    where?: OnboardingChecklistWhereInput
+    /**
+     * Limit how many OnboardingChecklists to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OnboardingChecklistIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * OnboardingChecklist upsert
+   */
+  export type OnboardingChecklistUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OnboardingChecklist
+     */
+    select?: OnboardingChecklistSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OnboardingChecklist
+     */
+    omit?: OnboardingChecklistOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OnboardingChecklistInclude<ExtArgs> | null
+    /**
+     * The filter to search for the OnboardingChecklist to update in case it exists.
+     */
+    where: OnboardingChecklistWhereUniqueInput
+    /**
+     * In case the OnboardingChecklist found by the `where` argument doesn't exist, create a new OnboardingChecklist with this data.
+     */
+    create: XOR<OnboardingChecklistCreateInput, OnboardingChecklistUncheckedCreateInput>
+    /**
+     * In case the OnboardingChecklist was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<OnboardingChecklistUpdateInput, OnboardingChecklistUncheckedUpdateInput>
+  }
+
+  /**
+   * OnboardingChecklist delete
+   */
+  export type OnboardingChecklistDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OnboardingChecklist
+     */
+    select?: OnboardingChecklistSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OnboardingChecklist
+     */
+    omit?: OnboardingChecklistOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OnboardingChecklistInclude<ExtArgs> | null
+    /**
+     * Filter which OnboardingChecklist to delete.
+     */
+    where: OnboardingChecklistWhereUniqueInput
+  }
+
+  /**
+   * OnboardingChecklist deleteMany
+   */
+  export type OnboardingChecklistDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which OnboardingChecklists to delete
+     */
+    where?: OnboardingChecklistWhereInput
+    /**
+     * Limit how many OnboardingChecklists to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * OnboardingChecklist without action
+   */
+  export type OnboardingChecklistDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OnboardingChecklist
+     */
+    select?: OnboardingChecklistSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OnboardingChecklist
+     */
+    omit?: OnboardingChecklistOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OnboardingChecklistInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model JobOpening
+   */
+
+  export type AggregateJobOpening = {
+    _count: JobOpeningCountAggregateOutputType | null
+    _avg: JobOpeningAvgAggregateOutputType | null
+    _sum: JobOpeningSumAggregateOutputType | null
+    _min: JobOpeningMinAggregateOutputType | null
+    _max: JobOpeningMaxAggregateOutputType | null
+  }
+
+  export type JobOpeningAvgAggregateOutputType = {
+    openingsCount: number | null
+  }
+
+  export type JobOpeningSumAggregateOutputType = {
+    openingsCount: number | null
+  }
+
+  export type JobOpeningMinAggregateOutputType = {
+    id: string | null
+    teamId: string | null
+    title: string | null
+    department: string | null
+    location: string | null
+    type: string | null
+    status: string | null
+    openingsCount: number | null
+    description: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type JobOpeningMaxAggregateOutputType = {
+    id: string | null
+    teamId: string | null
+    title: string | null
+    department: string | null
+    location: string | null
+    type: string | null
+    status: string | null
+    openingsCount: number | null
+    description: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type JobOpeningCountAggregateOutputType = {
+    id: number
+    teamId: number
+    title: number
+    department: number
+    location: number
+    type: number
+    status: number
+    openingsCount: number
+    description: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type JobOpeningAvgAggregateInputType = {
+    openingsCount?: true
+  }
+
+  export type JobOpeningSumAggregateInputType = {
+    openingsCount?: true
+  }
+
+  export type JobOpeningMinAggregateInputType = {
+    id?: true
+    teamId?: true
+    title?: true
+    department?: true
+    location?: true
+    type?: true
+    status?: true
+    openingsCount?: true
+    description?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type JobOpeningMaxAggregateInputType = {
+    id?: true
+    teamId?: true
+    title?: true
+    department?: true
+    location?: true
+    type?: true
+    status?: true
+    openingsCount?: true
+    description?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type JobOpeningCountAggregateInputType = {
+    id?: true
+    teamId?: true
+    title?: true
+    department?: true
+    location?: true
+    type?: true
+    status?: true
+    openingsCount?: true
+    description?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type JobOpeningAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which JobOpening to aggregate.
+     */
+    where?: JobOpeningWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of JobOpenings to fetch.
+     */
+    orderBy?: JobOpeningOrderByWithRelationInput | JobOpeningOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: JobOpeningWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` JobOpenings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` JobOpenings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned JobOpenings
+    **/
+    _count?: true | JobOpeningCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: JobOpeningAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: JobOpeningSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: JobOpeningMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: JobOpeningMaxAggregateInputType
+  }
+
+  export type GetJobOpeningAggregateType<T extends JobOpeningAggregateArgs> = {
+        [P in keyof T & keyof AggregateJobOpening]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateJobOpening[P]>
+      : GetScalarType<T[P], AggregateJobOpening[P]>
+  }
+
+
+
+
+  export type JobOpeningGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: JobOpeningWhereInput
+    orderBy?: JobOpeningOrderByWithAggregationInput | JobOpeningOrderByWithAggregationInput[]
+    by: JobOpeningScalarFieldEnum[] | JobOpeningScalarFieldEnum
+    having?: JobOpeningScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: JobOpeningCountAggregateInputType | true
+    _avg?: JobOpeningAvgAggregateInputType
+    _sum?: JobOpeningSumAggregateInputType
+    _min?: JobOpeningMinAggregateInputType
+    _max?: JobOpeningMaxAggregateInputType
+  }
+
+  export type JobOpeningGroupByOutputType = {
+    id: string
+    teamId: string
+    title: string
+    department: string
+    location: string
+    type: string
+    status: string
+    openingsCount: number
+    description: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: JobOpeningCountAggregateOutputType | null
+    _avg: JobOpeningAvgAggregateOutputType | null
+    _sum: JobOpeningSumAggregateOutputType | null
+    _min: JobOpeningMinAggregateOutputType | null
+    _max: JobOpeningMaxAggregateOutputType | null
+  }
+
+  type GetJobOpeningGroupByPayload<T extends JobOpeningGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<JobOpeningGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof JobOpeningGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], JobOpeningGroupByOutputType[P]>
+            : GetScalarType<T[P], JobOpeningGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type JobOpeningSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    teamId?: boolean
+    title?: boolean
+    department?: boolean
+    location?: boolean
+    type?: boolean
+    status?: boolean
+    openingsCount?: boolean
+    description?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+    candidates?: boolean | JobOpening$candidatesArgs<ExtArgs>
+    _count?: boolean | JobOpeningCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["jobOpening"]>
+
+  export type JobOpeningSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    teamId?: boolean
+    title?: boolean
+    department?: boolean
+    location?: boolean
+    type?: boolean
+    status?: boolean
+    openingsCount?: boolean
+    description?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["jobOpening"]>
+
+  export type JobOpeningSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    teamId?: boolean
+    title?: boolean
+    department?: boolean
+    location?: boolean
+    type?: boolean
+    status?: boolean
+    openingsCount?: boolean
+    description?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["jobOpening"]>
+
+  export type JobOpeningSelectScalar = {
+    id?: boolean
+    teamId?: boolean
+    title?: boolean
+    department?: boolean
+    location?: boolean
+    type?: boolean
+    status?: boolean
+    openingsCount?: boolean
+    description?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type JobOpeningOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "teamId" | "title" | "department" | "location" | "type" | "status" | "openingsCount" | "description" | "createdAt" | "updatedAt", ExtArgs["result"]["jobOpening"]>
+  export type JobOpeningInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+    candidates?: boolean | JobOpening$candidatesArgs<ExtArgs>
+    _count?: boolean | JobOpeningCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type JobOpeningIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+  }
+  export type JobOpeningIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+  }
+
+  export type $JobOpeningPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "JobOpening"
+    objects: {
+      team: Prisma.$TeamPayload<ExtArgs>
+      candidates: Prisma.$CandidatePayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      teamId: string
+      title: string
+      department: string
+      location: string
+      type: string
+      status: string
+      openingsCount: number
+      description: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["jobOpening"]>
+    composites: {}
+  }
+
+  type JobOpeningGetPayload<S extends boolean | null | undefined | JobOpeningDefaultArgs> = $Result.GetResult<Prisma.$JobOpeningPayload, S>
+
+  type JobOpeningCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<JobOpeningFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: JobOpeningCountAggregateInputType | true
+    }
+
+  export interface JobOpeningDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['JobOpening'], meta: { name: 'JobOpening' } }
+    /**
+     * Find zero or one JobOpening that matches the filter.
+     * @param {JobOpeningFindUniqueArgs} args - Arguments to find a JobOpening
+     * @example
+     * // Get one JobOpening
+     * const jobOpening = await prisma.jobOpening.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends JobOpeningFindUniqueArgs>(args: SelectSubset<T, JobOpeningFindUniqueArgs<ExtArgs>>): Prisma__JobOpeningClient<$Result.GetResult<Prisma.$JobOpeningPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one JobOpening that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {JobOpeningFindUniqueOrThrowArgs} args - Arguments to find a JobOpening
+     * @example
+     * // Get one JobOpening
+     * const jobOpening = await prisma.jobOpening.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends JobOpeningFindUniqueOrThrowArgs>(args: SelectSubset<T, JobOpeningFindUniqueOrThrowArgs<ExtArgs>>): Prisma__JobOpeningClient<$Result.GetResult<Prisma.$JobOpeningPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first JobOpening that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {JobOpeningFindFirstArgs} args - Arguments to find a JobOpening
+     * @example
+     * // Get one JobOpening
+     * const jobOpening = await prisma.jobOpening.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends JobOpeningFindFirstArgs>(args?: SelectSubset<T, JobOpeningFindFirstArgs<ExtArgs>>): Prisma__JobOpeningClient<$Result.GetResult<Prisma.$JobOpeningPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first JobOpening that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {JobOpeningFindFirstOrThrowArgs} args - Arguments to find a JobOpening
+     * @example
+     * // Get one JobOpening
+     * const jobOpening = await prisma.jobOpening.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends JobOpeningFindFirstOrThrowArgs>(args?: SelectSubset<T, JobOpeningFindFirstOrThrowArgs<ExtArgs>>): Prisma__JobOpeningClient<$Result.GetResult<Prisma.$JobOpeningPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more JobOpenings that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {JobOpeningFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all JobOpenings
+     * const jobOpenings = await prisma.jobOpening.findMany()
+     * 
+     * // Get first 10 JobOpenings
+     * const jobOpenings = await prisma.jobOpening.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const jobOpeningWithIdOnly = await prisma.jobOpening.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends JobOpeningFindManyArgs>(args?: SelectSubset<T, JobOpeningFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JobOpeningPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a JobOpening.
+     * @param {JobOpeningCreateArgs} args - Arguments to create a JobOpening.
+     * @example
+     * // Create one JobOpening
+     * const JobOpening = await prisma.jobOpening.create({
+     *   data: {
+     *     // ... data to create a JobOpening
+     *   }
+     * })
+     * 
+     */
+    create<T extends JobOpeningCreateArgs>(args: SelectSubset<T, JobOpeningCreateArgs<ExtArgs>>): Prisma__JobOpeningClient<$Result.GetResult<Prisma.$JobOpeningPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many JobOpenings.
+     * @param {JobOpeningCreateManyArgs} args - Arguments to create many JobOpenings.
+     * @example
+     * // Create many JobOpenings
+     * const jobOpening = await prisma.jobOpening.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends JobOpeningCreateManyArgs>(args?: SelectSubset<T, JobOpeningCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many JobOpenings and returns the data saved in the database.
+     * @param {JobOpeningCreateManyAndReturnArgs} args - Arguments to create many JobOpenings.
+     * @example
+     * // Create many JobOpenings
+     * const jobOpening = await prisma.jobOpening.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many JobOpenings and only return the `id`
+     * const jobOpeningWithIdOnly = await prisma.jobOpening.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends JobOpeningCreateManyAndReturnArgs>(args?: SelectSubset<T, JobOpeningCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JobOpeningPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a JobOpening.
+     * @param {JobOpeningDeleteArgs} args - Arguments to delete one JobOpening.
+     * @example
+     * // Delete one JobOpening
+     * const JobOpening = await prisma.jobOpening.delete({
+     *   where: {
+     *     // ... filter to delete one JobOpening
+     *   }
+     * })
+     * 
+     */
+    delete<T extends JobOpeningDeleteArgs>(args: SelectSubset<T, JobOpeningDeleteArgs<ExtArgs>>): Prisma__JobOpeningClient<$Result.GetResult<Prisma.$JobOpeningPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one JobOpening.
+     * @param {JobOpeningUpdateArgs} args - Arguments to update one JobOpening.
+     * @example
+     * // Update one JobOpening
+     * const jobOpening = await prisma.jobOpening.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends JobOpeningUpdateArgs>(args: SelectSubset<T, JobOpeningUpdateArgs<ExtArgs>>): Prisma__JobOpeningClient<$Result.GetResult<Prisma.$JobOpeningPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more JobOpenings.
+     * @param {JobOpeningDeleteManyArgs} args - Arguments to filter JobOpenings to delete.
+     * @example
+     * // Delete a few JobOpenings
+     * const { count } = await prisma.jobOpening.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends JobOpeningDeleteManyArgs>(args?: SelectSubset<T, JobOpeningDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more JobOpenings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {JobOpeningUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many JobOpenings
+     * const jobOpening = await prisma.jobOpening.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends JobOpeningUpdateManyArgs>(args: SelectSubset<T, JobOpeningUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more JobOpenings and returns the data updated in the database.
+     * @param {JobOpeningUpdateManyAndReturnArgs} args - Arguments to update many JobOpenings.
+     * @example
+     * // Update many JobOpenings
+     * const jobOpening = await prisma.jobOpening.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more JobOpenings and only return the `id`
+     * const jobOpeningWithIdOnly = await prisma.jobOpening.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends JobOpeningUpdateManyAndReturnArgs>(args: SelectSubset<T, JobOpeningUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JobOpeningPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one JobOpening.
+     * @param {JobOpeningUpsertArgs} args - Arguments to update or create a JobOpening.
+     * @example
+     * // Update or create a JobOpening
+     * const jobOpening = await prisma.jobOpening.upsert({
+     *   create: {
+     *     // ... data to create a JobOpening
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the JobOpening we want to update
+     *   }
+     * })
+     */
+    upsert<T extends JobOpeningUpsertArgs>(args: SelectSubset<T, JobOpeningUpsertArgs<ExtArgs>>): Prisma__JobOpeningClient<$Result.GetResult<Prisma.$JobOpeningPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of JobOpenings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {JobOpeningCountArgs} args - Arguments to filter JobOpenings to count.
+     * @example
+     * // Count the number of JobOpenings
+     * const count = await prisma.jobOpening.count({
+     *   where: {
+     *     // ... the filter for the JobOpenings we want to count
+     *   }
+     * })
+    **/
+    count<T extends JobOpeningCountArgs>(
+      args?: Subset<T, JobOpeningCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], JobOpeningCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a JobOpening.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {JobOpeningAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends JobOpeningAggregateArgs>(args: Subset<T, JobOpeningAggregateArgs>): Prisma.PrismaPromise<GetJobOpeningAggregateType<T>>
+
+    /**
+     * Group by JobOpening.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {JobOpeningGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends JobOpeningGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: JobOpeningGroupByArgs['orderBy'] }
+        : { orderBy?: JobOpeningGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, JobOpeningGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetJobOpeningGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the JobOpening model
+   */
+  readonly fields: JobOpeningFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for JobOpening.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__JobOpeningClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    team<T extends TeamDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TeamDefaultArgs<ExtArgs>>): Prisma__TeamClient<$Result.GetResult<Prisma.$TeamPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    candidates<T extends JobOpening$candidatesArgs<ExtArgs> = {}>(args?: Subset<T, JobOpening$candidatesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CandidatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the JobOpening model
+   */
+  interface JobOpeningFieldRefs {
+    readonly id: FieldRef<"JobOpening", 'String'>
+    readonly teamId: FieldRef<"JobOpening", 'String'>
+    readonly title: FieldRef<"JobOpening", 'String'>
+    readonly department: FieldRef<"JobOpening", 'String'>
+    readonly location: FieldRef<"JobOpening", 'String'>
+    readonly type: FieldRef<"JobOpening", 'String'>
+    readonly status: FieldRef<"JobOpening", 'String'>
+    readonly openingsCount: FieldRef<"JobOpening", 'Int'>
+    readonly description: FieldRef<"JobOpening", 'String'>
+    readonly createdAt: FieldRef<"JobOpening", 'DateTime'>
+    readonly updatedAt: FieldRef<"JobOpening", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * JobOpening findUnique
+   */
+  export type JobOpeningFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JobOpening
+     */
+    select?: JobOpeningSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JobOpening
+     */
+    omit?: JobOpeningOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobOpeningInclude<ExtArgs> | null
+    /**
+     * Filter, which JobOpening to fetch.
+     */
+    where: JobOpeningWhereUniqueInput
+  }
+
+  /**
+   * JobOpening findUniqueOrThrow
+   */
+  export type JobOpeningFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JobOpening
+     */
+    select?: JobOpeningSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JobOpening
+     */
+    omit?: JobOpeningOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobOpeningInclude<ExtArgs> | null
+    /**
+     * Filter, which JobOpening to fetch.
+     */
+    where: JobOpeningWhereUniqueInput
+  }
+
+  /**
+   * JobOpening findFirst
+   */
+  export type JobOpeningFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JobOpening
+     */
+    select?: JobOpeningSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JobOpening
+     */
+    omit?: JobOpeningOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobOpeningInclude<ExtArgs> | null
+    /**
+     * Filter, which JobOpening to fetch.
+     */
+    where?: JobOpeningWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of JobOpenings to fetch.
+     */
+    orderBy?: JobOpeningOrderByWithRelationInput | JobOpeningOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for JobOpenings.
+     */
+    cursor?: JobOpeningWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` JobOpenings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` JobOpenings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of JobOpenings.
+     */
+    distinct?: JobOpeningScalarFieldEnum | JobOpeningScalarFieldEnum[]
+  }
+
+  /**
+   * JobOpening findFirstOrThrow
+   */
+  export type JobOpeningFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JobOpening
+     */
+    select?: JobOpeningSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JobOpening
+     */
+    omit?: JobOpeningOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobOpeningInclude<ExtArgs> | null
+    /**
+     * Filter, which JobOpening to fetch.
+     */
+    where?: JobOpeningWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of JobOpenings to fetch.
+     */
+    orderBy?: JobOpeningOrderByWithRelationInput | JobOpeningOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for JobOpenings.
+     */
+    cursor?: JobOpeningWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` JobOpenings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` JobOpenings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of JobOpenings.
+     */
+    distinct?: JobOpeningScalarFieldEnum | JobOpeningScalarFieldEnum[]
+  }
+
+  /**
+   * JobOpening findMany
+   */
+  export type JobOpeningFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JobOpening
+     */
+    select?: JobOpeningSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JobOpening
+     */
+    omit?: JobOpeningOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobOpeningInclude<ExtArgs> | null
+    /**
+     * Filter, which JobOpenings to fetch.
+     */
+    where?: JobOpeningWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of JobOpenings to fetch.
+     */
+    orderBy?: JobOpeningOrderByWithRelationInput | JobOpeningOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing JobOpenings.
+     */
+    cursor?: JobOpeningWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` JobOpenings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` JobOpenings.
+     */
+    skip?: number
+    distinct?: JobOpeningScalarFieldEnum | JobOpeningScalarFieldEnum[]
+  }
+
+  /**
+   * JobOpening create
+   */
+  export type JobOpeningCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JobOpening
+     */
+    select?: JobOpeningSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JobOpening
+     */
+    omit?: JobOpeningOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobOpeningInclude<ExtArgs> | null
+    /**
+     * The data needed to create a JobOpening.
+     */
+    data: XOR<JobOpeningCreateInput, JobOpeningUncheckedCreateInput>
+  }
+
+  /**
+   * JobOpening createMany
+   */
+  export type JobOpeningCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many JobOpenings.
+     */
+    data: JobOpeningCreateManyInput | JobOpeningCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * JobOpening createManyAndReturn
+   */
+  export type JobOpeningCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JobOpening
+     */
+    select?: JobOpeningSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the JobOpening
+     */
+    omit?: JobOpeningOmit<ExtArgs> | null
+    /**
+     * The data used to create many JobOpenings.
+     */
+    data: JobOpeningCreateManyInput | JobOpeningCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobOpeningIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * JobOpening update
+   */
+  export type JobOpeningUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JobOpening
+     */
+    select?: JobOpeningSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JobOpening
+     */
+    omit?: JobOpeningOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobOpeningInclude<ExtArgs> | null
+    /**
+     * The data needed to update a JobOpening.
+     */
+    data: XOR<JobOpeningUpdateInput, JobOpeningUncheckedUpdateInput>
+    /**
+     * Choose, which JobOpening to update.
+     */
+    where: JobOpeningWhereUniqueInput
+  }
+
+  /**
+   * JobOpening updateMany
+   */
+  export type JobOpeningUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update JobOpenings.
+     */
+    data: XOR<JobOpeningUpdateManyMutationInput, JobOpeningUncheckedUpdateManyInput>
+    /**
+     * Filter which JobOpenings to update
+     */
+    where?: JobOpeningWhereInput
+    /**
+     * Limit how many JobOpenings to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * JobOpening updateManyAndReturn
+   */
+  export type JobOpeningUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JobOpening
+     */
+    select?: JobOpeningSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the JobOpening
+     */
+    omit?: JobOpeningOmit<ExtArgs> | null
+    /**
+     * The data used to update JobOpenings.
+     */
+    data: XOR<JobOpeningUpdateManyMutationInput, JobOpeningUncheckedUpdateManyInput>
+    /**
+     * Filter which JobOpenings to update
+     */
+    where?: JobOpeningWhereInput
+    /**
+     * Limit how many JobOpenings to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobOpeningIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * JobOpening upsert
+   */
+  export type JobOpeningUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JobOpening
+     */
+    select?: JobOpeningSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JobOpening
+     */
+    omit?: JobOpeningOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobOpeningInclude<ExtArgs> | null
+    /**
+     * The filter to search for the JobOpening to update in case it exists.
+     */
+    where: JobOpeningWhereUniqueInput
+    /**
+     * In case the JobOpening found by the `where` argument doesn't exist, create a new JobOpening with this data.
+     */
+    create: XOR<JobOpeningCreateInput, JobOpeningUncheckedCreateInput>
+    /**
+     * In case the JobOpening was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<JobOpeningUpdateInput, JobOpeningUncheckedUpdateInput>
+  }
+
+  /**
+   * JobOpening delete
+   */
+  export type JobOpeningDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JobOpening
+     */
+    select?: JobOpeningSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JobOpening
+     */
+    omit?: JobOpeningOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobOpeningInclude<ExtArgs> | null
+    /**
+     * Filter which JobOpening to delete.
+     */
+    where: JobOpeningWhereUniqueInput
+  }
+
+  /**
+   * JobOpening deleteMany
+   */
+  export type JobOpeningDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which JobOpenings to delete
+     */
+    where?: JobOpeningWhereInput
+    /**
+     * Limit how many JobOpenings to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * JobOpening.candidates
+   */
+  export type JobOpening$candidatesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Candidate
+     */
+    select?: CandidateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Candidate
+     */
+    omit?: CandidateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CandidateInclude<ExtArgs> | null
+    where?: CandidateWhereInput
+    orderBy?: CandidateOrderByWithRelationInput | CandidateOrderByWithRelationInput[]
+    cursor?: CandidateWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CandidateScalarFieldEnum | CandidateScalarFieldEnum[]
+  }
+
+  /**
+   * JobOpening without action
+   */
+  export type JobOpeningDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JobOpening
+     */
+    select?: JobOpeningSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JobOpening
+     */
+    omit?: JobOpeningOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobOpeningInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Candidate
+   */
+
+  export type AggregateCandidate = {
+    _count: CandidateCountAggregateOutputType | null
+    _avg: CandidateAvgAggregateOutputType | null
+    _sum: CandidateSumAggregateOutputType | null
+    _min: CandidateMinAggregateOutputType | null
+    _max: CandidateMaxAggregateOutputType | null
+  }
+
+  export type CandidateAvgAggregateOutputType = {
+    experienceYears: number | null
+    currentCtc: number | null
+    expectedCtc: number | null
+    noticePeriodDays: number | null
+    rating: number | null
+  }
+
+  export type CandidateSumAggregateOutputType = {
+    experienceYears: number | null
+    currentCtc: number | null
+    expectedCtc: number | null
+    noticePeriodDays: number | null
+    rating: number | null
+  }
+
+  export type CandidateMinAggregateOutputType = {
+    id: string | null
+    teamId: string | null
+    jobOpeningId: string | null
+    fullName: string | null
+    email: string | null
+    phone: string | null
+    stage: string | null
+    resumeUrl: string | null
+    portfolioUrl: string | null
+    experienceYears: number | null
+    currentCtc: number | null
+    expectedCtc: number | null
+    noticePeriodDays: number | null
+    rating: number | null
+    notes: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CandidateMaxAggregateOutputType = {
+    id: string | null
+    teamId: string | null
+    jobOpeningId: string | null
+    fullName: string | null
+    email: string | null
+    phone: string | null
+    stage: string | null
+    resumeUrl: string | null
+    portfolioUrl: string | null
+    experienceYears: number | null
+    currentCtc: number | null
+    expectedCtc: number | null
+    noticePeriodDays: number | null
+    rating: number | null
+    notes: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CandidateCountAggregateOutputType = {
+    id: number
+    teamId: number
+    jobOpeningId: number
+    fullName: number
+    email: number
+    phone: number
+    stage: number
+    resumeUrl: number
+    portfolioUrl: number
+    experienceYears: number
+    currentCtc: number
+    expectedCtc: number
+    noticePeriodDays: number
+    rating: number
+    notes: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type CandidateAvgAggregateInputType = {
+    experienceYears?: true
+    currentCtc?: true
+    expectedCtc?: true
+    noticePeriodDays?: true
+    rating?: true
+  }
+
+  export type CandidateSumAggregateInputType = {
+    experienceYears?: true
+    currentCtc?: true
+    expectedCtc?: true
+    noticePeriodDays?: true
+    rating?: true
+  }
+
+  export type CandidateMinAggregateInputType = {
+    id?: true
+    teamId?: true
+    jobOpeningId?: true
+    fullName?: true
+    email?: true
+    phone?: true
+    stage?: true
+    resumeUrl?: true
+    portfolioUrl?: true
+    experienceYears?: true
+    currentCtc?: true
+    expectedCtc?: true
+    noticePeriodDays?: true
+    rating?: true
+    notes?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CandidateMaxAggregateInputType = {
+    id?: true
+    teamId?: true
+    jobOpeningId?: true
+    fullName?: true
+    email?: true
+    phone?: true
+    stage?: true
+    resumeUrl?: true
+    portfolioUrl?: true
+    experienceYears?: true
+    currentCtc?: true
+    expectedCtc?: true
+    noticePeriodDays?: true
+    rating?: true
+    notes?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CandidateCountAggregateInputType = {
+    id?: true
+    teamId?: true
+    jobOpeningId?: true
+    fullName?: true
+    email?: true
+    phone?: true
+    stage?: true
+    resumeUrl?: true
+    portfolioUrl?: true
+    experienceYears?: true
+    currentCtc?: true
+    expectedCtc?: true
+    noticePeriodDays?: true
+    rating?: true
+    notes?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type CandidateAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Candidate to aggregate.
+     */
+    where?: CandidateWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Candidates to fetch.
+     */
+    orderBy?: CandidateOrderByWithRelationInput | CandidateOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CandidateWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Candidates from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Candidates.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Candidates
+    **/
+    _count?: true | CandidateCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: CandidateAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: CandidateSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CandidateMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CandidateMaxAggregateInputType
+  }
+
+  export type GetCandidateAggregateType<T extends CandidateAggregateArgs> = {
+        [P in keyof T & keyof AggregateCandidate]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCandidate[P]>
+      : GetScalarType<T[P], AggregateCandidate[P]>
+  }
+
+
+
+
+  export type CandidateGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CandidateWhereInput
+    orderBy?: CandidateOrderByWithAggregationInput | CandidateOrderByWithAggregationInput[]
+    by: CandidateScalarFieldEnum[] | CandidateScalarFieldEnum
+    having?: CandidateScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CandidateCountAggregateInputType | true
+    _avg?: CandidateAvgAggregateInputType
+    _sum?: CandidateSumAggregateInputType
+    _min?: CandidateMinAggregateInputType
+    _max?: CandidateMaxAggregateInputType
+  }
+
+  export type CandidateGroupByOutputType = {
+    id: string
+    teamId: string
+    jobOpeningId: string | null
+    fullName: string
+    email: string
+    phone: string | null
+    stage: string
+    resumeUrl: string | null
+    portfolioUrl: string | null
+    experienceYears: number | null
+    currentCtc: number | null
+    expectedCtc: number | null
+    noticePeriodDays: number | null
+    rating: number | null
+    notes: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: CandidateCountAggregateOutputType | null
+    _avg: CandidateAvgAggregateOutputType | null
+    _sum: CandidateSumAggregateOutputType | null
+    _min: CandidateMinAggregateOutputType | null
+    _max: CandidateMaxAggregateOutputType | null
+  }
+
+  type GetCandidateGroupByPayload<T extends CandidateGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CandidateGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CandidateGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CandidateGroupByOutputType[P]>
+            : GetScalarType<T[P], CandidateGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CandidateSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    teamId?: boolean
+    jobOpeningId?: boolean
+    fullName?: boolean
+    email?: boolean
+    phone?: boolean
+    stage?: boolean
+    resumeUrl?: boolean
+    portfolioUrl?: boolean
+    experienceYears?: boolean
+    currentCtc?: boolean
+    expectedCtc?: boolean
+    noticePeriodDays?: boolean
+    rating?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+    jobOpening?: boolean | Candidate$jobOpeningArgs<ExtArgs>
+  }, ExtArgs["result"]["candidate"]>
+
+  export type CandidateSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    teamId?: boolean
+    jobOpeningId?: boolean
+    fullName?: boolean
+    email?: boolean
+    phone?: boolean
+    stage?: boolean
+    resumeUrl?: boolean
+    portfolioUrl?: boolean
+    experienceYears?: boolean
+    currentCtc?: boolean
+    expectedCtc?: boolean
+    noticePeriodDays?: boolean
+    rating?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+    jobOpening?: boolean | Candidate$jobOpeningArgs<ExtArgs>
+  }, ExtArgs["result"]["candidate"]>
+
+  export type CandidateSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    teamId?: boolean
+    jobOpeningId?: boolean
+    fullName?: boolean
+    email?: boolean
+    phone?: boolean
+    stage?: boolean
+    resumeUrl?: boolean
+    portfolioUrl?: boolean
+    experienceYears?: boolean
+    currentCtc?: boolean
+    expectedCtc?: boolean
+    noticePeriodDays?: boolean
+    rating?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+    jobOpening?: boolean | Candidate$jobOpeningArgs<ExtArgs>
+  }, ExtArgs["result"]["candidate"]>
+
+  export type CandidateSelectScalar = {
+    id?: boolean
+    teamId?: boolean
+    jobOpeningId?: boolean
+    fullName?: boolean
+    email?: boolean
+    phone?: boolean
+    stage?: boolean
+    resumeUrl?: boolean
+    portfolioUrl?: boolean
+    experienceYears?: boolean
+    currentCtc?: boolean
+    expectedCtc?: boolean
+    noticePeriodDays?: boolean
+    rating?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type CandidateOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "teamId" | "jobOpeningId" | "fullName" | "email" | "phone" | "stage" | "resumeUrl" | "portfolioUrl" | "experienceYears" | "currentCtc" | "expectedCtc" | "noticePeriodDays" | "rating" | "notes" | "createdAt" | "updatedAt", ExtArgs["result"]["candidate"]>
+  export type CandidateInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+    jobOpening?: boolean | Candidate$jobOpeningArgs<ExtArgs>
+  }
+  export type CandidateIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+    jobOpening?: boolean | Candidate$jobOpeningArgs<ExtArgs>
+  }
+  export type CandidateIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+    jobOpening?: boolean | Candidate$jobOpeningArgs<ExtArgs>
+  }
+
+  export type $CandidatePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Candidate"
+    objects: {
+      team: Prisma.$TeamPayload<ExtArgs>
+      jobOpening: Prisma.$JobOpeningPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      teamId: string
+      jobOpeningId: string | null
+      fullName: string
+      email: string
+      phone: string | null
+      stage: string
+      resumeUrl: string | null
+      portfolioUrl: string | null
+      experienceYears: number | null
+      currentCtc: number | null
+      expectedCtc: number | null
+      noticePeriodDays: number | null
+      rating: number | null
+      notes: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["candidate"]>
+    composites: {}
+  }
+
+  type CandidateGetPayload<S extends boolean | null | undefined | CandidateDefaultArgs> = $Result.GetResult<Prisma.$CandidatePayload, S>
+
+  type CandidateCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<CandidateFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CandidateCountAggregateInputType | true
+    }
+
+  export interface CandidateDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Candidate'], meta: { name: 'Candidate' } }
+    /**
+     * Find zero or one Candidate that matches the filter.
+     * @param {CandidateFindUniqueArgs} args - Arguments to find a Candidate
+     * @example
+     * // Get one Candidate
+     * const candidate = await prisma.candidate.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CandidateFindUniqueArgs>(args: SelectSubset<T, CandidateFindUniqueArgs<ExtArgs>>): Prisma__CandidateClient<$Result.GetResult<Prisma.$CandidatePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Candidate that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {CandidateFindUniqueOrThrowArgs} args - Arguments to find a Candidate
+     * @example
+     * // Get one Candidate
+     * const candidate = await prisma.candidate.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CandidateFindUniqueOrThrowArgs>(args: SelectSubset<T, CandidateFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CandidateClient<$Result.GetResult<Prisma.$CandidatePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Candidate that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CandidateFindFirstArgs} args - Arguments to find a Candidate
+     * @example
+     * // Get one Candidate
+     * const candidate = await prisma.candidate.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CandidateFindFirstArgs>(args?: SelectSubset<T, CandidateFindFirstArgs<ExtArgs>>): Prisma__CandidateClient<$Result.GetResult<Prisma.$CandidatePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Candidate that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CandidateFindFirstOrThrowArgs} args - Arguments to find a Candidate
+     * @example
+     * // Get one Candidate
+     * const candidate = await prisma.candidate.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CandidateFindFirstOrThrowArgs>(args?: SelectSubset<T, CandidateFindFirstOrThrowArgs<ExtArgs>>): Prisma__CandidateClient<$Result.GetResult<Prisma.$CandidatePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Candidates that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CandidateFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Candidates
+     * const candidates = await prisma.candidate.findMany()
+     * 
+     * // Get first 10 Candidates
+     * const candidates = await prisma.candidate.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const candidateWithIdOnly = await prisma.candidate.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CandidateFindManyArgs>(args?: SelectSubset<T, CandidateFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CandidatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Candidate.
+     * @param {CandidateCreateArgs} args - Arguments to create a Candidate.
+     * @example
+     * // Create one Candidate
+     * const Candidate = await prisma.candidate.create({
+     *   data: {
+     *     // ... data to create a Candidate
+     *   }
+     * })
+     * 
+     */
+    create<T extends CandidateCreateArgs>(args: SelectSubset<T, CandidateCreateArgs<ExtArgs>>): Prisma__CandidateClient<$Result.GetResult<Prisma.$CandidatePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Candidates.
+     * @param {CandidateCreateManyArgs} args - Arguments to create many Candidates.
+     * @example
+     * // Create many Candidates
+     * const candidate = await prisma.candidate.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CandidateCreateManyArgs>(args?: SelectSubset<T, CandidateCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Candidates and returns the data saved in the database.
+     * @param {CandidateCreateManyAndReturnArgs} args - Arguments to create many Candidates.
+     * @example
+     * // Create many Candidates
+     * const candidate = await prisma.candidate.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Candidates and only return the `id`
+     * const candidateWithIdOnly = await prisma.candidate.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CandidateCreateManyAndReturnArgs>(args?: SelectSubset<T, CandidateCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CandidatePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Candidate.
+     * @param {CandidateDeleteArgs} args - Arguments to delete one Candidate.
+     * @example
+     * // Delete one Candidate
+     * const Candidate = await prisma.candidate.delete({
+     *   where: {
+     *     // ... filter to delete one Candidate
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CandidateDeleteArgs>(args: SelectSubset<T, CandidateDeleteArgs<ExtArgs>>): Prisma__CandidateClient<$Result.GetResult<Prisma.$CandidatePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Candidate.
+     * @param {CandidateUpdateArgs} args - Arguments to update one Candidate.
+     * @example
+     * // Update one Candidate
+     * const candidate = await prisma.candidate.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CandidateUpdateArgs>(args: SelectSubset<T, CandidateUpdateArgs<ExtArgs>>): Prisma__CandidateClient<$Result.GetResult<Prisma.$CandidatePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Candidates.
+     * @param {CandidateDeleteManyArgs} args - Arguments to filter Candidates to delete.
+     * @example
+     * // Delete a few Candidates
+     * const { count } = await prisma.candidate.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CandidateDeleteManyArgs>(args?: SelectSubset<T, CandidateDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Candidates.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CandidateUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Candidates
+     * const candidate = await prisma.candidate.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CandidateUpdateManyArgs>(args: SelectSubset<T, CandidateUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Candidates and returns the data updated in the database.
+     * @param {CandidateUpdateManyAndReturnArgs} args - Arguments to update many Candidates.
+     * @example
+     * // Update many Candidates
+     * const candidate = await prisma.candidate.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Candidates and only return the `id`
+     * const candidateWithIdOnly = await prisma.candidate.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends CandidateUpdateManyAndReturnArgs>(args: SelectSubset<T, CandidateUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CandidatePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Candidate.
+     * @param {CandidateUpsertArgs} args - Arguments to update or create a Candidate.
+     * @example
+     * // Update or create a Candidate
+     * const candidate = await prisma.candidate.upsert({
+     *   create: {
+     *     // ... data to create a Candidate
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Candidate we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CandidateUpsertArgs>(args: SelectSubset<T, CandidateUpsertArgs<ExtArgs>>): Prisma__CandidateClient<$Result.GetResult<Prisma.$CandidatePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Candidates.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CandidateCountArgs} args - Arguments to filter Candidates to count.
+     * @example
+     * // Count the number of Candidates
+     * const count = await prisma.candidate.count({
+     *   where: {
+     *     // ... the filter for the Candidates we want to count
+     *   }
+     * })
+    **/
+    count<T extends CandidateCountArgs>(
+      args?: Subset<T, CandidateCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CandidateCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Candidate.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CandidateAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CandidateAggregateArgs>(args: Subset<T, CandidateAggregateArgs>): Prisma.PrismaPromise<GetCandidateAggregateType<T>>
+
+    /**
+     * Group by Candidate.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CandidateGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CandidateGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CandidateGroupByArgs['orderBy'] }
+        : { orderBy?: CandidateGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CandidateGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCandidateGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Candidate model
+   */
+  readonly fields: CandidateFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Candidate.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CandidateClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    team<T extends TeamDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TeamDefaultArgs<ExtArgs>>): Prisma__TeamClient<$Result.GetResult<Prisma.$TeamPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    jobOpening<T extends Candidate$jobOpeningArgs<ExtArgs> = {}>(args?: Subset<T, Candidate$jobOpeningArgs<ExtArgs>>): Prisma__JobOpeningClient<$Result.GetResult<Prisma.$JobOpeningPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Candidate model
+   */
+  interface CandidateFieldRefs {
+    readonly id: FieldRef<"Candidate", 'String'>
+    readonly teamId: FieldRef<"Candidate", 'String'>
+    readonly jobOpeningId: FieldRef<"Candidate", 'String'>
+    readonly fullName: FieldRef<"Candidate", 'String'>
+    readonly email: FieldRef<"Candidate", 'String'>
+    readonly phone: FieldRef<"Candidate", 'String'>
+    readonly stage: FieldRef<"Candidate", 'String'>
+    readonly resumeUrl: FieldRef<"Candidate", 'String'>
+    readonly portfolioUrl: FieldRef<"Candidate", 'String'>
+    readonly experienceYears: FieldRef<"Candidate", 'Float'>
+    readonly currentCtc: FieldRef<"Candidate", 'Float'>
+    readonly expectedCtc: FieldRef<"Candidate", 'Float'>
+    readonly noticePeriodDays: FieldRef<"Candidate", 'Int'>
+    readonly rating: FieldRef<"Candidate", 'Int'>
+    readonly notes: FieldRef<"Candidate", 'String'>
+    readonly createdAt: FieldRef<"Candidate", 'DateTime'>
+    readonly updatedAt: FieldRef<"Candidate", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Candidate findUnique
+   */
+  export type CandidateFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Candidate
+     */
+    select?: CandidateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Candidate
+     */
+    omit?: CandidateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CandidateInclude<ExtArgs> | null
+    /**
+     * Filter, which Candidate to fetch.
+     */
+    where: CandidateWhereUniqueInput
+  }
+
+  /**
+   * Candidate findUniqueOrThrow
+   */
+  export type CandidateFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Candidate
+     */
+    select?: CandidateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Candidate
+     */
+    omit?: CandidateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CandidateInclude<ExtArgs> | null
+    /**
+     * Filter, which Candidate to fetch.
+     */
+    where: CandidateWhereUniqueInput
+  }
+
+  /**
+   * Candidate findFirst
+   */
+  export type CandidateFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Candidate
+     */
+    select?: CandidateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Candidate
+     */
+    omit?: CandidateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CandidateInclude<ExtArgs> | null
+    /**
+     * Filter, which Candidate to fetch.
+     */
+    where?: CandidateWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Candidates to fetch.
+     */
+    orderBy?: CandidateOrderByWithRelationInput | CandidateOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Candidates.
+     */
+    cursor?: CandidateWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Candidates from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Candidates.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Candidates.
+     */
+    distinct?: CandidateScalarFieldEnum | CandidateScalarFieldEnum[]
+  }
+
+  /**
+   * Candidate findFirstOrThrow
+   */
+  export type CandidateFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Candidate
+     */
+    select?: CandidateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Candidate
+     */
+    omit?: CandidateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CandidateInclude<ExtArgs> | null
+    /**
+     * Filter, which Candidate to fetch.
+     */
+    where?: CandidateWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Candidates to fetch.
+     */
+    orderBy?: CandidateOrderByWithRelationInput | CandidateOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Candidates.
+     */
+    cursor?: CandidateWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Candidates from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Candidates.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Candidates.
+     */
+    distinct?: CandidateScalarFieldEnum | CandidateScalarFieldEnum[]
+  }
+
+  /**
+   * Candidate findMany
+   */
+  export type CandidateFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Candidate
+     */
+    select?: CandidateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Candidate
+     */
+    omit?: CandidateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CandidateInclude<ExtArgs> | null
+    /**
+     * Filter, which Candidates to fetch.
+     */
+    where?: CandidateWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Candidates to fetch.
+     */
+    orderBy?: CandidateOrderByWithRelationInput | CandidateOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Candidates.
+     */
+    cursor?: CandidateWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Candidates from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Candidates.
+     */
+    skip?: number
+    distinct?: CandidateScalarFieldEnum | CandidateScalarFieldEnum[]
+  }
+
+  /**
+   * Candidate create
+   */
+  export type CandidateCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Candidate
+     */
+    select?: CandidateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Candidate
+     */
+    omit?: CandidateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CandidateInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Candidate.
+     */
+    data: XOR<CandidateCreateInput, CandidateUncheckedCreateInput>
+  }
+
+  /**
+   * Candidate createMany
+   */
+  export type CandidateCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Candidates.
+     */
+    data: CandidateCreateManyInput | CandidateCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Candidate createManyAndReturn
+   */
+  export type CandidateCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Candidate
+     */
+    select?: CandidateSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Candidate
+     */
+    omit?: CandidateOmit<ExtArgs> | null
+    /**
+     * The data used to create many Candidates.
+     */
+    data: CandidateCreateManyInput | CandidateCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CandidateIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Candidate update
+   */
+  export type CandidateUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Candidate
+     */
+    select?: CandidateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Candidate
+     */
+    omit?: CandidateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CandidateInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Candidate.
+     */
+    data: XOR<CandidateUpdateInput, CandidateUncheckedUpdateInput>
+    /**
+     * Choose, which Candidate to update.
+     */
+    where: CandidateWhereUniqueInput
+  }
+
+  /**
+   * Candidate updateMany
+   */
+  export type CandidateUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Candidates.
+     */
+    data: XOR<CandidateUpdateManyMutationInput, CandidateUncheckedUpdateManyInput>
+    /**
+     * Filter which Candidates to update
+     */
+    where?: CandidateWhereInput
+    /**
+     * Limit how many Candidates to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Candidate updateManyAndReturn
+   */
+  export type CandidateUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Candidate
+     */
+    select?: CandidateSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Candidate
+     */
+    omit?: CandidateOmit<ExtArgs> | null
+    /**
+     * The data used to update Candidates.
+     */
+    data: XOR<CandidateUpdateManyMutationInput, CandidateUncheckedUpdateManyInput>
+    /**
+     * Filter which Candidates to update
+     */
+    where?: CandidateWhereInput
+    /**
+     * Limit how many Candidates to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CandidateIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Candidate upsert
+   */
+  export type CandidateUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Candidate
+     */
+    select?: CandidateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Candidate
+     */
+    omit?: CandidateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CandidateInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Candidate to update in case it exists.
+     */
+    where: CandidateWhereUniqueInput
+    /**
+     * In case the Candidate found by the `where` argument doesn't exist, create a new Candidate with this data.
+     */
+    create: XOR<CandidateCreateInput, CandidateUncheckedCreateInput>
+    /**
+     * In case the Candidate was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CandidateUpdateInput, CandidateUncheckedUpdateInput>
+  }
+
+  /**
+   * Candidate delete
+   */
+  export type CandidateDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Candidate
+     */
+    select?: CandidateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Candidate
+     */
+    omit?: CandidateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CandidateInclude<ExtArgs> | null
+    /**
+     * Filter which Candidate to delete.
+     */
+    where: CandidateWhereUniqueInput
+  }
+
+  /**
+   * Candidate deleteMany
+   */
+  export type CandidateDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Candidates to delete
+     */
+    where?: CandidateWhereInput
+    /**
+     * Limit how many Candidates to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Candidate.jobOpening
+   */
+  export type Candidate$jobOpeningArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JobOpening
+     */
+    select?: JobOpeningSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JobOpening
+     */
+    omit?: JobOpeningOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobOpeningInclude<ExtArgs> | null
+    where?: JobOpeningWhereInput
+  }
+
+  /**
+   * Candidate without action
+   */
+  export type CandidateDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Candidate
+     */
+    select?: CandidateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Candidate
+     */
+    omit?: CandidateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CandidateInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -83699,6 +91967,122 @@ export namespace Prisma {
   export type RateCardScalarFieldEnum = (typeof RateCardScalarFieldEnum)[keyof typeof RateCardScalarFieldEnum]
 
 
+  export const LeaveRequestScalarFieldEnum: {
+    id: 'id',
+    teamId: 'teamId',
+    employeeId: 'employeeId',
+    userId: 'userId',
+    leaveType: 'leaveType',
+    startDate: 'startDate',
+    endDate: 'endDate',
+    totalDays: 'totalDays',
+    reason: 'reason',
+    status: 'status',
+    approvedBy: 'approvedBy',
+    approvedAt: 'approvedAt',
+    rejectionReason: 'rejectionReason',
+    emergencyContact: 'emergencyContact',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type LeaveRequestScalarFieldEnum = (typeof LeaveRequestScalarFieldEnum)[keyof typeof LeaveRequestScalarFieldEnum]
+
+
+  export const LeaveBalanceScalarFieldEnum: {
+    id: 'id',
+    teamId: 'teamId',
+    employeeId: 'employeeId',
+    year: 'year',
+    casualTotal: 'casualTotal',
+    casualUsed: 'casualUsed',
+    sickTotal: 'sickTotal',
+    sickUsed: 'sickUsed',
+    paidTotal: 'paidTotal',
+    paidUsed: 'paidUsed',
+    unpaidUsed: 'unpaidUsed',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type LeaveBalanceScalarFieldEnum = (typeof LeaveBalanceScalarFieldEnum)[keyof typeof LeaveBalanceScalarFieldEnum]
+
+
+  export const AttendanceScalarFieldEnum: {
+    id: 'id',
+    teamId: 'teamId',
+    employeeId: 'employeeId',
+    userId: 'userId',
+    date: 'date',
+    checkInTime: 'checkInTime',
+    checkOutTime: 'checkOutTime',
+    workMode: 'workMode',
+    status: 'status',
+    totalHours: 'totalHours',
+    notes: 'notes',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type AttendanceScalarFieldEnum = (typeof AttendanceScalarFieldEnum)[keyof typeof AttendanceScalarFieldEnum]
+
+
+  export const OnboardingChecklistScalarFieldEnum: {
+    id: 'id',
+    teamId: 'teamId',
+    employeeId: 'employeeId',
+    type: 'type',
+    title: 'title',
+    items: 'items',
+    isCompleted: 'isCompleted',
+    completedAt: 'completedAt',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type OnboardingChecklistScalarFieldEnum = (typeof OnboardingChecklistScalarFieldEnum)[keyof typeof OnboardingChecklistScalarFieldEnum]
+
+
+  export const JobOpeningScalarFieldEnum: {
+    id: 'id',
+    teamId: 'teamId',
+    title: 'title',
+    department: 'department',
+    location: 'location',
+    type: 'type',
+    status: 'status',
+    openingsCount: 'openingsCount',
+    description: 'description',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type JobOpeningScalarFieldEnum = (typeof JobOpeningScalarFieldEnum)[keyof typeof JobOpeningScalarFieldEnum]
+
+
+  export const CandidateScalarFieldEnum: {
+    id: 'id',
+    teamId: 'teamId',
+    jobOpeningId: 'jobOpeningId',
+    fullName: 'fullName',
+    email: 'email',
+    phone: 'phone',
+    stage: 'stage',
+    resumeUrl: 'resumeUrl',
+    portfolioUrl: 'portfolioUrl',
+    experienceYears: 'experienceYears',
+    currentCtc: 'currentCtc',
+    expectedCtc: 'expectedCtc',
+    noticePeriodDays: 'noticePeriodDays',
+    rating: 'rating',
+    notes: 'notes',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type CandidateScalarFieldEnum = (typeof CandidateScalarFieldEnum)[keyof typeof CandidateScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -83713,6 +92097,13 @@ export namespace Prisma {
   };
 
   export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
+  export const JsonNullValueInput: {
+    JsonNull: typeof JsonNull
+  };
+
+  export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
   export const QueryMode: {
@@ -83936,6 +92327,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryListRelationFilter
     resourceAllocations?: ResourceAllocationListRelationFilter
     rateCards?: RateCardListRelationFilter
+    leaveRequests?: LeaveRequestListRelationFilter
+    leaveBalances?: LeaveBalanceListRelationFilter
+    attendances?: AttendanceListRelationFilter
+    onboardingChecklists?: OnboardingChecklistListRelationFilter
+    jobOpenings?: JobOpeningListRelationFilter
+    candidates?: CandidateListRelationFilter
   }
 
   export type TeamOrderByWithRelationInput = {
@@ -83976,6 +92373,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryOrderByRelationAggregateInput
     resourceAllocations?: ResourceAllocationOrderByRelationAggregateInput
     rateCards?: RateCardOrderByRelationAggregateInput
+    leaveRequests?: LeaveRequestOrderByRelationAggregateInput
+    leaveBalances?: LeaveBalanceOrderByRelationAggregateInput
+    attendances?: AttendanceOrderByRelationAggregateInput
+    onboardingChecklists?: OnboardingChecklistOrderByRelationAggregateInput
+    jobOpenings?: JobOpeningOrderByRelationAggregateInput
+    candidates?: CandidateOrderByRelationAggregateInput
   }
 
   export type TeamWhereUniqueInput = Prisma.AtLeast<{
@@ -84019,6 +92422,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryListRelationFilter
     resourceAllocations?: ResourceAllocationListRelationFilter
     rateCards?: RateCardListRelationFilter
+    leaveRequests?: LeaveRequestListRelationFilter
+    leaveBalances?: LeaveBalanceListRelationFilter
+    attendances?: AttendanceListRelationFilter
+    onboardingChecklists?: OnboardingChecklistListRelationFilter
+    jobOpenings?: JobOpeningListRelationFilter
+    candidates?: CandidateListRelationFilter
   }, "id" | "key">
 
   export type TeamOrderByWithAggregationInput = {
@@ -89079,6 +97488,10 @@ export namespace Prisma {
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     role?: XOR<RoleScalarRelationFilter, RoleWhereInput>
     team?: XOR<TeamScalarRelationFilter, TeamWhereInput>
+    leaveRequests?: LeaveRequestListRelationFilter
+    leaveBalances?: LeaveBalanceListRelationFilter
+    attendances?: AttendanceListRelationFilter
+    onboardingChecklists?: OnboardingChecklistListRelationFilter
   }
 
   export type EmployeeOrderByWithRelationInput = {
@@ -89107,6 +97520,10 @@ export namespace Prisma {
     user?: UserOrderByWithRelationInput
     role?: RoleOrderByWithRelationInput
     team?: TeamOrderByWithRelationInput
+    leaveRequests?: LeaveRequestOrderByRelationAggregateInput
+    leaveBalances?: LeaveBalanceOrderByRelationAggregateInput
+    attendances?: AttendanceOrderByRelationAggregateInput
+    onboardingChecklists?: OnboardingChecklistOrderByRelationAggregateInput
   }
 
   export type EmployeeWhereUniqueInput = Prisma.AtLeast<{
@@ -89138,6 +97555,10 @@ export namespace Prisma {
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     role?: XOR<RoleScalarRelationFilter, RoleWhereInput>
     team?: XOR<TeamScalarRelationFilter, TeamWhereInput>
+    leaveRequests?: LeaveRequestListRelationFilter
+    leaveBalances?: LeaveBalanceListRelationFilter
+    attendances?: AttendanceListRelationFilter
+    onboardingChecklists?: OnboardingChecklistListRelationFilter
   }, "id" | "userId" | "email" | "employeeCode">
 
   export type EmployeeOrderByWithAggregationInput = {
@@ -89625,6 +98046,616 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"RateCard"> | Date | string
   }
 
+  export type LeaveRequestWhereInput = {
+    AND?: LeaveRequestWhereInput | LeaveRequestWhereInput[]
+    OR?: LeaveRequestWhereInput[]
+    NOT?: LeaveRequestWhereInput | LeaveRequestWhereInput[]
+    id?: StringFilter<"LeaveRequest"> | string
+    teamId?: StringFilter<"LeaveRequest"> | string
+    employeeId?: StringFilter<"LeaveRequest"> | string
+    userId?: StringFilter<"LeaveRequest"> | string
+    leaveType?: StringFilter<"LeaveRequest"> | string
+    startDate?: DateTimeFilter<"LeaveRequest"> | Date | string
+    endDate?: DateTimeFilter<"LeaveRequest"> | Date | string
+    totalDays?: FloatFilter<"LeaveRequest"> | number
+    reason?: StringFilter<"LeaveRequest"> | string
+    status?: StringFilter<"LeaveRequest"> | string
+    approvedBy?: StringNullableFilter<"LeaveRequest"> | string | null
+    approvedAt?: DateTimeNullableFilter<"LeaveRequest"> | Date | string | null
+    rejectionReason?: StringNullableFilter<"LeaveRequest"> | string | null
+    emergencyContact?: StringNullableFilter<"LeaveRequest"> | string | null
+    createdAt?: DateTimeFilter<"LeaveRequest"> | Date | string
+    updatedAt?: DateTimeFilter<"LeaveRequest"> | Date | string
+    team?: XOR<TeamScalarRelationFilter, TeamWhereInput>
+    employee?: XOR<EmployeeScalarRelationFilter, EmployeeWhereInput>
+  }
+
+  export type LeaveRequestOrderByWithRelationInput = {
+    id?: SortOrder
+    teamId?: SortOrder
+    employeeId?: SortOrder
+    userId?: SortOrder
+    leaveType?: SortOrder
+    startDate?: SortOrder
+    endDate?: SortOrder
+    totalDays?: SortOrder
+    reason?: SortOrder
+    status?: SortOrder
+    approvedBy?: SortOrderInput | SortOrder
+    approvedAt?: SortOrderInput | SortOrder
+    rejectionReason?: SortOrderInput | SortOrder
+    emergencyContact?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    team?: TeamOrderByWithRelationInput
+    employee?: EmployeeOrderByWithRelationInput
+  }
+
+  export type LeaveRequestWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: LeaveRequestWhereInput | LeaveRequestWhereInput[]
+    OR?: LeaveRequestWhereInput[]
+    NOT?: LeaveRequestWhereInput | LeaveRequestWhereInput[]
+    teamId?: StringFilter<"LeaveRequest"> | string
+    employeeId?: StringFilter<"LeaveRequest"> | string
+    userId?: StringFilter<"LeaveRequest"> | string
+    leaveType?: StringFilter<"LeaveRequest"> | string
+    startDate?: DateTimeFilter<"LeaveRequest"> | Date | string
+    endDate?: DateTimeFilter<"LeaveRequest"> | Date | string
+    totalDays?: FloatFilter<"LeaveRequest"> | number
+    reason?: StringFilter<"LeaveRequest"> | string
+    status?: StringFilter<"LeaveRequest"> | string
+    approvedBy?: StringNullableFilter<"LeaveRequest"> | string | null
+    approvedAt?: DateTimeNullableFilter<"LeaveRequest"> | Date | string | null
+    rejectionReason?: StringNullableFilter<"LeaveRequest"> | string | null
+    emergencyContact?: StringNullableFilter<"LeaveRequest"> | string | null
+    createdAt?: DateTimeFilter<"LeaveRequest"> | Date | string
+    updatedAt?: DateTimeFilter<"LeaveRequest"> | Date | string
+    team?: XOR<TeamScalarRelationFilter, TeamWhereInput>
+    employee?: XOR<EmployeeScalarRelationFilter, EmployeeWhereInput>
+  }, "id">
+
+  export type LeaveRequestOrderByWithAggregationInput = {
+    id?: SortOrder
+    teamId?: SortOrder
+    employeeId?: SortOrder
+    userId?: SortOrder
+    leaveType?: SortOrder
+    startDate?: SortOrder
+    endDate?: SortOrder
+    totalDays?: SortOrder
+    reason?: SortOrder
+    status?: SortOrder
+    approvedBy?: SortOrderInput | SortOrder
+    approvedAt?: SortOrderInput | SortOrder
+    rejectionReason?: SortOrderInput | SortOrder
+    emergencyContact?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: LeaveRequestCountOrderByAggregateInput
+    _avg?: LeaveRequestAvgOrderByAggregateInput
+    _max?: LeaveRequestMaxOrderByAggregateInput
+    _min?: LeaveRequestMinOrderByAggregateInput
+    _sum?: LeaveRequestSumOrderByAggregateInput
+  }
+
+  export type LeaveRequestScalarWhereWithAggregatesInput = {
+    AND?: LeaveRequestScalarWhereWithAggregatesInput | LeaveRequestScalarWhereWithAggregatesInput[]
+    OR?: LeaveRequestScalarWhereWithAggregatesInput[]
+    NOT?: LeaveRequestScalarWhereWithAggregatesInput | LeaveRequestScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"LeaveRequest"> | string
+    teamId?: StringWithAggregatesFilter<"LeaveRequest"> | string
+    employeeId?: StringWithAggregatesFilter<"LeaveRequest"> | string
+    userId?: StringWithAggregatesFilter<"LeaveRequest"> | string
+    leaveType?: StringWithAggregatesFilter<"LeaveRequest"> | string
+    startDate?: DateTimeWithAggregatesFilter<"LeaveRequest"> | Date | string
+    endDate?: DateTimeWithAggregatesFilter<"LeaveRequest"> | Date | string
+    totalDays?: FloatWithAggregatesFilter<"LeaveRequest"> | number
+    reason?: StringWithAggregatesFilter<"LeaveRequest"> | string
+    status?: StringWithAggregatesFilter<"LeaveRequest"> | string
+    approvedBy?: StringNullableWithAggregatesFilter<"LeaveRequest"> | string | null
+    approvedAt?: DateTimeNullableWithAggregatesFilter<"LeaveRequest"> | Date | string | null
+    rejectionReason?: StringNullableWithAggregatesFilter<"LeaveRequest"> | string | null
+    emergencyContact?: StringNullableWithAggregatesFilter<"LeaveRequest"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"LeaveRequest"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"LeaveRequest"> | Date | string
+  }
+
+  export type LeaveBalanceWhereInput = {
+    AND?: LeaveBalanceWhereInput | LeaveBalanceWhereInput[]
+    OR?: LeaveBalanceWhereInput[]
+    NOT?: LeaveBalanceWhereInput | LeaveBalanceWhereInput[]
+    id?: StringFilter<"LeaveBalance"> | string
+    teamId?: StringFilter<"LeaveBalance"> | string
+    employeeId?: StringFilter<"LeaveBalance"> | string
+    year?: IntFilter<"LeaveBalance"> | number
+    casualTotal?: FloatFilter<"LeaveBalance"> | number
+    casualUsed?: FloatFilter<"LeaveBalance"> | number
+    sickTotal?: FloatFilter<"LeaveBalance"> | number
+    sickUsed?: FloatFilter<"LeaveBalance"> | number
+    paidTotal?: FloatFilter<"LeaveBalance"> | number
+    paidUsed?: FloatFilter<"LeaveBalance"> | number
+    unpaidUsed?: FloatFilter<"LeaveBalance"> | number
+    createdAt?: DateTimeFilter<"LeaveBalance"> | Date | string
+    updatedAt?: DateTimeFilter<"LeaveBalance"> | Date | string
+    team?: XOR<TeamScalarRelationFilter, TeamWhereInput>
+    employee?: XOR<EmployeeScalarRelationFilter, EmployeeWhereInput>
+  }
+
+  export type LeaveBalanceOrderByWithRelationInput = {
+    id?: SortOrder
+    teamId?: SortOrder
+    employeeId?: SortOrder
+    year?: SortOrder
+    casualTotal?: SortOrder
+    casualUsed?: SortOrder
+    sickTotal?: SortOrder
+    sickUsed?: SortOrder
+    paidTotal?: SortOrder
+    paidUsed?: SortOrder
+    unpaidUsed?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    team?: TeamOrderByWithRelationInput
+    employee?: EmployeeOrderByWithRelationInput
+  }
+
+  export type LeaveBalanceWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    employeeId_year?: LeaveBalanceEmployeeIdYearCompoundUniqueInput
+    AND?: LeaveBalanceWhereInput | LeaveBalanceWhereInput[]
+    OR?: LeaveBalanceWhereInput[]
+    NOT?: LeaveBalanceWhereInput | LeaveBalanceWhereInput[]
+    teamId?: StringFilter<"LeaveBalance"> | string
+    employeeId?: StringFilter<"LeaveBalance"> | string
+    year?: IntFilter<"LeaveBalance"> | number
+    casualTotal?: FloatFilter<"LeaveBalance"> | number
+    casualUsed?: FloatFilter<"LeaveBalance"> | number
+    sickTotal?: FloatFilter<"LeaveBalance"> | number
+    sickUsed?: FloatFilter<"LeaveBalance"> | number
+    paidTotal?: FloatFilter<"LeaveBalance"> | number
+    paidUsed?: FloatFilter<"LeaveBalance"> | number
+    unpaidUsed?: FloatFilter<"LeaveBalance"> | number
+    createdAt?: DateTimeFilter<"LeaveBalance"> | Date | string
+    updatedAt?: DateTimeFilter<"LeaveBalance"> | Date | string
+    team?: XOR<TeamScalarRelationFilter, TeamWhereInput>
+    employee?: XOR<EmployeeScalarRelationFilter, EmployeeWhereInput>
+  }, "id" | "employeeId_year">
+
+  export type LeaveBalanceOrderByWithAggregationInput = {
+    id?: SortOrder
+    teamId?: SortOrder
+    employeeId?: SortOrder
+    year?: SortOrder
+    casualTotal?: SortOrder
+    casualUsed?: SortOrder
+    sickTotal?: SortOrder
+    sickUsed?: SortOrder
+    paidTotal?: SortOrder
+    paidUsed?: SortOrder
+    unpaidUsed?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: LeaveBalanceCountOrderByAggregateInput
+    _avg?: LeaveBalanceAvgOrderByAggregateInput
+    _max?: LeaveBalanceMaxOrderByAggregateInput
+    _min?: LeaveBalanceMinOrderByAggregateInput
+    _sum?: LeaveBalanceSumOrderByAggregateInput
+  }
+
+  export type LeaveBalanceScalarWhereWithAggregatesInput = {
+    AND?: LeaveBalanceScalarWhereWithAggregatesInput | LeaveBalanceScalarWhereWithAggregatesInput[]
+    OR?: LeaveBalanceScalarWhereWithAggregatesInput[]
+    NOT?: LeaveBalanceScalarWhereWithAggregatesInput | LeaveBalanceScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"LeaveBalance"> | string
+    teamId?: StringWithAggregatesFilter<"LeaveBalance"> | string
+    employeeId?: StringWithAggregatesFilter<"LeaveBalance"> | string
+    year?: IntWithAggregatesFilter<"LeaveBalance"> | number
+    casualTotal?: FloatWithAggregatesFilter<"LeaveBalance"> | number
+    casualUsed?: FloatWithAggregatesFilter<"LeaveBalance"> | number
+    sickTotal?: FloatWithAggregatesFilter<"LeaveBalance"> | number
+    sickUsed?: FloatWithAggregatesFilter<"LeaveBalance"> | number
+    paidTotal?: FloatWithAggregatesFilter<"LeaveBalance"> | number
+    paidUsed?: FloatWithAggregatesFilter<"LeaveBalance"> | number
+    unpaidUsed?: FloatWithAggregatesFilter<"LeaveBalance"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"LeaveBalance"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"LeaveBalance"> | Date | string
+  }
+
+  export type AttendanceWhereInput = {
+    AND?: AttendanceWhereInput | AttendanceWhereInput[]
+    OR?: AttendanceWhereInput[]
+    NOT?: AttendanceWhereInput | AttendanceWhereInput[]
+    id?: StringFilter<"Attendance"> | string
+    teamId?: StringFilter<"Attendance"> | string
+    employeeId?: StringFilter<"Attendance"> | string
+    userId?: StringFilter<"Attendance"> | string
+    date?: DateTimeFilter<"Attendance"> | Date | string
+    checkInTime?: DateTimeFilter<"Attendance"> | Date | string
+    checkOutTime?: DateTimeNullableFilter<"Attendance"> | Date | string | null
+    workMode?: StringFilter<"Attendance"> | string
+    status?: StringFilter<"Attendance"> | string
+    totalHours?: FloatNullableFilter<"Attendance"> | number | null
+    notes?: StringNullableFilter<"Attendance"> | string | null
+    createdAt?: DateTimeFilter<"Attendance"> | Date | string
+    updatedAt?: DateTimeFilter<"Attendance"> | Date | string
+    team?: XOR<TeamScalarRelationFilter, TeamWhereInput>
+    employee?: XOR<EmployeeScalarRelationFilter, EmployeeWhereInput>
+  }
+
+  export type AttendanceOrderByWithRelationInput = {
+    id?: SortOrder
+    teamId?: SortOrder
+    employeeId?: SortOrder
+    userId?: SortOrder
+    date?: SortOrder
+    checkInTime?: SortOrder
+    checkOutTime?: SortOrderInput | SortOrder
+    workMode?: SortOrder
+    status?: SortOrder
+    totalHours?: SortOrderInput | SortOrder
+    notes?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    team?: TeamOrderByWithRelationInput
+    employee?: EmployeeOrderByWithRelationInput
+  }
+
+  export type AttendanceWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    employeeId_date?: AttendanceEmployeeIdDateCompoundUniqueInput
+    AND?: AttendanceWhereInput | AttendanceWhereInput[]
+    OR?: AttendanceWhereInput[]
+    NOT?: AttendanceWhereInput | AttendanceWhereInput[]
+    teamId?: StringFilter<"Attendance"> | string
+    employeeId?: StringFilter<"Attendance"> | string
+    userId?: StringFilter<"Attendance"> | string
+    date?: DateTimeFilter<"Attendance"> | Date | string
+    checkInTime?: DateTimeFilter<"Attendance"> | Date | string
+    checkOutTime?: DateTimeNullableFilter<"Attendance"> | Date | string | null
+    workMode?: StringFilter<"Attendance"> | string
+    status?: StringFilter<"Attendance"> | string
+    totalHours?: FloatNullableFilter<"Attendance"> | number | null
+    notes?: StringNullableFilter<"Attendance"> | string | null
+    createdAt?: DateTimeFilter<"Attendance"> | Date | string
+    updatedAt?: DateTimeFilter<"Attendance"> | Date | string
+    team?: XOR<TeamScalarRelationFilter, TeamWhereInput>
+    employee?: XOR<EmployeeScalarRelationFilter, EmployeeWhereInput>
+  }, "id" | "employeeId_date">
+
+  export type AttendanceOrderByWithAggregationInput = {
+    id?: SortOrder
+    teamId?: SortOrder
+    employeeId?: SortOrder
+    userId?: SortOrder
+    date?: SortOrder
+    checkInTime?: SortOrder
+    checkOutTime?: SortOrderInput | SortOrder
+    workMode?: SortOrder
+    status?: SortOrder
+    totalHours?: SortOrderInput | SortOrder
+    notes?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: AttendanceCountOrderByAggregateInput
+    _avg?: AttendanceAvgOrderByAggregateInput
+    _max?: AttendanceMaxOrderByAggregateInput
+    _min?: AttendanceMinOrderByAggregateInput
+    _sum?: AttendanceSumOrderByAggregateInput
+  }
+
+  export type AttendanceScalarWhereWithAggregatesInput = {
+    AND?: AttendanceScalarWhereWithAggregatesInput | AttendanceScalarWhereWithAggregatesInput[]
+    OR?: AttendanceScalarWhereWithAggregatesInput[]
+    NOT?: AttendanceScalarWhereWithAggregatesInput | AttendanceScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Attendance"> | string
+    teamId?: StringWithAggregatesFilter<"Attendance"> | string
+    employeeId?: StringWithAggregatesFilter<"Attendance"> | string
+    userId?: StringWithAggregatesFilter<"Attendance"> | string
+    date?: DateTimeWithAggregatesFilter<"Attendance"> | Date | string
+    checkInTime?: DateTimeWithAggregatesFilter<"Attendance"> | Date | string
+    checkOutTime?: DateTimeNullableWithAggregatesFilter<"Attendance"> | Date | string | null
+    workMode?: StringWithAggregatesFilter<"Attendance"> | string
+    status?: StringWithAggregatesFilter<"Attendance"> | string
+    totalHours?: FloatNullableWithAggregatesFilter<"Attendance"> | number | null
+    notes?: StringNullableWithAggregatesFilter<"Attendance"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Attendance"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Attendance"> | Date | string
+  }
+
+  export type OnboardingChecklistWhereInput = {
+    AND?: OnboardingChecklistWhereInput | OnboardingChecklistWhereInput[]
+    OR?: OnboardingChecklistWhereInput[]
+    NOT?: OnboardingChecklistWhereInput | OnboardingChecklistWhereInput[]
+    id?: StringFilter<"OnboardingChecklist"> | string
+    teamId?: StringFilter<"OnboardingChecklist"> | string
+    employeeId?: StringFilter<"OnboardingChecklist"> | string
+    type?: StringFilter<"OnboardingChecklist"> | string
+    title?: StringFilter<"OnboardingChecklist"> | string
+    items?: JsonFilter<"OnboardingChecklist">
+    isCompleted?: BoolFilter<"OnboardingChecklist"> | boolean
+    completedAt?: DateTimeNullableFilter<"OnboardingChecklist"> | Date | string | null
+    createdAt?: DateTimeFilter<"OnboardingChecklist"> | Date | string
+    updatedAt?: DateTimeFilter<"OnboardingChecklist"> | Date | string
+    team?: XOR<TeamScalarRelationFilter, TeamWhereInput>
+    employee?: XOR<EmployeeScalarRelationFilter, EmployeeWhereInput>
+  }
+
+  export type OnboardingChecklistOrderByWithRelationInput = {
+    id?: SortOrder
+    teamId?: SortOrder
+    employeeId?: SortOrder
+    type?: SortOrder
+    title?: SortOrder
+    items?: SortOrder
+    isCompleted?: SortOrder
+    completedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    team?: TeamOrderByWithRelationInput
+    employee?: EmployeeOrderByWithRelationInput
+  }
+
+  export type OnboardingChecklistWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: OnboardingChecklistWhereInput | OnboardingChecklistWhereInput[]
+    OR?: OnboardingChecklistWhereInput[]
+    NOT?: OnboardingChecklistWhereInput | OnboardingChecklistWhereInput[]
+    teamId?: StringFilter<"OnboardingChecklist"> | string
+    employeeId?: StringFilter<"OnboardingChecklist"> | string
+    type?: StringFilter<"OnboardingChecklist"> | string
+    title?: StringFilter<"OnboardingChecklist"> | string
+    items?: JsonFilter<"OnboardingChecklist">
+    isCompleted?: BoolFilter<"OnboardingChecklist"> | boolean
+    completedAt?: DateTimeNullableFilter<"OnboardingChecklist"> | Date | string | null
+    createdAt?: DateTimeFilter<"OnboardingChecklist"> | Date | string
+    updatedAt?: DateTimeFilter<"OnboardingChecklist"> | Date | string
+    team?: XOR<TeamScalarRelationFilter, TeamWhereInput>
+    employee?: XOR<EmployeeScalarRelationFilter, EmployeeWhereInput>
+  }, "id">
+
+  export type OnboardingChecklistOrderByWithAggregationInput = {
+    id?: SortOrder
+    teamId?: SortOrder
+    employeeId?: SortOrder
+    type?: SortOrder
+    title?: SortOrder
+    items?: SortOrder
+    isCompleted?: SortOrder
+    completedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: OnboardingChecklistCountOrderByAggregateInput
+    _max?: OnboardingChecklistMaxOrderByAggregateInput
+    _min?: OnboardingChecklistMinOrderByAggregateInput
+  }
+
+  export type OnboardingChecklistScalarWhereWithAggregatesInput = {
+    AND?: OnboardingChecklistScalarWhereWithAggregatesInput | OnboardingChecklistScalarWhereWithAggregatesInput[]
+    OR?: OnboardingChecklistScalarWhereWithAggregatesInput[]
+    NOT?: OnboardingChecklistScalarWhereWithAggregatesInput | OnboardingChecklistScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"OnboardingChecklist"> | string
+    teamId?: StringWithAggregatesFilter<"OnboardingChecklist"> | string
+    employeeId?: StringWithAggregatesFilter<"OnboardingChecklist"> | string
+    type?: StringWithAggregatesFilter<"OnboardingChecklist"> | string
+    title?: StringWithAggregatesFilter<"OnboardingChecklist"> | string
+    items?: JsonWithAggregatesFilter<"OnboardingChecklist">
+    isCompleted?: BoolWithAggregatesFilter<"OnboardingChecklist"> | boolean
+    completedAt?: DateTimeNullableWithAggregatesFilter<"OnboardingChecklist"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"OnboardingChecklist"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"OnboardingChecklist"> | Date | string
+  }
+
+  export type JobOpeningWhereInput = {
+    AND?: JobOpeningWhereInput | JobOpeningWhereInput[]
+    OR?: JobOpeningWhereInput[]
+    NOT?: JobOpeningWhereInput | JobOpeningWhereInput[]
+    id?: StringFilter<"JobOpening"> | string
+    teamId?: StringFilter<"JobOpening"> | string
+    title?: StringFilter<"JobOpening"> | string
+    department?: StringFilter<"JobOpening"> | string
+    location?: StringFilter<"JobOpening"> | string
+    type?: StringFilter<"JobOpening"> | string
+    status?: StringFilter<"JobOpening"> | string
+    openingsCount?: IntFilter<"JobOpening"> | number
+    description?: StringNullableFilter<"JobOpening"> | string | null
+    createdAt?: DateTimeFilter<"JobOpening"> | Date | string
+    updatedAt?: DateTimeFilter<"JobOpening"> | Date | string
+    team?: XOR<TeamScalarRelationFilter, TeamWhereInput>
+    candidates?: CandidateListRelationFilter
+  }
+
+  export type JobOpeningOrderByWithRelationInput = {
+    id?: SortOrder
+    teamId?: SortOrder
+    title?: SortOrder
+    department?: SortOrder
+    location?: SortOrder
+    type?: SortOrder
+    status?: SortOrder
+    openingsCount?: SortOrder
+    description?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    team?: TeamOrderByWithRelationInput
+    candidates?: CandidateOrderByRelationAggregateInput
+  }
+
+  export type JobOpeningWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: JobOpeningWhereInput | JobOpeningWhereInput[]
+    OR?: JobOpeningWhereInput[]
+    NOT?: JobOpeningWhereInput | JobOpeningWhereInput[]
+    teamId?: StringFilter<"JobOpening"> | string
+    title?: StringFilter<"JobOpening"> | string
+    department?: StringFilter<"JobOpening"> | string
+    location?: StringFilter<"JobOpening"> | string
+    type?: StringFilter<"JobOpening"> | string
+    status?: StringFilter<"JobOpening"> | string
+    openingsCount?: IntFilter<"JobOpening"> | number
+    description?: StringNullableFilter<"JobOpening"> | string | null
+    createdAt?: DateTimeFilter<"JobOpening"> | Date | string
+    updatedAt?: DateTimeFilter<"JobOpening"> | Date | string
+    team?: XOR<TeamScalarRelationFilter, TeamWhereInput>
+    candidates?: CandidateListRelationFilter
+  }, "id">
+
+  export type JobOpeningOrderByWithAggregationInput = {
+    id?: SortOrder
+    teamId?: SortOrder
+    title?: SortOrder
+    department?: SortOrder
+    location?: SortOrder
+    type?: SortOrder
+    status?: SortOrder
+    openingsCount?: SortOrder
+    description?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: JobOpeningCountOrderByAggregateInput
+    _avg?: JobOpeningAvgOrderByAggregateInput
+    _max?: JobOpeningMaxOrderByAggregateInput
+    _min?: JobOpeningMinOrderByAggregateInput
+    _sum?: JobOpeningSumOrderByAggregateInput
+  }
+
+  export type JobOpeningScalarWhereWithAggregatesInput = {
+    AND?: JobOpeningScalarWhereWithAggregatesInput | JobOpeningScalarWhereWithAggregatesInput[]
+    OR?: JobOpeningScalarWhereWithAggregatesInput[]
+    NOT?: JobOpeningScalarWhereWithAggregatesInput | JobOpeningScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"JobOpening"> | string
+    teamId?: StringWithAggregatesFilter<"JobOpening"> | string
+    title?: StringWithAggregatesFilter<"JobOpening"> | string
+    department?: StringWithAggregatesFilter<"JobOpening"> | string
+    location?: StringWithAggregatesFilter<"JobOpening"> | string
+    type?: StringWithAggregatesFilter<"JobOpening"> | string
+    status?: StringWithAggregatesFilter<"JobOpening"> | string
+    openingsCount?: IntWithAggregatesFilter<"JobOpening"> | number
+    description?: StringNullableWithAggregatesFilter<"JobOpening"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"JobOpening"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"JobOpening"> | Date | string
+  }
+
+  export type CandidateWhereInput = {
+    AND?: CandidateWhereInput | CandidateWhereInput[]
+    OR?: CandidateWhereInput[]
+    NOT?: CandidateWhereInput | CandidateWhereInput[]
+    id?: StringFilter<"Candidate"> | string
+    teamId?: StringFilter<"Candidate"> | string
+    jobOpeningId?: StringNullableFilter<"Candidate"> | string | null
+    fullName?: StringFilter<"Candidate"> | string
+    email?: StringFilter<"Candidate"> | string
+    phone?: StringNullableFilter<"Candidate"> | string | null
+    stage?: StringFilter<"Candidate"> | string
+    resumeUrl?: StringNullableFilter<"Candidate"> | string | null
+    portfolioUrl?: StringNullableFilter<"Candidate"> | string | null
+    experienceYears?: FloatNullableFilter<"Candidate"> | number | null
+    currentCtc?: FloatNullableFilter<"Candidate"> | number | null
+    expectedCtc?: FloatNullableFilter<"Candidate"> | number | null
+    noticePeriodDays?: IntNullableFilter<"Candidate"> | number | null
+    rating?: IntNullableFilter<"Candidate"> | number | null
+    notes?: StringNullableFilter<"Candidate"> | string | null
+    createdAt?: DateTimeFilter<"Candidate"> | Date | string
+    updatedAt?: DateTimeFilter<"Candidate"> | Date | string
+    team?: XOR<TeamScalarRelationFilter, TeamWhereInput>
+    jobOpening?: XOR<JobOpeningNullableScalarRelationFilter, JobOpeningWhereInput> | null
+  }
+
+  export type CandidateOrderByWithRelationInput = {
+    id?: SortOrder
+    teamId?: SortOrder
+    jobOpeningId?: SortOrderInput | SortOrder
+    fullName?: SortOrder
+    email?: SortOrder
+    phone?: SortOrderInput | SortOrder
+    stage?: SortOrder
+    resumeUrl?: SortOrderInput | SortOrder
+    portfolioUrl?: SortOrderInput | SortOrder
+    experienceYears?: SortOrderInput | SortOrder
+    currentCtc?: SortOrderInput | SortOrder
+    expectedCtc?: SortOrderInput | SortOrder
+    noticePeriodDays?: SortOrderInput | SortOrder
+    rating?: SortOrderInput | SortOrder
+    notes?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    team?: TeamOrderByWithRelationInput
+    jobOpening?: JobOpeningOrderByWithRelationInput
+  }
+
+  export type CandidateWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: CandidateWhereInput | CandidateWhereInput[]
+    OR?: CandidateWhereInput[]
+    NOT?: CandidateWhereInput | CandidateWhereInput[]
+    teamId?: StringFilter<"Candidate"> | string
+    jobOpeningId?: StringNullableFilter<"Candidate"> | string | null
+    fullName?: StringFilter<"Candidate"> | string
+    email?: StringFilter<"Candidate"> | string
+    phone?: StringNullableFilter<"Candidate"> | string | null
+    stage?: StringFilter<"Candidate"> | string
+    resumeUrl?: StringNullableFilter<"Candidate"> | string | null
+    portfolioUrl?: StringNullableFilter<"Candidate"> | string | null
+    experienceYears?: FloatNullableFilter<"Candidate"> | number | null
+    currentCtc?: FloatNullableFilter<"Candidate"> | number | null
+    expectedCtc?: FloatNullableFilter<"Candidate"> | number | null
+    noticePeriodDays?: IntNullableFilter<"Candidate"> | number | null
+    rating?: IntNullableFilter<"Candidate"> | number | null
+    notes?: StringNullableFilter<"Candidate"> | string | null
+    createdAt?: DateTimeFilter<"Candidate"> | Date | string
+    updatedAt?: DateTimeFilter<"Candidate"> | Date | string
+    team?: XOR<TeamScalarRelationFilter, TeamWhereInput>
+    jobOpening?: XOR<JobOpeningNullableScalarRelationFilter, JobOpeningWhereInput> | null
+  }, "id">
+
+  export type CandidateOrderByWithAggregationInput = {
+    id?: SortOrder
+    teamId?: SortOrder
+    jobOpeningId?: SortOrderInput | SortOrder
+    fullName?: SortOrder
+    email?: SortOrder
+    phone?: SortOrderInput | SortOrder
+    stage?: SortOrder
+    resumeUrl?: SortOrderInput | SortOrder
+    portfolioUrl?: SortOrderInput | SortOrder
+    experienceYears?: SortOrderInput | SortOrder
+    currentCtc?: SortOrderInput | SortOrder
+    expectedCtc?: SortOrderInput | SortOrder
+    noticePeriodDays?: SortOrderInput | SortOrder
+    rating?: SortOrderInput | SortOrder
+    notes?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: CandidateCountOrderByAggregateInput
+    _avg?: CandidateAvgOrderByAggregateInput
+    _max?: CandidateMaxOrderByAggregateInput
+    _min?: CandidateMinOrderByAggregateInput
+    _sum?: CandidateSumOrderByAggregateInput
+  }
+
+  export type CandidateScalarWhereWithAggregatesInput = {
+    AND?: CandidateScalarWhereWithAggregatesInput | CandidateScalarWhereWithAggregatesInput[]
+    OR?: CandidateScalarWhereWithAggregatesInput[]
+    NOT?: CandidateScalarWhereWithAggregatesInput | CandidateScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Candidate"> | string
+    teamId?: StringWithAggregatesFilter<"Candidate"> | string
+    jobOpeningId?: StringNullableWithAggregatesFilter<"Candidate"> | string | null
+    fullName?: StringWithAggregatesFilter<"Candidate"> | string
+    email?: StringWithAggregatesFilter<"Candidate"> | string
+    phone?: StringNullableWithAggregatesFilter<"Candidate"> | string | null
+    stage?: StringWithAggregatesFilter<"Candidate"> | string
+    resumeUrl?: StringNullableWithAggregatesFilter<"Candidate"> | string | null
+    portfolioUrl?: StringNullableWithAggregatesFilter<"Candidate"> | string | null
+    experienceYears?: FloatNullableWithAggregatesFilter<"Candidate"> | number | null
+    currentCtc?: FloatNullableWithAggregatesFilter<"Candidate"> | number | null
+    expectedCtc?: FloatNullableWithAggregatesFilter<"Candidate"> | number | null
+    noticePeriodDays?: IntNullableWithAggregatesFilter<"Candidate"> | number | null
+    rating?: IntNullableWithAggregatesFilter<"Candidate"> | number | null
+    notes?: StringNullableWithAggregatesFilter<"Candidate"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Candidate"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Candidate"> | Date | string
+  }
+
   export type TeamCreateInput = {
     id?: string
     name: string
@@ -89663,6 +98694,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryCreateNestedManyWithoutTeamInput
     resourceAllocations?: ResourceAllocationCreateNestedManyWithoutTeamInput
     rateCards?: RateCardCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningCreateNestedManyWithoutTeamInput
+    candidates?: CandidateCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateInput = {
@@ -89703,6 +98740,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutTeamInput
     resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput
     rateCards?: RateCardUncheckedCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceUncheckedCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistUncheckedCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningUncheckedCreateNestedManyWithoutTeamInput
+    candidates?: CandidateUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUpdateInput = {
@@ -89743,6 +98786,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUpdateManyWithoutTeamNestedInput
     resourceAllocations?: ResourceAllocationUpdateManyWithoutTeamNestedInput
     rateCards?: RateCardUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateInput = {
@@ -89783,6 +98832,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutTeamNestedInput
     resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput
     rateCards?: RateCardUncheckedUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUncheckedUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUncheckedUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUncheckedUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUncheckedUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamCreateManyInput = {
@@ -95449,6 +104504,10 @@ export namespace Prisma {
     user: UserCreateNestedOneWithoutEmployeeInput
     role: RoleCreateNestedOneWithoutEmployeesInput
     team: TeamCreateNestedOneWithoutEmployeesInput
+    leaveRequests?: LeaveRequestCreateNestedManyWithoutEmployeeInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutEmployeeInput
+    attendances?: AttendanceCreateNestedManyWithoutEmployeeInput
+    onboardingChecklists?: OnboardingChecklistCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeUncheckedCreateInput = {
@@ -95474,6 +104533,10 @@ export namespace Prisma {
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutEmployeeInput
+    attendances?: AttendanceUncheckedCreateNestedManyWithoutEmployeeInput
+    onboardingChecklists?: OnboardingChecklistUncheckedCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeUpdateInput = {
@@ -95499,6 +104562,10 @@ export namespace Prisma {
     user?: UserUpdateOneRequiredWithoutEmployeeNestedInput
     role?: RoleUpdateOneRequiredWithoutEmployeesNestedInput
     team?: TeamUpdateOneRequiredWithoutEmployeesNestedInput
+    leaveRequests?: LeaveRequestUpdateManyWithoutEmployeeNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutEmployeeNestedInput
+    attendances?: AttendanceUpdateManyWithoutEmployeeNestedInput
+    onboardingChecklists?: OnboardingChecklistUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeUncheckedUpdateInput = {
@@ -95524,6 +104591,10 @@ export namespace Prisma {
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutEmployeeNestedInput
+    attendances?: AttendanceUncheckedUpdateManyWithoutEmployeeNestedInput
+    onboardingChecklists?: OnboardingChecklistUncheckedUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeCreateManyInput = {
@@ -96060,6 +105131,685 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type LeaveRequestCreateInput = {
+    id?: string
+    userId: string
+    leaveType: string
+    startDate: Date | string
+    endDate: Date | string
+    totalDays: number
+    reason: string
+    status?: string
+    approvedBy?: string | null
+    approvedAt?: Date | string | null
+    rejectionReason?: string | null
+    emergencyContact?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    team: TeamCreateNestedOneWithoutLeaveRequestsInput
+    employee: EmployeeCreateNestedOneWithoutLeaveRequestsInput
+  }
+
+  export type LeaveRequestUncheckedCreateInput = {
+    id?: string
+    teamId: string
+    employeeId: string
+    userId: string
+    leaveType: string
+    startDate: Date | string
+    endDate: Date | string
+    totalDays: number
+    reason: string
+    status?: string
+    approvedBy?: string | null
+    approvedAt?: Date | string | null
+    rejectionReason?: string | null
+    emergencyContact?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LeaveRequestUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    leaveType?: StringFieldUpdateOperationsInput | string
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    totalDays?: FloatFieldUpdateOperationsInput | number
+    reason?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    approvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    team?: TeamUpdateOneRequiredWithoutLeaveRequestsNestedInput
+    employee?: EmployeeUpdateOneRequiredWithoutLeaveRequestsNestedInput
+  }
+
+  export type LeaveRequestUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    teamId?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    leaveType?: StringFieldUpdateOperationsInput | string
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    totalDays?: FloatFieldUpdateOperationsInput | number
+    reason?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    approvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LeaveRequestCreateManyInput = {
+    id?: string
+    teamId: string
+    employeeId: string
+    userId: string
+    leaveType: string
+    startDate: Date | string
+    endDate: Date | string
+    totalDays: number
+    reason: string
+    status?: string
+    approvedBy?: string | null
+    approvedAt?: Date | string | null
+    rejectionReason?: string | null
+    emergencyContact?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LeaveRequestUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    leaveType?: StringFieldUpdateOperationsInput | string
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    totalDays?: FloatFieldUpdateOperationsInput | number
+    reason?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    approvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LeaveRequestUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    teamId?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    leaveType?: StringFieldUpdateOperationsInput | string
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    totalDays?: FloatFieldUpdateOperationsInput | number
+    reason?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    approvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LeaveBalanceCreateInput = {
+    id?: string
+    year: number
+    casualTotal?: number
+    casualUsed?: number
+    sickTotal?: number
+    sickUsed?: number
+    paidTotal?: number
+    paidUsed?: number
+    unpaidUsed?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    team: TeamCreateNestedOneWithoutLeaveBalancesInput
+    employee: EmployeeCreateNestedOneWithoutLeaveBalancesInput
+  }
+
+  export type LeaveBalanceUncheckedCreateInput = {
+    id?: string
+    teamId: string
+    employeeId: string
+    year: number
+    casualTotal?: number
+    casualUsed?: number
+    sickTotal?: number
+    sickUsed?: number
+    paidTotal?: number
+    paidUsed?: number
+    unpaidUsed?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LeaveBalanceUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    casualTotal?: FloatFieldUpdateOperationsInput | number
+    casualUsed?: FloatFieldUpdateOperationsInput | number
+    sickTotal?: FloatFieldUpdateOperationsInput | number
+    sickUsed?: FloatFieldUpdateOperationsInput | number
+    paidTotal?: FloatFieldUpdateOperationsInput | number
+    paidUsed?: FloatFieldUpdateOperationsInput | number
+    unpaidUsed?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    team?: TeamUpdateOneRequiredWithoutLeaveBalancesNestedInput
+    employee?: EmployeeUpdateOneRequiredWithoutLeaveBalancesNestedInput
+  }
+
+  export type LeaveBalanceUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    teamId?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    casualTotal?: FloatFieldUpdateOperationsInput | number
+    casualUsed?: FloatFieldUpdateOperationsInput | number
+    sickTotal?: FloatFieldUpdateOperationsInput | number
+    sickUsed?: FloatFieldUpdateOperationsInput | number
+    paidTotal?: FloatFieldUpdateOperationsInput | number
+    paidUsed?: FloatFieldUpdateOperationsInput | number
+    unpaidUsed?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LeaveBalanceCreateManyInput = {
+    id?: string
+    teamId: string
+    employeeId: string
+    year: number
+    casualTotal?: number
+    casualUsed?: number
+    sickTotal?: number
+    sickUsed?: number
+    paidTotal?: number
+    paidUsed?: number
+    unpaidUsed?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LeaveBalanceUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    casualTotal?: FloatFieldUpdateOperationsInput | number
+    casualUsed?: FloatFieldUpdateOperationsInput | number
+    sickTotal?: FloatFieldUpdateOperationsInput | number
+    sickUsed?: FloatFieldUpdateOperationsInput | number
+    paidTotal?: FloatFieldUpdateOperationsInput | number
+    paidUsed?: FloatFieldUpdateOperationsInput | number
+    unpaidUsed?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LeaveBalanceUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    teamId?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    casualTotal?: FloatFieldUpdateOperationsInput | number
+    casualUsed?: FloatFieldUpdateOperationsInput | number
+    sickTotal?: FloatFieldUpdateOperationsInput | number
+    sickUsed?: FloatFieldUpdateOperationsInput | number
+    paidTotal?: FloatFieldUpdateOperationsInput | number
+    paidUsed?: FloatFieldUpdateOperationsInput | number
+    unpaidUsed?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AttendanceCreateInput = {
+    id?: string
+    userId: string
+    date: Date | string
+    checkInTime: Date | string
+    checkOutTime?: Date | string | null
+    workMode?: string
+    status?: string
+    totalHours?: number | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    team: TeamCreateNestedOneWithoutAttendancesInput
+    employee: EmployeeCreateNestedOneWithoutAttendancesInput
+  }
+
+  export type AttendanceUncheckedCreateInput = {
+    id?: string
+    teamId: string
+    employeeId: string
+    userId: string
+    date: Date | string
+    checkInTime: Date | string
+    checkOutTime?: Date | string | null
+    workMode?: string
+    status?: string
+    totalHours?: number | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AttendanceUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    checkInTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    checkOutTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    workMode?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    totalHours?: NullableFloatFieldUpdateOperationsInput | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    team?: TeamUpdateOneRequiredWithoutAttendancesNestedInput
+    employee?: EmployeeUpdateOneRequiredWithoutAttendancesNestedInput
+  }
+
+  export type AttendanceUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    teamId?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    checkInTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    checkOutTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    workMode?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    totalHours?: NullableFloatFieldUpdateOperationsInput | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AttendanceCreateManyInput = {
+    id?: string
+    teamId: string
+    employeeId: string
+    userId: string
+    date: Date | string
+    checkInTime: Date | string
+    checkOutTime?: Date | string | null
+    workMode?: string
+    status?: string
+    totalHours?: number | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AttendanceUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    checkInTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    checkOutTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    workMode?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    totalHours?: NullableFloatFieldUpdateOperationsInput | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AttendanceUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    teamId?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    checkInTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    checkOutTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    workMode?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    totalHours?: NullableFloatFieldUpdateOperationsInput | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OnboardingChecklistCreateInput = {
+    id?: string
+    type?: string
+    title: string
+    items: JsonNullValueInput | InputJsonValue
+    isCompleted?: boolean
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    team: TeamCreateNestedOneWithoutOnboardingChecklistsInput
+    employee: EmployeeCreateNestedOneWithoutOnboardingChecklistsInput
+  }
+
+  export type OnboardingChecklistUncheckedCreateInput = {
+    id?: string
+    teamId: string
+    employeeId: string
+    type?: string
+    title: string
+    items: JsonNullValueInput | InputJsonValue
+    isCompleted?: boolean
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type OnboardingChecklistUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    items?: JsonNullValueInput | InputJsonValue
+    isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    team?: TeamUpdateOneRequiredWithoutOnboardingChecklistsNestedInput
+    employee?: EmployeeUpdateOneRequiredWithoutOnboardingChecklistsNestedInput
+  }
+
+  export type OnboardingChecklistUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    teamId?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    items?: JsonNullValueInput | InputJsonValue
+    isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OnboardingChecklistCreateManyInput = {
+    id?: string
+    teamId: string
+    employeeId: string
+    type?: string
+    title: string
+    items: JsonNullValueInput | InputJsonValue
+    isCompleted?: boolean
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type OnboardingChecklistUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    items?: JsonNullValueInput | InputJsonValue
+    isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OnboardingChecklistUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    teamId?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    items?: JsonNullValueInput | InputJsonValue
+    isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type JobOpeningCreateInput = {
+    id?: string
+    title: string
+    department: string
+    location?: string
+    type?: string
+    status?: string
+    openingsCount?: number
+    description?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    team: TeamCreateNestedOneWithoutJobOpeningsInput
+    candidates?: CandidateCreateNestedManyWithoutJobOpeningInput
+  }
+
+  export type JobOpeningUncheckedCreateInput = {
+    id?: string
+    teamId: string
+    title: string
+    department: string
+    location?: string
+    type?: string
+    status?: string
+    openingsCount?: number
+    description?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    candidates?: CandidateUncheckedCreateNestedManyWithoutJobOpeningInput
+  }
+
+  export type JobOpeningUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    department?: StringFieldUpdateOperationsInput | string
+    location?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    openingsCount?: IntFieldUpdateOperationsInput | number
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    team?: TeamUpdateOneRequiredWithoutJobOpeningsNestedInput
+    candidates?: CandidateUpdateManyWithoutJobOpeningNestedInput
+  }
+
+  export type JobOpeningUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    teamId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    department?: StringFieldUpdateOperationsInput | string
+    location?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    openingsCount?: IntFieldUpdateOperationsInput | number
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    candidates?: CandidateUncheckedUpdateManyWithoutJobOpeningNestedInput
+  }
+
+  export type JobOpeningCreateManyInput = {
+    id?: string
+    teamId: string
+    title: string
+    department: string
+    location?: string
+    type?: string
+    status?: string
+    openingsCount?: number
+    description?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type JobOpeningUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    department?: StringFieldUpdateOperationsInput | string
+    location?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    openingsCount?: IntFieldUpdateOperationsInput | number
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type JobOpeningUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    teamId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    department?: StringFieldUpdateOperationsInput | string
+    location?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    openingsCount?: IntFieldUpdateOperationsInput | number
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CandidateCreateInput = {
+    id?: string
+    fullName: string
+    email: string
+    phone?: string | null
+    stage?: string
+    resumeUrl?: string | null
+    portfolioUrl?: string | null
+    experienceYears?: number | null
+    currentCtc?: number | null
+    expectedCtc?: number | null
+    noticePeriodDays?: number | null
+    rating?: number | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    team: TeamCreateNestedOneWithoutCandidatesInput
+    jobOpening?: JobOpeningCreateNestedOneWithoutCandidatesInput
+  }
+
+  export type CandidateUncheckedCreateInput = {
+    id?: string
+    teamId: string
+    jobOpeningId?: string | null
+    fullName: string
+    email: string
+    phone?: string | null
+    stage?: string
+    resumeUrl?: string | null
+    portfolioUrl?: string | null
+    experienceYears?: number | null
+    currentCtc?: number | null
+    expectedCtc?: number | null
+    noticePeriodDays?: number | null
+    rating?: number | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CandidateUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    stage?: StringFieldUpdateOperationsInput | string
+    resumeUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    experienceYears?: NullableFloatFieldUpdateOperationsInput | number | null
+    currentCtc?: NullableFloatFieldUpdateOperationsInput | number | null
+    expectedCtc?: NullableFloatFieldUpdateOperationsInput | number | null
+    noticePeriodDays?: NullableIntFieldUpdateOperationsInput | number | null
+    rating?: NullableIntFieldUpdateOperationsInput | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    team?: TeamUpdateOneRequiredWithoutCandidatesNestedInput
+    jobOpening?: JobOpeningUpdateOneWithoutCandidatesNestedInput
+  }
+
+  export type CandidateUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    teamId?: StringFieldUpdateOperationsInput | string
+    jobOpeningId?: NullableStringFieldUpdateOperationsInput | string | null
+    fullName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    stage?: StringFieldUpdateOperationsInput | string
+    resumeUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    experienceYears?: NullableFloatFieldUpdateOperationsInput | number | null
+    currentCtc?: NullableFloatFieldUpdateOperationsInput | number | null
+    expectedCtc?: NullableFloatFieldUpdateOperationsInput | number | null
+    noticePeriodDays?: NullableIntFieldUpdateOperationsInput | number | null
+    rating?: NullableIntFieldUpdateOperationsInput | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CandidateCreateManyInput = {
+    id?: string
+    teamId: string
+    jobOpeningId?: string | null
+    fullName: string
+    email: string
+    phone?: string | null
+    stage?: string
+    resumeUrl?: string | null
+    portfolioUrl?: string | null
+    experienceYears?: number | null
+    currentCtc?: number | null
+    expectedCtc?: number | null
+    noticePeriodDays?: number | null
+    rating?: number | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CandidateUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    stage?: StringFieldUpdateOperationsInput | string
+    resumeUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    experienceYears?: NullableFloatFieldUpdateOperationsInput | number | null
+    currentCtc?: NullableFloatFieldUpdateOperationsInput | number | null
+    expectedCtc?: NullableFloatFieldUpdateOperationsInput | number | null
+    noticePeriodDays?: NullableIntFieldUpdateOperationsInput | number | null
+    rating?: NullableIntFieldUpdateOperationsInput | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CandidateUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    teamId?: StringFieldUpdateOperationsInput | string
+    jobOpeningId?: NullableStringFieldUpdateOperationsInput | string | null
+    fullName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    stage?: StringFieldUpdateOperationsInput | string
+    resumeUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    experienceYears?: NullableFloatFieldUpdateOperationsInput | number | null
+    currentCtc?: NullableFloatFieldUpdateOperationsInput | number | null
+    expectedCtc?: NullableFloatFieldUpdateOperationsInput | number | null
+    noticePeriodDays?: NullableIntFieldUpdateOperationsInput | number | null
+    rating?: NullableIntFieldUpdateOperationsInput | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -96286,6 +106036,42 @@ export namespace Prisma {
     none?: RateCardWhereInput
   }
 
+  export type LeaveRequestListRelationFilter = {
+    every?: LeaveRequestWhereInput
+    some?: LeaveRequestWhereInput
+    none?: LeaveRequestWhereInput
+  }
+
+  export type LeaveBalanceListRelationFilter = {
+    every?: LeaveBalanceWhereInput
+    some?: LeaveBalanceWhereInput
+    none?: LeaveBalanceWhereInput
+  }
+
+  export type AttendanceListRelationFilter = {
+    every?: AttendanceWhereInput
+    some?: AttendanceWhereInput
+    none?: AttendanceWhereInput
+  }
+
+  export type OnboardingChecklistListRelationFilter = {
+    every?: OnboardingChecklistWhereInput
+    some?: OnboardingChecklistWhereInput
+    none?: OnboardingChecklistWhereInput
+  }
+
+  export type JobOpeningListRelationFilter = {
+    every?: JobOpeningWhereInput
+    some?: JobOpeningWhereInput
+    none?: JobOpeningWhereInput
+  }
+
+  export type CandidateListRelationFilter = {
+    every?: CandidateWhereInput
+    some?: CandidateWhereInput
+    none?: CandidateWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -96408,6 +106194,30 @@ export namespace Prisma {
   }
 
   export type RateCardOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type LeaveRequestOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type LeaveBalanceOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AttendanceOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type OnboardingChecklistOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type JobOpeningOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CandidateOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -100110,6 +109920,429 @@ export namespace Prisma {
     hourlyBillingRate?: SortOrder
   }
 
+  export type EmployeeScalarRelationFilter = {
+    is?: EmployeeWhereInput
+    isNot?: EmployeeWhereInput
+  }
+
+  export type LeaveRequestCountOrderByAggregateInput = {
+    id?: SortOrder
+    teamId?: SortOrder
+    employeeId?: SortOrder
+    userId?: SortOrder
+    leaveType?: SortOrder
+    startDate?: SortOrder
+    endDate?: SortOrder
+    totalDays?: SortOrder
+    reason?: SortOrder
+    status?: SortOrder
+    approvedBy?: SortOrder
+    approvedAt?: SortOrder
+    rejectionReason?: SortOrder
+    emergencyContact?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type LeaveRequestAvgOrderByAggregateInput = {
+    totalDays?: SortOrder
+  }
+
+  export type LeaveRequestMaxOrderByAggregateInput = {
+    id?: SortOrder
+    teamId?: SortOrder
+    employeeId?: SortOrder
+    userId?: SortOrder
+    leaveType?: SortOrder
+    startDate?: SortOrder
+    endDate?: SortOrder
+    totalDays?: SortOrder
+    reason?: SortOrder
+    status?: SortOrder
+    approvedBy?: SortOrder
+    approvedAt?: SortOrder
+    rejectionReason?: SortOrder
+    emergencyContact?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type LeaveRequestMinOrderByAggregateInput = {
+    id?: SortOrder
+    teamId?: SortOrder
+    employeeId?: SortOrder
+    userId?: SortOrder
+    leaveType?: SortOrder
+    startDate?: SortOrder
+    endDate?: SortOrder
+    totalDays?: SortOrder
+    reason?: SortOrder
+    status?: SortOrder
+    approvedBy?: SortOrder
+    approvedAt?: SortOrder
+    rejectionReason?: SortOrder
+    emergencyContact?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type LeaveRequestSumOrderByAggregateInput = {
+    totalDays?: SortOrder
+  }
+
+  export type LeaveBalanceEmployeeIdYearCompoundUniqueInput = {
+    employeeId: string
+    year: number
+  }
+
+  export type LeaveBalanceCountOrderByAggregateInput = {
+    id?: SortOrder
+    teamId?: SortOrder
+    employeeId?: SortOrder
+    year?: SortOrder
+    casualTotal?: SortOrder
+    casualUsed?: SortOrder
+    sickTotal?: SortOrder
+    sickUsed?: SortOrder
+    paidTotal?: SortOrder
+    paidUsed?: SortOrder
+    unpaidUsed?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type LeaveBalanceAvgOrderByAggregateInput = {
+    year?: SortOrder
+    casualTotal?: SortOrder
+    casualUsed?: SortOrder
+    sickTotal?: SortOrder
+    sickUsed?: SortOrder
+    paidTotal?: SortOrder
+    paidUsed?: SortOrder
+    unpaidUsed?: SortOrder
+  }
+
+  export type LeaveBalanceMaxOrderByAggregateInput = {
+    id?: SortOrder
+    teamId?: SortOrder
+    employeeId?: SortOrder
+    year?: SortOrder
+    casualTotal?: SortOrder
+    casualUsed?: SortOrder
+    sickTotal?: SortOrder
+    sickUsed?: SortOrder
+    paidTotal?: SortOrder
+    paidUsed?: SortOrder
+    unpaidUsed?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type LeaveBalanceMinOrderByAggregateInput = {
+    id?: SortOrder
+    teamId?: SortOrder
+    employeeId?: SortOrder
+    year?: SortOrder
+    casualTotal?: SortOrder
+    casualUsed?: SortOrder
+    sickTotal?: SortOrder
+    sickUsed?: SortOrder
+    paidTotal?: SortOrder
+    paidUsed?: SortOrder
+    unpaidUsed?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type LeaveBalanceSumOrderByAggregateInput = {
+    year?: SortOrder
+    casualTotal?: SortOrder
+    casualUsed?: SortOrder
+    sickTotal?: SortOrder
+    sickUsed?: SortOrder
+    paidTotal?: SortOrder
+    paidUsed?: SortOrder
+    unpaidUsed?: SortOrder
+  }
+
+  export type AttendanceEmployeeIdDateCompoundUniqueInput = {
+    employeeId: string
+    date: Date | string
+  }
+
+  export type AttendanceCountOrderByAggregateInput = {
+    id?: SortOrder
+    teamId?: SortOrder
+    employeeId?: SortOrder
+    userId?: SortOrder
+    date?: SortOrder
+    checkInTime?: SortOrder
+    checkOutTime?: SortOrder
+    workMode?: SortOrder
+    status?: SortOrder
+    totalHours?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AttendanceAvgOrderByAggregateInput = {
+    totalHours?: SortOrder
+  }
+
+  export type AttendanceMaxOrderByAggregateInput = {
+    id?: SortOrder
+    teamId?: SortOrder
+    employeeId?: SortOrder
+    userId?: SortOrder
+    date?: SortOrder
+    checkInTime?: SortOrder
+    checkOutTime?: SortOrder
+    workMode?: SortOrder
+    status?: SortOrder
+    totalHours?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AttendanceMinOrderByAggregateInput = {
+    id?: SortOrder
+    teamId?: SortOrder
+    employeeId?: SortOrder
+    userId?: SortOrder
+    date?: SortOrder
+    checkInTime?: SortOrder
+    checkOutTime?: SortOrder
+    workMode?: SortOrder
+    status?: SortOrder
+    totalHours?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AttendanceSumOrderByAggregateInput = {
+    totalHours?: SortOrder
+  }
+  export type JsonFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type OnboardingChecklistCountOrderByAggregateInput = {
+    id?: SortOrder
+    teamId?: SortOrder
+    employeeId?: SortOrder
+    type?: SortOrder
+    title?: SortOrder
+    items?: SortOrder
+    isCompleted?: SortOrder
+    completedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type OnboardingChecklistMaxOrderByAggregateInput = {
+    id?: SortOrder
+    teamId?: SortOrder
+    employeeId?: SortOrder
+    type?: SortOrder
+    title?: SortOrder
+    isCompleted?: SortOrder
+    completedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type OnboardingChecklistMinOrderByAggregateInput = {
+    id?: SortOrder
+    teamId?: SortOrder
+    employeeId?: SortOrder
+    type?: SortOrder
+    title?: SortOrder
+    isCompleted?: SortOrder
+    completedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+  export type JsonWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedJsonFilter<$PrismaModel>
+    _max?: NestedJsonFilter<$PrismaModel>
+  }
+
+  export type JobOpeningCountOrderByAggregateInput = {
+    id?: SortOrder
+    teamId?: SortOrder
+    title?: SortOrder
+    department?: SortOrder
+    location?: SortOrder
+    type?: SortOrder
+    status?: SortOrder
+    openingsCount?: SortOrder
+    description?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type JobOpeningAvgOrderByAggregateInput = {
+    openingsCount?: SortOrder
+  }
+
+  export type JobOpeningMaxOrderByAggregateInput = {
+    id?: SortOrder
+    teamId?: SortOrder
+    title?: SortOrder
+    department?: SortOrder
+    location?: SortOrder
+    type?: SortOrder
+    status?: SortOrder
+    openingsCount?: SortOrder
+    description?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type JobOpeningMinOrderByAggregateInput = {
+    id?: SortOrder
+    teamId?: SortOrder
+    title?: SortOrder
+    department?: SortOrder
+    location?: SortOrder
+    type?: SortOrder
+    status?: SortOrder
+    openingsCount?: SortOrder
+    description?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type JobOpeningSumOrderByAggregateInput = {
+    openingsCount?: SortOrder
+  }
+
+  export type JobOpeningNullableScalarRelationFilter = {
+    is?: JobOpeningWhereInput | null
+    isNot?: JobOpeningWhereInput | null
+  }
+
+  export type CandidateCountOrderByAggregateInput = {
+    id?: SortOrder
+    teamId?: SortOrder
+    jobOpeningId?: SortOrder
+    fullName?: SortOrder
+    email?: SortOrder
+    phone?: SortOrder
+    stage?: SortOrder
+    resumeUrl?: SortOrder
+    portfolioUrl?: SortOrder
+    experienceYears?: SortOrder
+    currentCtc?: SortOrder
+    expectedCtc?: SortOrder
+    noticePeriodDays?: SortOrder
+    rating?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CandidateAvgOrderByAggregateInput = {
+    experienceYears?: SortOrder
+    currentCtc?: SortOrder
+    expectedCtc?: SortOrder
+    noticePeriodDays?: SortOrder
+    rating?: SortOrder
+  }
+
+  export type CandidateMaxOrderByAggregateInput = {
+    id?: SortOrder
+    teamId?: SortOrder
+    jobOpeningId?: SortOrder
+    fullName?: SortOrder
+    email?: SortOrder
+    phone?: SortOrder
+    stage?: SortOrder
+    resumeUrl?: SortOrder
+    portfolioUrl?: SortOrder
+    experienceYears?: SortOrder
+    currentCtc?: SortOrder
+    expectedCtc?: SortOrder
+    noticePeriodDays?: SortOrder
+    rating?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CandidateMinOrderByAggregateInput = {
+    id?: SortOrder
+    teamId?: SortOrder
+    jobOpeningId?: SortOrder
+    fullName?: SortOrder
+    email?: SortOrder
+    phone?: SortOrder
+    stage?: SortOrder
+    resumeUrl?: SortOrder
+    portfolioUrl?: SortOrder
+    experienceYears?: SortOrder
+    currentCtc?: SortOrder
+    expectedCtc?: SortOrder
+    noticePeriodDays?: SortOrder
+    rating?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CandidateSumOrderByAggregateInput = {
+    experienceYears?: SortOrder
+    currentCtc?: SortOrder
+    expectedCtc?: SortOrder
+    noticePeriodDays?: SortOrder
+    rating?: SortOrder
+  }
+
   export type ProjectCreateNestedManyWithoutTeamInput = {
     create?: XOR<ProjectCreateWithoutTeamInput, ProjectUncheckedCreateWithoutTeamInput> | ProjectCreateWithoutTeamInput[] | ProjectUncheckedCreateWithoutTeamInput[]
     connectOrCreate?: ProjectCreateOrConnectWithoutTeamInput | ProjectCreateOrConnectWithoutTeamInput[]
@@ -100326,6 +110559,48 @@ export namespace Prisma {
     connect?: RateCardWhereUniqueInput | RateCardWhereUniqueInput[]
   }
 
+  export type LeaveRequestCreateNestedManyWithoutTeamInput = {
+    create?: XOR<LeaveRequestCreateWithoutTeamInput, LeaveRequestUncheckedCreateWithoutTeamInput> | LeaveRequestCreateWithoutTeamInput[] | LeaveRequestUncheckedCreateWithoutTeamInput[]
+    connectOrCreate?: LeaveRequestCreateOrConnectWithoutTeamInput | LeaveRequestCreateOrConnectWithoutTeamInput[]
+    createMany?: LeaveRequestCreateManyTeamInputEnvelope
+    connect?: LeaveRequestWhereUniqueInput | LeaveRequestWhereUniqueInput[]
+  }
+
+  export type LeaveBalanceCreateNestedManyWithoutTeamInput = {
+    create?: XOR<LeaveBalanceCreateWithoutTeamInput, LeaveBalanceUncheckedCreateWithoutTeamInput> | LeaveBalanceCreateWithoutTeamInput[] | LeaveBalanceUncheckedCreateWithoutTeamInput[]
+    connectOrCreate?: LeaveBalanceCreateOrConnectWithoutTeamInput | LeaveBalanceCreateOrConnectWithoutTeamInput[]
+    createMany?: LeaveBalanceCreateManyTeamInputEnvelope
+    connect?: LeaveBalanceWhereUniqueInput | LeaveBalanceWhereUniqueInput[]
+  }
+
+  export type AttendanceCreateNestedManyWithoutTeamInput = {
+    create?: XOR<AttendanceCreateWithoutTeamInput, AttendanceUncheckedCreateWithoutTeamInput> | AttendanceCreateWithoutTeamInput[] | AttendanceUncheckedCreateWithoutTeamInput[]
+    connectOrCreate?: AttendanceCreateOrConnectWithoutTeamInput | AttendanceCreateOrConnectWithoutTeamInput[]
+    createMany?: AttendanceCreateManyTeamInputEnvelope
+    connect?: AttendanceWhereUniqueInput | AttendanceWhereUniqueInput[]
+  }
+
+  export type OnboardingChecklistCreateNestedManyWithoutTeamInput = {
+    create?: XOR<OnboardingChecklistCreateWithoutTeamInput, OnboardingChecklistUncheckedCreateWithoutTeamInput> | OnboardingChecklistCreateWithoutTeamInput[] | OnboardingChecklistUncheckedCreateWithoutTeamInput[]
+    connectOrCreate?: OnboardingChecklistCreateOrConnectWithoutTeamInput | OnboardingChecklistCreateOrConnectWithoutTeamInput[]
+    createMany?: OnboardingChecklistCreateManyTeamInputEnvelope
+    connect?: OnboardingChecklistWhereUniqueInput | OnboardingChecklistWhereUniqueInput[]
+  }
+
+  export type JobOpeningCreateNestedManyWithoutTeamInput = {
+    create?: XOR<JobOpeningCreateWithoutTeamInput, JobOpeningUncheckedCreateWithoutTeamInput> | JobOpeningCreateWithoutTeamInput[] | JobOpeningUncheckedCreateWithoutTeamInput[]
+    connectOrCreate?: JobOpeningCreateOrConnectWithoutTeamInput | JobOpeningCreateOrConnectWithoutTeamInput[]
+    createMany?: JobOpeningCreateManyTeamInputEnvelope
+    connect?: JobOpeningWhereUniqueInput | JobOpeningWhereUniqueInput[]
+  }
+
+  export type CandidateCreateNestedManyWithoutTeamInput = {
+    create?: XOR<CandidateCreateWithoutTeamInput, CandidateUncheckedCreateWithoutTeamInput> | CandidateCreateWithoutTeamInput[] | CandidateUncheckedCreateWithoutTeamInput[]
+    connectOrCreate?: CandidateCreateOrConnectWithoutTeamInput | CandidateCreateOrConnectWithoutTeamInput[]
+    createMany?: CandidateCreateManyTeamInputEnvelope
+    connect?: CandidateWhereUniqueInput | CandidateWhereUniqueInput[]
+  }
+
   export type ProjectUncheckedCreateNestedManyWithoutTeamInput = {
     create?: XOR<ProjectCreateWithoutTeamInput, ProjectUncheckedCreateWithoutTeamInput> | ProjectCreateWithoutTeamInput[] | ProjectUncheckedCreateWithoutTeamInput[]
     connectOrCreate?: ProjectCreateOrConnectWithoutTeamInput | ProjectCreateOrConnectWithoutTeamInput[]
@@ -100540,6 +110815,48 @@ export namespace Prisma {
     connectOrCreate?: RateCardCreateOrConnectWithoutTeamInput | RateCardCreateOrConnectWithoutTeamInput[]
     createMany?: RateCardCreateManyTeamInputEnvelope
     connect?: RateCardWhereUniqueInput | RateCardWhereUniqueInput[]
+  }
+
+  export type LeaveRequestUncheckedCreateNestedManyWithoutTeamInput = {
+    create?: XOR<LeaveRequestCreateWithoutTeamInput, LeaveRequestUncheckedCreateWithoutTeamInput> | LeaveRequestCreateWithoutTeamInput[] | LeaveRequestUncheckedCreateWithoutTeamInput[]
+    connectOrCreate?: LeaveRequestCreateOrConnectWithoutTeamInput | LeaveRequestCreateOrConnectWithoutTeamInput[]
+    createMany?: LeaveRequestCreateManyTeamInputEnvelope
+    connect?: LeaveRequestWhereUniqueInput | LeaveRequestWhereUniqueInput[]
+  }
+
+  export type LeaveBalanceUncheckedCreateNestedManyWithoutTeamInput = {
+    create?: XOR<LeaveBalanceCreateWithoutTeamInput, LeaveBalanceUncheckedCreateWithoutTeamInput> | LeaveBalanceCreateWithoutTeamInput[] | LeaveBalanceUncheckedCreateWithoutTeamInput[]
+    connectOrCreate?: LeaveBalanceCreateOrConnectWithoutTeamInput | LeaveBalanceCreateOrConnectWithoutTeamInput[]
+    createMany?: LeaveBalanceCreateManyTeamInputEnvelope
+    connect?: LeaveBalanceWhereUniqueInput | LeaveBalanceWhereUniqueInput[]
+  }
+
+  export type AttendanceUncheckedCreateNestedManyWithoutTeamInput = {
+    create?: XOR<AttendanceCreateWithoutTeamInput, AttendanceUncheckedCreateWithoutTeamInput> | AttendanceCreateWithoutTeamInput[] | AttendanceUncheckedCreateWithoutTeamInput[]
+    connectOrCreate?: AttendanceCreateOrConnectWithoutTeamInput | AttendanceCreateOrConnectWithoutTeamInput[]
+    createMany?: AttendanceCreateManyTeamInputEnvelope
+    connect?: AttendanceWhereUniqueInput | AttendanceWhereUniqueInput[]
+  }
+
+  export type OnboardingChecklistUncheckedCreateNestedManyWithoutTeamInput = {
+    create?: XOR<OnboardingChecklistCreateWithoutTeamInput, OnboardingChecklistUncheckedCreateWithoutTeamInput> | OnboardingChecklistCreateWithoutTeamInput[] | OnboardingChecklistUncheckedCreateWithoutTeamInput[]
+    connectOrCreate?: OnboardingChecklistCreateOrConnectWithoutTeamInput | OnboardingChecklistCreateOrConnectWithoutTeamInput[]
+    createMany?: OnboardingChecklistCreateManyTeamInputEnvelope
+    connect?: OnboardingChecklistWhereUniqueInput | OnboardingChecklistWhereUniqueInput[]
+  }
+
+  export type JobOpeningUncheckedCreateNestedManyWithoutTeamInput = {
+    create?: XOR<JobOpeningCreateWithoutTeamInput, JobOpeningUncheckedCreateWithoutTeamInput> | JobOpeningCreateWithoutTeamInput[] | JobOpeningUncheckedCreateWithoutTeamInput[]
+    connectOrCreate?: JobOpeningCreateOrConnectWithoutTeamInput | JobOpeningCreateOrConnectWithoutTeamInput[]
+    createMany?: JobOpeningCreateManyTeamInputEnvelope
+    connect?: JobOpeningWhereUniqueInput | JobOpeningWhereUniqueInput[]
+  }
+
+  export type CandidateUncheckedCreateNestedManyWithoutTeamInput = {
+    create?: XOR<CandidateCreateWithoutTeamInput, CandidateUncheckedCreateWithoutTeamInput> | CandidateCreateWithoutTeamInput[] | CandidateUncheckedCreateWithoutTeamInput[]
+    connectOrCreate?: CandidateCreateOrConnectWithoutTeamInput | CandidateCreateOrConnectWithoutTeamInput[]
+    createMany?: CandidateCreateManyTeamInputEnvelope
+    connect?: CandidateWhereUniqueInput | CandidateWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -100984,6 +111301,90 @@ export namespace Prisma {
     deleteMany?: RateCardScalarWhereInput | RateCardScalarWhereInput[]
   }
 
+  export type LeaveRequestUpdateManyWithoutTeamNestedInput = {
+    create?: XOR<LeaveRequestCreateWithoutTeamInput, LeaveRequestUncheckedCreateWithoutTeamInput> | LeaveRequestCreateWithoutTeamInput[] | LeaveRequestUncheckedCreateWithoutTeamInput[]
+    connectOrCreate?: LeaveRequestCreateOrConnectWithoutTeamInput | LeaveRequestCreateOrConnectWithoutTeamInput[]
+    upsert?: LeaveRequestUpsertWithWhereUniqueWithoutTeamInput | LeaveRequestUpsertWithWhereUniqueWithoutTeamInput[]
+    createMany?: LeaveRequestCreateManyTeamInputEnvelope
+    set?: LeaveRequestWhereUniqueInput | LeaveRequestWhereUniqueInput[]
+    disconnect?: LeaveRequestWhereUniqueInput | LeaveRequestWhereUniqueInput[]
+    delete?: LeaveRequestWhereUniqueInput | LeaveRequestWhereUniqueInput[]
+    connect?: LeaveRequestWhereUniqueInput | LeaveRequestWhereUniqueInput[]
+    update?: LeaveRequestUpdateWithWhereUniqueWithoutTeamInput | LeaveRequestUpdateWithWhereUniqueWithoutTeamInput[]
+    updateMany?: LeaveRequestUpdateManyWithWhereWithoutTeamInput | LeaveRequestUpdateManyWithWhereWithoutTeamInput[]
+    deleteMany?: LeaveRequestScalarWhereInput | LeaveRequestScalarWhereInput[]
+  }
+
+  export type LeaveBalanceUpdateManyWithoutTeamNestedInput = {
+    create?: XOR<LeaveBalanceCreateWithoutTeamInput, LeaveBalanceUncheckedCreateWithoutTeamInput> | LeaveBalanceCreateWithoutTeamInput[] | LeaveBalanceUncheckedCreateWithoutTeamInput[]
+    connectOrCreate?: LeaveBalanceCreateOrConnectWithoutTeamInput | LeaveBalanceCreateOrConnectWithoutTeamInput[]
+    upsert?: LeaveBalanceUpsertWithWhereUniqueWithoutTeamInput | LeaveBalanceUpsertWithWhereUniqueWithoutTeamInput[]
+    createMany?: LeaveBalanceCreateManyTeamInputEnvelope
+    set?: LeaveBalanceWhereUniqueInput | LeaveBalanceWhereUniqueInput[]
+    disconnect?: LeaveBalanceWhereUniqueInput | LeaveBalanceWhereUniqueInput[]
+    delete?: LeaveBalanceWhereUniqueInput | LeaveBalanceWhereUniqueInput[]
+    connect?: LeaveBalanceWhereUniqueInput | LeaveBalanceWhereUniqueInput[]
+    update?: LeaveBalanceUpdateWithWhereUniqueWithoutTeamInput | LeaveBalanceUpdateWithWhereUniqueWithoutTeamInput[]
+    updateMany?: LeaveBalanceUpdateManyWithWhereWithoutTeamInput | LeaveBalanceUpdateManyWithWhereWithoutTeamInput[]
+    deleteMany?: LeaveBalanceScalarWhereInput | LeaveBalanceScalarWhereInput[]
+  }
+
+  export type AttendanceUpdateManyWithoutTeamNestedInput = {
+    create?: XOR<AttendanceCreateWithoutTeamInput, AttendanceUncheckedCreateWithoutTeamInput> | AttendanceCreateWithoutTeamInput[] | AttendanceUncheckedCreateWithoutTeamInput[]
+    connectOrCreate?: AttendanceCreateOrConnectWithoutTeamInput | AttendanceCreateOrConnectWithoutTeamInput[]
+    upsert?: AttendanceUpsertWithWhereUniqueWithoutTeamInput | AttendanceUpsertWithWhereUniqueWithoutTeamInput[]
+    createMany?: AttendanceCreateManyTeamInputEnvelope
+    set?: AttendanceWhereUniqueInput | AttendanceWhereUniqueInput[]
+    disconnect?: AttendanceWhereUniqueInput | AttendanceWhereUniqueInput[]
+    delete?: AttendanceWhereUniqueInput | AttendanceWhereUniqueInput[]
+    connect?: AttendanceWhereUniqueInput | AttendanceWhereUniqueInput[]
+    update?: AttendanceUpdateWithWhereUniqueWithoutTeamInput | AttendanceUpdateWithWhereUniqueWithoutTeamInput[]
+    updateMany?: AttendanceUpdateManyWithWhereWithoutTeamInput | AttendanceUpdateManyWithWhereWithoutTeamInput[]
+    deleteMany?: AttendanceScalarWhereInput | AttendanceScalarWhereInput[]
+  }
+
+  export type OnboardingChecklistUpdateManyWithoutTeamNestedInput = {
+    create?: XOR<OnboardingChecklistCreateWithoutTeamInput, OnboardingChecklistUncheckedCreateWithoutTeamInput> | OnboardingChecklistCreateWithoutTeamInput[] | OnboardingChecklistUncheckedCreateWithoutTeamInput[]
+    connectOrCreate?: OnboardingChecklistCreateOrConnectWithoutTeamInput | OnboardingChecklistCreateOrConnectWithoutTeamInput[]
+    upsert?: OnboardingChecklistUpsertWithWhereUniqueWithoutTeamInput | OnboardingChecklistUpsertWithWhereUniqueWithoutTeamInput[]
+    createMany?: OnboardingChecklistCreateManyTeamInputEnvelope
+    set?: OnboardingChecklistWhereUniqueInput | OnboardingChecklistWhereUniqueInput[]
+    disconnect?: OnboardingChecklistWhereUniqueInput | OnboardingChecklistWhereUniqueInput[]
+    delete?: OnboardingChecklistWhereUniqueInput | OnboardingChecklistWhereUniqueInput[]
+    connect?: OnboardingChecklistWhereUniqueInput | OnboardingChecklistWhereUniqueInput[]
+    update?: OnboardingChecklistUpdateWithWhereUniqueWithoutTeamInput | OnboardingChecklistUpdateWithWhereUniqueWithoutTeamInput[]
+    updateMany?: OnboardingChecklistUpdateManyWithWhereWithoutTeamInput | OnboardingChecklistUpdateManyWithWhereWithoutTeamInput[]
+    deleteMany?: OnboardingChecklistScalarWhereInput | OnboardingChecklistScalarWhereInput[]
+  }
+
+  export type JobOpeningUpdateManyWithoutTeamNestedInput = {
+    create?: XOR<JobOpeningCreateWithoutTeamInput, JobOpeningUncheckedCreateWithoutTeamInput> | JobOpeningCreateWithoutTeamInput[] | JobOpeningUncheckedCreateWithoutTeamInput[]
+    connectOrCreate?: JobOpeningCreateOrConnectWithoutTeamInput | JobOpeningCreateOrConnectWithoutTeamInput[]
+    upsert?: JobOpeningUpsertWithWhereUniqueWithoutTeamInput | JobOpeningUpsertWithWhereUniqueWithoutTeamInput[]
+    createMany?: JobOpeningCreateManyTeamInputEnvelope
+    set?: JobOpeningWhereUniqueInput | JobOpeningWhereUniqueInput[]
+    disconnect?: JobOpeningWhereUniqueInput | JobOpeningWhereUniqueInput[]
+    delete?: JobOpeningWhereUniqueInput | JobOpeningWhereUniqueInput[]
+    connect?: JobOpeningWhereUniqueInput | JobOpeningWhereUniqueInput[]
+    update?: JobOpeningUpdateWithWhereUniqueWithoutTeamInput | JobOpeningUpdateWithWhereUniqueWithoutTeamInput[]
+    updateMany?: JobOpeningUpdateManyWithWhereWithoutTeamInput | JobOpeningUpdateManyWithWhereWithoutTeamInput[]
+    deleteMany?: JobOpeningScalarWhereInput | JobOpeningScalarWhereInput[]
+  }
+
+  export type CandidateUpdateManyWithoutTeamNestedInput = {
+    create?: XOR<CandidateCreateWithoutTeamInput, CandidateUncheckedCreateWithoutTeamInput> | CandidateCreateWithoutTeamInput[] | CandidateUncheckedCreateWithoutTeamInput[]
+    connectOrCreate?: CandidateCreateOrConnectWithoutTeamInput | CandidateCreateOrConnectWithoutTeamInput[]
+    upsert?: CandidateUpsertWithWhereUniqueWithoutTeamInput | CandidateUpsertWithWhereUniqueWithoutTeamInput[]
+    createMany?: CandidateCreateManyTeamInputEnvelope
+    set?: CandidateWhereUniqueInput | CandidateWhereUniqueInput[]
+    disconnect?: CandidateWhereUniqueInput | CandidateWhereUniqueInput[]
+    delete?: CandidateWhereUniqueInput | CandidateWhereUniqueInput[]
+    connect?: CandidateWhereUniqueInput | CandidateWhereUniqueInput[]
+    update?: CandidateUpdateWithWhereUniqueWithoutTeamInput | CandidateUpdateWithWhereUniqueWithoutTeamInput[]
+    updateMany?: CandidateUpdateManyWithWhereWithoutTeamInput | CandidateUpdateManyWithWhereWithoutTeamInput[]
+    deleteMany?: CandidateScalarWhereInput | CandidateScalarWhereInput[]
+  }
+
   export type ProjectUncheckedUpdateManyWithoutTeamNestedInput = {
     create?: XOR<ProjectCreateWithoutTeamInput, ProjectUncheckedCreateWithoutTeamInput> | ProjectCreateWithoutTeamInput[] | ProjectUncheckedCreateWithoutTeamInput[]
     connectOrCreate?: ProjectCreateOrConnectWithoutTeamInput | ProjectCreateOrConnectWithoutTeamInput[]
@@ -101412,6 +111813,90 @@ export namespace Prisma {
     update?: RateCardUpdateWithWhereUniqueWithoutTeamInput | RateCardUpdateWithWhereUniqueWithoutTeamInput[]
     updateMany?: RateCardUpdateManyWithWhereWithoutTeamInput | RateCardUpdateManyWithWhereWithoutTeamInput[]
     deleteMany?: RateCardScalarWhereInput | RateCardScalarWhereInput[]
+  }
+
+  export type LeaveRequestUncheckedUpdateManyWithoutTeamNestedInput = {
+    create?: XOR<LeaveRequestCreateWithoutTeamInput, LeaveRequestUncheckedCreateWithoutTeamInput> | LeaveRequestCreateWithoutTeamInput[] | LeaveRequestUncheckedCreateWithoutTeamInput[]
+    connectOrCreate?: LeaveRequestCreateOrConnectWithoutTeamInput | LeaveRequestCreateOrConnectWithoutTeamInput[]
+    upsert?: LeaveRequestUpsertWithWhereUniqueWithoutTeamInput | LeaveRequestUpsertWithWhereUniqueWithoutTeamInput[]
+    createMany?: LeaveRequestCreateManyTeamInputEnvelope
+    set?: LeaveRequestWhereUniqueInput | LeaveRequestWhereUniqueInput[]
+    disconnect?: LeaveRequestWhereUniqueInput | LeaveRequestWhereUniqueInput[]
+    delete?: LeaveRequestWhereUniqueInput | LeaveRequestWhereUniqueInput[]
+    connect?: LeaveRequestWhereUniqueInput | LeaveRequestWhereUniqueInput[]
+    update?: LeaveRequestUpdateWithWhereUniqueWithoutTeamInput | LeaveRequestUpdateWithWhereUniqueWithoutTeamInput[]
+    updateMany?: LeaveRequestUpdateManyWithWhereWithoutTeamInput | LeaveRequestUpdateManyWithWhereWithoutTeamInput[]
+    deleteMany?: LeaveRequestScalarWhereInput | LeaveRequestScalarWhereInput[]
+  }
+
+  export type LeaveBalanceUncheckedUpdateManyWithoutTeamNestedInput = {
+    create?: XOR<LeaveBalanceCreateWithoutTeamInput, LeaveBalanceUncheckedCreateWithoutTeamInput> | LeaveBalanceCreateWithoutTeamInput[] | LeaveBalanceUncheckedCreateWithoutTeamInput[]
+    connectOrCreate?: LeaveBalanceCreateOrConnectWithoutTeamInput | LeaveBalanceCreateOrConnectWithoutTeamInput[]
+    upsert?: LeaveBalanceUpsertWithWhereUniqueWithoutTeamInput | LeaveBalanceUpsertWithWhereUniqueWithoutTeamInput[]
+    createMany?: LeaveBalanceCreateManyTeamInputEnvelope
+    set?: LeaveBalanceWhereUniqueInput | LeaveBalanceWhereUniqueInput[]
+    disconnect?: LeaveBalanceWhereUniqueInput | LeaveBalanceWhereUniqueInput[]
+    delete?: LeaveBalanceWhereUniqueInput | LeaveBalanceWhereUniqueInput[]
+    connect?: LeaveBalanceWhereUniqueInput | LeaveBalanceWhereUniqueInput[]
+    update?: LeaveBalanceUpdateWithWhereUniqueWithoutTeamInput | LeaveBalanceUpdateWithWhereUniqueWithoutTeamInput[]
+    updateMany?: LeaveBalanceUpdateManyWithWhereWithoutTeamInput | LeaveBalanceUpdateManyWithWhereWithoutTeamInput[]
+    deleteMany?: LeaveBalanceScalarWhereInput | LeaveBalanceScalarWhereInput[]
+  }
+
+  export type AttendanceUncheckedUpdateManyWithoutTeamNestedInput = {
+    create?: XOR<AttendanceCreateWithoutTeamInput, AttendanceUncheckedCreateWithoutTeamInput> | AttendanceCreateWithoutTeamInput[] | AttendanceUncheckedCreateWithoutTeamInput[]
+    connectOrCreate?: AttendanceCreateOrConnectWithoutTeamInput | AttendanceCreateOrConnectWithoutTeamInput[]
+    upsert?: AttendanceUpsertWithWhereUniqueWithoutTeamInput | AttendanceUpsertWithWhereUniqueWithoutTeamInput[]
+    createMany?: AttendanceCreateManyTeamInputEnvelope
+    set?: AttendanceWhereUniqueInput | AttendanceWhereUniqueInput[]
+    disconnect?: AttendanceWhereUniqueInput | AttendanceWhereUniqueInput[]
+    delete?: AttendanceWhereUniqueInput | AttendanceWhereUniqueInput[]
+    connect?: AttendanceWhereUniqueInput | AttendanceWhereUniqueInput[]
+    update?: AttendanceUpdateWithWhereUniqueWithoutTeamInput | AttendanceUpdateWithWhereUniqueWithoutTeamInput[]
+    updateMany?: AttendanceUpdateManyWithWhereWithoutTeamInput | AttendanceUpdateManyWithWhereWithoutTeamInput[]
+    deleteMany?: AttendanceScalarWhereInput | AttendanceScalarWhereInput[]
+  }
+
+  export type OnboardingChecklistUncheckedUpdateManyWithoutTeamNestedInput = {
+    create?: XOR<OnboardingChecklistCreateWithoutTeamInput, OnboardingChecklistUncheckedCreateWithoutTeamInput> | OnboardingChecklistCreateWithoutTeamInput[] | OnboardingChecklistUncheckedCreateWithoutTeamInput[]
+    connectOrCreate?: OnboardingChecklistCreateOrConnectWithoutTeamInput | OnboardingChecklistCreateOrConnectWithoutTeamInput[]
+    upsert?: OnboardingChecklistUpsertWithWhereUniqueWithoutTeamInput | OnboardingChecklistUpsertWithWhereUniqueWithoutTeamInput[]
+    createMany?: OnboardingChecklistCreateManyTeamInputEnvelope
+    set?: OnboardingChecklistWhereUniqueInput | OnboardingChecklistWhereUniqueInput[]
+    disconnect?: OnboardingChecklistWhereUniqueInput | OnboardingChecklistWhereUniqueInput[]
+    delete?: OnboardingChecklistWhereUniqueInput | OnboardingChecklistWhereUniqueInput[]
+    connect?: OnboardingChecklistWhereUniqueInput | OnboardingChecklistWhereUniqueInput[]
+    update?: OnboardingChecklistUpdateWithWhereUniqueWithoutTeamInput | OnboardingChecklistUpdateWithWhereUniqueWithoutTeamInput[]
+    updateMany?: OnboardingChecklistUpdateManyWithWhereWithoutTeamInput | OnboardingChecklistUpdateManyWithWhereWithoutTeamInput[]
+    deleteMany?: OnboardingChecklistScalarWhereInput | OnboardingChecklistScalarWhereInput[]
+  }
+
+  export type JobOpeningUncheckedUpdateManyWithoutTeamNestedInput = {
+    create?: XOR<JobOpeningCreateWithoutTeamInput, JobOpeningUncheckedCreateWithoutTeamInput> | JobOpeningCreateWithoutTeamInput[] | JobOpeningUncheckedCreateWithoutTeamInput[]
+    connectOrCreate?: JobOpeningCreateOrConnectWithoutTeamInput | JobOpeningCreateOrConnectWithoutTeamInput[]
+    upsert?: JobOpeningUpsertWithWhereUniqueWithoutTeamInput | JobOpeningUpsertWithWhereUniqueWithoutTeamInput[]
+    createMany?: JobOpeningCreateManyTeamInputEnvelope
+    set?: JobOpeningWhereUniqueInput | JobOpeningWhereUniqueInput[]
+    disconnect?: JobOpeningWhereUniqueInput | JobOpeningWhereUniqueInput[]
+    delete?: JobOpeningWhereUniqueInput | JobOpeningWhereUniqueInput[]
+    connect?: JobOpeningWhereUniqueInput | JobOpeningWhereUniqueInput[]
+    update?: JobOpeningUpdateWithWhereUniqueWithoutTeamInput | JobOpeningUpdateWithWhereUniqueWithoutTeamInput[]
+    updateMany?: JobOpeningUpdateManyWithWhereWithoutTeamInput | JobOpeningUpdateManyWithWhereWithoutTeamInput[]
+    deleteMany?: JobOpeningScalarWhereInput | JobOpeningScalarWhereInput[]
+  }
+
+  export type CandidateUncheckedUpdateManyWithoutTeamNestedInput = {
+    create?: XOR<CandidateCreateWithoutTeamInput, CandidateUncheckedCreateWithoutTeamInput> | CandidateCreateWithoutTeamInput[] | CandidateUncheckedCreateWithoutTeamInput[]
+    connectOrCreate?: CandidateCreateOrConnectWithoutTeamInput | CandidateCreateOrConnectWithoutTeamInput[]
+    upsert?: CandidateUpsertWithWhereUniqueWithoutTeamInput | CandidateUpsertWithWhereUniqueWithoutTeamInput[]
+    createMany?: CandidateCreateManyTeamInputEnvelope
+    set?: CandidateWhereUniqueInput | CandidateWhereUniqueInput[]
+    disconnect?: CandidateWhereUniqueInput | CandidateWhereUniqueInput[]
+    delete?: CandidateWhereUniqueInput | CandidateWhereUniqueInput[]
+    connect?: CandidateWhereUniqueInput | CandidateWhereUniqueInput[]
+    update?: CandidateUpdateWithWhereUniqueWithoutTeamInput | CandidateUpdateWithWhereUniqueWithoutTeamInput[]
+    updateMany?: CandidateUpdateManyWithWhereWithoutTeamInput | CandidateUpdateManyWithWhereWithoutTeamInput[]
+    deleteMany?: CandidateScalarWhereInput | CandidateScalarWhereInput[]
   }
 
   export type TeamCreateNestedOneWithoutProjectsInput = {
@@ -104430,6 +114915,62 @@ export namespace Prisma {
     connect?: TeamWhereUniqueInput
   }
 
+  export type LeaveRequestCreateNestedManyWithoutEmployeeInput = {
+    create?: XOR<LeaveRequestCreateWithoutEmployeeInput, LeaveRequestUncheckedCreateWithoutEmployeeInput> | LeaveRequestCreateWithoutEmployeeInput[] | LeaveRequestUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: LeaveRequestCreateOrConnectWithoutEmployeeInput | LeaveRequestCreateOrConnectWithoutEmployeeInput[]
+    createMany?: LeaveRequestCreateManyEmployeeInputEnvelope
+    connect?: LeaveRequestWhereUniqueInput | LeaveRequestWhereUniqueInput[]
+  }
+
+  export type LeaveBalanceCreateNestedManyWithoutEmployeeInput = {
+    create?: XOR<LeaveBalanceCreateWithoutEmployeeInput, LeaveBalanceUncheckedCreateWithoutEmployeeInput> | LeaveBalanceCreateWithoutEmployeeInput[] | LeaveBalanceUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: LeaveBalanceCreateOrConnectWithoutEmployeeInput | LeaveBalanceCreateOrConnectWithoutEmployeeInput[]
+    createMany?: LeaveBalanceCreateManyEmployeeInputEnvelope
+    connect?: LeaveBalanceWhereUniqueInput | LeaveBalanceWhereUniqueInput[]
+  }
+
+  export type AttendanceCreateNestedManyWithoutEmployeeInput = {
+    create?: XOR<AttendanceCreateWithoutEmployeeInput, AttendanceUncheckedCreateWithoutEmployeeInput> | AttendanceCreateWithoutEmployeeInput[] | AttendanceUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: AttendanceCreateOrConnectWithoutEmployeeInput | AttendanceCreateOrConnectWithoutEmployeeInput[]
+    createMany?: AttendanceCreateManyEmployeeInputEnvelope
+    connect?: AttendanceWhereUniqueInput | AttendanceWhereUniqueInput[]
+  }
+
+  export type OnboardingChecklistCreateNestedManyWithoutEmployeeInput = {
+    create?: XOR<OnboardingChecklistCreateWithoutEmployeeInput, OnboardingChecklistUncheckedCreateWithoutEmployeeInput> | OnboardingChecklistCreateWithoutEmployeeInput[] | OnboardingChecklistUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: OnboardingChecklistCreateOrConnectWithoutEmployeeInput | OnboardingChecklistCreateOrConnectWithoutEmployeeInput[]
+    createMany?: OnboardingChecklistCreateManyEmployeeInputEnvelope
+    connect?: OnboardingChecklistWhereUniqueInput | OnboardingChecklistWhereUniqueInput[]
+  }
+
+  export type LeaveRequestUncheckedCreateNestedManyWithoutEmployeeInput = {
+    create?: XOR<LeaveRequestCreateWithoutEmployeeInput, LeaveRequestUncheckedCreateWithoutEmployeeInput> | LeaveRequestCreateWithoutEmployeeInput[] | LeaveRequestUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: LeaveRequestCreateOrConnectWithoutEmployeeInput | LeaveRequestCreateOrConnectWithoutEmployeeInput[]
+    createMany?: LeaveRequestCreateManyEmployeeInputEnvelope
+    connect?: LeaveRequestWhereUniqueInput | LeaveRequestWhereUniqueInput[]
+  }
+
+  export type LeaveBalanceUncheckedCreateNestedManyWithoutEmployeeInput = {
+    create?: XOR<LeaveBalanceCreateWithoutEmployeeInput, LeaveBalanceUncheckedCreateWithoutEmployeeInput> | LeaveBalanceCreateWithoutEmployeeInput[] | LeaveBalanceUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: LeaveBalanceCreateOrConnectWithoutEmployeeInput | LeaveBalanceCreateOrConnectWithoutEmployeeInput[]
+    createMany?: LeaveBalanceCreateManyEmployeeInputEnvelope
+    connect?: LeaveBalanceWhereUniqueInput | LeaveBalanceWhereUniqueInput[]
+  }
+
+  export type AttendanceUncheckedCreateNestedManyWithoutEmployeeInput = {
+    create?: XOR<AttendanceCreateWithoutEmployeeInput, AttendanceUncheckedCreateWithoutEmployeeInput> | AttendanceCreateWithoutEmployeeInput[] | AttendanceUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: AttendanceCreateOrConnectWithoutEmployeeInput | AttendanceCreateOrConnectWithoutEmployeeInput[]
+    createMany?: AttendanceCreateManyEmployeeInputEnvelope
+    connect?: AttendanceWhereUniqueInput | AttendanceWhereUniqueInput[]
+  }
+
+  export type OnboardingChecklistUncheckedCreateNestedManyWithoutEmployeeInput = {
+    create?: XOR<OnboardingChecklistCreateWithoutEmployeeInput, OnboardingChecklistUncheckedCreateWithoutEmployeeInput> | OnboardingChecklistCreateWithoutEmployeeInput[] | OnboardingChecklistUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: OnboardingChecklistCreateOrConnectWithoutEmployeeInput | OnboardingChecklistCreateOrConnectWithoutEmployeeInput[]
+    createMany?: OnboardingChecklistCreateManyEmployeeInputEnvelope
+    connect?: OnboardingChecklistWhereUniqueInput | OnboardingChecklistWhereUniqueInput[]
+  }
+
   export type EnumEmployeeStatusFieldUpdateOperationsInput = {
     set?: $Enums.EmployeeStatus
   }
@@ -104456,6 +114997,118 @@ export namespace Prisma {
     upsert?: TeamUpsertWithoutEmployeesInput
     connect?: TeamWhereUniqueInput
     update?: XOR<XOR<TeamUpdateToOneWithWhereWithoutEmployeesInput, TeamUpdateWithoutEmployeesInput>, TeamUncheckedUpdateWithoutEmployeesInput>
+  }
+
+  export type LeaveRequestUpdateManyWithoutEmployeeNestedInput = {
+    create?: XOR<LeaveRequestCreateWithoutEmployeeInput, LeaveRequestUncheckedCreateWithoutEmployeeInput> | LeaveRequestCreateWithoutEmployeeInput[] | LeaveRequestUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: LeaveRequestCreateOrConnectWithoutEmployeeInput | LeaveRequestCreateOrConnectWithoutEmployeeInput[]
+    upsert?: LeaveRequestUpsertWithWhereUniqueWithoutEmployeeInput | LeaveRequestUpsertWithWhereUniqueWithoutEmployeeInput[]
+    createMany?: LeaveRequestCreateManyEmployeeInputEnvelope
+    set?: LeaveRequestWhereUniqueInput | LeaveRequestWhereUniqueInput[]
+    disconnect?: LeaveRequestWhereUniqueInput | LeaveRequestWhereUniqueInput[]
+    delete?: LeaveRequestWhereUniqueInput | LeaveRequestWhereUniqueInput[]
+    connect?: LeaveRequestWhereUniqueInput | LeaveRequestWhereUniqueInput[]
+    update?: LeaveRequestUpdateWithWhereUniqueWithoutEmployeeInput | LeaveRequestUpdateWithWhereUniqueWithoutEmployeeInput[]
+    updateMany?: LeaveRequestUpdateManyWithWhereWithoutEmployeeInput | LeaveRequestUpdateManyWithWhereWithoutEmployeeInput[]
+    deleteMany?: LeaveRequestScalarWhereInput | LeaveRequestScalarWhereInput[]
+  }
+
+  export type LeaveBalanceUpdateManyWithoutEmployeeNestedInput = {
+    create?: XOR<LeaveBalanceCreateWithoutEmployeeInput, LeaveBalanceUncheckedCreateWithoutEmployeeInput> | LeaveBalanceCreateWithoutEmployeeInput[] | LeaveBalanceUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: LeaveBalanceCreateOrConnectWithoutEmployeeInput | LeaveBalanceCreateOrConnectWithoutEmployeeInput[]
+    upsert?: LeaveBalanceUpsertWithWhereUniqueWithoutEmployeeInput | LeaveBalanceUpsertWithWhereUniqueWithoutEmployeeInput[]
+    createMany?: LeaveBalanceCreateManyEmployeeInputEnvelope
+    set?: LeaveBalanceWhereUniqueInput | LeaveBalanceWhereUniqueInput[]
+    disconnect?: LeaveBalanceWhereUniqueInput | LeaveBalanceWhereUniqueInput[]
+    delete?: LeaveBalanceWhereUniqueInput | LeaveBalanceWhereUniqueInput[]
+    connect?: LeaveBalanceWhereUniqueInput | LeaveBalanceWhereUniqueInput[]
+    update?: LeaveBalanceUpdateWithWhereUniqueWithoutEmployeeInput | LeaveBalanceUpdateWithWhereUniqueWithoutEmployeeInput[]
+    updateMany?: LeaveBalanceUpdateManyWithWhereWithoutEmployeeInput | LeaveBalanceUpdateManyWithWhereWithoutEmployeeInput[]
+    deleteMany?: LeaveBalanceScalarWhereInput | LeaveBalanceScalarWhereInput[]
+  }
+
+  export type AttendanceUpdateManyWithoutEmployeeNestedInput = {
+    create?: XOR<AttendanceCreateWithoutEmployeeInput, AttendanceUncheckedCreateWithoutEmployeeInput> | AttendanceCreateWithoutEmployeeInput[] | AttendanceUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: AttendanceCreateOrConnectWithoutEmployeeInput | AttendanceCreateOrConnectWithoutEmployeeInput[]
+    upsert?: AttendanceUpsertWithWhereUniqueWithoutEmployeeInput | AttendanceUpsertWithWhereUniqueWithoutEmployeeInput[]
+    createMany?: AttendanceCreateManyEmployeeInputEnvelope
+    set?: AttendanceWhereUniqueInput | AttendanceWhereUniqueInput[]
+    disconnect?: AttendanceWhereUniqueInput | AttendanceWhereUniqueInput[]
+    delete?: AttendanceWhereUniqueInput | AttendanceWhereUniqueInput[]
+    connect?: AttendanceWhereUniqueInput | AttendanceWhereUniqueInput[]
+    update?: AttendanceUpdateWithWhereUniqueWithoutEmployeeInput | AttendanceUpdateWithWhereUniqueWithoutEmployeeInput[]
+    updateMany?: AttendanceUpdateManyWithWhereWithoutEmployeeInput | AttendanceUpdateManyWithWhereWithoutEmployeeInput[]
+    deleteMany?: AttendanceScalarWhereInput | AttendanceScalarWhereInput[]
+  }
+
+  export type OnboardingChecklistUpdateManyWithoutEmployeeNestedInput = {
+    create?: XOR<OnboardingChecklistCreateWithoutEmployeeInput, OnboardingChecklistUncheckedCreateWithoutEmployeeInput> | OnboardingChecklistCreateWithoutEmployeeInput[] | OnboardingChecklistUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: OnboardingChecklistCreateOrConnectWithoutEmployeeInput | OnboardingChecklistCreateOrConnectWithoutEmployeeInput[]
+    upsert?: OnboardingChecklistUpsertWithWhereUniqueWithoutEmployeeInput | OnboardingChecklistUpsertWithWhereUniqueWithoutEmployeeInput[]
+    createMany?: OnboardingChecklistCreateManyEmployeeInputEnvelope
+    set?: OnboardingChecklistWhereUniqueInput | OnboardingChecklistWhereUniqueInput[]
+    disconnect?: OnboardingChecklistWhereUniqueInput | OnboardingChecklistWhereUniqueInput[]
+    delete?: OnboardingChecklistWhereUniqueInput | OnboardingChecklistWhereUniqueInput[]
+    connect?: OnboardingChecklistWhereUniqueInput | OnboardingChecklistWhereUniqueInput[]
+    update?: OnboardingChecklistUpdateWithWhereUniqueWithoutEmployeeInput | OnboardingChecklistUpdateWithWhereUniqueWithoutEmployeeInput[]
+    updateMany?: OnboardingChecklistUpdateManyWithWhereWithoutEmployeeInput | OnboardingChecklistUpdateManyWithWhereWithoutEmployeeInput[]
+    deleteMany?: OnboardingChecklistScalarWhereInput | OnboardingChecklistScalarWhereInput[]
+  }
+
+  export type LeaveRequestUncheckedUpdateManyWithoutEmployeeNestedInput = {
+    create?: XOR<LeaveRequestCreateWithoutEmployeeInput, LeaveRequestUncheckedCreateWithoutEmployeeInput> | LeaveRequestCreateWithoutEmployeeInput[] | LeaveRequestUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: LeaveRequestCreateOrConnectWithoutEmployeeInput | LeaveRequestCreateOrConnectWithoutEmployeeInput[]
+    upsert?: LeaveRequestUpsertWithWhereUniqueWithoutEmployeeInput | LeaveRequestUpsertWithWhereUniqueWithoutEmployeeInput[]
+    createMany?: LeaveRequestCreateManyEmployeeInputEnvelope
+    set?: LeaveRequestWhereUniqueInput | LeaveRequestWhereUniqueInput[]
+    disconnect?: LeaveRequestWhereUniqueInput | LeaveRequestWhereUniqueInput[]
+    delete?: LeaveRequestWhereUniqueInput | LeaveRequestWhereUniqueInput[]
+    connect?: LeaveRequestWhereUniqueInput | LeaveRequestWhereUniqueInput[]
+    update?: LeaveRequestUpdateWithWhereUniqueWithoutEmployeeInput | LeaveRequestUpdateWithWhereUniqueWithoutEmployeeInput[]
+    updateMany?: LeaveRequestUpdateManyWithWhereWithoutEmployeeInput | LeaveRequestUpdateManyWithWhereWithoutEmployeeInput[]
+    deleteMany?: LeaveRequestScalarWhereInput | LeaveRequestScalarWhereInput[]
+  }
+
+  export type LeaveBalanceUncheckedUpdateManyWithoutEmployeeNestedInput = {
+    create?: XOR<LeaveBalanceCreateWithoutEmployeeInput, LeaveBalanceUncheckedCreateWithoutEmployeeInput> | LeaveBalanceCreateWithoutEmployeeInput[] | LeaveBalanceUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: LeaveBalanceCreateOrConnectWithoutEmployeeInput | LeaveBalanceCreateOrConnectWithoutEmployeeInput[]
+    upsert?: LeaveBalanceUpsertWithWhereUniqueWithoutEmployeeInput | LeaveBalanceUpsertWithWhereUniqueWithoutEmployeeInput[]
+    createMany?: LeaveBalanceCreateManyEmployeeInputEnvelope
+    set?: LeaveBalanceWhereUniqueInput | LeaveBalanceWhereUniqueInput[]
+    disconnect?: LeaveBalanceWhereUniqueInput | LeaveBalanceWhereUniqueInput[]
+    delete?: LeaveBalanceWhereUniqueInput | LeaveBalanceWhereUniqueInput[]
+    connect?: LeaveBalanceWhereUniqueInput | LeaveBalanceWhereUniqueInput[]
+    update?: LeaveBalanceUpdateWithWhereUniqueWithoutEmployeeInput | LeaveBalanceUpdateWithWhereUniqueWithoutEmployeeInput[]
+    updateMany?: LeaveBalanceUpdateManyWithWhereWithoutEmployeeInput | LeaveBalanceUpdateManyWithWhereWithoutEmployeeInput[]
+    deleteMany?: LeaveBalanceScalarWhereInput | LeaveBalanceScalarWhereInput[]
+  }
+
+  export type AttendanceUncheckedUpdateManyWithoutEmployeeNestedInput = {
+    create?: XOR<AttendanceCreateWithoutEmployeeInput, AttendanceUncheckedCreateWithoutEmployeeInput> | AttendanceCreateWithoutEmployeeInput[] | AttendanceUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: AttendanceCreateOrConnectWithoutEmployeeInput | AttendanceCreateOrConnectWithoutEmployeeInput[]
+    upsert?: AttendanceUpsertWithWhereUniqueWithoutEmployeeInput | AttendanceUpsertWithWhereUniqueWithoutEmployeeInput[]
+    createMany?: AttendanceCreateManyEmployeeInputEnvelope
+    set?: AttendanceWhereUniqueInput | AttendanceWhereUniqueInput[]
+    disconnect?: AttendanceWhereUniqueInput | AttendanceWhereUniqueInput[]
+    delete?: AttendanceWhereUniqueInput | AttendanceWhereUniqueInput[]
+    connect?: AttendanceWhereUniqueInput | AttendanceWhereUniqueInput[]
+    update?: AttendanceUpdateWithWhereUniqueWithoutEmployeeInput | AttendanceUpdateWithWhereUniqueWithoutEmployeeInput[]
+    updateMany?: AttendanceUpdateManyWithWhereWithoutEmployeeInput | AttendanceUpdateManyWithWhereWithoutEmployeeInput[]
+    deleteMany?: AttendanceScalarWhereInput | AttendanceScalarWhereInput[]
+  }
+
+  export type OnboardingChecklistUncheckedUpdateManyWithoutEmployeeNestedInput = {
+    create?: XOR<OnboardingChecklistCreateWithoutEmployeeInput, OnboardingChecklistUncheckedCreateWithoutEmployeeInput> | OnboardingChecklistCreateWithoutEmployeeInput[] | OnboardingChecklistUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: OnboardingChecklistCreateOrConnectWithoutEmployeeInput | OnboardingChecklistCreateOrConnectWithoutEmployeeInput[]
+    upsert?: OnboardingChecklistUpsertWithWhereUniqueWithoutEmployeeInput | OnboardingChecklistUpsertWithWhereUniqueWithoutEmployeeInput[]
+    createMany?: OnboardingChecklistCreateManyEmployeeInputEnvelope
+    set?: OnboardingChecklistWhereUniqueInput | OnboardingChecklistWhereUniqueInput[]
+    disconnect?: OnboardingChecklistWhereUniqueInput | OnboardingChecklistWhereUniqueInput[]
+    delete?: OnboardingChecklistWhereUniqueInput | OnboardingChecklistWhereUniqueInput[]
+    connect?: OnboardingChecklistWhereUniqueInput | OnboardingChecklistWhereUniqueInput[]
+    update?: OnboardingChecklistUpdateWithWhereUniqueWithoutEmployeeInput | OnboardingChecklistUpdateWithWhereUniqueWithoutEmployeeInput[]
+    updateMany?: OnboardingChecklistUpdateManyWithWhereWithoutEmployeeInput | OnboardingChecklistUpdateManyWithWhereWithoutEmployeeInput[]
+    deleteMany?: OnboardingChecklistScalarWhereInput | OnboardingChecklistScalarWhereInput[]
   }
 
   export type TeamCreateNestedOneWithoutTimesheetsInput = {
@@ -104662,6 +115315,204 @@ export namespace Prisma {
     upsert?: TeamUpsertWithoutRateCardsInput
     connect?: TeamWhereUniqueInput
     update?: XOR<XOR<TeamUpdateToOneWithWhereWithoutRateCardsInput, TeamUpdateWithoutRateCardsInput>, TeamUncheckedUpdateWithoutRateCardsInput>
+  }
+
+  export type TeamCreateNestedOneWithoutLeaveRequestsInput = {
+    create?: XOR<TeamCreateWithoutLeaveRequestsInput, TeamUncheckedCreateWithoutLeaveRequestsInput>
+    connectOrCreate?: TeamCreateOrConnectWithoutLeaveRequestsInput
+    connect?: TeamWhereUniqueInput
+  }
+
+  export type EmployeeCreateNestedOneWithoutLeaveRequestsInput = {
+    create?: XOR<EmployeeCreateWithoutLeaveRequestsInput, EmployeeUncheckedCreateWithoutLeaveRequestsInput>
+    connectOrCreate?: EmployeeCreateOrConnectWithoutLeaveRequestsInput
+    connect?: EmployeeWhereUniqueInput
+  }
+
+  export type TeamUpdateOneRequiredWithoutLeaveRequestsNestedInput = {
+    create?: XOR<TeamCreateWithoutLeaveRequestsInput, TeamUncheckedCreateWithoutLeaveRequestsInput>
+    connectOrCreate?: TeamCreateOrConnectWithoutLeaveRequestsInput
+    upsert?: TeamUpsertWithoutLeaveRequestsInput
+    connect?: TeamWhereUniqueInput
+    update?: XOR<XOR<TeamUpdateToOneWithWhereWithoutLeaveRequestsInput, TeamUpdateWithoutLeaveRequestsInput>, TeamUncheckedUpdateWithoutLeaveRequestsInput>
+  }
+
+  export type EmployeeUpdateOneRequiredWithoutLeaveRequestsNestedInput = {
+    create?: XOR<EmployeeCreateWithoutLeaveRequestsInput, EmployeeUncheckedCreateWithoutLeaveRequestsInput>
+    connectOrCreate?: EmployeeCreateOrConnectWithoutLeaveRequestsInput
+    upsert?: EmployeeUpsertWithoutLeaveRequestsInput
+    connect?: EmployeeWhereUniqueInput
+    update?: XOR<XOR<EmployeeUpdateToOneWithWhereWithoutLeaveRequestsInput, EmployeeUpdateWithoutLeaveRequestsInput>, EmployeeUncheckedUpdateWithoutLeaveRequestsInput>
+  }
+
+  export type TeamCreateNestedOneWithoutLeaveBalancesInput = {
+    create?: XOR<TeamCreateWithoutLeaveBalancesInput, TeamUncheckedCreateWithoutLeaveBalancesInput>
+    connectOrCreate?: TeamCreateOrConnectWithoutLeaveBalancesInput
+    connect?: TeamWhereUniqueInput
+  }
+
+  export type EmployeeCreateNestedOneWithoutLeaveBalancesInput = {
+    create?: XOR<EmployeeCreateWithoutLeaveBalancesInput, EmployeeUncheckedCreateWithoutLeaveBalancesInput>
+    connectOrCreate?: EmployeeCreateOrConnectWithoutLeaveBalancesInput
+    connect?: EmployeeWhereUniqueInput
+  }
+
+  export type TeamUpdateOneRequiredWithoutLeaveBalancesNestedInput = {
+    create?: XOR<TeamCreateWithoutLeaveBalancesInput, TeamUncheckedCreateWithoutLeaveBalancesInput>
+    connectOrCreate?: TeamCreateOrConnectWithoutLeaveBalancesInput
+    upsert?: TeamUpsertWithoutLeaveBalancesInput
+    connect?: TeamWhereUniqueInput
+    update?: XOR<XOR<TeamUpdateToOneWithWhereWithoutLeaveBalancesInput, TeamUpdateWithoutLeaveBalancesInput>, TeamUncheckedUpdateWithoutLeaveBalancesInput>
+  }
+
+  export type EmployeeUpdateOneRequiredWithoutLeaveBalancesNestedInput = {
+    create?: XOR<EmployeeCreateWithoutLeaveBalancesInput, EmployeeUncheckedCreateWithoutLeaveBalancesInput>
+    connectOrCreate?: EmployeeCreateOrConnectWithoutLeaveBalancesInput
+    upsert?: EmployeeUpsertWithoutLeaveBalancesInput
+    connect?: EmployeeWhereUniqueInput
+    update?: XOR<XOR<EmployeeUpdateToOneWithWhereWithoutLeaveBalancesInput, EmployeeUpdateWithoutLeaveBalancesInput>, EmployeeUncheckedUpdateWithoutLeaveBalancesInput>
+  }
+
+  export type TeamCreateNestedOneWithoutAttendancesInput = {
+    create?: XOR<TeamCreateWithoutAttendancesInput, TeamUncheckedCreateWithoutAttendancesInput>
+    connectOrCreate?: TeamCreateOrConnectWithoutAttendancesInput
+    connect?: TeamWhereUniqueInput
+  }
+
+  export type EmployeeCreateNestedOneWithoutAttendancesInput = {
+    create?: XOR<EmployeeCreateWithoutAttendancesInput, EmployeeUncheckedCreateWithoutAttendancesInput>
+    connectOrCreate?: EmployeeCreateOrConnectWithoutAttendancesInput
+    connect?: EmployeeWhereUniqueInput
+  }
+
+  export type TeamUpdateOneRequiredWithoutAttendancesNestedInput = {
+    create?: XOR<TeamCreateWithoutAttendancesInput, TeamUncheckedCreateWithoutAttendancesInput>
+    connectOrCreate?: TeamCreateOrConnectWithoutAttendancesInput
+    upsert?: TeamUpsertWithoutAttendancesInput
+    connect?: TeamWhereUniqueInput
+    update?: XOR<XOR<TeamUpdateToOneWithWhereWithoutAttendancesInput, TeamUpdateWithoutAttendancesInput>, TeamUncheckedUpdateWithoutAttendancesInput>
+  }
+
+  export type EmployeeUpdateOneRequiredWithoutAttendancesNestedInput = {
+    create?: XOR<EmployeeCreateWithoutAttendancesInput, EmployeeUncheckedCreateWithoutAttendancesInput>
+    connectOrCreate?: EmployeeCreateOrConnectWithoutAttendancesInput
+    upsert?: EmployeeUpsertWithoutAttendancesInput
+    connect?: EmployeeWhereUniqueInput
+    update?: XOR<XOR<EmployeeUpdateToOneWithWhereWithoutAttendancesInput, EmployeeUpdateWithoutAttendancesInput>, EmployeeUncheckedUpdateWithoutAttendancesInput>
+  }
+
+  export type TeamCreateNestedOneWithoutOnboardingChecklistsInput = {
+    create?: XOR<TeamCreateWithoutOnboardingChecklistsInput, TeamUncheckedCreateWithoutOnboardingChecklistsInput>
+    connectOrCreate?: TeamCreateOrConnectWithoutOnboardingChecklistsInput
+    connect?: TeamWhereUniqueInput
+  }
+
+  export type EmployeeCreateNestedOneWithoutOnboardingChecklistsInput = {
+    create?: XOR<EmployeeCreateWithoutOnboardingChecklistsInput, EmployeeUncheckedCreateWithoutOnboardingChecklistsInput>
+    connectOrCreate?: EmployeeCreateOrConnectWithoutOnboardingChecklistsInput
+    connect?: EmployeeWhereUniqueInput
+  }
+
+  export type TeamUpdateOneRequiredWithoutOnboardingChecklistsNestedInput = {
+    create?: XOR<TeamCreateWithoutOnboardingChecklistsInput, TeamUncheckedCreateWithoutOnboardingChecklistsInput>
+    connectOrCreate?: TeamCreateOrConnectWithoutOnboardingChecklistsInput
+    upsert?: TeamUpsertWithoutOnboardingChecklistsInput
+    connect?: TeamWhereUniqueInput
+    update?: XOR<XOR<TeamUpdateToOneWithWhereWithoutOnboardingChecklistsInput, TeamUpdateWithoutOnboardingChecklistsInput>, TeamUncheckedUpdateWithoutOnboardingChecklistsInput>
+  }
+
+  export type EmployeeUpdateOneRequiredWithoutOnboardingChecklistsNestedInput = {
+    create?: XOR<EmployeeCreateWithoutOnboardingChecklistsInput, EmployeeUncheckedCreateWithoutOnboardingChecklistsInput>
+    connectOrCreate?: EmployeeCreateOrConnectWithoutOnboardingChecklistsInput
+    upsert?: EmployeeUpsertWithoutOnboardingChecklistsInput
+    connect?: EmployeeWhereUniqueInput
+    update?: XOR<XOR<EmployeeUpdateToOneWithWhereWithoutOnboardingChecklistsInput, EmployeeUpdateWithoutOnboardingChecklistsInput>, EmployeeUncheckedUpdateWithoutOnboardingChecklistsInput>
+  }
+
+  export type TeamCreateNestedOneWithoutJobOpeningsInput = {
+    create?: XOR<TeamCreateWithoutJobOpeningsInput, TeamUncheckedCreateWithoutJobOpeningsInput>
+    connectOrCreate?: TeamCreateOrConnectWithoutJobOpeningsInput
+    connect?: TeamWhereUniqueInput
+  }
+
+  export type CandidateCreateNestedManyWithoutJobOpeningInput = {
+    create?: XOR<CandidateCreateWithoutJobOpeningInput, CandidateUncheckedCreateWithoutJobOpeningInput> | CandidateCreateWithoutJobOpeningInput[] | CandidateUncheckedCreateWithoutJobOpeningInput[]
+    connectOrCreate?: CandidateCreateOrConnectWithoutJobOpeningInput | CandidateCreateOrConnectWithoutJobOpeningInput[]
+    createMany?: CandidateCreateManyJobOpeningInputEnvelope
+    connect?: CandidateWhereUniqueInput | CandidateWhereUniqueInput[]
+  }
+
+  export type CandidateUncheckedCreateNestedManyWithoutJobOpeningInput = {
+    create?: XOR<CandidateCreateWithoutJobOpeningInput, CandidateUncheckedCreateWithoutJobOpeningInput> | CandidateCreateWithoutJobOpeningInput[] | CandidateUncheckedCreateWithoutJobOpeningInput[]
+    connectOrCreate?: CandidateCreateOrConnectWithoutJobOpeningInput | CandidateCreateOrConnectWithoutJobOpeningInput[]
+    createMany?: CandidateCreateManyJobOpeningInputEnvelope
+    connect?: CandidateWhereUniqueInput | CandidateWhereUniqueInput[]
+  }
+
+  export type TeamUpdateOneRequiredWithoutJobOpeningsNestedInput = {
+    create?: XOR<TeamCreateWithoutJobOpeningsInput, TeamUncheckedCreateWithoutJobOpeningsInput>
+    connectOrCreate?: TeamCreateOrConnectWithoutJobOpeningsInput
+    upsert?: TeamUpsertWithoutJobOpeningsInput
+    connect?: TeamWhereUniqueInput
+    update?: XOR<XOR<TeamUpdateToOneWithWhereWithoutJobOpeningsInput, TeamUpdateWithoutJobOpeningsInput>, TeamUncheckedUpdateWithoutJobOpeningsInput>
+  }
+
+  export type CandidateUpdateManyWithoutJobOpeningNestedInput = {
+    create?: XOR<CandidateCreateWithoutJobOpeningInput, CandidateUncheckedCreateWithoutJobOpeningInput> | CandidateCreateWithoutJobOpeningInput[] | CandidateUncheckedCreateWithoutJobOpeningInput[]
+    connectOrCreate?: CandidateCreateOrConnectWithoutJobOpeningInput | CandidateCreateOrConnectWithoutJobOpeningInput[]
+    upsert?: CandidateUpsertWithWhereUniqueWithoutJobOpeningInput | CandidateUpsertWithWhereUniqueWithoutJobOpeningInput[]
+    createMany?: CandidateCreateManyJobOpeningInputEnvelope
+    set?: CandidateWhereUniqueInput | CandidateWhereUniqueInput[]
+    disconnect?: CandidateWhereUniqueInput | CandidateWhereUniqueInput[]
+    delete?: CandidateWhereUniqueInput | CandidateWhereUniqueInput[]
+    connect?: CandidateWhereUniqueInput | CandidateWhereUniqueInput[]
+    update?: CandidateUpdateWithWhereUniqueWithoutJobOpeningInput | CandidateUpdateWithWhereUniqueWithoutJobOpeningInput[]
+    updateMany?: CandidateUpdateManyWithWhereWithoutJobOpeningInput | CandidateUpdateManyWithWhereWithoutJobOpeningInput[]
+    deleteMany?: CandidateScalarWhereInput | CandidateScalarWhereInput[]
+  }
+
+  export type CandidateUncheckedUpdateManyWithoutJobOpeningNestedInput = {
+    create?: XOR<CandidateCreateWithoutJobOpeningInput, CandidateUncheckedCreateWithoutJobOpeningInput> | CandidateCreateWithoutJobOpeningInput[] | CandidateUncheckedCreateWithoutJobOpeningInput[]
+    connectOrCreate?: CandidateCreateOrConnectWithoutJobOpeningInput | CandidateCreateOrConnectWithoutJobOpeningInput[]
+    upsert?: CandidateUpsertWithWhereUniqueWithoutJobOpeningInput | CandidateUpsertWithWhereUniqueWithoutJobOpeningInput[]
+    createMany?: CandidateCreateManyJobOpeningInputEnvelope
+    set?: CandidateWhereUniqueInput | CandidateWhereUniqueInput[]
+    disconnect?: CandidateWhereUniqueInput | CandidateWhereUniqueInput[]
+    delete?: CandidateWhereUniqueInput | CandidateWhereUniqueInput[]
+    connect?: CandidateWhereUniqueInput | CandidateWhereUniqueInput[]
+    update?: CandidateUpdateWithWhereUniqueWithoutJobOpeningInput | CandidateUpdateWithWhereUniqueWithoutJobOpeningInput[]
+    updateMany?: CandidateUpdateManyWithWhereWithoutJobOpeningInput | CandidateUpdateManyWithWhereWithoutJobOpeningInput[]
+    deleteMany?: CandidateScalarWhereInput | CandidateScalarWhereInput[]
+  }
+
+  export type TeamCreateNestedOneWithoutCandidatesInput = {
+    create?: XOR<TeamCreateWithoutCandidatesInput, TeamUncheckedCreateWithoutCandidatesInput>
+    connectOrCreate?: TeamCreateOrConnectWithoutCandidatesInput
+    connect?: TeamWhereUniqueInput
+  }
+
+  export type JobOpeningCreateNestedOneWithoutCandidatesInput = {
+    create?: XOR<JobOpeningCreateWithoutCandidatesInput, JobOpeningUncheckedCreateWithoutCandidatesInput>
+    connectOrCreate?: JobOpeningCreateOrConnectWithoutCandidatesInput
+    connect?: JobOpeningWhereUniqueInput
+  }
+
+  export type TeamUpdateOneRequiredWithoutCandidatesNestedInput = {
+    create?: XOR<TeamCreateWithoutCandidatesInput, TeamUncheckedCreateWithoutCandidatesInput>
+    connectOrCreate?: TeamCreateOrConnectWithoutCandidatesInput
+    upsert?: TeamUpsertWithoutCandidatesInput
+    connect?: TeamWhereUniqueInput
+    update?: XOR<XOR<TeamUpdateToOneWithWhereWithoutCandidatesInput, TeamUpdateWithoutCandidatesInput>, TeamUncheckedUpdateWithoutCandidatesInput>
+  }
+
+  export type JobOpeningUpdateOneWithoutCandidatesNestedInput = {
+    create?: XOR<JobOpeningCreateWithoutCandidatesInput, JobOpeningUncheckedCreateWithoutCandidatesInput>
+    connectOrCreate?: JobOpeningCreateOrConnectWithoutCandidatesInput
+    upsert?: JobOpeningUpsertWithoutCandidatesInput
+    disconnect?: JobOpeningWhereInput | boolean
+    delete?: JobOpeningWhereInput | boolean
+    connect?: JobOpeningWhereUniqueInput
+    update?: XOR<XOR<JobOpeningUpdateToOneWithWhereWithoutCandidatesInput, JobOpeningUpdateWithoutCandidatesInput>, JobOpeningUncheckedUpdateWithoutCandidatesInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -105026,6 +115877,29 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumTimesheetStatusFilter<$PrismaModel>
     _max?: NestedEnumTimesheetStatusFilter<$PrismaModel>
+  }
+  export type NestedJsonFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<NestedJsonFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
   export type ProjectCreateWithoutTeamInput = {
@@ -106155,6 +117029,10 @@ export namespace Prisma {
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutEmployeeInput
     role: RoleCreateNestedOneWithoutEmployeesInput
+    leaveRequests?: LeaveRequestCreateNestedManyWithoutEmployeeInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutEmployeeInput
+    attendances?: AttendanceCreateNestedManyWithoutEmployeeInput
+    onboardingChecklists?: OnboardingChecklistCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeUncheckedCreateWithoutTeamInput = {
@@ -106179,6 +117057,10 @@ export namespace Prisma {
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutEmployeeInput
+    attendances?: AttendanceUncheckedCreateNestedManyWithoutEmployeeInput
+    onboardingChecklists?: OnboardingChecklistUncheckedCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeCreateOrConnectWithoutTeamInput = {
@@ -106356,6 +117238,252 @@ export namespace Prisma {
 
   export type RateCardCreateManyTeamInputEnvelope = {
     data: RateCardCreateManyTeamInput | RateCardCreateManyTeamInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type LeaveRequestCreateWithoutTeamInput = {
+    id?: string
+    userId: string
+    leaveType: string
+    startDate: Date | string
+    endDate: Date | string
+    totalDays: number
+    reason: string
+    status?: string
+    approvedBy?: string | null
+    approvedAt?: Date | string | null
+    rejectionReason?: string | null
+    emergencyContact?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    employee: EmployeeCreateNestedOneWithoutLeaveRequestsInput
+  }
+
+  export type LeaveRequestUncheckedCreateWithoutTeamInput = {
+    id?: string
+    employeeId: string
+    userId: string
+    leaveType: string
+    startDate: Date | string
+    endDate: Date | string
+    totalDays: number
+    reason: string
+    status?: string
+    approvedBy?: string | null
+    approvedAt?: Date | string | null
+    rejectionReason?: string | null
+    emergencyContact?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LeaveRequestCreateOrConnectWithoutTeamInput = {
+    where: LeaveRequestWhereUniqueInput
+    create: XOR<LeaveRequestCreateWithoutTeamInput, LeaveRequestUncheckedCreateWithoutTeamInput>
+  }
+
+  export type LeaveRequestCreateManyTeamInputEnvelope = {
+    data: LeaveRequestCreateManyTeamInput | LeaveRequestCreateManyTeamInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type LeaveBalanceCreateWithoutTeamInput = {
+    id?: string
+    year: number
+    casualTotal?: number
+    casualUsed?: number
+    sickTotal?: number
+    sickUsed?: number
+    paidTotal?: number
+    paidUsed?: number
+    unpaidUsed?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    employee: EmployeeCreateNestedOneWithoutLeaveBalancesInput
+  }
+
+  export type LeaveBalanceUncheckedCreateWithoutTeamInput = {
+    id?: string
+    employeeId: string
+    year: number
+    casualTotal?: number
+    casualUsed?: number
+    sickTotal?: number
+    sickUsed?: number
+    paidTotal?: number
+    paidUsed?: number
+    unpaidUsed?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LeaveBalanceCreateOrConnectWithoutTeamInput = {
+    where: LeaveBalanceWhereUniqueInput
+    create: XOR<LeaveBalanceCreateWithoutTeamInput, LeaveBalanceUncheckedCreateWithoutTeamInput>
+  }
+
+  export type LeaveBalanceCreateManyTeamInputEnvelope = {
+    data: LeaveBalanceCreateManyTeamInput | LeaveBalanceCreateManyTeamInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AttendanceCreateWithoutTeamInput = {
+    id?: string
+    userId: string
+    date: Date | string
+    checkInTime: Date | string
+    checkOutTime?: Date | string | null
+    workMode?: string
+    status?: string
+    totalHours?: number | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    employee: EmployeeCreateNestedOneWithoutAttendancesInput
+  }
+
+  export type AttendanceUncheckedCreateWithoutTeamInput = {
+    id?: string
+    employeeId: string
+    userId: string
+    date: Date | string
+    checkInTime: Date | string
+    checkOutTime?: Date | string | null
+    workMode?: string
+    status?: string
+    totalHours?: number | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AttendanceCreateOrConnectWithoutTeamInput = {
+    where: AttendanceWhereUniqueInput
+    create: XOR<AttendanceCreateWithoutTeamInput, AttendanceUncheckedCreateWithoutTeamInput>
+  }
+
+  export type AttendanceCreateManyTeamInputEnvelope = {
+    data: AttendanceCreateManyTeamInput | AttendanceCreateManyTeamInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type OnboardingChecklistCreateWithoutTeamInput = {
+    id?: string
+    type?: string
+    title: string
+    items: JsonNullValueInput | InputJsonValue
+    isCompleted?: boolean
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    employee: EmployeeCreateNestedOneWithoutOnboardingChecklistsInput
+  }
+
+  export type OnboardingChecklistUncheckedCreateWithoutTeamInput = {
+    id?: string
+    employeeId: string
+    type?: string
+    title: string
+    items: JsonNullValueInput | InputJsonValue
+    isCompleted?: boolean
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type OnboardingChecklistCreateOrConnectWithoutTeamInput = {
+    where: OnboardingChecklistWhereUniqueInput
+    create: XOR<OnboardingChecklistCreateWithoutTeamInput, OnboardingChecklistUncheckedCreateWithoutTeamInput>
+  }
+
+  export type OnboardingChecklistCreateManyTeamInputEnvelope = {
+    data: OnboardingChecklistCreateManyTeamInput | OnboardingChecklistCreateManyTeamInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type JobOpeningCreateWithoutTeamInput = {
+    id?: string
+    title: string
+    department: string
+    location?: string
+    type?: string
+    status?: string
+    openingsCount?: number
+    description?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    candidates?: CandidateCreateNestedManyWithoutJobOpeningInput
+  }
+
+  export type JobOpeningUncheckedCreateWithoutTeamInput = {
+    id?: string
+    title: string
+    department: string
+    location?: string
+    type?: string
+    status?: string
+    openingsCount?: number
+    description?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    candidates?: CandidateUncheckedCreateNestedManyWithoutJobOpeningInput
+  }
+
+  export type JobOpeningCreateOrConnectWithoutTeamInput = {
+    where: JobOpeningWhereUniqueInput
+    create: XOR<JobOpeningCreateWithoutTeamInput, JobOpeningUncheckedCreateWithoutTeamInput>
+  }
+
+  export type JobOpeningCreateManyTeamInputEnvelope = {
+    data: JobOpeningCreateManyTeamInput | JobOpeningCreateManyTeamInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CandidateCreateWithoutTeamInput = {
+    id?: string
+    fullName: string
+    email: string
+    phone?: string | null
+    stage?: string
+    resumeUrl?: string | null
+    portfolioUrl?: string | null
+    experienceYears?: number | null
+    currentCtc?: number | null
+    expectedCtc?: number | null
+    noticePeriodDays?: number | null
+    rating?: number | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    jobOpening?: JobOpeningCreateNestedOneWithoutCandidatesInput
+  }
+
+  export type CandidateUncheckedCreateWithoutTeamInput = {
+    id?: string
+    jobOpeningId?: string | null
+    fullName: string
+    email: string
+    phone?: string | null
+    stage?: string
+    resumeUrl?: string | null
+    portfolioUrl?: string | null
+    experienceYears?: number | null
+    currentCtc?: number | null
+    expectedCtc?: number | null
+    noticePeriodDays?: number | null
+    rating?: number | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CandidateCreateOrConnectWithoutTeamInput = {
+    where: CandidateWhereUniqueInput
+    create: XOR<CandidateCreateWithoutTeamInput, CandidateUncheckedCreateWithoutTeamInput>
+  }
+
+  export type CandidateCreateManyTeamInputEnvelope = {
+    data: CandidateCreateManyTeamInput | CandidateCreateManyTeamInput[]
     skipDuplicates?: boolean
   }
 
@@ -107468,6 +118596,218 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"RateCard"> | Date | string
   }
 
+  export type LeaveRequestUpsertWithWhereUniqueWithoutTeamInput = {
+    where: LeaveRequestWhereUniqueInput
+    update: XOR<LeaveRequestUpdateWithoutTeamInput, LeaveRequestUncheckedUpdateWithoutTeamInput>
+    create: XOR<LeaveRequestCreateWithoutTeamInput, LeaveRequestUncheckedCreateWithoutTeamInput>
+  }
+
+  export type LeaveRequestUpdateWithWhereUniqueWithoutTeamInput = {
+    where: LeaveRequestWhereUniqueInput
+    data: XOR<LeaveRequestUpdateWithoutTeamInput, LeaveRequestUncheckedUpdateWithoutTeamInput>
+  }
+
+  export type LeaveRequestUpdateManyWithWhereWithoutTeamInput = {
+    where: LeaveRequestScalarWhereInput
+    data: XOR<LeaveRequestUpdateManyMutationInput, LeaveRequestUncheckedUpdateManyWithoutTeamInput>
+  }
+
+  export type LeaveRequestScalarWhereInput = {
+    AND?: LeaveRequestScalarWhereInput | LeaveRequestScalarWhereInput[]
+    OR?: LeaveRequestScalarWhereInput[]
+    NOT?: LeaveRequestScalarWhereInput | LeaveRequestScalarWhereInput[]
+    id?: StringFilter<"LeaveRequest"> | string
+    teamId?: StringFilter<"LeaveRequest"> | string
+    employeeId?: StringFilter<"LeaveRequest"> | string
+    userId?: StringFilter<"LeaveRequest"> | string
+    leaveType?: StringFilter<"LeaveRequest"> | string
+    startDate?: DateTimeFilter<"LeaveRequest"> | Date | string
+    endDate?: DateTimeFilter<"LeaveRequest"> | Date | string
+    totalDays?: FloatFilter<"LeaveRequest"> | number
+    reason?: StringFilter<"LeaveRequest"> | string
+    status?: StringFilter<"LeaveRequest"> | string
+    approvedBy?: StringNullableFilter<"LeaveRequest"> | string | null
+    approvedAt?: DateTimeNullableFilter<"LeaveRequest"> | Date | string | null
+    rejectionReason?: StringNullableFilter<"LeaveRequest"> | string | null
+    emergencyContact?: StringNullableFilter<"LeaveRequest"> | string | null
+    createdAt?: DateTimeFilter<"LeaveRequest"> | Date | string
+    updatedAt?: DateTimeFilter<"LeaveRequest"> | Date | string
+  }
+
+  export type LeaveBalanceUpsertWithWhereUniqueWithoutTeamInput = {
+    where: LeaveBalanceWhereUniqueInput
+    update: XOR<LeaveBalanceUpdateWithoutTeamInput, LeaveBalanceUncheckedUpdateWithoutTeamInput>
+    create: XOR<LeaveBalanceCreateWithoutTeamInput, LeaveBalanceUncheckedCreateWithoutTeamInput>
+  }
+
+  export type LeaveBalanceUpdateWithWhereUniqueWithoutTeamInput = {
+    where: LeaveBalanceWhereUniqueInput
+    data: XOR<LeaveBalanceUpdateWithoutTeamInput, LeaveBalanceUncheckedUpdateWithoutTeamInput>
+  }
+
+  export type LeaveBalanceUpdateManyWithWhereWithoutTeamInput = {
+    where: LeaveBalanceScalarWhereInput
+    data: XOR<LeaveBalanceUpdateManyMutationInput, LeaveBalanceUncheckedUpdateManyWithoutTeamInput>
+  }
+
+  export type LeaveBalanceScalarWhereInput = {
+    AND?: LeaveBalanceScalarWhereInput | LeaveBalanceScalarWhereInput[]
+    OR?: LeaveBalanceScalarWhereInput[]
+    NOT?: LeaveBalanceScalarWhereInput | LeaveBalanceScalarWhereInput[]
+    id?: StringFilter<"LeaveBalance"> | string
+    teamId?: StringFilter<"LeaveBalance"> | string
+    employeeId?: StringFilter<"LeaveBalance"> | string
+    year?: IntFilter<"LeaveBalance"> | number
+    casualTotal?: FloatFilter<"LeaveBalance"> | number
+    casualUsed?: FloatFilter<"LeaveBalance"> | number
+    sickTotal?: FloatFilter<"LeaveBalance"> | number
+    sickUsed?: FloatFilter<"LeaveBalance"> | number
+    paidTotal?: FloatFilter<"LeaveBalance"> | number
+    paidUsed?: FloatFilter<"LeaveBalance"> | number
+    unpaidUsed?: FloatFilter<"LeaveBalance"> | number
+    createdAt?: DateTimeFilter<"LeaveBalance"> | Date | string
+    updatedAt?: DateTimeFilter<"LeaveBalance"> | Date | string
+  }
+
+  export type AttendanceUpsertWithWhereUniqueWithoutTeamInput = {
+    where: AttendanceWhereUniqueInput
+    update: XOR<AttendanceUpdateWithoutTeamInput, AttendanceUncheckedUpdateWithoutTeamInput>
+    create: XOR<AttendanceCreateWithoutTeamInput, AttendanceUncheckedCreateWithoutTeamInput>
+  }
+
+  export type AttendanceUpdateWithWhereUniqueWithoutTeamInput = {
+    where: AttendanceWhereUniqueInput
+    data: XOR<AttendanceUpdateWithoutTeamInput, AttendanceUncheckedUpdateWithoutTeamInput>
+  }
+
+  export type AttendanceUpdateManyWithWhereWithoutTeamInput = {
+    where: AttendanceScalarWhereInput
+    data: XOR<AttendanceUpdateManyMutationInput, AttendanceUncheckedUpdateManyWithoutTeamInput>
+  }
+
+  export type AttendanceScalarWhereInput = {
+    AND?: AttendanceScalarWhereInput | AttendanceScalarWhereInput[]
+    OR?: AttendanceScalarWhereInput[]
+    NOT?: AttendanceScalarWhereInput | AttendanceScalarWhereInput[]
+    id?: StringFilter<"Attendance"> | string
+    teamId?: StringFilter<"Attendance"> | string
+    employeeId?: StringFilter<"Attendance"> | string
+    userId?: StringFilter<"Attendance"> | string
+    date?: DateTimeFilter<"Attendance"> | Date | string
+    checkInTime?: DateTimeFilter<"Attendance"> | Date | string
+    checkOutTime?: DateTimeNullableFilter<"Attendance"> | Date | string | null
+    workMode?: StringFilter<"Attendance"> | string
+    status?: StringFilter<"Attendance"> | string
+    totalHours?: FloatNullableFilter<"Attendance"> | number | null
+    notes?: StringNullableFilter<"Attendance"> | string | null
+    createdAt?: DateTimeFilter<"Attendance"> | Date | string
+    updatedAt?: DateTimeFilter<"Attendance"> | Date | string
+  }
+
+  export type OnboardingChecklistUpsertWithWhereUniqueWithoutTeamInput = {
+    where: OnboardingChecklistWhereUniqueInput
+    update: XOR<OnboardingChecklistUpdateWithoutTeamInput, OnboardingChecklistUncheckedUpdateWithoutTeamInput>
+    create: XOR<OnboardingChecklistCreateWithoutTeamInput, OnboardingChecklistUncheckedCreateWithoutTeamInput>
+  }
+
+  export type OnboardingChecklistUpdateWithWhereUniqueWithoutTeamInput = {
+    where: OnboardingChecklistWhereUniqueInput
+    data: XOR<OnboardingChecklistUpdateWithoutTeamInput, OnboardingChecklistUncheckedUpdateWithoutTeamInput>
+  }
+
+  export type OnboardingChecklistUpdateManyWithWhereWithoutTeamInput = {
+    where: OnboardingChecklistScalarWhereInput
+    data: XOR<OnboardingChecklistUpdateManyMutationInput, OnboardingChecklistUncheckedUpdateManyWithoutTeamInput>
+  }
+
+  export type OnboardingChecklistScalarWhereInput = {
+    AND?: OnboardingChecklistScalarWhereInput | OnboardingChecklistScalarWhereInput[]
+    OR?: OnboardingChecklistScalarWhereInput[]
+    NOT?: OnboardingChecklistScalarWhereInput | OnboardingChecklistScalarWhereInput[]
+    id?: StringFilter<"OnboardingChecklist"> | string
+    teamId?: StringFilter<"OnboardingChecklist"> | string
+    employeeId?: StringFilter<"OnboardingChecklist"> | string
+    type?: StringFilter<"OnboardingChecklist"> | string
+    title?: StringFilter<"OnboardingChecklist"> | string
+    items?: JsonFilter<"OnboardingChecklist">
+    isCompleted?: BoolFilter<"OnboardingChecklist"> | boolean
+    completedAt?: DateTimeNullableFilter<"OnboardingChecklist"> | Date | string | null
+    createdAt?: DateTimeFilter<"OnboardingChecklist"> | Date | string
+    updatedAt?: DateTimeFilter<"OnboardingChecklist"> | Date | string
+  }
+
+  export type JobOpeningUpsertWithWhereUniqueWithoutTeamInput = {
+    where: JobOpeningWhereUniqueInput
+    update: XOR<JobOpeningUpdateWithoutTeamInput, JobOpeningUncheckedUpdateWithoutTeamInput>
+    create: XOR<JobOpeningCreateWithoutTeamInput, JobOpeningUncheckedCreateWithoutTeamInput>
+  }
+
+  export type JobOpeningUpdateWithWhereUniqueWithoutTeamInput = {
+    where: JobOpeningWhereUniqueInput
+    data: XOR<JobOpeningUpdateWithoutTeamInput, JobOpeningUncheckedUpdateWithoutTeamInput>
+  }
+
+  export type JobOpeningUpdateManyWithWhereWithoutTeamInput = {
+    where: JobOpeningScalarWhereInput
+    data: XOR<JobOpeningUpdateManyMutationInput, JobOpeningUncheckedUpdateManyWithoutTeamInput>
+  }
+
+  export type JobOpeningScalarWhereInput = {
+    AND?: JobOpeningScalarWhereInput | JobOpeningScalarWhereInput[]
+    OR?: JobOpeningScalarWhereInput[]
+    NOT?: JobOpeningScalarWhereInput | JobOpeningScalarWhereInput[]
+    id?: StringFilter<"JobOpening"> | string
+    teamId?: StringFilter<"JobOpening"> | string
+    title?: StringFilter<"JobOpening"> | string
+    department?: StringFilter<"JobOpening"> | string
+    location?: StringFilter<"JobOpening"> | string
+    type?: StringFilter<"JobOpening"> | string
+    status?: StringFilter<"JobOpening"> | string
+    openingsCount?: IntFilter<"JobOpening"> | number
+    description?: StringNullableFilter<"JobOpening"> | string | null
+    createdAt?: DateTimeFilter<"JobOpening"> | Date | string
+    updatedAt?: DateTimeFilter<"JobOpening"> | Date | string
+  }
+
+  export type CandidateUpsertWithWhereUniqueWithoutTeamInput = {
+    where: CandidateWhereUniqueInput
+    update: XOR<CandidateUpdateWithoutTeamInput, CandidateUncheckedUpdateWithoutTeamInput>
+    create: XOR<CandidateCreateWithoutTeamInput, CandidateUncheckedCreateWithoutTeamInput>
+  }
+
+  export type CandidateUpdateWithWhereUniqueWithoutTeamInput = {
+    where: CandidateWhereUniqueInput
+    data: XOR<CandidateUpdateWithoutTeamInput, CandidateUncheckedUpdateWithoutTeamInput>
+  }
+
+  export type CandidateUpdateManyWithWhereWithoutTeamInput = {
+    where: CandidateScalarWhereInput
+    data: XOR<CandidateUpdateManyMutationInput, CandidateUncheckedUpdateManyWithoutTeamInput>
+  }
+
+  export type CandidateScalarWhereInput = {
+    AND?: CandidateScalarWhereInput | CandidateScalarWhereInput[]
+    OR?: CandidateScalarWhereInput[]
+    NOT?: CandidateScalarWhereInput | CandidateScalarWhereInput[]
+    id?: StringFilter<"Candidate"> | string
+    teamId?: StringFilter<"Candidate"> | string
+    jobOpeningId?: StringNullableFilter<"Candidate"> | string | null
+    fullName?: StringFilter<"Candidate"> | string
+    email?: StringFilter<"Candidate"> | string
+    phone?: StringNullableFilter<"Candidate"> | string | null
+    stage?: StringFilter<"Candidate"> | string
+    resumeUrl?: StringNullableFilter<"Candidate"> | string | null
+    portfolioUrl?: StringNullableFilter<"Candidate"> | string | null
+    experienceYears?: FloatNullableFilter<"Candidate"> | number | null
+    currentCtc?: FloatNullableFilter<"Candidate"> | number | null
+    expectedCtc?: FloatNullableFilter<"Candidate"> | number | null
+    noticePeriodDays?: IntNullableFilter<"Candidate"> | number | null
+    rating?: IntNullableFilter<"Candidate"> | number | null
+    notes?: StringNullableFilter<"Candidate"> | string | null
+    createdAt?: DateTimeFilter<"Candidate"> | Date | string
+    updatedAt?: DateTimeFilter<"Candidate"> | Date | string
+  }
+
   export type TeamCreateWithoutProjectsInput = {
     id?: string
     name: string
@@ -107505,6 +118845,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryCreateNestedManyWithoutTeamInput
     resourceAllocations?: ResourceAllocationCreateNestedManyWithoutTeamInput
     rateCards?: RateCardCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningCreateNestedManyWithoutTeamInput
+    candidates?: CandidateCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateWithoutProjectsInput = {
@@ -107544,6 +118890,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutTeamInput
     resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput
     rateCards?: RateCardUncheckedCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceUncheckedCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistUncheckedCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningUncheckedCreateNestedManyWithoutTeamInput
+    candidates?: CandidateUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamCreateOrConnectWithoutProjectsInput = {
@@ -108020,6 +119372,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUpdateManyWithoutTeamNestedInput
     resourceAllocations?: ResourceAllocationUpdateManyWithoutTeamNestedInput
     rateCards?: RateCardUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateWithoutProjectsInput = {
@@ -108059,6 +119417,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutTeamNestedInput
     resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput
     rateCards?: RateCardUncheckedUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUncheckedUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUncheckedUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUncheckedUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUncheckedUpdateManyWithoutTeamNestedInput
   }
 
   export type IssueUpsertWithWhereUniqueWithoutProjectInput = {
@@ -108298,6 +119662,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryCreateNestedManyWithoutTeamInput
     resourceAllocations?: ResourceAllocationCreateNestedManyWithoutTeamInput
     rateCards?: RateCardCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningCreateNestedManyWithoutTeamInput
+    candidates?: CandidateCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateWithoutWorkflowStatesInput = {
@@ -108337,6 +119707,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutTeamInput
     resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput
     rateCards?: RateCardUncheckedCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceUncheckedCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistUncheckedCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningUncheckedCreateNestedManyWithoutTeamInput
+    candidates?: CandidateUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamCreateOrConnectWithoutWorkflowStatesInput = {
@@ -108444,6 +119820,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUpdateManyWithoutTeamNestedInput
     resourceAllocations?: ResourceAllocationUpdateManyWithoutTeamNestedInput
     rateCards?: RateCardUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateWithoutWorkflowStatesInput = {
@@ -108483,6 +119865,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutTeamNestedInput
     resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput
     rateCards?: RateCardUncheckedUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUncheckedUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUncheckedUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUncheckedUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUncheckedUpdateManyWithoutTeamNestedInput
   }
 
   export type IssueUpsertWithWhereUniqueWithoutWorkflowStateInput = {
@@ -108538,6 +119926,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryCreateNestedManyWithoutTeamInput
     resourceAllocations?: ResourceAllocationCreateNestedManyWithoutTeamInput
     rateCards?: RateCardCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningCreateNestedManyWithoutTeamInput
+    candidates?: CandidateCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateWithoutLabelsInput = {
@@ -108577,6 +119971,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutTeamInput
     resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput
     rateCards?: RateCardUncheckedCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceUncheckedCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistUncheckedCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningUncheckedCreateNestedManyWithoutTeamInput
+    candidates?: CandidateUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamCreateOrConnectWithoutLabelsInput = {
@@ -108654,6 +120054,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUpdateManyWithoutTeamNestedInput
     resourceAllocations?: ResourceAllocationUpdateManyWithoutTeamNestedInput
     rateCards?: RateCardUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateWithoutLabelsInput = {
@@ -108693,6 +120099,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutTeamNestedInput
     resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput
     rateCards?: RateCardUncheckedUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUncheckedUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUncheckedUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUncheckedUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUncheckedUpdateManyWithoutTeamNestedInput
   }
 
   export type IssueLabelUpsertWithWhereUniqueWithoutLabelInput = {
@@ -108758,6 +120170,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryCreateNestedManyWithoutTeamInput
     resourceAllocations?: ResourceAllocationCreateNestedManyWithoutTeamInput
     rateCards?: RateCardCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningCreateNestedManyWithoutTeamInput
+    candidates?: CandidateCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateWithoutIssuesInput = {
@@ -108797,6 +120215,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutTeamInput
     resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput
     rateCards?: RateCardUncheckedCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceUncheckedCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistUncheckedCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningUncheckedCreateNestedManyWithoutTeamInput
+    candidates?: CandidateUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamCreateOrConnectWithoutIssuesInput = {
@@ -109030,6 +120454,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUpdateManyWithoutTeamNestedInput
     resourceAllocations?: ResourceAllocationUpdateManyWithoutTeamNestedInput
     rateCards?: RateCardUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateWithoutIssuesInput = {
@@ -109069,6 +120499,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutTeamNestedInput
     resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput
     rateCards?: RateCardUncheckedUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUncheckedUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUncheckedUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUncheckedUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUncheckedUpdateManyWithoutTeamNestedInput
   }
 
   export type ProjectUpsertWithoutIssuesInput = {
@@ -109511,6 +120947,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryCreateNestedManyWithoutTeamInput
     resourceAllocations?: ResourceAllocationCreateNestedManyWithoutTeamInput
     rateCards?: RateCardCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningCreateNestedManyWithoutTeamInput
+    candidates?: CandidateCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateWithoutMembersInput = {
@@ -109550,6 +120992,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutTeamInput
     resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput
     rateCards?: RateCardUncheckedCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceUncheckedCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistUncheckedCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningUncheckedCreateNestedManyWithoutTeamInput
+    candidates?: CandidateUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamCreateOrConnectWithoutMembersInput = {
@@ -109605,6 +121053,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUpdateManyWithoutTeamNestedInput
     resourceAllocations?: ResourceAllocationUpdateManyWithoutTeamNestedInput
     rateCards?: RateCardUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateWithoutMembersInput = {
@@ -109644,6 +121098,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutTeamNestedInput
     resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput
     rateCards?: RateCardUncheckedUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUncheckedUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUncheckedUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUncheckedUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUncheckedUpdateManyWithoutTeamNestedInput
   }
 
   export type ProjectCreateWithoutMembersInput = {
@@ -109791,6 +121251,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryCreateNestedManyWithoutTeamInput
     resourceAllocations?: ResourceAllocationCreateNestedManyWithoutTeamInput
     rateCards?: RateCardCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningCreateNestedManyWithoutTeamInput
+    candidates?: CandidateCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateWithoutInvitationsInput = {
@@ -109830,6 +121296,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutTeamInput
     resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput
     rateCards?: RateCardUncheckedCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceUncheckedCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistUncheckedCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningUncheckedCreateNestedManyWithoutTeamInput
+    candidates?: CandidateUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamCreateOrConnectWithoutInvitationsInput = {
@@ -109885,6 +121357,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUpdateManyWithoutTeamNestedInput
     resourceAllocations?: ResourceAllocationUpdateManyWithoutTeamNestedInput
     rateCards?: RateCardUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateWithoutInvitationsInput = {
@@ -109924,6 +121402,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutTeamNestedInput
     resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput
     rateCards?: RateCardUncheckedUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUncheckedUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUncheckedUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUncheckedUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUncheckedUpdateManyWithoutTeamNestedInput
   }
 
   export type SessionCreateWithoutUserInput = {
@@ -110046,6 +121530,10 @@ export namespace Prisma {
     updatedAt?: Date | string
     role: RoleCreateNestedOneWithoutEmployeesInput
     team: TeamCreateNestedOneWithoutEmployeesInput
+    leaveRequests?: LeaveRequestCreateNestedManyWithoutEmployeeInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutEmployeeInput
+    attendances?: AttendanceCreateNestedManyWithoutEmployeeInput
+    onboardingChecklists?: OnboardingChecklistCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeUncheckedCreateWithoutUserInput = {
@@ -110070,6 +121558,10 @@ export namespace Prisma {
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutEmployeeInput
+    attendances?: AttendanceUncheckedCreateNestedManyWithoutEmployeeInput
+    onboardingChecklists?: OnboardingChecklistUncheckedCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeCreateOrConnectWithoutUserInput = {
@@ -110338,6 +121830,10 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: RoleUpdateOneRequiredWithoutEmployeesNestedInput
     team?: TeamUpdateOneRequiredWithoutEmployeesNestedInput
+    leaveRequests?: LeaveRequestUpdateManyWithoutEmployeeNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutEmployeeNestedInput
+    attendances?: AttendanceUpdateManyWithoutEmployeeNestedInput
+    onboardingChecklists?: OnboardingChecklistUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutUserInput = {
@@ -110362,6 +121858,10 @@ export namespace Prisma {
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutEmployeeNestedInput
+    attendances?: AttendanceUncheckedUpdateManyWithoutEmployeeNestedInput
+    onboardingChecklists?: OnboardingChecklistUncheckedUpdateManyWithoutEmployeeNestedInput
   }
 
   export type TimesheetUpsertWithWhereUniqueWithoutUserInput = {
@@ -110809,6 +122309,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryCreateNestedManyWithoutTeamInput
     resourceAllocations?: ResourceAllocationCreateNestedManyWithoutTeamInput
     rateCards?: RateCardCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningCreateNestedManyWithoutTeamInput
+    candidates?: CandidateCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateWithoutChatConversationsInput = {
@@ -110848,6 +122354,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutTeamInput
     resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput
     rateCards?: RateCardUncheckedCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceUncheckedCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistUncheckedCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningUncheckedCreateNestedManyWithoutTeamInput
+    candidates?: CandidateUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamCreateOrConnectWithoutChatConversationsInput = {
@@ -110929,6 +122441,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUpdateManyWithoutTeamNestedInput
     resourceAllocations?: ResourceAllocationUpdateManyWithoutTeamNestedInput
     rateCards?: RateCardUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateWithoutChatConversationsInput = {
@@ -110968,6 +122486,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutTeamNestedInput
     resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput
     rateCards?: RateCardUncheckedUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUncheckedUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUncheckedUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUncheckedUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUncheckedUpdateManyWithoutTeamNestedInput
   }
 
   export type ChatMessageUpsertWithWhereUniqueWithoutConversationInput = {
@@ -111087,6 +122611,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryCreateNestedManyWithoutTeamInput
     resourceAllocations?: ResourceAllocationCreateNestedManyWithoutTeamInput
     rateCards?: RateCardCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningCreateNestedManyWithoutTeamInput
+    candidates?: CandidateCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateWithoutEventsInput = {
@@ -111126,6 +122656,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutTeamInput
     resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput
     rateCards?: RateCardUncheckedCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceUncheckedCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistUncheckedCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningUncheckedCreateNestedManyWithoutTeamInput
+    candidates?: CandidateUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamCreateOrConnectWithoutEventsInput = {
@@ -111289,6 +122825,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUpdateManyWithoutTeamNestedInput
     resourceAllocations?: ResourceAllocationUpdateManyWithoutTeamNestedInput
     rateCards?: RateCardUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateWithoutEventsInput = {
@@ -111328,6 +122870,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutTeamNestedInput
     resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput
     rateCards?: RateCardUncheckedUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUncheckedUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUncheckedUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUncheckedUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUncheckedUpdateManyWithoutTeamNestedInput
   }
 
   export type ProjectUpsertWithoutEventsInput = {
@@ -111823,6 +123371,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryCreateNestedManyWithoutTeamInput
     resourceAllocations?: ResourceAllocationCreateNestedManyWithoutTeamInput
     rateCards?: RateCardCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningCreateNestedManyWithoutTeamInput
+    candidates?: CandidateCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateWithoutStandupEntriesInput = {
@@ -111862,6 +123416,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutTeamInput
     resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput
     rateCards?: RateCardUncheckedCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceUncheckedCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistUncheckedCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningUncheckedCreateNestedManyWithoutTeamInput
+    candidates?: CandidateUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamCreateOrConnectWithoutStandupEntriesInput = {
@@ -111917,6 +123477,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUpdateManyWithoutTeamNestedInput
     resourceAllocations?: ResourceAllocationUpdateManyWithoutTeamNestedInput
     rateCards?: RateCardUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateWithoutStandupEntriesInput = {
@@ -111956,6 +123522,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutTeamNestedInput
     resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput
     rateCards?: RateCardUncheckedUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUncheckedUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUncheckedUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUncheckedUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUncheckedUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamCreateWithoutClientsInput = {
@@ -111995,6 +123567,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryCreateNestedManyWithoutTeamInput
     resourceAllocations?: ResourceAllocationCreateNestedManyWithoutTeamInput
     rateCards?: RateCardCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningCreateNestedManyWithoutTeamInput
+    candidates?: CandidateCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateWithoutClientsInput = {
@@ -112034,6 +123612,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutTeamInput
     resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput
     rateCards?: RateCardUncheckedCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceUncheckedCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistUncheckedCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningUncheckedCreateNestedManyWithoutTeamInput
+    candidates?: CandidateUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamCreateOrConnectWithoutClientsInput = {
@@ -112361,6 +123945,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUpdateManyWithoutTeamNestedInput
     resourceAllocations?: ResourceAllocationUpdateManyWithoutTeamNestedInput
     rateCards?: RateCardUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateWithoutClientsInput = {
@@ -112400,6 +123990,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutTeamNestedInput
     resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput
     rateCards?: RateCardUncheckedUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUncheckedUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUncheckedUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUncheckedUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUncheckedUpdateManyWithoutTeamNestedInput
   }
 
   export type ContactUpsertWithWhereUniqueWithoutClientInput = {
@@ -112667,6 +124263,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryCreateNestedManyWithoutTeamInput
     resourceAllocations?: ResourceAllocationCreateNestedManyWithoutTeamInput
     rateCards?: RateCardCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningCreateNestedManyWithoutTeamInput
+    candidates?: CandidateCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateWithoutLeadPipelinesInput = {
@@ -112706,6 +124308,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutTeamInput
     resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput
     rateCards?: RateCardUncheckedCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceUncheckedCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistUncheckedCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningUncheckedCreateNestedManyWithoutTeamInput
+    candidates?: CandidateUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamCreateOrConnectWithoutLeadPipelinesInput = {
@@ -112867,6 +124475,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUpdateManyWithoutTeamNestedInput
     resourceAllocations?: ResourceAllocationUpdateManyWithoutTeamNestedInput
     rateCards?: RateCardUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateWithoutLeadPipelinesInput = {
@@ -112906,6 +124520,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutTeamNestedInput
     resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput
     rateCards?: RateCardUncheckedUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUncheckedUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUncheckedUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUncheckedUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUncheckedUpdateManyWithoutTeamNestedInput
   }
 
   export type LeadStageUpsertWithWhereUniqueWithoutPipelineInput = {
@@ -113137,6 +124757,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryCreateNestedManyWithoutTeamInput
     resourceAllocations?: ResourceAllocationCreateNestedManyWithoutTeamInput
     rateCards?: RateCardCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningCreateNestedManyWithoutTeamInput
+    candidates?: CandidateCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateWithoutLeadsInput = {
@@ -113176,6 +124802,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutTeamInput
     resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput
     rateCards?: RateCardUncheckedCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceUncheckedCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistUncheckedCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningUncheckedCreateNestedManyWithoutTeamInput
+    candidates?: CandidateUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamCreateOrConnectWithoutLeadsInput = {
@@ -113362,6 +124994,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUpdateManyWithoutTeamNestedInput
     resourceAllocations?: ResourceAllocationUpdateManyWithoutTeamNestedInput
     rateCards?: RateCardUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateWithoutLeadsInput = {
@@ -113401,6 +125039,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutTeamNestedInput
     resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput
     rateCards?: RateCardUncheckedUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUncheckedUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUncheckedUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUncheckedUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUncheckedUpdateManyWithoutTeamNestedInput
   }
 
   export type LeadPipelineUpsertWithoutLeadsInput = {
@@ -113735,6 +125379,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryCreateNestedManyWithoutTeamInput
     resourceAllocations?: ResourceAllocationCreateNestedManyWithoutTeamInput
     rateCards?: RateCardCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningCreateNestedManyWithoutTeamInput
+    candidates?: CandidateCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateWithoutTeamChannelsInput = {
@@ -113774,6 +125424,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutTeamInput
     resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput
     rateCards?: RateCardUncheckedCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceUncheckedCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistUncheckedCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningUncheckedCreateNestedManyWithoutTeamInput
+    candidates?: CandidateUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamCreateOrConnectWithoutTeamChannelsInput = {
@@ -113958,6 +125614,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUpdateManyWithoutTeamNestedInput
     resourceAllocations?: ResourceAllocationUpdateManyWithoutTeamNestedInput
     rateCards?: RateCardUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateWithoutTeamChannelsInput = {
@@ -113997,6 +125659,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutTeamNestedInput
     resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput
     rateCards?: RateCardUncheckedUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUncheckedUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUncheckedUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUncheckedUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUncheckedUpdateManyWithoutTeamNestedInput
   }
 
   export type ProjectUpsertWithoutTeamChannelsInput = {
@@ -114616,6 +126284,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryCreateNestedManyWithoutTeamInput
     resourceAllocations?: ResourceAllocationCreateNestedManyWithoutTeamInput
     rateCards?: RateCardCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningCreateNestedManyWithoutTeamInput
+    candidates?: CandidateCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateWithoutAnnouncementsInput = {
@@ -114655,6 +126329,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutTeamInput
     resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput
     rateCards?: RateCardUncheckedCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceUncheckedCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistUncheckedCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningUncheckedCreateNestedManyWithoutTeamInput
+    candidates?: CandidateUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamCreateOrConnectWithoutAnnouncementsInput = {
@@ -114734,6 +126414,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUpdateManyWithoutTeamNestedInput
     resourceAllocations?: ResourceAllocationUpdateManyWithoutTeamNestedInput
     rateCards?: RateCardUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateWithoutAnnouncementsInput = {
@@ -114773,6 +126459,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutTeamNestedInput
     resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput
     rateCards?: RateCardUncheckedUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUncheckedUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUncheckedUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUncheckedUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUncheckedUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamAnnouncementAckUpsertWithWhereUniqueWithoutAnnouncementInput = {
@@ -114907,6 +126599,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryCreateNestedManyWithoutTeamInput
     resourceAllocations?: ResourceAllocationCreateNestedManyWithoutTeamInput
     rateCards?: RateCardCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningCreateNestedManyWithoutTeamInput
+    candidates?: CandidateCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateWithoutAuditLogsInput = {
@@ -114946,6 +126644,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutTeamInput
     resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput
     rateCards?: RateCardUncheckedCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceUncheckedCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistUncheckedCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningUncheckedCreateNestedManyWithoutTeamInput
+    candidates?: CandidateUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamCreateOrConnectWithoutAuditLogsInput = {
@@ -115001,6 +126705,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUpdateManyWithoutTeamNestedInput
     resourceAllocations?: ResourceAllocationUpdateManyWithoutTeamNestedInput
     rateCards?: RateCardUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateWithoutAuditLogsInput = {
@@ -115040,6 +126750,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutTeamNestedInput
     resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput
     rateCards?: RateCardUncheckedUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUncheckedUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUncheckedUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUncheckedUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUncheckedUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamCreateWithoutCompanySettingsInput = {
@@ -115079,6 +126795,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryCreateNestedManyWithoutTeamInput
     resourceAllocations?: ResourceAllocationCreateNestedManyWithoutTeamInput
     rateCards?: RateCardCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningCreateNestedManyWithoutTeamInput
+    candidates?: CandidateCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateWithoutCompanySettingsInput = {
@@ -115118,6 +126840,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutTeamInput
     resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput
     rateCards?: RateCardUncheckedCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceUncheckedCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistUncheckedCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningUncheckedCreateNestedManyWithoutTeamInput
+    candidates?: CandidateUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamCreateOrConnectWithoutCompanySettingsInput = {
@@ -115173,6 +126901,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUpdateManyWithoutTeamNestedInput
     resourceAllocations?: ResourceAllocationUpdateManyWithoutTeamNestedInput
     rateCards?: RateCardUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateWithoutCompanySettingsInput = {
@@ -115212,6 +126946,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutTeamNestedInput
     resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput
     rateCards?: RateCardUncheckedUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUncheckedUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUncheckedUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUncheckedUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUncheckedUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamCreateWithoutAutomationRulesInput = {
@@ -115251,6 +126991,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryCreateNestedManyWithoutTeamInput
     resourceAllocations?: ResourceAllocationCreateNestedManyWithoutTeamInput
     rateCards?: RateCardCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningCreateNestedManyWithoutTeamInput
+    candidates?: CandidateCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateWithoutAutomationRulesInput = {
@@ -115290,6 +127036,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutTeamInput
     resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput
     rateCards?: RateCardUncheckedCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceUncheckedCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistUncheckedCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningUncheckedCreateNestedManyWithoutTeamInput
+    candidates?: CandidateUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamCreateOrConnectWithoutAutomationRulesInput = {
@@ -115369,6 +127121,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUpdateManyWithoutTeamNestedInput
     resourceAllocations?: ResourceAllocationUpdateManyWithoutTeamNestedInput
     rateCards?: RateCardUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateWithoutAutomationRulesInput = {
@@ -115408,6 +127166,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutTeamNestedInput
     resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput
     rateCards?: RateCardUncheckedUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUncheckedUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUncheckedUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUncheckedUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUncheckedUpdateManyWithoutTeamNestedInput
   }
 
   export type AutomationLogUpsertWithWhereUniqueWithoutRuleInput = {
@@ -115554,6 +127318,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryCreateNestedManyWithoutTeamInput
     resourceAllocations?: ResourceAllocationCreateNestedManyWithoutTeamInput
     rateCards?: RateCardCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningCreateNestedManyWithoutTeamInput
+    candidates?: CandidateCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateWithoutDeveloperApiKeysInput = {
@@ -115593,6 +127363,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutTeamInput
     resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput
     rateCards?: RateCardUncheckedCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceUncheckedCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistUncheckedCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningUncheckedCreateNestedManyWithoutTeamInput
+    candidates?: CandidateUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamCreateOrConnectWithoutDeveloperApiKeysInput = {
@@ -115648,6 +127424,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUpdateManyWithoutTeamNestedInput
     resourceAllocations?: ResourceAllocationUpdateManyWithoutTeamNestedInput
     rateCards?: RateCardUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateWithoutDeveloperApiKeysInput = {
@@ -115687,6 +127469,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutTeamNestedInput
     resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput
     rateCards?: RateCardUncheckedUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUncheckedUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUncheckedUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUncheckedUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUncheckedUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamCreateWithoutWebhookEndpointsInput = {
@@ -115726,6 +127514,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryCreateNestedManyWithoutTeamInput
     resourceAllocations?: ResourceAllocationCreateNestedManyWithoutTeamInput
     rateCards?: RateCardCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningCreateNestedManyWithoutTeamInput
+    candidates?: CandidateCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateWithoutWebhookEndpointsInput = {
@@ -115765,6 +127559,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutTeamInput
     resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput
     rateCards?: RateCardUncheckedCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceUncheckedCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistUncheckedCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningUncheckedCreateNestedManyWithoutTeamInput
+    candidates?: CandidateUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamCreateOrConnectWithoutWebhookEndpointsInput = {
@@ -115848,6 +127648,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUpdateManyWithoutTeamNestedInput
     resourceAllocations?: ResourceAllocationUpdateManyWithoutTeamNestedInput
     rateCards?: RateCardUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateWithoutWebhookEndpointsInput = {
@@ -115887,6 +127693,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutTeamNestedInput
     resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput
     rateCards?: RateCardUncheckedUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUncheckedUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUncheckedUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUncheckedUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUncheckedUpdateManyWithoutTeamNestedInput
   }
 
   export type WebhookDeliveryUpsertWithWhereUniqueWithoutEndpointInput = {
@@ -116023,6 +127835,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryCreateNestedManyWithoutTeamInput
     resourceAllocations?: ResourceAllocationCreateNestedManyWithoutTeamInput
     rateCards?: RateCardCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningCreateNestedManyWithoutTeamInput
+    candidates?: CandidateCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateWithoutKpisInput = {
@@ -116062,6 +127880,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutTeamInput
     resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput
     rateCards?: RateCardUncheckedCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceUncheckedCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistUncheckedCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningUncheckedCreateNestedManyWithoutTeamInput
+    candidates?: CandidateUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamCreateOrConnectWithoutKpisInput = {
@@ -116117,6 +127941,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUpdateManyWithoutTeamNestedInput
     resourceAllocations?: ResourceAllocationUpdateManyWithoutTeamNestedInput
     rateCards?: RateCardUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateWithoutKpisInput = {
@@ -116156,6 +127986,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutTeamNestedInput
     resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput
     rateCards?: RateCardUncheckedUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUncheckedUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUncheckedUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUncheckedUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUncheckedUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamCreateWithoutInvoicesInput = {
@@ -116195,6 +128031,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryCreateNestedManyWithoutTeamInput
     resourceAllocations?: ResourceAllocationCreateNestedManyWithoutTeamInput
     rateCards?: RateCardCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningCreateNestedManyWithoutTeamInput
+    candidates?: CandidateCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateWithoutInvoicesInput = {
@@ -116234,6 +128076,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutTeamInput
     resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput
     rateCards?: RateCardUncheckedCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceUncheckedCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistUncheckedCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningUncheckedCreateNestedManyWithoutTeamInput
+    candidates?: CandidateUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamCreateOrConnectWithoutInvoicesInput = {
@@ -116461,6 +128309,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUpdateManyWithoutTeamNestedInput
     resourceAllocations?: ResourceAllocationUpdateManyWithoutTeamNestedInput
     rateCards?: RateCardUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateWithoutInvoicesInput = {
@@ -116500,6 +128354,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutTeamNestedInput
     resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput
     rateCards?: RateCardUncheckedUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUncheckedUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUncheckedUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUncheckedUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUncheckedUpdateManyWithoutTeamNestedInput
   }
 
   export type ClientUpsertWithoutInvoicesInput = {
@@ -116830,6 +128690,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryCreateNestedManyWithoutTeamInput
     resourceAllocations?: ResourceAllocationCreateNestedManyWithoutTeamInput
     rateCards?: RateCardCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningCreateNestedManyWithoutTeamInput
+    candidates?: CandidateCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateWithoutPaymentsInput = {
@@ -116869,6 +128735,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutTeamInput
     resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput
     rateCards?: RateCardUncheckedCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceUncheckedCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistUncheckedCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningUncheckedCreateNestedManyWithoutTeamInput
+    candidates?: CandidateUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamCreateOrConnectWithoutPaymentsInput = {
@@ -116985,6 +128857,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUpdateManyWithoutTeamNestedInput
     resourceAllocations?: ResourceAllocationUpdateManyWithoutTeamNestedInput
     rateCards?: RateCardUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateWithoutPaymentsInput = {
@@ -117024,6 +128902,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutTeamNestedInput
     resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput
     rateCards?: RateCardUncheckedUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUncheckedUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUncheckedUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUncheckedUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUncheckedUpdateManyWithoutTeamNestedInput
   }
 
   export type InvoiceUpsertWithoutPaymentsInput = {
@@ -117130,6 +129014,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryCreateNestedManyWithoutTeamInput
     resourceAllocations?: ResourceAllocationCreateNestedManyWithoutTeamInput
     rateCards?: RateCardCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningCreateNestedManyWithoutTeamInput
+    candidates?: CandidateCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateWithoutExpensesInput = {
@@ -117169,6 +129059,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutTeamInput
     resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput
     rateCards?: RateCardUncheckedCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceUncheckedCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistUncheckedCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningUncheckedCreateNestedManyWithoutTeamInput
+    candidates?: CandidateUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamCreateOrConnectWithoutExpensesInput = {
@@ -117275,6 +129171,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUpdateManyWithoutTeamNestedInput
     resourceAllocations?: ResourceAllocationUpdateManyWithoutTeamNestedInput
     rateCards?: RateCardUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateWithoutExpensesInput = {
@@ -117314,6 +129216,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutTeamNestedInput
     resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput
     rateCards?: RateCardUncheckedUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUncheckedUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUncheckedUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUncheckedUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUncheckedUpdateManyWithoutTeamNestedInput
   }
 
   export type ProjectUpsertWithoutExpensesInput = {
@@ -117410,6 +129318,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryCreateNestedManyWithoutTeamInput
     resourceAllocations?: ResourceAllocationCreateNestedManyWithoutTeamInput
     rateCards?: RateCardCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningCreateNestedManyWithoutTeamInput
+    candidates?: CandidateCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateWithoutSubscriptionsInput = {
@@ -117449,6 +129363,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutTeamInput
     resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput
     rateCards?: RateCardUncheckedCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceUncheckedCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistUncheckedCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningUncheckedCreateNestedManyWithoutTeamInput
+    candidates?: CandidateUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamCreateOrConnectWithoutSubscriptionsInput = {
@@ -117504,6 +129424,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUpdateManyWithoutTeamNestedInput
     resourceAllocations?: ResourceAllocationUpdateManyWithoutTeamNestedInput
     rateCards?: RateCardUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateWithoutSubscriptionsInput = {
@@ -117543,6 +129469,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutTeamNestedInput
     resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput
     rateCards?: RateCardUncheckedUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUncheckedUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUncheckedUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUncheckedUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUncheckedUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamCreateWithoutDomainProductsInput = {
@@ -117582,6 +129514,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryCreateNestedManyWithoutTeamInput
     resourceAllocations?: ResourceAllocationCreateNestedManyWithoutTeamInput
     rateCards?: RateCardCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningCreateNestedManyWithoutTeamInput
+    candidates?: CandidateCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateWithoutDomainProductsInput = {
@@ -117621,6 +129559,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutTeamInput
     resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput
     rateCards?: RateCardUncheckedCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceUncheckedCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistUncheckedCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningUncheckedCreateNestedManyWithoutTeamInput
+    candidates?: CandidateUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamCreateOrConnectWithoutDomainProductsInput = {
@@ -117838,6 +129782,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUpdateManyWithoutTeamNestedInput
     resourceAllocations?: ResourceAllocationUpdateManyWithoutTeamNestedInput
     rateCards?: RateCardUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateWithoutDomainProductsInput = {
@@ -117877,6 +129827,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutTeamNestedInput
     resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput
     rateCards?: RateCardUncheckedUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUncheckedUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUncheckedUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUncheckedUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUncheckedUpdateManyWithoutTeamNestedInput
   }
 
   export type ProductRoadmapItemUpsertWithWhereUniqueWithoutProductInput = {
@@ -118597,6 +130553,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryCreateNestedManyWithoutTeamInput
     resourceAllocations?: ResourceAllocationCreateNestedManyWithoutTeamInput
     rateCards?: RateCardCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningCreateNestedManyWithoutTeamInput
+    candidates?: CandidateCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateWithoutReusableComponentsInput = {
@@ -118636,6 +130598,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutTeamInput
     resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput
     rateCards?: RateCardUncheckedCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceUncheckedCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistUncheckedCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningUncheckedCreateNestedManyWithoutTeamInput
+    candidates?: CandidateUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamCreateOrConnectWithoutReusableComponentsInput = {
@@ -118691,6 +130659,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUpdateManyWithoutTeamNestedInput
     resourceAllocations?: ResourceAllocationUpdateManyWithoutTeamNestedInput
     rateCards?: RateCardUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateWithoutReusableComponentsInput = {
@@ -118730,6 +130704,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutTeamNestedInput
     resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput
     rateCards?: RateCardUncheckedUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUncheckedUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUncheckedUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUncheckedUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUncheckedUpdateManyWithoutTeamNestedInput
   }
 
   export type RoleAccessCreateWithoutRoleInput = {
@@ -118776,6 +130756,10 @@ export namespace Prisma {
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutEmployeeInput
     team: TeamCreateNestedOneWithoutEmployeesInput
+    leaveRequests?: LeaveRequestCreateNestedManyWithoutEmployeeInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutEmployeeInput
+    attendances?: AttendanceCreateNestedManyWithoutEmployeeInput
+    onboardingChecklists?: OnboardingChecklistCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeUncheckedCreateWithoutRoleInput = {
@@ -118800,6 +130784,10 @@ export namespace Prisma {
     createdBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutEmployeeInput
+    attendances?: AttendanceUncheckedCreateNestedManyWithoutEmployeeInput
+    onboardingChecklists?: OnboardingChecklistUncheckedCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeCreateOrConnectWithoutRoleInput = {
@@ -119047,6 +131035,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryCreateNestedManyWithoutTeamInput
     resourceAllocations?: ResourceAllocationCreateNestedManyWithoutTeamInput
     rateCards?: RateCardCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningCreateNestedManyWithoutTeamInput
+    candidates?: CandidateCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateWithoutEmployeesInput = {
@@ -119086,11 +131080,177 @@ export namespace Prisma {
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutTeamInput
     resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput
     rateCards?: RateCardUncheckedCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceUncheckedCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistUncheckedCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningUncheckedCreateNestedManyWithoutTeamInput
+    candidates?: CandidateUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamCreateOrConnectWithoutEmployeesInput = {
     where: TeamWhereUniqueInput
     create: XOR<TeamCreateWithoutEmployeesInput, TeamUncheckedCreateWithoutEmployeesInput>
+  }
+
+  export type LeaveRequestCreateWithoutEmployeeInput = {
+    id?: string
+    userId: string
+    leaveType: string
+    startDate: Date | string
+    endDate: Date | string
+    totalDays: number
+    reason: string
+    status?: string
+    approvedBy?: string | null
+    approvedAt?: Date | string | null
+    rejectionReason?: string | null
+    emergencyContact?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    team: TeamCreateNestedOneWithoutLeaveRequestsInput
+  }
+
+  export type LeaveRequestUncheckedCreateWithoutEmployeeInput = {
+    id?: string
+    teamId: string
+    userId: string
+    leaveType: string
+    startDate: Date | string
+    endDate: Date | string
+    totalDays: number
+    reason: string
+    status?: string
+    approvedBy?: string | null
+    approvedAt?: Date | string | null
+    rejectionReason?: string | null
+    emergencyContact?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LeaveRequestCreateOrConnectWithoutEmployeeInput = {
+    where: LeaveRequestWhereUniqueInput
+    create: XOR<LeaveRequestCreateWithoutEmployeeInput, LeaveRequestUncheckedCreateWithoutEmployeeInput>
+  }
+
+  export type LeaveRequestCreateManyEmployeeInputEnvelope = {
+    data: LeaveRequestCreateManyEmployeeInput | LeaveRequestCreateManyEmployeeInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type LeaveBalanceCreateWithoutEmployeeInput = {
+    id?: string
+    year: number
+    casualTotal?: number
+    casualUsed?: number
+    sickTotal?: number
+    sickUsed?: number
+    paidTotal?: number
+    paidUsed?: number
+    unpaidUsed?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    team: TeamCreateNestedOneWithoutLeaveBalancesInput
+  }
+
+  export type LeaveBalanceUncheckedCreateWithoutEmployeeInput = {
+    id?: string
+    teamId: string
+    year: number
+    casualTotal?: number
+    casualUsed?: number
+    sickTotal?: number
+    sickUsed?: number
+    paidTotal?: number
+    paidUsed?: number
+    unpaidUsed?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LeaveBalanceCreateOrConnectWithoutEmployeeInput = {
+    where: LeaveBalanceWhereUniqueInput
+    create: XOR<LeaveBalanceCreateWithoutEmployeeInput, LeaveBalanceUncheckedCreateWithoutEmployeeInput>
+  }
+
+  export type LeaveBalanceCreateManyEmployeeInputEnvelope = {
+    data: LeaveBalanceCreateManyEmployeeInput | LeaveBalanceCreateManyEmployeeInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AttendanceCreateWithoutEmployeeInput = {
+    id?: string
+    userId: string
+    date: Date | string
+    checkInTime: Date | string
+    checkOutTime?: Date | string | null
+    workMode?: string
+    status?: string
+    totalHours?: number | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    team: TeamCreateNestedOneWithoutAttendancesInput
+  }
+
+  export type AttendanceUncheckedCreateWithoutEmployeeInput = {
+    id?: string
+    teamId: string
+    userId: string
+    date: Date | string
+    checkInTime: Date | string
+    checkOutTime?: Date | string | null
+    workMode?: string
+    status?: string
+    totalHours?: number | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AttendanceCreateOrConnectWithoutEmployeeInput = {
+    where: AttendanceWhereUniqueInput
+    create: XOR<AttendanceCreateWithoutEmployeeInput, AttendanceUncheckedCreateWithoutEmployeeInput>
+  }
+
+  export type AttendanceCreateManyEmployeeInputEnvelope = {
+    data: AttendanceCreateManyEmployeeInput | AttendanceCreateManyEmployeeInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type OnboardingChecklistCreateWithoutEmployeeInput = {
+    id?: string
+    type?: string
+    title: string
+    items: JsonNullValueInput | InputJsonValue
+    isCompleted?: boolean
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    team: TeamCreateNestedOneWithoutOnboardingChecklistsInput
+  }
+
+  export type OnboardingChecklistUncheckedCreateWithoutEmployeeInput = {
+    id?: string
+    teamId: string
+    type?: string
+    title: string
+    items: JsonNullValueInput | InputJsonValue
+    isCompleted?: boolean
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type OnboardingChecklistCreateOrConnectWithoutEmployeeInput = {
+    where: OnboardingChecklistWhereUniqueInput
+    create: XOR<OnboardingChecklistCreateWithoutEmployeeInput, OnboardingChecklistUncheckedCreateWithoutEmployeeInput>
+  }
+
+  export type OnboardingChecklistCreateManyEmployeeInputEnvelope = {
+    data: OnboardingChecklistCreateManyEmployeeInput | OnboardingChecklistCreateManyEmployeeInput[]
+    skipDuplicates?: boolean
   }
 
   export type UserUpsertWithoutEmployeeInput = {
@@ -119241,6 +131401,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUpdateManyWithoutTeamNestedInput
     resourceAllocations?: ResourceAllocationUpdateManyWithoutTeamNestedInput
     rateCards?: RateCardUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateWithoutEmployeesInput = {
@@ -119280,6 +131446,76 @@ export namespace Prisma {
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutTeamNestedInput
     resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput
     rateCards?: RateCardUncheckedUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUncheckedUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUncheckedUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUncheckedUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUncheckedUpdateManyWithoutTeamNestedInput
+  }
+
+  export type LeaveRequestUpsertWithWhereUniqueWithoutEmployeeInput = {
+    where: LeaveRequestWhereUniqueInput
+    update: XOR<LeaveRequestUpdateWithoutEmployeeInput, LeaveRequestUncheckedUpdateWithoutEmployeeInput>
+    create: XOR<LeaveRequestCreateWithoutEmployeeInput, LeaveRequestUncheckedCreateWithoutEmployeeInput>
+  }
+
+  export type LeaveRequestUpdateWithWhereUniqueWithoutEmployeeInput = {
+    where: LeaveRequestWhereUniqueInput
+    data: XOR<LeaveRequestUpdateWithoutEmployeeInput, LeaveRequestUncheckedUpdateWithoutEmployeeInput>
+  }
+
+  export type LeaveRequestUpdateManyWithWhereWithoutEmployeeInput = {
+    where: LeaveRequestScalarWhereInput
+    data: XOR<LeaveRequestUpdateManyMutationInput, LeaveRequestUncheckedUpdateManyWithoutEmployeeInput>
+  }
+
+  export type LeaveBalanceUpsertWithWhereUniqueWithoutEmployeeInput = {
+    where: LeaveBalanceWhereUniqueInput
+    update: XOR<LeaveBalanceUpdateWithoutEmployeeInput, LeaveBalanceUncheckedUpdateWithoutEmployeeInput>
+    create: XOR<LeaveBalanceCreateWithoutEmployeeInput, LeaveBalanceUncheckedCreateWithoutEmployeeInput>
+  }
+
+  export type LeaveBalanceUpdateWithWhereUniqueWithoutEmployeeInput = {
+    where: LeaveBalanceWhereUniqueInput
+    data: XOR<LeaveBalanceUpdateWithoutEmployeeInput, LeaveBalanceUncheckedUpdateWithoutEmployeeInput>
+  }
+
+  export type LeaveBalanceUpdateManyWithWhereWithoutEmployeeInput = {
+    where: LeaveBalanceScalarWhereInput
+    data: XOR<LeaveBalanceUpdateManyMutationInput, LeaveBalanceUncheckedUpdateManyWithoutEmployeeInput>
+  }
+
+  export type AttendanceUpsertWithWhereUniqueWithoutEmployeeInput = {
+    where: AttendanceWhereUniqueInput
+    update: XOR<AttendanceUpdateWithoutEmployeeInput, AttendanceUncheckedUpdateWithoutEmployeeInput>
+    create: XOR<AttendanceCreateWithoutEmployeeInput, AttendanceUncheckedCreateWithoutEmployeeInput>
+  }
+
+  export type AttendanceUpdateWithWhereUniqueWithoutEmployeeInput = {
+    where: AttendanceWhereUniqueInput
+    data: XOR<AttendanceUpdateWithoutEmployeeInput, AttendanceUncheckedUpdateWithoutEmployeeInput>
+  }
+
+  export type AttendanceUpdateManyWithWhereWithoutEmployeeInput = {
+    where: AttendanceScalarWhereInput
+    data: XOR<AttendanceUpdateManyMutationInput, AttendanceUncheckedUpdateManyWithoutEmployeeInput>
+  }
+
+  export type OnboardingChecklistUpsertWithWhereUniqueWithoutEmployeeInput = {
+    where: OnboardingChecklistWhereUniqueInput
+    update: XOR<OnboardingChecklistUpdateWithoutEmployeeInput, OnboardingChecklistUncheckedUpdateWithoutEmployeeInput>
+    create: XOR<OnboardingChecklistCreateWithoutEmployeeInput, OnboardingChecklistUncheckedCreateWithoutEmployeeInput>
+  }
+
+  export type OnboardingChecklistUpdateWithWhereUniqueWithoutEmployeeInput = {
+    where: OnboardingChecklistWhereUniqueInput
+    data: XOR<OnboardingChecklistUpdateWithoutEmployeeInput, OnboardingChecklistUncheckedUpdateWithoutEmployeeInput>
+  }
+
+  export type OnboardingChecklistUpdateManyWithWhereWithoutEmployeeInput = {
+    where: OnboardingChecklistScalarWhereInput
+    data: XOR<OnboardingChecklistUpdateManyMutationInput, OnboardingChecklistUncheckedUpdateManyWithoutEmployeeInput>
   }
 
   export type TeamCreateWithoutTimesheetsInput = {
@@ -119319,6 +131555,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryCreateNestedManyWithoutTeamInput
     resourceAllocations?: ResourceAllocationCreateNestedManyWithoutTeamInput
     rateCards?: RateCardCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningCreateNestedManyWithoutTeamInput
+    candidates?: CandidateCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateWithoutTimesheetsInput = {
@@ -119358,6 +131600,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutTeamInput
     resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput
     rateCards?: RateCardUncheckedCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceUncheckedCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistUncheckedCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningUncheckedCreateNestedManyWithoutTeamInput
+    candidates?: CandidateUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamCreateOrConnectWithoutTimesheetsInput = {
@@ -119520,6 +131768,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUpdateManyWithoutTeamNestedInput
     resourceAllocations?: ResourceAllocationUpdateManyWithoutTeamNestedInput
     rateCards?: RateCardUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateWithoutTimesheetsInput = {
@@ -119559,6 +131813,12 @@ export namespace Prisma {
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutTeamNestedInput
     resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput
     rateCards?: RateCardUncheckedUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUncheckedUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUncheckedUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUncheckedUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUncheckedUpdateManyWithoutTeamNestedInput
   }
 
   export type UserUpsertWithoutTimesheetsInput = {
@@ -119677,6 +131937,12 @@ export namespace Prisma {
     timesheets?: TimesheetCreateNestedManyWithoutTeamInput
     resourceAllocations?: ResourceAllocationCreateNestedManyWithoutTeamInput
     rateCards?: RateCardCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningCreateNestedManyWithoutTeamInput
+    candidates?: CandidateCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateWithoutTimeEntriesInput = {
@@ -119716,6 +131982,12 @@ export namespace Prisma {
     timesheets?: TimesheetUncheckedCreateNestedManyWithoutTeamInput
     resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput
     rateCards?: RateCardUncheckedCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceUncheckedCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistUncheckedCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningUncheckedCreateNestedManyWithoutTeamInput
+    candidates?: CandidateUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamCreateOrConnectWithoutTimeEntriesInput = {
@@ -119967,6 +132239,12 @@ export namespace Prisma {
     timesheets?: TimesheetUpdateManyWithoutTeamNestedInput
     resourceAllocations?: ResourceAllocationUpdateManyWithoutTeamNestedInput
     rateCards?: RateCardUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateWithoutTimeEntriesInput = {
@@ -120006,6 +132284,12 @@ export namespace Prisma {
     timesheets?: TimesheetUncheckedUpdateManyWithoutTeamNestedInput
     resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput
     rateCards?: RateCardUncheckedUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUncheckedUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUncheckedUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUncheckedUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUncheckedUpdateManyWithoutTeamNestedInput
   }
 
   export type UserUpsertWithoutTimeEntriesInput = {
@@ -120265,6 +132549,12 @@ export namespace Prisma {
     timesheets?: TimesheetCreateNestedManyWithoutTeamInput
     timeEntries?: TimeEntryCreateNestedManyWithoutTeamInput
     rateCards?: RateCardCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningCreateNestedManyWithoutTeamInput
+    candidates?: CandidateCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateWithoutResourceAllocationsInput = {
@@ -120304,6 +132594,12 @@ export namespace Prisma {
     timesheets?: TimesheetUncheckedCreateNestedManyWithoutTeamInput
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutTeamInput
     rateCards?: RateCardUncheckedCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceUncheckedCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistUncheckedCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningUncheckedCreateNestedManyWithoutTeamInput
+    candidates?: CandidateUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamCreateOrConnectWithoutResourceAllocationsInput = {
@@ -120467,6 +132763,12 @@ export namespace Prisma {
     timesheets?: TimesheetUpdateManyWithoutTeamNestedInput
     timeEntries?: TimeEntryUpdateManyWithoutTeamNestedInput
     rateCards?: RateCardUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateWithoutResourceAllocationsInput = {
@@ -120506,6 +132808,12 @@ export namespace Prisma {
     timesheets?: TimesheetUncheckedUpdateManyWithoutTeamNestedInput
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutTeamNestedInput
     rateCards?: RateCardUncheckedUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUncheckedUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUncheckedUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUncheckedUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUncheckedUpdateManyWithoutTeamNestedInput
   }
 
   export type UserUpsertWithoutResourceAllocationsInput = {
@@ -120665,6 +132973,12 @@ export namespace Prisma {
     timesheets?: TimesheetCreateNestedManyWithoutTeamInput
     timeEntries?: TimeEntryCreateNestedManyWithoutTeamInput
     resourceAllocations?: ResourceAllocationCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningCreateNestedManyWithoutTeamInput
+    candidates?: CandidateCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateWithoutRateCardsInput = {
@@ -120704,6 +133018,12 @@ export namespace Prisma {
     timesheets?: TimesheetUncheckedCreateNestedManyWithoutTeamInput
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutTeamInput
     resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceUncheckedCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistUncheckedCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningUncheckedCreateNestedManyWithoutTeamInput
+    candidates?: CandidateUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamCreateOrConnectWithoutRateCardsInput = {
@@ -120759,6 +133079,12 @@ export namespace Prisma {
     timesheets?: TimesheetUpdateManyWithoutTeamNestedInput
     timeEntries?: TimeEntryUpdateManyWithoutTeamNestedInput
     resourceAllocations?: ResourceAllocationUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateWithoutRateCardsInput = {
@@ -120798,6 +133124,1836 @@ export namespace Prisma {
     timesheets?: TimesheetUncheckedUpdateManyWithoutTeamNestedInput
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutTeamNestedInput
     resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUncheckedUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUncheckedUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUncheckedUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUncheckedUpdateManyWithoutTeamNestedInput
+  }
+
+  export type TeamCreateWithoutLeaveRequestsInput = {
+    id?: string
+    name: string
+    key: string
+    groqApiKey?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    projects?: ProjectCreateNestedManyWithoutTeamInput
+    issues?: IssueCreateNestedManyWithoutTeamInput
+    workflowStates?: WorkflowStateCreateNestedManyWithoutTeamInput
+    labels?: LabelCreateNestedManyWithoutTeamInput
+    members?: TeamMemberCreateNestedManyWithoutTeamInput
+    invitations?: InvitationCreateNestedManyWithoutTeamInput
+    chatConversations?: ChatConversationCreateNestedManyWithoutTeamInput
+    events?: EventCreateNestedManyWithoutTeamInput
+    standupEntries?: StandupEntryCreateNestedManyWithoutTeamInput
+    clients?: ClientCreateNestedManyWithoutTeamInput
+    leadPipelines?: LeadPipelineCreateNestedManyWithoutTeamInput
+    leads?: LeadCreateNestedManyWithoutTeamInput
+    teamChannels?: TeamChannelCreateNestedManyWithoutTeamInput
+    announcements?: TeamAnnouncementCreateNestedManyWithoutTeamInput
+    auditLogs?: AuditLogCreateNestedManyWithoutTeamInput
+    companySettings?: CompanySettingCreateNestedOneWithoutTeamInput
+    automationRules?: AutomationRuleCreateNestedManyWithoutTeamInput
+    developerApiKeys?: DeveloperApiKeyCreateNestedManyWithoutTeamInput
+    webhookEndpoints?: WebhookEndpointCreateNestedManyWithoutTeamInput
+    kpis?: CompanyKpiCreateNestedManyWithoutTeamInput
+    invoices?: InvoiceCreateNestedManyWithoutTeamInput
+    payments?: PaymentCreateNestedManyWithoutTeamInput
+    expenses?: ExpenseCreateNestedManyWithoutTeamInput
+    subscriptions?: ToolSubscriptionCreateNestedManyWithoutTeamInput
+    domainProducts?: DomainProductCreateNestedManyWithoutTeamInput
+    reusableComponents?: ReusableComponentCreateNestedManyWithoutTeamInput
+    employees?: EmployeeCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningCreateNestedManyWithoutTeamInput
+    candidates?: CandidateCreateNestedManyWithoutTeamInput
+  }
+
+  export type TeamUncheckedCreateWithoutLeaveRequestsInput = {
+    id?: string
+    name: string
+    key: string
+    groqApiKey?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    projects?: ProjectUncheckedCreateNestedManyWithoutTeamInput
+    issues?: IssueUncheckedCreateNestedManyWithoutTeamInput
+    workflowStates?: WorkflowStateUncheckedCreateNestedManyWithoutTeamInput
+    labels?: LabelUncheckedCreateNestedManyWithoutTeamInput
+    members?: TeamMemberUncheckedCreateNestedManyWithoutTeamInput
+    invitations?: InvitationUncheckedCreateNestedManyWithoutTeamInput
+    chatConversations?: ChatConversationUncheckedCreateNestedManyWithoutTeamInput
+    events?: EventUncheckedCreateNestedManyWithoutTeamInput
+    standupEntries?: StandupEntryUncheckedCreateNestedManyWithoutTeamInput
+    clients?: ClientUncheckedCreateNestedManyWithoutTeamInput
+    leadPipelines?: LeadPipelineUncheckedCreateNestedManyWithoutTeamInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTeamInput
+    teamChannels?: TeamChannelUncheckedCreateNestedManyWithoutTeamInput
+    announcements?: TeamAnnouncementUncheckedCreateNestedManyWithoutTeamInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTeamInput
+    companySettings?: CompanySettingUncheckedCreateNestedOneWithoutTeamInput
+    automationRules?: AutomationRuleUncheckedCreateNestedManyWithoutTeamInput
+    developerApiKeys?: DeveloperApiKeyUncheckedCreateNestedManyWithoutTeamInput
+    webhookEndpoints?: WebhookEndpointUncheckedCreateNestedManyWithoutTeamInput
+    kpis?: CompanyKpiUncheckedCreateNestedManyWithoutTeamInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTeamInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTeamInput
+    expenses?: ExpenseUncheckedCreateNestedManyWithoutTeamInput
+    subscriptions?: ToolSubscriptionUncheckedCreateNestedManyWithoutTeamInput
+    domainProducts?: DomainProductUncheckedCreateNestedManyWithoutTeamInput
+    reusableComponents?: ReusableComponentUncheckedCreateNestedManyWithoutTeamInput
+    employees?: EmployeeUncheckedCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetUncheckedCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardUncheckedCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceUncheckedCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistUncheckedCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningUncheckedCreateNestedManyWithoutTeamInput
+    candidates?: CandidateUncheckedCreateNestedManyWithoutTeamInput
+  }
+
+  export type TeamCreateOrConnectWithoutLeaveRequestsInput = {
+    where: TeamWhereUniqueInput
+    create: XOR<TeamCreateWithoutLeaveRequestsInput, TeamUncheckedCreateWithoutLeaveRequestsInput>
+  }
+
+  export type EmployeeCreateWithoutLeaveRequestsInput = {
+    id?: string
+    email: string
+    personalEmail?: string | null
+    fullName: string
+    employeeCode?: string | null
+    position?: string | null
+    department?: string | null
+    phone?: string | null
+    joiningDate?: Date | string | null
+    status?: $Enums.EmployeeStatus
+    mustChangePassword?: boolean
+    defaultPasswordExpiresAt?: Date | string | null
+    suspendedAt?: Date | string | null
+    suspendedBy?: string | null
+    suspendedReason?: string | null
+    terminatedAt?: Date | string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutEmployeeInput
+    role: RoleCreateNestedOneWithoutEmployeesInput
+    team: TeamCreateNestedOneWithoutEmployeesInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutEmployeeInput
+    attendances?: AttendanceCreateNestedManyWithoutEmployeeInput
+    onboardingChecklists?: OnboardingChecklistCreateNestedManyWithoutEmployeeInput
+  }
+
+  export type EmployeeUncheckedCreateWithoutLeaveRequestsInput = {
+    id?: string
+    userId: string
+    email: string
+    personalEmail?: string | null
+    fullName: string
+    employeeCode?: string | null
+    position?: string | null
+    department?: string | null
+    phone?: string | null
+    joiningDate?: Date | string | null
+    roleId: string
+    teamId: string
+    status?: $Enums.EmployeeStatus
+    mustChangePassword?: boolean
+    defaultPasswordExpiresAt?: Date | string | null
+    suspendedAt?: Date | string | null
+    suspendedBy?: string | null
+    suspendedReason?: string | null
+    terminatedAt?: Date | string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutEmployeeInput
+    attendances?: AttendanceUncheckedCreateNestedManyWithoutEmployeeInput
+    onboardingChecklists?: OnboardingChecklistUncheckedCreateNestedManyWithoutEmployeeInput
+  }
+
+  export type EmployeeCreateOrConnectWithoutLeaveRequestsInput = {
+    where: EmployeeWhereUniqueInput
+    create: XOR<EmployeeCreateWithoutLeaveRequestsInput, EmployeeUncheckedCreateWithoutLeaveRequestsInput>
+  }
+
+  export type TeamUpsertWithoutLeaveRequestsInput = {
+    update: XOR<TeamUpdateWithoutLeaveRequestsInput, TeamUncheckedUpdateWithoutLeaveRequestsInput>
+    create: XOR<TeamCreateWithoutLeaveRequestsInput, TeamUncheckedCreateWithoutLeaveRequestsInput>
+    where?: TeamWhereInput
+  }
+
+  export type TeamUpdateToOneWithWhereWithoutLeaveRequestsInput = {
+    where?: TeamWhereInput
+    data: XOR<TeamUpdateWithoutLeaveRequestsInput, TeamUncheckedUpdateWithoutLeaveRequestsInput>
+  }
+
+  export type TeamUpdateWithoutLeaveRequestsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    groqApiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    projects?: ProjectUpdateManyWithoutTeamNestedInput
+    issues?: IssueUpdateManyWithoutTeamNestedInput
+    workflowStates?: WorkflowStateUpdateManyWithoutTeamNestedInput
+    labels?: LabelUpdateManyWithoutTeamNestedInput
+    members?: TeamMemberUpdateManyWithoutTeamNestedInput
+    invitations?: InvitationUpdateManyWithoutTeamNestedInput
+    chatConversations?: ChatConversationUpdateManyWithoutTeamNestedInput
+    events?: EventUpdateManyWithoutTeamNestedInput
+    standupEntries?: StandupEntryUpdateManyWithoutTeamNestedInput
+    clients?: ClientUpdateManyWithoutTeamNestedInput
+    leadPipelines?: LeadPipelineUpdateManyWithoutTeamNestedInput
+    leads?: LeadUpdateManyWithoutTeamNestedInput
+    teamChannels?: TeamChannelUpdateManyWithoutTeamNestedInput
+    announcements?: TeamAnnouncementUpdateManyWithoutTeamNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutTeamNestedInput
+    companySettings?: CompanySettingUpdateOneWithoutTeamNestedInput
+    automationRules?: AutomationRuleUpdateManyWithoutTeamNestedInput
+    developerApiKeys?: DeveloperApiKeyUpdateManyWithoutTeamNestedInput
+    webhookEndpoints?: WebhookEndpointUpdateManyWithoutTeamNestedInput
+    kpis?: CompanyKpiUpdateManyWithoutTeamNestedInput
+    invoices?: InvoiceUpdateManyWithoutTeamNestedInput
+    payments?: PaymentUpdateManyWithoutTeamNestedInput
+    expenses?: ExpenseUpdateManyWithoutTeamNestedInput
+    subscriptions?: ToolSubscriptionUpdateManyWithoutTeamNestedInput
+    domainProducts?: DomainProductUpdateManyWithoutTeamNestedInput
+    reusableComponents?: ReusableComponentUpdateManyWithoutTeamNestedInput
+    employees?: EmployeeUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUpdateManyWithoutTeamNestedInput
+  }
+
+  export type TeamUncheckedUpdateWithoutLeaveRequestsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    groqApiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    projects?: ProjectUncheckedUpdateManyWithoutTeamNestedInput
+    issues?: IssueUncheckedUpdateManyWithoutTeamNestedInput
+    workflowStates?: WorkflowStateUncheckedUpdateManyWithoutTeamNestedInput
+    labels?: LabelUncheckedUpdateManyWithoutTeamNestedInput
+    members?: TeamMemberUncheckedUpdateManyWithoutTeamNestedInput
+    invitations?: InvitationUncheckedUpdateManyWithoutTeamNestedInput
+    chatConversations?: ChatConversationUncheckedUpdateManyWithoutTeamNestedInput
+    events?: EventUncheckedUpdateManyWithoutTeamNestedInput
+    standupEntries?: StandupEntryUncheckedUpdateManyWithoutTeamNestedInput
+    clients?: ClientUncheckedUpdateManyWithoutTeamNestedInput
+    leadPipelines?: LeadPipelineUncheckedUpdateManyWithoutTeamNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTeamNestedInput
+    teamChannels?: TeamChannelUncheckedUpdateManyWithoutTeamNestedInput
+    announcements?: TeamAnnouncementUncheckedUpdateManyWithoutTeamNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutTeamNestedInput
+    companySettings?: CompanySettingUncheckedUpdateOneWithoutTeamNestedInput
+    automationRules?: AutomationRuleUncheckedUpdateManyWithoutTeamNestedInput
+    developerApiKeys?: DeveloperApiKeyUncheckedUpdateManyWithoutTeamNestedInput
+    webhookEndpoints?: WebhookEndpointUncheckedUpdateManyWithoutTeamNestedInput
+    kpis?: CompanyKpiUncheckedUpdateManyWithoutTeamNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTeamNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTeamNestedInput
+    expenses?: ExpenseUncheckedUpdateManyWithoutTeamNestedInput
+    subscriptions?: ToolSubscriptionUncheckedUpdateManyWithoutTeamNestedInput
+    domainProducts?: DomainProductUncheckedUpdateManyWithoutTeamNestedInput
+    reusableComponents?: ReusableComponentUncheckedUpdateManyWithoutTeamNestedInput
+    employees?: EmployeeUncheckedUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUncheckedUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUncheckedUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUncheckedUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUncheckedUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUncheckedUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUncheckedUpdateManyWithoutTeamNestedInput
+  }
+
+  export type EmployeeUpsertWithoutLeaveRequestsInput = {
+    update: XOR<EmployeeUpdateWithoutLeaveRequestsInput, EmployeeUncheckedUpdateWithoutLeaveRequestsInput>
+    create: XOR<EmployeeCreateWithoutLeaveRequestsInput, EmployeeUncheckedCreateWithoutLeaveRequestsInput>
+    where?: EmployeeWhereInput
+  }
+
+  export type EmployeeUpdateToOneWithWhereWithoutLeaveRequestsInput = {
+    where?: EmployeeWhereInput
+    data: XOR<EmployeeUpdateWithoutLeaveRequestsInput, EmployeeUncheckedUpdateWithoutLeaveRequestsInput>
+  }
+
+  export type EmployeeUpdateWithoutLeaveRequestsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    personalEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    fullName?: StringFieldUpdateOperationsInput | string
+    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: NullableStringFieldUpdateOperationsInput | string | null
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    joiningDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: EnumEmployeeStatusFieldUpdateOperationsInput | $Enums.EmployeeStatus
+    mustChangePassword?: BoolFieldUpdateOperationsInput | boolean
+    defaultPasswordExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    suspendedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    suspendedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    suspendedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    terminatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutEmployeeNestedInput
+    role?: RoleUpdateOneRequiredWithoutEmployeesNestedInput
+    team?: TeamUpdateOneRequiredWithoutEmployeesNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutEmployeeNestedInput
+    attendances?: AttendanceUpdateManyWithoutEmployeeNestedInput
+    onboardingChecklists?: OnboardingChecklistUpdateManyWithoutEmployeeNestedInput
+  }
+
+  export type EmployeeUncheckedUpdateWithoutLeaveRequestsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    personalEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    fullName?: StringFieldUpdateOperationsInput | string
+    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: NullableStringFieldUpdateOperationsInput | string | null
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    joiningDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    roleId?: StringFieldUpdateOperationsInput | string
+    teamId?: StringFieldUpdateOperationsInput | string
+    status?: EnumEmployeeStatusFieldUpdateOperationsInput | $Enums.EmployeeStatus
+    mustChangePassword?: BoolFieldUpdateOperationsInput | boolean
+    defaultPasswordExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    suspendedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    suspendedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    suspendedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    terminatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutEmployeeNestedInput
+    attendances?: AttendanceUncheckedUpdateManyWithoutEmployeeNestedInput
+    onboardingChecklists?: OnboardingChecklistUncheckedUpdateManyWithoutEmployeeNestedInput
+  }
+
+  export type TeamCreateWithoutLeaveBalancesInput = {
+    id?: string
+    name: string
+    key: string
+    groqApiKey?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    projects?: ProjectCreateNestedManyWithoutTeamInput
+    issues?: IssueCreateNestedManyWithoutTeamInput
+    workflowStates?: WorkflowStateCreateNestedManyWithoutTeamInput
+    labels?: LabelCreateNestedManyWithoutTeamInput
+    members?: TeamMemberCreateNestedManyWithoutTeamInput
+    invitations?: InvitationCreateNestedManyWithoutTeamInput
+    chatConversations?: ChatConversationCreateNestedManyWithoutTeamInput
+    events?: EventCreateNestedManyWithoutTeamInput
+    standupEntries?: StandupEntryCreateNestedManyWithoutTeamInput
+    clients?: ClientCreateNestedManyWithoutTeamInput
+    leadPipelines?: LeadPipelineCreateNestedManyWithoutTeamInput
+    leads?: LeadCreateNestedManyWithoutTeamInput
+    teamChannels?: TeamChannelCreateNestedManyWithoutTeamInput
+    announcements?: TeamAnnouncementCreateNestedManyWithoutTeamInput
+    auditLogs?: AuditLogCreateNestedManyWithoutTeamInput
+    companySettings?: CompanySettingCreateNestedOneWithoutTeamInput
+    automationRules?: AutomationRuleCreateNestedManyWithoutTeamInput
+    developerApiKeys?: DeveloperApiKeyCreateNestedManyWithoutTeamInput
+    webhookEndpoints?: WebhookEndpointCreateNestedManyWithoutTeamInput
+    kpis?: CompanyKpiCreateNestedManyWithoutTeamInput
+    invoices?: InvoiceCreateNestedManyWithoutTeamInput
+    payments?: PaymentCreateNestedManyWithoutTeamInput
+    expenses?: ExpenseCreateNestedManyWithoutTeamInput
+    subscriptions?: ToolSubscriptionCreateNestedManyWithoutTeamInput
+    domainProducts?: DomainProductCreateNestedManyWithoutTeamInput
+    reusableComponents?: ReusableComponentCreateNestedManyWithoutTeamInput
+    employees?: EmployeeCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningCreateNestedManyWithoutTeamInput
+    candidates?: CandidateCreateNestedManyWithoutTeamInput
+  }
+
+  export type TeamUncheckedCreateWithoutLeaveBalancesInput = {
+    id?: string
+    name: string
+    key: string
+    groqApiKey?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    projects?: ProjectUncheckedCreateNestedManyWithoutTeamInput
+    issues?: IssueUncheckedCreateNestedManyWithoutTeamInput
+    workflowStates?: WorkflowStateUncheckedCreateNestedManyWithoutTeamInput
+    labels?: LabelUncheckedCreateNestedManyWithoutTeamInput
+    members?: TeamMemberUncheckedCreateNestedManyWithoutTeamInput
+    invitations?: InvitationUncheckedCreateNestedManyWithoutTeamInput
+    chatConversations?: ChatConversationUncheckedCreateNestedManyWithoutTeamInput
+    events?: EventUncheckedCreateNestedManyWithoutTeamInput
+    standupEntries?: StandupEntryUncheckedCreateNestedManyWithoutTeamInput
+    clients?: ClientUncheckedCreateNestedManyWithoutTeamInput
+    leadPipelines?: LeadPipelineUncheckedCreateNestedManyWithoutTeamInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTeamInput
+    teamChannels?: TeamChannelUncheckedCreateNestedManyWithoutTeamInput
+    announcements?: TeamAnnouncementUncheckedCreateNestedManyWithoutTeamInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTeamInput
+    companySettings?: CompanySettingUncheckedCreateNestedOneWithoutTeamInput
+    automationRules?: AutomationRuleUncheckedCreateNestedManyWithoutTeamInput
+    developerApiKeys?: DeveloperApiKeyUncheckedCreateNestedManyWithoutTeamInput
+    webhookEndpoints?: WebhookEndpointUncheckedCreateNestedManyWithoutTeamInput
+    kpis?: CompanyKpiUncheckedCreateNestedManyWithoutTeamInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTeamInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTeamInput
+    expenses?: ExpenseUncheckedCreateNestedManyWithoutTeamInput
+    subscriptions?: ToolSubscriptionUncheckedCreateNestedManyWithoutTeamInput
+    domainProducts?: DomainProductUncheckedCreateNestedManyWithoutTeamInput
+    reusableComponents?: ReusableComponentUncheckedCreateNestedManyWithoutTeamInput
+    employees?: EmployeeUncheckedCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetUncheckedCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardUncheckedCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceUncheckedCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistUncheckedCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningUncheckedCreateNestedManyWithoutTeamInput
+    candidates?: CandidateUncheckedCreateNestedManyWithoutTeamInput
+  }
+
+  export type TeamCreateOrConnectWithoutLeaveBalancesInput = {
+    where: TeamWhereUniqueInput
+    create: XOR<TeamCreateWithoutLeaveBalancesInput, TeamUncheckedCreateWithoutLeaveBalancesInput>
+  }
+
+  export type EmployeeCreateWithoutLeaveBalancesInput = {
+    id?: string
+    email: string
+    personalEmail?: string | null
+    fullName: string
+    employeeCode?: string | null
+    position?: string | null
+    department?: string | null
+    phone?: string | null
+    joiningDate?: Date | string | null
+    status?: $Enums.EmployeeStatus
+    mustChangePassword?: boolean
+    defaultPasswordExpiresAt?: Date | string | null
+    suspendedAt?: Date | string | null
+    suspendedBy?: string | null
+    suspendedReason?: string | null
+    terminatedAt?: Date | string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutEmployeeInput
+    role: RoleCreateNestedOneWithoutEmployeesInput
+    team: TeamCreateNestedOneWithoutEmployeesInput
+    leaveRequests?: LeaveRequestCreateNestedManyWithoutEmployeeInput
+    attendances?: AttendanceCreateNestedManyWithoutEmployeeInput
+    onboardingChecklists?: OnboardingChecklistCreateNestedManyWithoutEmployeeInput
+  }
+
+  export type EmployeeUncheckedCreateWithoutLeaveBalancesInput = {
+    id?: string
+    userId: string
+    email: string
+    personalEmail?: string | null
+    fullName: string
+    employeeCode?: string | null
+    position?: string | null
+    department?: string | null
+    phone?: string | null
+    joiningDate?: Date | string | null
+    roleId: string
+    teamId: string
+    status?: $Enums.EmployeeStatus
+    mustChangePassword?: boolean
+    defaultPasswordExpiresAt?: Date | string | null
+    suspendedAt?: Date | string | null
+    suspendedBy?: string | null
+    suspendedReason?: string | null
+    terminatedAt?: Date | string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    attendances?: AttendanceUncheckedCreateNestedManyWithoutEmployeeInput
+    onboardingChecklists?: OnboardingChecklistUncheckedCreateNestedManyWithoutEmployeeInput
+  }
+
+  export type EmployeeCreateOrConnectWithoutLeaveBalancesInput = {
+    where: EmployeeWhereUniqueInput
+    create: XOR<EmployeeCreateWithoutLeaveBalancesInput, EmployeeUncheckedCreateWithoutLeaveBalancesInput>
+  }
+
+  export type TeamUpsertWithoutLeaveBalancesInput = {
+    update: XOR<TeamUpdateWithoutLeaveBalancesInput, TeamUncheckedUpdateWithoutLeaveBalancesInput>
+    create: XOR<TeamCreateWithoutLeaveBalancesInput, TeamUncheckedCreateWithoutLeaveBalancesInput>
+    where?: TeamWhereInput
+  }
+
+  export type TeamUpdateToOneWithWhereWithoutLeaveBalancesInput = {
+    where?: TeamWhereInput
+    data: XOR<TeamUpdateWithoutLeaveBalancesInput, TeamUncheckedUpdateWithoutLeaveBalancesInput>
+  }
+
+  export type TeamUpdateWithoutLeaveBalancesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    groqApiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    projects?: ProjectUpdateManyWithoutTeamNestedInput
+    issues?: IssueUpdateManyWithoutTeamNestedInput
+    workflowStates?: WorkflowStateUpdateManyWithoutTeamNestedInput
+    labels?: LabelUpdateManyWithoutTeamNestedInput
+    members?: TeamMemberUpdateManyWithoutTeamNestedInput
+    invitations?: InvitationUpdateManyWithoutTeamNestedInput
+    chatConversations?: ChatConversationUpdateManyWithoutTeamNestedInput
+    events?: EventUpdateManyWithoutTeamNestedInput
+    standupEntries?: StandupEntryUpdateManyWithoutTeamNestedInput
+    clients?: ClientUpdateManyWithoutTeamNestedInput
+    leadPipelines?: LeadPipelineUpdateManyWithoutTeamNestedInput
+    leads?: LeadUpdateManyWithoutTeamNestedInput
+    teamChannels?: TeamChannelUpdateManyWithoutTeamNestedInput
+    announcements?: TeamAnnouncementUpdateManyWithoutTeamNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutTeamNestedInput
+    companySettings?: CompanySettingUpdateOneWithoutTeamNestedInput
+    automationRules?: AutomationRuleUpdateManyWithoutTeamNestedInput
+    developerApiKeys?: DeveloperApiKeyUpdateManyWithoutTeamNestedInput
+    webhookEndpoints?: WebhookEndpointUpdateManyWithoutTeamNestedInput
+    kpis?: CompanyKpiUpdateManyWithoutTeamNestedInput
+    invoices?: InvoiceUpdateManyWithoutTeamNestedInput
+    payments?: PaymentUpdateManyWithoutTeamNestedInput
+    expenses?: ExpenseUpdateManyWithoutTeamNestedInput
+    subscriptions?: ToolSubscriptionUpdateManyWithoutTeamNestedInput
+    domainProducts?: DomainProductUpdateManyWithoutTeamNestedInput
+    reusableComponents?: ReusableComponentUpdateManyWithoutTeamNestedInput
+    employees?: EmployeeUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUpdateManyWithoutTeamNestedInput
+  }
+
+  export type TeamUncheckedUpdateWithoutLeaveBalancesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    groqApiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    projects?: ProjectUncheckedUpdateManyWithoutTeamNestedInput
+    issues?: IssueUncheckedUpdateManyWithoutTeamNestedInput
+    workflowStates?: WorkflowStateUncheckedUpdateManyWithoutTeamNestedInput
+    labels?: LabelUncheckedUpdateManyWithoutTeamNestedInput
+    members?: TeamMemberUncheckedUpdateManyWithoutTeamNestedInput
+    invitations?: InvitationUncheckedUpdateManyWithoutTeamNestedInput
+    chatConversations?: ChatConversationUncheckedUpdateManyWithoutTeamNestedInput
+    events?: EventUncheckedUpdateManyWithoutTeamNestedInput
+    standupEntries?: StandupEntryUncheckedUpdateManyWithoutTeamNestedInput
+    clients?: ClientUncheckedUpdateManyWithoutTeamNestedInput
+    leadPipelines?: LeadPipelineUncheckedUpdateManyWithoutTeamNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTeamNestedInput
+    teamChannels?: TeamChannelUncheckedUpdateManyWithoutTeamNestedInput
+    announcements?: TeamAnnouncementUncheckedUpdateManyWithoutTeamNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutTeamNestedInput
+    companySettings?: CompanySettingUncheckedUpdateOneWithoutTeamNestedInput
+    automationRules?: AutomationRuleUncheckedUpdateManyWithoutTeamNestedInput
+    developerApiKeys?: DeveloperApiKeyUncheckedUpdateManyWithoutTeamNestedInput
+    webhookEndpoints?: WebhookEndpointUncheckedUpdateManyWithoutTeamNestedInput
+    kpis?: CompanyKpiUncheckedUpdateManyWithoutTeamNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTeamNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTeamNestedInput
+    expenses?: ExpenseUncheckedUpdateManyWithoutTeamNestedInput
+    subscriptions?: ToolSubscriptionUncheckedUpdateManyWithoutTeamNestedInput
+    domainProducts?: DomainProductUncheckedUpdateManyWithoutTeamNestedInput
+    reusableComponents?: ReusableComponentUncheckedUpdateManyWithoutTeamNestedInput
+    employees?: EmployeeUncheckedUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUncheckedUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUncheckedUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUncheckedUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUncheckedUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUncheckedUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUncheckedUpdateManyWithoutTeamNestedInput
+  }
+
+  export type EmployeeUpsertWithoutLeaveBalancesInput = {
+    update: XOR<EmployeeUpdateWithoutLeaveBalancesInput, EmployeeUncheckedUpdateWithoutLeaveBalancesInput>
+    create: XOR<EmployeeCreateWithoutLeaveBalancesInput, EmployeeUncheckedCreateWithoutLeaveBalancesInput>
+    where?: EmployeeWhereInput
+  }
+
+  export type EmployeeUpdateToOneWithWhereWithoutLeaveBalancesInput = {
+    where?: EmployeeWhereInput
+    data: XOR<EmployeeUpdateWithoutLeaveBalancesInput, EmployeeUncheckedUpdateWithoutLeaveBalancesInput>
+  }
+
+  export type EmployeeUpdateWithoutLeaveBalancesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    personalEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    fullName?: StringFieldUpdateOperationsInput | string
+    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: NullableStringFieldUpdateOperationsInput | string | null
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    joiningDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: EnumEmployeeStatusFieldUpdateOperationsInput | $Enums.EmployeeStatus
+    mustChangePassword?: BoolFieldUpdateOperationsInput | boolean
+    defaultPasswordExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    suspendedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    suspendedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    suspendedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    terminatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutEmployeeNestedInput
+    role?: RoleUpdateOneRequiredWithoutEmployeesNestedInput
+    team?: TeamUpdateOneRequiredWithoutEmployeesNestedInput
+    leaveRequests?: LeaveRequestUpdateManyWithoutEmployeeNestedInput
+    attendances?: AttendanceUpdateManyWithoutEmployeeNestedInput
+    onboardingChecklists?: OnboardingChecklistUpdateManyWithoutEmployeeNestedInput
+  }
+
+  export type EmployeeUncheckedUpdateWithoutLeaveBalancesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    personalEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    fullName?: StringFieldUpdateOperationsInput | string
+    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: NullableStringFieldUpdateOperationsInput | string | null
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    joiningDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    roleId?: StringFieldUpdateOperationsInput | string
+    teamId?: StringFieldUpdateOperationsInput | string
+    status?: EnumEmployeeStatusFieldUpdateOperationsInput | $Enums.EmployeeStatus
+    mustChangePassword?: BoolFieldUpdateOperationsInput | boolean
+    defaultPasswordExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    suspendedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    suspendedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    suspendedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    terminatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    attendances?: AttendanceUncheckedUpdateManyWithoutEmployeeNestedInput
+    onboardingChecklists?: OnboardingChecklistUncheckedUpdateManyWithoutEmployeeNestedInput
+  }
+
+  export type TeamCreateWithoutAttendancesInput = {
+    id?: string
+    name: string
+    key: string
+    groqApiKey?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    projects?: ProjectCreateNestedManyWithoutTeamInput
+    issues?: IssueCreateNestedManyWithoutTeamInput
+    workflowStates?: WorkflowStateCreateNestedManyWithoutTeamInput
+    labels?: LabelCreateNestedManyWithoutTeamInput
+    members?: TeamMemberCreateNestedManyWithoutTeamInput
+    invitations?: InvitationCreateNestedManyWithoutTeamInput
+    chatConversations?: ChatConversationCreateNestedManyWithoutTeamInput
+    events?: EventCreateNestedManyWithoutTeamInput
+    standupEntries?: StandupEntryCreateNestedManyWithoutTeamInput
+    clients?: ClientCreateNestedManyWithoutTeamInput
+    leadPipelines?: LeadPipelineCreateNestedManyWithoutTeamInput
+    leads?: LeadCreateNestedManyWithoutTeamInput
+    teamChannels?: TeamChannelCreateNestedManyWithoutTeamInput
+    announcements?: TeamAnnouncementCreateNestedManyWithoutTeamInput
+    auditLogs?: AuditLogCreateNestedManyWithoutTeamInput
+    companySettings?: CompanySettingCreateNestedOneWithoutTeamInput
+    automationRules?: AutomationRuleCreateNestedManyWithoutTeamInput
+    developerApiKeys?: DeveloperApiKeyCreateNestedManyWithoutTeamInput
+    webhookEndpoints?: WebhookEndpointCreateNestedManyWithoutTeamInput
+    kpis?: CompanyKpiCreateNestedManyWithoutTeamInput
+    invoices?: InvoiceCreateNestedManyWithoutTeamInput
+    payments?: PaymentCreateNestedManyWithoutTeamInput
+    expenses?: ExpenseCreateNestedManyWithoutTeamInput
+    subscriptions?: ToolSubscriptionCreateNestedManyWithoutTeamInput
+    domainProducts?: DomainProductCreateNestedManyWithoutTeamInput
+    reusableComponents?: ReusableComponentCreateNestedManyWithoutTeamInput
+    employees?: EmployeeCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningCreateNestedManyWithoutTeamInput
+    candidates?: CandidateCreateNestedManyWithoutTeamInput
+  }
+
+  export type TeamUncheckedCreateWithoutAttendancesInput = {
+    id?: string
+    name: string
+    key: string
+    groqApiKey?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    projects?: ProjectUncheckedCreateNestedManyWithoutTeamInput
+    issues?: IssueUncheckedCreateNestedManyWithoutTeamInput
+    workflowStates?: WorkflowStateUncheckedCreateNestedManyWithoutTeamInput
+    labels?: LabelUncheckedCreateNestedManyWithoutTeamInput
+    members?: TeamMemberUncheckedCreateNestedManyWithoutTeamInput
+    invitations?: InvitationUncheckedCreateNestedManyWithoutTeamInput
+    chatConversations?: ChatConversationUncheckedCreateNestedManyWithoutTeamInput
+    events?: EventUncheckedCreateNestedManyWithoutTeamInput
+    standupEntries?: StandupEntryUncheckedCreateNestedManyWithoutTeamInput
+    clients?: ClientUncheckedCreateNestedManyWithoutTeamInput
+    leadPipelines?: LeadPipelineUncheckedCreateNestedManyWithoutTeamInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTeamInput
+    teamChannels?: TeamChannelUncheckedCreateNestedManyWithoutTeamInput
+    announcements?: TeamAnnouncementUncheckedCreateNestedManyWithoutTeamInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTeamInput
+    companySettings?: CompanySettingUncheckedCreateNestedOneWithoutTeamInput
+    automationRules?: AutomationRuleUncheckedCreateNestedManyWithoutTeamInput
+    developerApiKeys?: DeveloperApiKeyUncheckedCreateNestedManyWithoutTeamInput
+    webhookEndpoints?: WebhookEndpointUncheckedCreateNestedManyWithoutTeamInput
+    kpis?: CompanyKpiUncheckedCreateNestedManyWithoutTeamInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTeamInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTeamInput
+    expenses?: ExpenseUncheckedCreateNestedManyWithoutTeamInput
+    subscriptions?: ToolSubscriptionUncheckedCreateNestedManyWithoutTeamInput
+    domainProducts?: DomainProductUncheckedCreateNestedManyWithoutTeamInput
+    reusableComponents?: ReusableComponentUncheckedCreateNestedManyWithoutTeamInput
+    employees?: EmployeeUncheckedCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetUncheckedCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardUncheckedCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistUncheckedCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningUncheckedCreateNestedManyWithoutTeamInput
+    candidates?: CandidateUncheckedCreateNestedManyWithoutTeamInput
+  }
+
+  export type TeamCreateOrConnectWithoutAttendancesInput = {
+    where: TeamWhereUniqueInput
+    create: XOR<TeamCreateWithoutAttendancesInput, TeamUncheckedCreateWithoutAttendancesInput>
+  }
+
+  export type EmployeeCreateWithoutAttendancesInput = {
+    id?: string
+    email: string
+    personalEmail?: string | null
+    fullName: string
+    employeeCode?: string | null
+    position?: string | null
+    department?: string | null
+    phone?: string | null
+    joiningDate?: Date | string | null
+    status?: $Enums.EmployeeStatus
+    mustChangePassword?: boolean
+    defaultPasswordExpiresAt?: Date | string | null
+    suspendedAt?: Date | string | null
+    suspendedBy?: string | null
+    suspendedReason?: string | null
+    terminatedAt?: Date | string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutEmployeeInput
+    role: RoleCreateNestedOneWithoutEmployeesInput
+    team: TeamCreateNestedOneWithoutEmployeesInput
+    leaveRequests?: LeaveRequestCreateNestedManyWithoutEmployeeInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutEmployeeInput
+    onboardingChecklists?: OnboardingChecklistCreateNestedManyWithoutEmployeeInput
+  }
+
+  export type EmployeeUncheckedCreateWithoutAttendancesInput = {
+    id?: string
+    userId: string
+    email: string
+    personalEmail?: string | null
+    fullName: string
+    employeeCode?: string | null
+    position?: string | null
+    department?: string | null
+    phone?: string | null
+    joiningDate?: Date | string | null
+    roleId: string
+    teamId: string
+    status?: $Enums.EmployeeStatus
+    mustChangePassword?: boolean
+    defaultPasswordExpiresAt?: Date | string | null
+    suspendedAt?: Date | string | null
+    suspendedBy?: string | null
+    suspendedReason?: string | null
+    terminatedAt?: Date | string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutEmployeeInput
+    onboardingChecklists?: OnboardingChecklistUncheckedCreateNestedManyWithoutEmployeeInput
+  }
+
+  export type EmployeeCreateOrConnectWithoutAttendancesInput = {
+    where: EmployeeWhereUniqueInput
+    create: XOR<EmployeeCreateWithoutAttendancesInput, EmployeeUncheckedCreateWithoutAttendancesInput>
+  }
+
+  export type TeamUpsertWithoutAttendancesInput = {
+    update: XOR<TeamUpdateWithoutAttendancesInput, TeamUncheckedUpdateWithoutAttendancesInput>
+    create: XOR<TeamCreateWithoutAttendancesInput, TeamUncheckedCreateWithoutAttendancesInput>
+    where?: TeamWhereInput
+  }
+
+  export type TeamUpdateToOneWithWhereWithoutAttendancesInput = {
+    where?: TeamWhereInput
+    data: XOR<TeamUpdateWithoutAttendancesInput, TeamUncheckedUpdateWithoutAttendancesInput>
+  }
+
+  export type TeamUpdateWithoutAttendancesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    groqApiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    projects?: ProjectUpdateManyWithoutTeamNestedInput
+    issues?: IssueUpdateManyWithoutTeamNestedInput
+    workflowStates?: WorkflowStateUpdateManyWithoutTeamNestedInput
+    labels?: LabelUpdateManyWithoutTeamNestedInput
+    members?: TeamMemberUpdateManyWithoutTeamNestedInput
+    invitations?: InvitationUpdateManyWithoutTeamNestedInput
+    chatConversations?: ChatConversationUpdateManyWithoutTeamNestedInput
+    events?: EventUpdateManyWithoutTeamNestedInput
+    standupEntries?: StandupEntryUpdateManyWithoutTeamNestedInput
+    clients?: ClientUpdateManyWithoutTeamNestedInput
+    leadPipelines?: LeadPipelineUpdateManyWithoutTeamNestedInput
+    leads?: LeadUpdateManyWithoutTeamNestedInput
+    teamChannels?: TeamChannelUpdateManyWithoutTeamNestedInput
+    announcements?: TeamAnnouncementUpdateManyWithoutTeamNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutTeamNestedInput
+    companySettings?: CompanySettingUpdateOneWithoutTeamNestedInput
+    automationRules?: AutomationRuleUpdateManyWithoutTeamNestedInput
+    developerApiKeys?: DeveloperApiKeyUpdateManyWithoutTeamNestedInput
+    webhookEndpoints?: WebhookEndpointUpdateManyWithoutTeamNestedInput
+    kpis?: CompanyKpiUpdateManyWithoutTeamNestedInput
+    invoices?: InvoiceUpdateManyWithoutTeamNestedInput
+    payments?: PaymentUpdateManyWithoutTeamNestedInput
+    expenses?: ExpenseUpdateManyWithoutTeamNestedInput
+    subscriptions?: ToolSubscriptionUpdateManyWithoutTeamNestedInput
+    domainProducts?: DomainProductUpdateManyWithoutTeamNestedInput
+    reusableComponents?: ReusableComponentUpdateManyWithoutTeamNestedInput
+    employees?: EmployeeUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUpdateManyWithoutTeamNestedInput
+  }
+
+  export type TeamUncheckedUpdateWithoutAttendancesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    groqApiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    projects?: ProjectUncheckedUpdateManyWithoutTeamNestedInput
+    issues?: IssueUncheckedUpdateManyWithoutTeamNestedInput
+    workflowStates?: WorkflowStateUncheckedUpdateManyWithoutTeamNestedInput
+    labels?: LabelUncheckedUpdateManyWithoutTeamNestedInput
+    members?: TeamMemberUncheckedUpdateManyWithoutTeamNestedInput
+    invitations?: InvitationUncheckedUpdateManyWithoutTeamNestedInput
+    chatConversations?: ChatConversationUncheckedUpdateManyWithoutTeamNestedInput
+    events?: EventUncheckedUpdateManyWithoutTeamNestedInput
+    standupEntries?: StandupEntryUncheckedUpdateManyWithoutTeamNestedInput
+    clients?: ClientUncheckedUpdateManyWithoutTeamNestedInput
+    leadPipelines?: LeadPipelineUncheckedUpdateManyWithoutTeamNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTeamNestedInput
+    teamChannels?: TeamChannelUncheckedUpdateManyWithoutTeamNestedInput
+    announcements?: TeamAnnouncementUncheckedUpdateManyWithoutTeamNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutTeamNestedInput
+    companySettings?: CompanySettingUncheckedUpdateOneWithoutTeamNestedInput
+    automationRules?: AutomationRuleUncheckedUpdateManyWithoutTeamNestedInput
+    developerApiKeys?: DeveloperApiKeyUncheckedUpdateManyWithoutTeamNestedInput
+    webhookEndpoints?: WebhookEndpointUncheckedUpdateManyWithoutTeamNestedInput
+    kpis?: CompanyKpiUncheckedUpdateManyWithoutTeamNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTeamNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTeamNestedInput
+    expenses?: ExpenseUncheckedUpdateManyWithoutTeamNestedInput
+    subscriptions?: ToolSubscriptionUncheckedUpdateManyWithoutTeamNestedInput
+    domainProducts?: DomainProductUncheckedUpdateManyWithoutTeamNestedInput
+    reusableComponents?: ReusableComponentUncheckedUpdateManyWithoutTeamNestedInput
+    employees?: EmployeeUncheckedUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUncheckedUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUncheckedUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUncheckedUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUncheckedUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUncheckedUpdateManyWithoutTeamNestedInput
+  }
+
+  export type EmployeeUpsertWithoutAttendancesInput = {
+    update: XOR<EmployeeUpdateWithoutAttendancesInput, EmployeeUncheckedUpdateWithoutAttendancesInput>
+    create: XOR<EmployeeCreateWithoutAttendancesInput, EmployeeUncheckedCreateWithoutAttendancesInput>
+    where?: EmployeeWhereInput
+  }
+
+  export type EmployeeUpdateToOneWithWhereWithoutAttendancesInput = {
+    where?: EmployeeWhereInput
+    data: XOR<EmployeeUpdateWithoutAttendancesInput, EmployeeUncheckedUpdateWithoutAttendancesInput>
+  }
+
+  export type EmployeeUpdateWithoutAttendancesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    personalEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    fullName?: StringFieldUpdateOperationsInput | string
+    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: NullableStringFieldUpdateOperationsInput | string | null
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    joiningDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: EnumEmployeeStatusFieldUpdateOperationsInput | $Enums.EmployeeStatus
+    mustChangePassword?: BoolFieldUpdateOperationsInput | boolean
+    defaultPasswordExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    suspendedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    suspendedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    suspendedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    terminatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutEmployeeNestedInput
+    role?: RoleUpdateOneRequiredWithoutEmployeesNestedInput
+    team?: TeamUpdateOneRequiredWithoutEmployeesNestedInput
+    leaveRequests?: LeaveRequestUpdateManyWithoutEmployeeNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutEmployeeNestedInput
+    onboardingChecklists?: OnboardingChecklistUpdateManyWithoutEmployeeNestedInput
+  }
+
+  export type EmployeeUncheckedUpdateWithoutAttendancesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    personalEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    fullName?: StringFieldUpdateOperationsInput | string
+    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: NullableStringFieldUpdateOperationsInput | string | null
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    joiningDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    roleId?: StringFieldUpdateOperationsInput | string
+    teamId?: StringFieldUpdateOperationsInput | string
+    status?: EnumEmployeeStatusFieldUpdateOperationsInput | $Enums.EmployeeStatus
+    mustChangePassword?: BoolFieldUpdateOperationsInput | boolean
+    defaultPasswordExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    suspendedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    suspendedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    suspendedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    terminatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutEmployeeNestedInput
+    onboardingChecklists?: OnboardingChecklistUncheckedUpdateManyWithoutEmployeeNestedInput
+  }
+
+  export type TeamCreateWithoutOnboardingChecklistsInput = {
+    id?: string
+    name: string
+    key: string
+    groqApiKey?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    projects?: ProjectCreateNestedManyWithoutTeamInput
+    issues?: IssueCreateNestedManyWithoutTeamInput
+    workflowStates?: WorkflowStateCreateNestedManyWithoutTeamInput
+    labels?: LabelCreateNestedManyWithoutTeamInput
+    members?: TeamMemberCreateNestedManyWithoutTeamInput
+    invitations?: InvitationCreateNestedManyWithoutTeamInput
+    chatConversations?: ChatConversationCreateNestedManyWithoutTeamInput
+    events?: EventCreateNestedManyWithoutTeamInput
+    standupEntries?: StandupEntryCreateNestedManyWithoutTeamInput
+    clients?: ClientCreateNestedManyWithoutTeamInput
+    leadPipelines?: LeadPipelineCreateNestedManyWithoutTeamInput
+    leads?: LeadCreateNestedManyWithoutTeamInput
+    teamChannels?: TeamChannelCreateNestedManyWithoutTeamInput
+    announcements?: TeamAnnouncementCreateNestedManyWithoutTeamInput
+    auditLogs?: AuditLogCreateNestedManyWithoutTeamInput
+    companySettings?: CompanySettingCreateNestedOneWithoutTeamInput
+    automationRules?: AutomationRuleCreateNestedManyWithoutTeamInput
+    developerApiKeys?: DeveloperApiKeyCreateNestedManyWithoutTeamInput
+    webhookEndpoints?: WebhookEndpointCreateNestedManyWithoutTeamInput
+    kpis?: CompanyKpiCreateNestedManyWithoutTeamInput
+    invoices?: InvoiceCreateNestedManyWithoutTeamInput
+    payments?: PaymentCreateNestedManyWithoutTeamInput
+    expenses?: ExpenseCreateNestedManyWithoutTeamInput
+    subscriptions?: ToolSubscriptionCreateNestedManyWithoutTeamInput
+    domainProducts?: DomainProductCreateNestedManyWithoutTeamInput
+    reusableComponents?: ReusableComponentCreateNestedManyWithoutTeamInput
+    employees?: EmployeeCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningCreateNestedManyWithoutTeamInput
+    candidates?: CandidateCreateNestedManyWithoutTeamInput
+  }
+
+  export type TeamUncheckedCreateWithoutOnboardingChecklistsInput = {
+    id?: string
+    name: string
+    key: string
+    groqApiKey?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    projects?: ProjectUncheckedCreateNestedManyWithoutTeamInput
+    issues?: IssueUncheckedCreateNestedManyWithoutTeamInput
+    workflowStates?: WorkflowStateUncheckedCreateNestedManyWithoutTeamInput
+    labels?: LabelUncheckedCreateNestedManyWithoutTeamInput
+    members?: TeamMemberUncheckedCreateNestedManyWithoutTeamInput
+    invitations?: InvitationUncheckedCreateNestedManyWithoutTeamInput
+    chatConversations?: ChatConversationUncheckedCreateNestedManyWithoutTeamInput
+    events?: EventUncheckedCreateNestedManyWithoutTeamInput
+    standupEntries?: StandupEntryUncheckedCreateNestedManyWithoutTeamInput
+    clients?: ClientUncheckedCreateNestedManyWithoutTeamInput
+    leadPipelines?: LeadPipelineUncheckedCreateNestedManyWithoutTeamInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTeamInput
+    teamChannels?: TeamChannelUncheckedCreateNestedManyWithoutTeamInput
+    announcements?: TeamAnnouncementUncheckedCreateNestedManyWithoutTeamInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTeamInput
+    companySettings?: CompanySettingUncheckedCreateNestedOneWithoutTeamInput
+    automationRules?: AutomationRuleUncheckedCreateNestedManyWithoutTeamInput
+    developerApiKeys?: DeveloperApiKeyUncheckedCreateNestedManyWithoutTeamInput
+    webhookEndpoints?: WebhookEndpointUncheckedCreateNestedManyWithoutTeamInput
+    kpis?: CompanyKpiUncheckedCreateNestedManyWithoutTeamInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTeamInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTeamInput
+    expenses?: ExpenseUncheckedCreateNestedManyWithoutTeamInput
+    subscriptions?: ToolSubscriptionUncheckedCreateNestedManyWithoutTeamInput
+    domainProducts?: DomainProductUncheckedCreateNestedManyWithoutTeamInput
+    reusableComponents?: ReusableComponentUncheckedCreateNestedManyWithoutTeamInput
+    employees?: EmployeeUncheckedCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetUncheckedCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardUncheckedCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceUncheckedCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningUncheckedCreateNestedManyWithoutTeamInput
+    candidates?: CandidateUncheckedCreateNestedManyWithoutTeamInput
+  }
+
+  export type TeamCreateOrConnectWithoutOnboardingChecklistsInput = {
+    where: TeamWhereUniqueInput
+    create: XOR<TeamCreateWithoutOnboardingChecklistsInput, TeamUncheckedCreateWithoutOnboardingChecklistsInput>
+  }
+
+  export type EmployeeCreateWithoutOnboardingChecklistsInput = {
+    id?: string
+    email: string
+    personalEmail?: string | null
+    fullName: string
+    employeeCode?: string | null
+    position?: string | null
+    department?: string | null
+    phone?: string | null
+    joiningDate?: Date | string | null
+    status?: $Enums.EmployeeStatus
+    mustChangePassword?: boolean
+    defaultPasswordExpiresAt?: Date | string | null
+    suspendedAt?: Date | string | null
+    suspendedBy?: string | null
+    suspendedReason?: string | null
+    terminatedAt?: Date | string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutEmployeeInput
+    role: RoleCreateNestedOneWithoutEmployeesInput
+    team: TeamCreateNestedOneWithoutEmployeesInput
+    leaveRequests?: LeaveRequestCreateNestedManyWithoutEmployeeInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutEmployeeInput
+    attendances?: AttendanceCreateNestedManyWithoutEmployeeInput
+  }
+
+  export type EmployeeUncheckedCreateWithoutOnboardingChecklistsInput = {
+    id?: string
+    userId: string
+    email: string
+    personalEmail?: string | null
+    fullName: string
+    employeeCode?: string | null
+    position?: string | null
+    department?: string | null
+    phone?: string | null
+    joiningDate?: Date | string | null
+    roleId: string
+    teamId: string
+    status?: $Enums.EmployeeStatus
+    mustChangePassword?: boolean
+    defaultPasswordExpiresAt?: Date | string | null
+    suspendedAt?: Date | string | null
+    suspendedBy?: string | null
+    suspendedReason?: string | null
+    terminatedAt?: Date | string | null
+    createdBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutEmployeeInput
+    attendances?: AttendanceUncheckedCreateNestedManyWithoutEmployeeInput
+  }
+
+  export type EmployeeCreateOrConnectWithoutOnboardingChecklistsInput = {
+    where: EmployeeWhereUniqueInput
+    create: XOR<EmployeeCreateWithoutOnboardingChecklistsInput, EmployeeUncheckedCreateWithoutOnboardingChecklistsInput>
+  }
+
+  export type TeamUpsertWithoutOnboardingChecklistsInput = {
+    update: XOR<TeamUpdateWithoutOnboardingChecklistsInput, TeamUncheckedUpdateWithoutOnboardingChecklistsInput>
+    create: XOR<TeamCreateWithoutOnboardingChecklistsInput, TeamUncheckedCreateWithoutOnboardingChecklistsInput>
+    where?: TeamWhereInput
+  }
+
+  export type TeamUpdateToOneWithWhereWithoutOnboardingChecklistsInput = {
+    where?: TeamWhereInput
+    data: XOR<TeamUpdateWithoutOnboardingChecklistsInput, TeamUncheckedUpdateWithoutOnboardingChecklistsInput>
+  }
+
+  export type TeamUpdateWithoutOnboardingChecklistsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    groqApiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    projects?: ProjectUpdateManyWithoutTeamNestedInput
+    issues?: IssueUpdateManyWithoutTeamNestedInput
+    workflowStates?: WorkflowStateUpdateManyWithoutTeamNestedInput
+    labels?: LabelUpdateManyWithoutTeamNestedInput
+    members?: TeamMemberUpdateManyWithoutTeamNestedInput
+    invitations?: InvitationUpdateManyWithoutTeamNestedInput
+    chatConversations?: ChatConversationUpdateManyWithoutTeamNestedInput
+    events?: EventUpdateManyWithoutTeamNestedInput
+    standupEntries?: StandupEntryUpdateManyWithoutTeamNestedInput
+    clients?: ClientUpdateManyWithoutTeamNestedInput
+    leadPipelines?: LeadPipelineUpdateManyWithoutTeamNestedInput
+    leads?: LeadUpdateManyWithoutTeamNestedInput
+    teamChannels?: TeamChannelUpdateManyWithoutTeamNestedInput
+    announcements?: TeamAnnouncementUpdateManyWithoutTeamNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutTeamNestedInput
+    companySettings?: CompanySettingUpdateOneWithoutTeamNestedInput
+    automationRules?: AutomationRuleUpdateManyWithoutTeamNestedInput
+    developerApiKeys?: DeveloperApiKeyUpdateManyWithoutTeamNestedInput
+    webhookEndpoints?: WebhookEndpointUpdateManyWithoutTeamNestedInput
+    kpis?: CompanyKpiUpdateManyWithoutTeamNestedInput
+    invoices?: InvoiceUpdateManyWithoutTeamNestedInput
+    payments?: PaymentUpdateManyWithoutTeamNestedInput
+    expenses?: ExpenseUpdateManyWithoutTeamNestedInput
+    subscriptions?: ToolSubscriptionUpdateManyWithoutTeamNestedInput
+    domainProducts?: DomainProductUpdateManyWithoutTeamNestedInput
+    reusableComponents?: ReusableComponentUpdateManyWithoutTeamNestedInput
+    employees?: EmployeeUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUpdateManyWithoutTeamNestedInput
+  }
+
+  export type TeamUncheckedUpdateWithoutOnboardingChecklistsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    groqApiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    projects?: ProjectUncheckedUpdateManyWithoutTeamNestedInput
+    issues?: IssueUncheckedUpdateManyWithoutTeamNestedInput
+    workflowStates?: WorkflowStateUncheckedUpdateManyWithoutTeamNestedInput
+    labels?: LabelUncheckedUpdateManyWithoutTeamNestedInput
+    members?: TeamMemberUncheckedUpdateManyWithoutTeamNestedInput
+    invitations?: InvitationUncheckedUpdateManyWithoutTeamNestedInput
+    chatConversations?: ChatConversationUncheckedUpdateManyWithoutTeamNestedInput
+    events?: EventUncheckedUpdateManyWithoutTeamNestedInput
+    standupEntries?: StandupEntryUncheckedUpdateManyWithoutTeamNestedInput
+    clients?: ClientUncheckedUpdateManyWithoutTeamNestedInput
+    leadPipelines?: LeadPipelineUncheckedUpdateManyWithoutTeamNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTeamNestedInput
+    teamChannels?: TeamChannelUncheckedUpdateManyWithoutTeamNestedInput
+    announcements?: TeamAnnouncementUncheckedUpdateManyWithoutTeamNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutTeamNestedInput
+    companySettings?: CompanySettingUncheckedUpdateOneWithoutTeamNestedInput
+    automationRules?: AutomationRuleUncheckedUpdateManyWithoutTeamNestedInput
+    developerApiKeys?: DeveloperApiKeyUncheckedUpdateManyWithoutTeamNestedInput
+    webhookEndpoints?: WebhookEndpointUncheckedUpdateManyWithoutTeamNestedInput
+    kpis?: CompanyKpiUncheckedUpdateManyWithoutTeamNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTeamNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTeamNestedInput
+    expenses?: ExpenseUncheckedUpdateManyWithoutTeamNestedInput
+    subscriptions?: ToolSubscriptionUncheckedUpdateManyWithoutTeamNestedInput
+    domainProducts?: DomainProductUncheckedUpdateManyWithoutTeamNestedInput
+    reusableComponents?: ReusableComponentUncheckedUpdateManyWithoutTeamNestedInput
+    employees?: EmployeeUncheckedUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUncheckedUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUncheckedUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUncheckedUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUncheckedUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUncheckedUpdateManyWithoutTeamNestedInput
+  }
+
+  export type EmployeeUpsertWithoutOnboardingChecklistsInput = {
+    update: XOR<EmployeeUpdateWithoutOnboardingChecklistsInput, EmployeeUncheckedUpdateWithoutOnboardingChecklistsInput>
+    create: XOR<EmployeeCreateWithoutOnboardingChecklistsInput, EmployeeUncheckedCreateWithoutOnboardingChecklistsInput>
+    where?: EmployeeWhereInput
+  }
+
+  export type EmployeeUpdateToOneWithWhereWithoutOnboardingChecklistsInput = {
+    where?: EmployeeWhereInput
+    data: XOR<EmployeeUpdateWithoutOnboardingChecklistsInput, EmployeeUncheckedUpdateWithoutOnboardingChecklistsInput>
+  }
+
+  export type EmployeeUpdateWithoutOnboardingChecklistsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    personalEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    fullName?: StringFieldUpdateOperationsInput | string
+    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: NullableStringFieldUpdateOperationsInput | string | null
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    joiningDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: EnumEmployeeStatusFieldUpdateOperationsInput | $Enums.EmployeeStatus
+    mustChangePassword?: BoolFieldUpdateOperationsInput | boolean
+    defaultPasswordExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    suspendedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    suspendedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    suspendedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    terminatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutEmployeeNestedInput
+    role?: RoleUpdateOneRequiredWithoutEmployeesNestedInput
+    team?: TeamUpdateOneRequiredWithoutEmployeesNestedInput
+    leaveRequests?: LeaveRequestUpdateManyWithoutEmployeeNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutEmployeeNestedInput
+    attendances?: AttendanceUpdateManyWithoutEmployeeNestedInput
+  }
+
+  export type EmployeeUncheckedUpdateWithoutOnboardingChecklistsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    personalEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    fullName?: StringFieldUpdateOperationsInput | string
+    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: NullableStringFieldUpdateOperationsInput | string | null
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    joiningDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    roleId?: StringFieldUpdateOperationsInput | string
+    teamId?: StringFieldUpdateOperationsInput | string
+    status?: EnumEmployeeStatusFieldUpdateOperationsInput | $Enums.EmployeeStatus
+    mustChangePassword?: BoolFieldUpdateOperationsInput | boolean
+    defaultPasswordExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    suspendedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    suspendedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    suspendedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    terminatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutEmployeeNestedInput
+    attendances?: AttendanceUncheckedUpdateManyWithoutEmployeeNestedInput
+  }
+
+  export type TeamCreateWithoutJobOpeningsInput = {
+    id?: string
+    name: string
+    key: string
+    groqApiKey?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    projects?: ProjectCreateNestedManyWithoutTeamInput
+    issues?: IssueCreateNestedManyWithoutTeamInput
+    workflowStates?: WorkflowStateCreateNestedManyWithoutTeamInput
+    labels?: LabelCreateNestedManyWithoutTeamInput
+    members?: TeamMemberCreateNestedManyWithoutTeamInput
+    invitations?: InvitationCreateNestedManyWithoutTeamInput
+    chatConversations?: ChatConversationCreateNestedManyWithoutTeamInput
+    events?: EventCreateNestedManyWithoutTeamInput
+    standupEntries?: StandupEntryCreateNestedManyWithoutTeamInput
+    clients?: ClientCreateNestedManyWithoutTeamInput
+    leadPipelines?: LeadPipelineCreateNestedManyWithoutTeamInput
+    leads?: LeadCreateNestedManyWithoutTeamInput
+    teamChannels?: TeamChannelCreateNestedManyWithoutTeamInput
+    announcements?: TeamAnnouncementCreateNestedManyWithoutTeamInput
+    auditLogs?: AuditLogCreateNestedManyWithoutTeamInput
+    companySettings?: CompanySettingCreateNestedOneWithoutTeamInput
+    automationRules?: AutomationRuleCreateNestedManyWithoutTeamInput
+    developerApiKeys?: DeveloperApiKeyCreateNestedManyWithoutTeamInput
+    webhookEndpoints?: WebhookEndpointCreateNestedManyWithoutTeamInput
+    kpis?: CompanyKpiCreateNestedManyWithoutTeamInput
+    invoices?: InvoiceCreateNestedManyWithoutTeamInput
+    payments?: PaymentCreateNestedManyWithoutTeamInput
+    expenses?: ExpenseCreateNestedManyWithoutTeamInput
+    subscriptions?: ToolSubscriptionCreateNestedManyWithoutTeamInput
+    domainProducts?: DomainProductCreateNestedManyWithoutTeamInput
+    reusableComponents?: ReusableComponentCreateNestedManyWithoutTeamInput
+    employees?: EmployeeCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistCreateNestedManyWithoutTeamInput
+    candidates?: CandidateCreateNestedManyWithoutTeamInput
+  }
+
+  export type TeamUncheckedCreateWithoutJobOpeningsInput = {
+    id?: string
+    name: string
+    key: string
+    groqApiKey?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    projects?: ProjectUncheckedCreateNestedManyWithoutTeamInput
+    issues?: IssueUncheckedCreateNestedManyWithoutTeamInput
+    workflowStates?: WorkflowStateUncheckedCreateNestedManyWithoutTeamInput
+    labels?: LabelUncheckedCreateNestedManyWithoutTeamInput
+    members?: TeamMemberUncheckedCreateNestedManyWithoutTeamInput
+    invitations?: InvitationUncheckedCreateNestedManyWithoutTeamInput
+    chatConversations?: ChatConversationUncheckedCreateNestedManyWithoutTeamInput
+    events?: EventUncheckedCreateNestedManyWithoutTeamInput
+    standupEntries?: StandupEntryUncheckedCreateNestedManyWithoutTeamInput
+    clients?: ClientUncheckedCreateNestedManyWithoutTeamInput
+    leadPipelines?: LeadPipelineUncheckedCreateNestedManyWithoutTeamInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTeamInput
+    teamChannels?: TeamChannelUncheckedCreateNestedManyWithoutTeamInput
+    announcements?: TeamAnnouncementUncheckedCreateNestedManyWithoutTeamInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTeamInput
+    companySettings?: CompanySettingUncheckedCreateNestedOneWithoutTeamInput
+    automationRules?: AutomationRuleUncheckedCreateNestedManyWithoutTeamInput
+    developerApiKeys?: DeveloperApiKeyUncheckedCreateNestedManyWithoutTeamInput
+    webhookEndpoints?: WebhookEndpointUncheckedCreateNestedManyWithoutTeamInput
+    kpis?: CompanyKpiUncheckedCreateNestedManyWithoutTeamInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTeamInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTeamInput
+    expenses?: ExpenseUncheckedCreateNestedManyWithoutTeamInput
+    subscriptions?: ToolSubscriptionUncheckedCreateNestedManyWithoutTeamInput
+    domainProducts?: DomainProductUncheckedCreateNestedManyWithoutTeamInput
+    reusableComponents?: ReusableComponentUncheckedCreateNestedManyWithoutTeamInput
+    employees?: EmployeeUncheckedCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetUncheckedCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardUncheckedCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceUncheckedCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistUncheckedCreateNestedManyWithoutTeamInput
+    candidates?: CandidateUncheckedCreateNestedManyWithoutTeamInput
+  }
+
+  export type TeamCreateOrConnectWithoutJobOpeningsInput = {
+    where: TeamWhereUniqueInput
+    create: XOR<TeamCreateWithoutJobOpeningsInput, TeamUncheckedCreateWithoutJobOpeningsInput>
+  }
+
+  export type CandidateCreateWithoutJobOpeningInput = {
+    id?: string
+    fullName: string
+    email: string
+    phone?: string | null
+    stage?: string
+    resumeUrl?: string | null
+    portfolioUrl?: string | null
+    experienceYears?: number | null
+    currentCtc?: number | null
+    expectedCtc?: number | null
+    noticePeriodDays?: number | null
+    rating?: number | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    team: TeamCreateNestedOneWithoutCandidatesInput
+  }
+
+  export type CandidateUncheckedCreateWithoutJobOpeningInput = {
+    id?: string
+    teamId: string
+    fullName: string
+    email: string
+    phone?: string | null
+    stage?: string
+    resumeUrl?: string | null
+    portfolioUrl?: string | null
+    experienceYears?: number | null
+    currentCtc?: number | null
+    expectedCtc?: number | null
+    noticePeriodDays?: number | null
+    rating?: number | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CandidateCreateOrConnectWithoutJobOpeningInput = {
+    where: CandidateWhereUniqueInput
+    create: XOR<CandidateCreateWithoutJobOpeningInput, CandidateUncheckedCreateWithoutJobOpeningInput>
+  }
+
+  export type CandidateCreateManyJobOpeningInputEnvelope = {
+    data: CandidateCreateManyJobOpeningInput | CandidateCreateManyJobOpeningInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TeamUpsertWithoutJobOpeningsInput = {
+    update: XOR<TeamUpdateWithoutJobOpeningsInput, TeamUncheckedUpdateWithoutJobOpeningsInput>
+    create: XOR<TeamCreateWithoutJobOpeningsInput, TeamUncheckedCreateWithoutJobOpeningsInput>
+    where?: TeamWhereInput
+  }
+
+  export type TeamUpdateToOneWithWhereWithoutJobOpeningsInput = {
+    where?: TeamWhereInput
+    data: XOR<TeamUpdateWithoutJobOpeningsInput, TeamUncheckedUpdateWithoutJobOpeningsInput>
+  }
+
+  export type TeamUpdateWithoutJobOpeningsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    groqApiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    projects?: ProjectUpdateManyWithoutTeamNestedInput
+    issues?: IssueUpdateManyWithoutTeamNestedInput
+    workflowStates?: WorkflowStateUpdateManyWithoutTeamNestedInput
+    labels?: LabelUpdateManyWithoutTeamNestedInput
+    members?: TeamMemberUpdateManyWithoutTeamNestedInput
+    invitations?: InvitationUpdateManyWithoutTeamNestedInput
+    chatConversations?: ChatConversationUpdateManyWithoutTeamNestedInput
+    events?: EventUpdateManyWithoutTeamNestedInput
+    standupEntries?: StandupEntryUpdateManyWithoutTeamNestedInput
+    clients?: ClientUpdateManyWithoutTeamNestedInput
+    leadPipelines?: LeadPipelineUpdateManyWithoutTeamNestedInput
+    leads?: LeadUpdateManyWithoutTeamNestedInput
+    teamChannels?: TeamChannelUpdateManyWithoutTeamNestedInput
+    announcements?: TeamAnnouncementUpdateManyWithoutTeamNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutTeamNestedInput
+    companySettings?: CompanySettingUpdateOneWithoutTeamNestedInput
+    automationRules?: AutomationRuleUpdateManyWithoutTeamNestedInput
+    developerApiKeys?: DeveloperApiKeyUpdateManyWithoutTeamNestedInput
+    webhookEndpoints?: WebhookEndpointUpdateManyWithoutTeamNestedInput
+    kpis?: CompanyKpiUpdateManyWithoutTeamNestedInput
+    invoices?: InvoiceUpdateManyWithoutTeamNestedInput
+    payments?: PaymentUpdateManyWithoutTeamNestedInput
+    expenses?: ExpenseUpdateManyWithoutTeamNestedInput
+    subscriptions?: ToolSubscriptionUpdateManyWithoutTeamNestedInput
+    domainProducts?: DomainProductUpdateManyWithoutTeamNestedInput
+    reusableComponents?: ReusableComponentUpdateManyWithoutTeamNestedInput
+    employees?: EmployeeUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUpdateManyWithoutTeamNestedInput
+  }
+
+  export type TeamUncheckedUpdateWithoutJobOpeningsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    groqApiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    projects?: ProjectUncheckedUpdateManyWithoutTeamNestedInput
+    issues?: IssueUncheckedUpdateManyWithoutTeamNestedInput
+    workflowStates?: WorkflowStateUncheckedUpdateManyWithoutTeamNestedInput
+    labels?: LabelUncheckedUpdateManyWithoutTeamNestedInput
+    members?: TeamMemberUncheckedUpdateManyWithoutTeamNestedInput
+    invitations?: InvitationUncheckedUpdateManyWithoutTeamNestedInput
+    chatConversations?: ChatConversationUncheckedUpdateManyWithoutTeamNestedInput
+    events?: EventUncheckedUpdateManyWithoutTeamNestedInput
+    standupEntries?: StandupEntryUncheckedUpdateManyWithoutTeamNestedInput
+    clients?: ClientUncheckedUpdateManyWithoutTeamNestedInput
+    leadPipelines?: LeadPipelineUncheckedUpdateManyWithoutTeamNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTeamNestedInput
+    teamChannels?: TeamChannelUncheckedUpdateManyWithoutTeamNestedInput
+    announcements?: TeamAnnouncementUncheckedUpdateManyWithoutTeamNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutTeamNestedInput
+    companySettings?: CompanySettingUncheckedUpdateOneWithoutTeamNestedInput
+    automationRules?: AutomationRuleUncheckedUpdateManyWithoutTeamNestedInput
+    developerApiKeys?: DeveloperApiKeyUncheckedUpdateManyWithoutTeamNestedInput
+    webhookEndpoints?: WebhookEndpointUncheckedUpdateManyWithoutTeamNestedInput
+    kpis?: CompanyKpiUncheckedUpdateManyWithoutTeamNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTeamNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTeamNestedInput
+    expenses?: ExpenseUncheckedUpdateManyWithoutTeamNestedInput
+    subscriptions?: ToolSubscriptionUncheckedUpdateManyWithoutTeamNestedInput
+    domainProducts?: DomainProductUncheckedUpdateManyWithoutTeamNestedInput
+    reusableComponents?: ReusableComponentUncheckedUpdateManyWithoutTeamNestedInput
+    employees?: EmployeeUncheckedUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUncheckedUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUncheckedUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUncheckedUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUncheckedUpdateManyWithoutTeamNestedInput
+    candidates?: CandidateUncheckedUpdateManyWithoutTeamNestedInput
+  }
+
+  export type CandidateUpsertWithWhereUniqueWithoutJobOpeningInput = {
+    where: CandidateWhereUniqueInput
+    update: XOR<CandidateUpdateWithoutJobOpeningInput, CandidateUncheckedUpdateWithoutJobOpeningInput>
+    create: XOR<CandidateCreateWithoutJobOpeningInput, CandidateUncheckedCreateWithoutJobOpeningInput>
+  }
+
+  export type CandidateUpdateWithWhereUniqueWithoutJobOpeningInput = {
+    where: CandidateWhereUniqueInput
+    data: XOR<CandidateUpdateWithoutJobOpeningInput, CandidateUncheckedUpdateWithoutJobOpeningInput>
+  }
+
+  export type CandidateUpdateManyWithWhereWithoutJobOpeningInput = {
+    where: CandidateScalarWhereInput
+    data: XOR<CandidateUpdateManyMutationInput, CandidateUncheckedUpdateManyWithoutJobOpeningInput>
+  }
+
+  export type TeamCreateWithoutCandidatesInput = {
+    id?: string
+    name: string
+    key: string
+    groqApiKey?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    projects?: ProjectCreateNestedManyWithoutTeamInput
+    issues?: IssueCreateNestedManyWithoutTeamInput
+    workflowStates?: WorkflowStateCreateNestedManyWithoutTeamInput
+    labels?: LabelCreateNestedManyWithoutTeamInput
+    members?: TeamMemberCreateNestedManyWithoutTeamInput
+    invitations?: InvitationCreateNestedManyWithoutTeamInput
+    chatConversations?: ChatConversationCreateNestedManyWithoutTeamInput
+    events?: EventCreateNestedManyWithoutTeamInput
+    standupEntries?: StandupEntryCreateNestedManyWithoutTeamInput
+    clients?: ClientCreateNestedManyWithoutTeamInput
+    leadPipelines?: LeadPipelineCreateNestedManyWithoutTeamInput
+    leads?: LeadCreateNestedManyWithoutTeamInput
+    teamChannels?: TeamChannelCreateNestedManyWithoutTeamInput
+    announcements?: TeamAnnouncementCreateNestedManyWithoutTeamInput
+    auditLogs?: AuditLogCreateNestedManyWithoutTeamInput
+    companySettings?: CompanySettingCreateNestedOneWithoutTeamInput
+    automationRules?: AutomationRuleCreateNestedManyWithoutTeamInput
+    developerApiKeys?: DeveloperApiKeyCreateNestedManyWithoutTeamInput
+    webhookEndpoints?: WebhookEndpointCreateNestedManyWithoutTeamInput
+    kpis?: CompanyKpiCreateNestedManyWithoutTeamInput
+    invoices?: InvoiceCreateNestedManyWithoutTeamInput
+    payments?: PaymentCreateNestedManyWithoutTeamInput
+    expenses?: ExpenseCreateNestedManyWithoutTeamInput
+    subscriptions?: ToolSubscriptionCreateNestedManyWithoutTeamInput
+    domainProducts?: DomainProductCreateNestedManyWithoutTeamInput
+    reusableComponents?: ReusableComponentCreateNestedManyWithoutTeamInput
+    employees?: EmployeeCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningCreateNestedManyWithoutTeamInput
+  }
+
+  export type TeamUncheckedCreateWithoutCandidatesInput = {
+    id?: string
+    name: string
+    key: string
+    groqApiKey?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    projects?: ProjectUncheckedCreateNestedManyWithoutTeamInput
+    issues?: IssueUncheckedCreateNestedManyWithoutTeamInput
+    workflowStates?: WorkflowStateUncheckedCreateNestedManyWithoutTeamInput
+    labels?: LabelUncheckedCreateNestedManyWithoutTeamInput
+    members?: TeamMemberUncheckedCreateNestedManyWithoutTeamInput
+    invitations?: InvitationUncheckedCreateNestedManyWithoutTeamInput
+    chatConversations?: ChatConversationUncheckedCreateNestedManyWithoutTeamInput
+    events?: EventUncheckedCreateNestedManyWithoutTeamInput
+    standupEntries?: StandupEntryUncheckedCreateNestedManyWithoutTeamInput
+    clients?: ClientUncheckedCreateNestedManyWithoutTeamInput
+    leadPipelines?: LeadPipelineUncheckedCreateNestedManyWithoutTeamInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTeamInput
+    teamChannels?: TeamChannelUncheckedCreateNestedManyWithoutTeamInput
+    announcements?: TeamAnnouncementUncheckedCreateNestedManyWithoutTeamInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTeamInput
+    companySettings?: CompanySettingUncheckedCreateNestedOneWithoutTeamInput
+    automationRules?: AutomationRuleUncheckedCreateNestedManyWithoutTeamInput
+    developerApiKeys?: DeveloperApiKeyUncheckedCreateNestedManyWithoutTeamInput
+    webhookEndpoints?: WebhookEndpointUncheckedCreateNestedManyWithoutTeamInput
+    kpis?: CompanyKpiUncheckedCreateNestedManyWithoutTeamInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTeamInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTeamInput
+    expenses?: ExpenseUncheckedCreateNestedManyWithoutTeamInput
+    subscriptions?: ToolSubscriptionUncheckedCreateNestedManyWithoutTeamInput
+    domainProducts?: DomainProductUncheckedCreateNestedManyWithoutTeamInput
+    reusableComponents?: ReusableComponentUncheckedCreateNestedManyWithoutTeamInput
+    employees?: EmployeeUncheckedCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetUncheckedCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardUncheckedCreateNestedManyWithoutTeamInput
+    leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutTeamInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutTeamInput
+    attendances?: AttendanceUncheckedCreateNestedManyWithoutTeamInput
+    onboardingChecklists?: OnboardingChecklistUncheckedCreateNestedManyWithoutTeamInput
+    jobOpenings?: JobOpeningUncheckedCreateNestedManyWithoutTeamInput
+  }
+
+  export type TeamCreateOrConnectWithoutCandidatesInput = {
+    where: TeamWhereUniqueInput
+    create: XOR<TeamCreateWithoutCandidatesInput, TeamUncheckedCreateWithoutCandidatesInput>
+  }
+
+  export type JobOpeningCreateWithoutCandidatesInput = {
+    id?: string
+    title: string
+    department: string
+    location?: string
+    type?: string
+    status?: string
+    openingsCount?: number
+    description?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    team: TeamCreateNestedOneWithoutJobOpeningsInput
+  }
+
+  export type JobOpeningUncheckedCreateWithoutCandidatesInput = {
+    id?: string
+    teamId: string
+    title: string
+    department: string
+    location?: string
+    type?: string
+    status?: string
+    openingsCount?: number
+    description?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type JobOpeningCreateOrConnectWithoutCandidatesInput = {
+    where: JobOpeningWhereUniqueInput
+    create: XOR<JobOpeningCreateWithoutCandidatesInput, JobOpeningUncheckedCreateWithoutCandidatesInput>
+  }
+
+  export type TeamUpsertWithoutCandidatesInput = {
+    update: XOR<TeamUpdateWithoutCandidatesInput, TeamUncheckedUpdateWithoutCandidatesInput>
+    create: XOR<TeamCreateWithoutCandidatesInput, TeamUncheckedCreateWithoutCandidatesInput>
+    where?: TeamWhereInput
+  }
+
+  export type TeamUpdateToOneWithWhereWithoutCandidatesInput = {
+    where?: TeamWhereInput
+    data: XOR<TeamUpdateWithoutCandidatesInput, TeamUncheckedUpdateWithoutCandidatesInput>
+  }
+
+  export type TeamUpdateWithoutCandidatesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    groqApiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    projects?: ProjectUpdateManyWithoutTeamNestedInput
+    issues?: IssueUpdateManyWithoutTeamNestedInput
+    workflowStates?: WorkflowStateUpdateManyWithoutTeamNestedInput
+    labels?: LabelUpdateManyWithoutTeamNestedInput
+    members?: TeamMemberUpdateManyWithoutTeamNestedInput
+    invitations?: InvitationUpdateManyWithoutTeamNestedInput
+    chatConversations?: ChatConversationUpdateManyWithoutTeamNestedInput
+    events?: EventUpdateManyWithoutTeamNestedInput
+    standupEntries?: StandupEntryUpdateManyWithoutTeamNestedInput
+    clients?: ClientUpdateManyWithoutTeamNestedInput
+    leadPipelines?: LeadPipelineUpdateManyWithoutTeamNestedInput
+    leads?: LeadUpdateManyWithoutTeamNestedInput
+    teamChannels?: TeamChannelUpdateManyWithoutTeamNestedInput
+    announcements?: TeamAnnouncementUpdateManyWithoutTeamNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutTeamNestedInput
+    companySettings?: CompanySettingUpdateOneWithoutTeamNestedInput
+    automationRules?: AutomationRuleUpdateManyWithoutTeamNestedInput
+    developerApiKeys?: DeveloperApiKeyUpdateManyWithoutTeamNestedInput
+    webhookEndpoints?: WebhookEndpointUpdateManyWithoutTeamNestedInput
+    kpis?: CompanyKpiUpdateManyWithoutTeamNestedInput
+    invoices?: InvoiceUpdateManyWithoutTeamNestedInput
+    payments?: PaymentUpdateManyWithoutTeamNestedInput
+    expenses?: ExpenseUpdateManyWithoutTeamNestedInput
+    subscriptions?: ToolSubscriptionUpdateManyWithoutTeamNestedInput
+    domainProducts?: DomainProductUpdateManyWithoutTeamNestedInput
+    reusableComponents?: ReusableComponentUpdateManyWithoutTeamNestedInput
+    employees?: EmployeeUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUpdateManyWithoutTeamNestedInput
+  }
+
+  export type TeamUncheckedUpdateWithoutCandidatesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    groqApiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    projects?: ProjectUncheckedUpdateManyWithoutTeamNestedInput
+    issues?: IssueUncheckedUpdateManyWithoutTeamNestedInput
+    workflowStates?: WorkflowStateUncheckedUpdateManyWithoutTeamNestedInput
+    labels?: LabelUncheckedUpdateManyWithoutTeamNestedInput
+    members?: TeamMemberUncheckedUpdateManyWithoutTeamNestedInput
+    invitations?: InvitationUncheckedUpdateManyWithoutTeamNestedInput
+    chatConversations?: ChatConversationUncheckedUpdateManyWithoutTeamNestedInput
+    events?: EventUncheckedUpdateManyWithoutTeamNestedInput
+    standupEntries?: StandupEntryUncheckedUpdateManyWithoutTeamNestedInput
+    clients?: ClientUncheckedUpdateManyWithoutTeamNestedInput
+    leadPipelines?: LeadPipelineUncheckedUpdateManyWithoutTeamNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTeamNestedInput
+    teamChannels?: TeamChannelUncheckedUpdateManyWithoutTeamNestedInput
+    announcements?: TeamAnnouncementUncheckedUpdateManyWithoutTeamNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutTeamNestedInput
+    companySettings?: CompanySettingUncheckedUpdateOneWithoutTeamNestedInput
+    automationRules?: AutomationRuleUncheckedUpdateManyWithoutTeamNestedInput
+    developerApiKeys?: DeveloperApiKeyUncheckedUpdateManyWithoutTeamNestedInput
+    webhookEndpoints?: WebhookEndpointUncheckedUpdateManyWithoutTeamNestedInput
+    kpis?: CompanyKpiUncheckedUpdateManyWithoutTeamNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTeamNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTeamNestedInput
+    expenses?: ExpenseUncheckedUpdateManyWithoutTeamNestedInput
+    subscriptions?: ToolSubscriptionUncheckedUpdateManyWithoutTeamNestedInput
+    domainProducts?: DomainProductUncheckedUpdateManyWithoutTeamNestedInput
+    reusableComponents?: ReusableComponentUncheckedUpdateManyWithoutTeamNestedInput
+    employees?: EmployeeUncheckedUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUncheckedUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUncheckedUpdateManyWithoutTeamNestedInput
+    leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutTeamNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutTeamNestedInput
+    attendances?: AttendanceUncheckedUpdateManyWithoutTeamNestedInput
+    onboardingChecklists?: OnboardingChecklistUncheckedUpdateManyWithoutTeamNestedInput
+    jobOpenings?: JobOpeningUncheckedUpdateManyWithoutTeamNestedInput
+  }
+
+  export type JobOpeningUpsertWithoutCandidatesInput = {
+    update: XOR<JobOpeningUpdateWithoutCandidatesInput, JobOpeningUncheckedUpdateWithoutCandidatesInput>
+    create: XOR<JobOpeningCreateWithoutCandidatesInput, JobOpeningUncheckedCreateWithoutCandidatesInput>
+    where?: JobOpeningWhereInput
+  }
+
+  export type JobOpeningUpdateToOneWithWhereWithoutCandidatesInput = {
+    where?: JobOpeningWhereInput
+    data: XOR<JobOpeningUpdateWithoutCandidatesInput, JobOpeningUncheckedUpdateWithoutCandidatesInput>
+  }
+
+  export type JobOpeningUpdateWithoutCandidatesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    department?: StringFieldUpdateOperationsInput | string
+    location?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    openingsCount?: IntFieldUpdateOperationsInput | number
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    team?: TeamUpdateOneRequiredWithoutJobOpeningsNestedInput
+  }
+
+  export type JobOpeningUncheckedUpdateWithoutCandidatesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    teamId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    department?: StringFieldUpdateOperationsInput | string
+    location?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    openingsCount?: IntFieldUpdateOperationsInput | number
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ProjectCreateManyTeamInput = {
@@ -121252,6 +135408,98 @@ export namespace Prisma {
     hourlyBillingRate?: number
     currency?: string
     effectiveFrom?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LeaveRequestCreateManyTeamInput = {
+    id?: string
+    employeeId: string
+    userId: string
+    leaveType: string
+    startDate: Date | string
+    endDate: Date | string
+    totalDays: number
+    reason: string
+    status?: string
+    approvedBy?: string | null
+    approvedAt?: Date | string | null
+    rejectionReason?: string | null
+    emergencyContact?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LeaveBalanceCreateManyTeamInput = {
+    id?: string
+    employeeId: string
+    year: number
+    casualTotal?: number
+    casualUsed?: number
+    sickTotal?: number
+    sickUsed?: number
+    paidTotal?: number
+    paidUsed?: number
+    unpaidUsed?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AttendanceCreateManyTeamInput = {
+    id?: string
+    employeeId: string
+    userId: string
+    date: Date | string
+    checkInTime: Date | string
+    checkOutTime?: Date | string | null
+    workMode?: string
+    status?: string
+    totalHours?: number | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type OnboardingChecklistCreateManyTeamInput = {
+    id?: string
+    employeeId: string
+    type?: string
+    title: string
+    items: JsonNullValueInput | InputJsonValue
+    isCompleted?: boolean
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type JobOpeningCreateManyTeamInput = {
+    id?: string
+    title: string
+    department: string
+    location?: string
+    type?: string
+    status?: string
+    openingsCount?: number
+    description?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CandidateCreateManyTeamInput = {
+    id?: string
+    jobOpeningId?: string | null
+    fullName: string
+    email: string
+    phone?: string | null
+    stage?: string
+    resumeUrl?: string | null
+    portfolioUrl?: string | null
+    experienceYears?: number | null
+    currentCtc?: number | null
+    expectedCtc?: number | null
+    noticePeriodDays?: number | null
+    rating?: number | null
+    notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -122455,6 +136703,10 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutEmployeeNestedInput
     role?: RoleUpdateOneRequiredWithoutEmployeesNestedInput
+    leaveRequests?: LeaveRequestUpdateManyWithoutEmployeeNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutEmployeeNestedInput
+    attendances?: AttendanceUpdateManyWithoutEmployeeNestedInput
+    onboardingChecklists?: OnboardingChecklistUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutTeamInput = {
@@ -122479,6 +136731,10 @@ export namespace Prisma {
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutEmployeeNestedInput
+    attendances?: AttendanceUncheckedUpdateManyWithoutEmployeeNestedInput
+    onboardingChecklists?: OnboardingChecklistUncheckedUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeUncheckedUpdateManyWithoutTeamInput = {
@@ -122692,6 +136948,284 @@ export namespace Prisma {
     hourlyBillingRate?: FloatFieldUpdateOperationsInput | number
     currency?: StringFieldUpdateOperationsInput | string
     effectiveFrom?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LeaveRequestUpdateWithoutTeamInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    leaveType?: StringFieldUpdateOperationsInput | string
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    totalDays?: FloatFieldUpdateOperationsInput | number
+    reason?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    approvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    employee?: EmployeeUpdateOneRequiredWithoutLeaveRequestsNestedInput
+  }
+
+  export type LeaveRequestUncheckedUpdateWithoutTeamInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    leaveType?: StringFieldUpdateOperationsInput | string
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    totalDays?: FloatFieldUpdateOperationsInput | number
+    reason?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    approvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LeaveRequestUncheckedUpdateManyWithoutTeamInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    leaveType?: StringFieldUpdateOperationsInput | string
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    totalDays?: FloatFieldUpdateOperationsInput | number
+    reason?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    approvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LeaveBalanceUpdateWithoutTeamInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    casualTotal?: FloatFieldUpdateOperationsInput | number
+    casualUsed?: FloatFieldUpdateOperationsInput | number
+    sickTotal?: FloatFieldUpdateOperationsInput | number
+    sickUsed?: FloatFieldUpdateOperationsInput | number
+    paidTotal?: FloatFieldUpdateOperationsInput | number
+    paidUsed?: FloatFieldUpdateOperationsInput | number
+    unpaidUsed?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    employee?: EmployeeUpdateOneRequiredWithoutLeaveBalancesNestedInput
+  }
+
+  export type LeaveBalanceUncheckedUpdateWithoutTeamInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    casualTotal?: FloatFieldUpdateOperationsInput | number
+    casualUsed?: FloatFieldUpdateOperationsInput | number
+    sickTotal?: FloatFieldUpdateOperationsInput | number
+    sickUsed?: FloatFieldUpdateOperationsInput | number
+    paidTotal?: FloatFieldUpdateOperationsInput | number
+    paidUsed?: FloatFieldUpdateOperationsInput | number
+    unpaidUsed?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LeaveBalanceUncheckedUpdateManyWithoutTeamInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    casualTotal?: FloatFieldUpdateOperationsInput | number
+    casualUsed?: FloatFieldUpdateOperationsInput | number
+    sickTotal?: FloatFieldUpdateOperationsInput | number
+    sickUsed?: FloatFieldUpdateOperationsInput | number
+    paidTotal?: FloatFieldUpdateOperationsInput | number
+    paidUsed?: FloatFieldUpdateOperationsInput | number
+    unpaidUsed?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AttendanceUpdateWithoutTeamInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    checkInTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    checkOutTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    workMode?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    totalHours?: NullableFloatFieldUpdateOperationsInput | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    employee?: EmployeeUpdateOneRequiredWithoutAttendancesNestedInput
+  }
+
+  export type AttendanceUncheckedUpdateWithoutTeamInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    checkInTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    checkOutTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    workMode?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    totalHours?: NullableFloatFieldUpdateOperationsInput | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AttendanceUncheckedUpdateManyWithoutTeamInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    checkInTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    checkOutTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    workMode?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    totalHours?: NullableFloatFieldUpdateOperationsInput | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OnboardingChecklistUpdateWithoutTeamInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    items?: JsonNullValueInput | InputJsonValue
+    isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    employee?: EmployeeUpdateOneRequiredWithoutOnboardingChecklistsNestedInput
+  }
+
+  export type OnboardingChecklistUncheckedUpdateWithoutTeamInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    items?: JsonNullValueInput | InputJsonValue
+    isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OnboardingChecklistUncheckedUpdateManyWithoutTeamInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    items?: JsonNullValueInput | InputJsonValue
+    isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type JobOpeningUpdateWithoutTeamInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    department?: StringFieldUpdateOperationsInput | string
+    location?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    openingsCount?: IntFieldUpdateOperationsInput | number
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    candidates?: CandidateUpdateManyWithoutJobOpeningNestedInput
+  }
+
+  export type JobOpeningUncheckedUpdateWithoutTeamInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    department?: StringFieldUpdateOperationsInput | string
+    location?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    openingsCount?: IntFieldUpdateOperationsInput | number
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    candidates?: CandidateUncheckedUpdateManyWithoutJobOpeningNestedInput
+  }
+
+  export type JobOpeningUncheckedUpdateManyWithoutTeamInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    department?: StringFieldUpdateOperationsInput | string
+    location?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    openingsCount?: IntFieldUpdateOperationsInput | number
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CandidateUpdateWithoutTeamInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    stage?: StringFieldUpdateOperationsInput | string
+    resumeUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    experienceYears?: NullableFloatFieldUpdateOperationsInput | number | null
+    currentCtc?: NullableFloatFieldUpdateOperationsInput | number | null
+    expectedCtc?: NullableFloatFieldUpdateOperationsInput | number | null
+    noticePeriodDays?: NullableIntFieldUpdateOperationsInput | number | null
+    rating?: NullableIntFieldUpdateOperationsInput | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    jobOpening?: JobOpeningUpdateOneWithoutCandidatesNestedInput
+  }
+
+  export type CandidateUncheckedUpdateWithoutTeamInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    jobOpeningId?: NullableStringFieldUpdateOperationsInput | string | null
+    fullName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    stage?: StringFieldUpdateOperationsInput | string
+    resumeUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    experienceYears?: NullableFloatFieldUpdateOperationsInput | number | null
+    currentCtc?: NullableFloatFieldUpdateOperationsInput | number | null
+    expectedCtc?: NullableFloatFieldUpdateOperationsInput | number | null
+    noticePeriodDays?: NullableIntFieldUpdateOperationsInput | number | null
+    rating?: NullableIntFieldUpdateOperationsInput | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CandidateUncheckedUpdateManyWithoutTeamInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    jobOpeningId?: NullableStringFieldUpdateOperationsInput | string | null
+    fullName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    stage?: StringFieldUpdateOperationsInput | string
+    resumeUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    experienceYears?: NullableFloatFieldUpdateOperationsInput | number | null
+    currentCtc?: NullableFloatFieldUpdateOperationsInput | number | null
+    expectedCtc?: NullableFloatFieldUpdateOperationsInput | number | null
+    noticePeriodDays?: NullableIntFieldUpdateOperationsInput | number | null
+    rating?: NullableIntFieldUpdateOperationsInput | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -125420,6 +139954,10 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutEmployeeNestedInput
     team?: TeamUpdateOneRequiredWithoutEmployeesNestedInput
+    leaveRequests?: LeaveRequestUpdateManyWithoutEmployeeNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutEmployeeNestedInput
+    attendances?: AttendanceUpdateManyWithoutEmployeeNestedInput
+    onboardingChecklists?: OnboardingChecklistUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutRoleInput = {
@@ -125444,6 +139982,10 @@ export namespace Prisma {
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutEmployeeNestedInput
+    attendances?: AttendanceUncheckedUpdateManyWithoutEmployeeNestedInput
+    onboardingChecklists?: OnboardingChecklistUncheckedUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeUncheckedUpdateManyWithoutRoleInput = {
@@ -125466,6 +140008,246 @@ export namespace Prisma {
     suspendedReason?: NullableStringFieldUpdateOperationsInput | string | null
     terminatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LeaveRequestCreateManyEmployeeInput = {
+    id?: string
+    teamId: string
+    userId: string
+    leaveType: string
+    startDate: Date | string
+    endDate: Date | string
+    totalDays: number
+    reason: string
+    status?: string
+    approvedBy?: string | null
+    approvedAt?: Date | string | null
+    rejectionReason?: string | null
+    emergencyContact?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LeaveBalanceCreateManyEmployeeInput = {
+    id?: string
+    teamId: string
+    year: number
+    casualTotal?: number
+    casualUsed?: number
+    sickTotal?: number
+    sickUsed?: number
+    paidTotal?: number
+    paidUsed?: number
+    unpaidUsed?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AttendanceCreateManyEmployeeInput = {
+    id?: string
+    teamId: string
+    userId: string
+    date: Date | string
+    checkInTime: Date | string
+    checkOutTime?: Date | string | null
+    workMode?: string
+    status?: string
+    totalHours?: number | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type OnboardingChecklistCreateManyEmployeeInput = {
+    id?: string
+    teamId: string
+    type?: string
+    title: string
+    items: JsonNullValueInput | InputJsonValue
+    isCompleted?: boolean
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LeaveRequestUpdateWithoutEmployeeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    leaveType?: StringFieldUpdateOperationsInput | string
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    totalDays?: FloatFieldUpdateOperationsInput | number
+    reason?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    approvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    team?: TeamUpdateOneRequiredWithoutLeaveRequestsNestedInput
+  }
+
+  export type LeaveRequestUncheckedUpdateWithoutEmployeeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    teamId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    leaveType?: StringFieldUpdateOperationsInput | string
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    totalDays?: FloatFieldUpdateOperationsInput | number
+    reason?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    approvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LeaveRequestUncheckedUpdateManyWithoutEmployeeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    teamId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    leaveType?: StringFieldUpdateOperationsInput | string
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    totalDays?: FloatFieldUpdateOperationsInput | number
+    reason?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    approvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LeaveBalanceUpdateWithoutEmployeeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    casualTotal?: FloatFieldUpdateOperationsInput | number
+    casualUsed?: FloatFieldUpdateOperationsInput | number
+    sickTotal?: FloatFieldUpdateOperationsInput | number
+    sickUsed?: FloatFieldUpdateOperationsInput | number
+    paidTotal?: FloatFieldUpdateOperationsInput | number
+    paidUsed?: FloatFieldUpdateOperationsInput | number
+    unpaidUsed?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    team?: TeamUpdateOneRequiredWithoutLeaveBalancesNestedInput
+  }
+
+  export type LeaveBalanceUncheckedUpdateWithoutEmployeeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    teamId?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    casualTotal?: FloatFieldUpdateOperationsInput | number
+    casualUsed?: FloatFieldUpdateOperationsInput | number
+    sickTotal?: FloatFieldUpdateOperationsInput | number
+    sickUsed?: FloatFieldUpdateOperationsInput | number
+    paidTotal?: FloatFieldUpdateOperationsInput | number
+    paidUsed?: FloatFieldUpdateOperationsInput | number
+    unpaidUsed?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LeaveBalanceUncheckedUpdateManyWithoutEmployeeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    teamId?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    casualTotal?: FloatFieldUpdateOperationsInput | number
+    casualUsed?: FloatFieldUpdateOperationsInput | number
+    sickTotal?: FloatFieldUpdateOperationsInput | number
+    sickUsed?: FloatFieldUpdateOperationsInput | number
+    paidTotal?: FloatFieldUpdateOperationsInput | number
+    paidUsed?: FloatFieldUpdateOperationsInput | number
+    unpaidUsed?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AttendanceUpdateWithoutEmployeeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    checkInTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    checkOutTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    workMode?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    totalHours?: NullableFloatFieldUpdateOperationsInput | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    team?: TeamUpdateOneRequiredWithoutAttendancesNestedInput
+  }
+
+  export type AttendanceUncheckedUpdateWithoutEmployeeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    teamId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    checkInTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    checkOutTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    workMode?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    totalHours?: NullableFloatFieldUpdateOperationsInput | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AttendanceUncheckedUpdateManyWithoutEmployeeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    teamId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    checkInTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    checkOutTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    workMode?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    totalHours?: NullableFloatFieldUpdateOperationsInput | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OnboardingChecklistUpdateWithoutEmployeeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    items?: JsonNullValueInput | InputJsonValue
+    isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    team?: TeamUpdateOneRequiredWithoutOnboardingChecklistsNestedInput
+  }
+
+  export type OnboardingChecklistUncheckedUpdateWithoutEmployeeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    teamId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    items?: JsonNullValueInput | InputJsonValue
+    isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OnboardingChecklistUncheckedUpdateManyWithoutEmployeeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    teamId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    items?: JsonNullValueInput | InputJsonValue
+    isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -125546,6 +140328,82 @@ export namespace Prisma {
     isTimer?: BoolFieldUpdateOperationsInput | boolean
     startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     stoppedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CandidateCreateManyJobOpeningInput = {
+    id?: string
+    teamId: string
+    fullName: string
+    email: string
+    phone?: string | null
+    stage?: string
+    resumeUrl?: string | null
+    portfolioUrl?: string | null
+    experienceYears?: number | null
+    currentCtc?: number | null
+    expectedCtc?: number | null
+    noticePeriodDays?: number | null
+    rating?: number | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CandidateUpdateWithoutJobOpeningInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    stage?: StringFieldUpdateOperationsInput | string
+    resumeUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    experienceYears?: NullableFloatFieldUpdateOperationsInput | number | null
+    currentCtc?: NullableFloatFieldUpdateOperationsInput | number | null
+    expectedCtc?: NullableFloatFieldUpdateOperationsInput | number | null
+    noticePeriodDays?: NullableIntFieldUpdateOperationsInput | number | null
+    rating?: NullableIntFieldUpdateOperationsInput | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    team?: TeamUpdateOneRequiredWithoutCandidatesNestedInput
+  }
+
+  export type CandidateUncheckedUpdateWithoutJobOpeningInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    teamId?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    stage?: StringFieldUpdateOperationsInput | string
+    resumeUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    experienceYears?: NullableFloatFieldUpdateOperationsInput | number | null
+    currentCtc?: NullableFloatFieldUpdateOperationsInput | number | null
+    expectedCtc?: NullableFloatFieldUpdateOperationsInput | number | null
+    noticePeriodDays?: NullableIntFieldUpdateOperationsInput | number | null
+    rating?: NullableIntFieldUpdateOperationsInput | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CandidateUncheckedUpdateManyWithoutJobOpeningInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    teamId?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    stage?: StringFieldUpdateOperationsInput | string
+    resumeUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    experienceYears?: NullableFloatFieldUpdateOperationsInput | number | null
+    currentCtc?: NullableFloatFieldUpdateOperationsInput | number | null
+    expectedCtc?: NullableFloatFieldUpdateOperationsInput | number | null
+    noticePeriodDays?: NullableIntFieldUpdateOperationsInput | number | null
+    rating?: NullableIntFieldUpdateOperationsInput | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
