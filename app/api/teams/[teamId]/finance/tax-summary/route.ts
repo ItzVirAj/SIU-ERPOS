@@ -130,18 +130,31 @@ export async function GET(
       })
     }
 
+    const totals = {
+      taxableValue: totalTaxableValue,
+      totalTaxableValue,
+      cgst: totalCgst,
+      totalCgst,
+      sgst: totalSgst,
+      totalSgst,
+      igst: totalIgst,
+      totalIgst,
+      totalTax,
+      companyGstin: companySetting?.gstin || "27AAACS1429B1ZB",
+      pan: companySetting?.pan || "",
+      invoicesCount: invoices.length,
+    }
+
     return NextResponse.json({
       supplierGstin: companySetting?.gstin || "27AAACS1429B1ZB",
       companyName: companySetting?.companyName || "SketchItUp Technologies",
-      summary: {
-        totalTaxableValue,
-        totalCgst,
-        totalSgst,
-        totalIgst,
-        totalTax,
-        invoicesCount: invoices.length,
-      },
-      monthlyBreakdown,
+      totals,
+      summary: totals,
+      invoicesCount: invoices.length,
+      monthlyBreakdown: monthlyBreakdown.map((item) => ({
+        ...item,
+        invoiceCount: item.count,
+      })),
     })
   } catch (error) {
     return handleRouteError(error)

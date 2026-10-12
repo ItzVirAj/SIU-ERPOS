@@ -1030,19 +1030,33 @@ export function FinanceConsole() {
                 </Button>
               </CardHeader>
               <CardContent className="p-4 space-y-4">
-                {taxSummaryData && (
+                {loadingTax ? (
+                  <div className="py-6 text-center text-xs text-muted-foreground">
+                    Loading GST Tax Summary...
+                  </div>
+                ) : taxSummaryData ? (
                   <>
                     <div className="grid grid-cols-2 gap-3 text-xs">
                       <div className="p-3 bg-muted/20 rounded border border-border/30">
                         <div className="text-muted-foreground">Total Taxable Value</div>
                         <div className="text-base font-bold text-foreground mt-0.5">
-                          {formatINR(taxSummaryData.totals.taxableValue)}
+                          {formatINR(
+                            taxSummaryData.totals?.taxableValue ??
+                            taxSummaryData.totals?.totalTaxableValue ??
+                            taxSummaryData.summary?.totalTaxableValue ??
+                            taxSummaryData.summary?.taxableValue ??
+                            0
+                          )}
                         </div>
                       </div>
                       <div className="p-3 bg-emerald-950/20 rounded border border-emerald-500/30">
                         <div className="text-emerald-400">Total GST Collected</div>
                         <div className="text-base font-bold text-emerald-400 mt-0.5">
-                          {formatINR(taxSummaryData.totals.totalTax)}
+                          {formatINR(
+                            taxSummaryData.totals?.totalTax ??
+                            taxSummaryData.summary?.totalTax ??
+                            0
+                          )}
                         </div>
                       </div>
                     </div>
@@ -1061,23 +1075,31 @@ export function FinanceConsole() {
                             </TableRow>
                           </TableHeader>
                           <TableBody>
-                            {taxSummaryData.monthlyBreakdown.map((row) => (
-                              <TableRow key={row.month} className="border-border/30 text-[11px]">
-                                <TableCell className="font-medium">{row.month}</TableCell>
-                                <TableCell className="text-right">{formatINR(row.taxable)}</TableCell>
-                                <TableCell className="text-right">{formatINR(row.cgst)}</TableCell>
-                                <TableCell className="text-right">{formatINR(row.sgst)}</TableCell>
-                                <TableCell className="text-right font-bold text-emerald-400">
-                                  {formatINR(row.totalTax)}
+                            {(taxSummaryData.monthlyBreakdown || []).length === 0 ? (
+                              <TableRow>
+                                <TableCell colSpan={5} className="text-center py-4 text-xs text-muted-foreground">
+                                  No tax records found.
                                 </TableCell>
                               </TableRow>
-                            ))}
+                            ) : (
+                              (taxSummaryData.monthlyBreakdown || []).map((row) => (
+                                <TableRow key={row.month} className="border-border/30 text-[11px]">
+                                  <TableCell className="font-medium">{row.month}</TableCell>
+                                  <TableCell className="text-right">{formatINR(row.taxable ?? 0)}</TableCell>
+                                  <TableCell className="text-right">{formatINR(row.cgst ?? 0)}</TableCell>
+                                  <TableCell className="text-right">{formatINR(row.sgst ?? 0)}</TableCell>
+                                  <TableCell className="text-right font-bold text-emerald-400">
+                                    {formatINR(row.totalTax ?? 0)}
+                                  </TableCell>
+                                </TableRow>
+                              ))
+                            )}
                           </TableBody>
                         </Table>
                       </div>
                     </div>
                   </>
-                )}
+                ) : null}
               </CardContent>
             </Card>
           </div>

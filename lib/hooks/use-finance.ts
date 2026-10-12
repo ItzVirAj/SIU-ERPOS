@@ -131,25 +131,38 @@ export interface ReceivablesBuckets {
 }
 
 export interface TaxSummaryResponse {
-  totals: {
-    taxableValue: number
-    cgst: number
-    sgst: number
-    igst: number
-    totalTax: number
-    companyGstin: string
-    pan: string
+  totals?: {
+    taxableValue?: number
+    totalTaxableValue?: number
+    cgst?: number
+    sgst?: number
+    igst?: number
+    totalTax?: number
+    companyGstin?: string
+    pan?: string
   }
-  monthlyBreakdown: Array<{
+  summary?: {
+    totalTaxableValue?: number
+    taxableValue?: number
+    totalCgst?: number
+    totalSgst?: number
+    totalIgst?: number
+    totalTax?: number
+    invoicesCount?: number
+  }
+  monthlyBreakdown?: Array<{
     month: string
     taxable: number
     cgst: number
     sgst: number
     igst: number
     totalTax: number
-    invoiceCount: number
+    invoiceCount?: number
+    count?: number
   }>
-  invoicesCount: number
+  invoicesCount?: number
+  supplierGstin?: string
+  companyName?: string
 }
 
 export function useFinanceOverview(teamId: string) {
