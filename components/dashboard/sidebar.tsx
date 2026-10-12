@@ -31,6 +31,7 @@ import {
   Workflow,
   CreditCard,
   Package,
+  Clock,
 } from "lucide-react";
 import IconFiles from "@/components/ui/IconFiles";
 import IconSquareChartLine from "@/components/ui/IconSquareChartLine";
@@ -84,6 +85,12 @@ export const navigationItems = (openApiKeyDialog: () => void): NavigationItem[] 
     name: "Issues",
     href: "/dashboard/issues",
     icon: IconFiles,
+    type: "item",
+  },
+  {
+    name: "Timesheets & Planning",
+    href: "/dashboard/timesheets",
+    icon: Clock,
     type: "item",
   },
   {
@@ -255,6 +262,7 @@ export function DashboardAppSidebar({
         if (item.href === "/dashboard/calendar") return canViewCollab;
         if (item.href === "/dashboard/my-tasks") return canViewWork;
         if (item.href === "/dashboard/issues") return canViewWork;
+        if (item.href === "/dashboard/timesheets") return canViewWork;
         if (item.href === "/dashboard/crm") return canViewCrm;
         if (item.href === "/dashboard/reports") return canViewReports;
         if (item.href === "/dashboard/flows") return canViewAutomations;

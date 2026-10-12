@@ -41,7 +41,7 @@ The codebase (`SIU-ERPOS`) is built on **Next.js 15.5.27**, **React 19**, **Bett
 | **6.8 COMM**| Team Communication & Alerts | P0 / P1 / P2 | 🟢 Completed | 100% | **Built:** Team-scoped Mini-Dashboard & Chatspace (`/dashboard/team`), `#general`/`#announcements`/`#proj-[key]` channels, DMs, threaded replies, emoji reactions, task card previews, 1-click Google Meet huddles, team announcements with acknowledgements, and full DB-backed personal Inbox (`/dashboard/inbox`). |
 | **6.9 PORT**| Client Portal | P1 / P2 | 🔴 Not Started | 0% | **Pending:** Branded client login, approval workflows, shared deliverables, tickets. |
 | **6.10 FIN**| Finance, Invoicing & GST | P0 / P1 / P2 | 🟢 Completed | 100% | **Built:** Full Live Finance Ledger (`/dashboard/finance`): Indian GST Invoicing (SAC 998314, CGST/SGST/IGST), Sequential Series (`INV-2026-XXXX`), Printable Tax Invoice Preview, Payment & Receipt Ledger (`REC-2026-XXXX`), Receivables Ageing (0-30, 31-60, 61-90, 90+ days), Direct 1-Click Payment Notices, Expense Tracking, SaaS Tool Register, and GSTR-1 CSV Tax Export. |
-| **6.11 TIME**| Timesheets & Resource Planning | P0 / P1 / P2 | 🔴 Not Started | 0% | **Pending:** Daily/weekly timesheets, capacity allocation, billing & cost rates, utilization. |
+| **6.11 TIME**| Timesheets & Resource Planning | P0 / P1 / P2 | 🟢 Completed | 100% | **Built:** Dedicated Timesheets & Capacity Console (`/dashboard/timesheets`): Live Stopwatch Task Timer, Weekly Mon-Sun Matrix Grid, Manager Certification & Lock Workflow (TIME-02), Weekly Capacity Planning Grid with Over/Under Load Indicators (TIME-03), External Contractor & Freelancer Rate Ledger (TIME-07), Billable Utilization Analytics (TIME-05), and Story Point Estimate Accuracy Rating vs Actual Logged Hours (TIME-06). |
 | **6.12 HR** | People Operations (HR Lite) | P0 / P1 / P2 | 🟡 Partial | 35% | **Built:** Employee directory, employee profile records, active/suspended/terminated lifecycle, department & position tracking.<br>**Pending:** Leave management & balances, Onboarding checklists, ATS. |
 | **6.13 SUP**| Support, Maintenance & AMC | P1 / P2 | 🔴 Not Started | 0% | **Pending:** Tickets, SLA policies, AMC contracts, Client uptime register. |
 | **6.14 PROD**| Own Products & Roadmap | P1 / P2 | 🟢 Completed | 100% | **Built:** Full SaaS Portfolio Console (`/dashboard/products`): Domain Product Registry, Dual Quarterly/Kanban Roadmap Board, Feature Request & Feedback Inbox with voting, Pilot Customer & Cohort Tracker, Release Notes Publisher, and Shared Reusable Agency IP Catalog. |
@@ -176,10 +176,16 @@ The codebase (`SIU-ERPOS`) is built on **Next.js 15.5.27**, **React 19**, **Bett
 
 ---
 
-### 3.11 Timesheets & Resource Planning — `TIME`
-* **PRD Scope:** Daily/weekly timesheets, capacity allocation per developer per project, billable utilization reports, and estimate accuracy tracking.
-* **What is DONE:** Story points / hours estimate field on `Issue`.
-* **What is LEFT:** Timesheet submission and approval workflow, developer capacity planning, billable vs bench utilization reports.
+### 3.11 Timesheets & Resource Planning — `TIME` (🟢 100% Completed)
+* **What is DONE:**
+  * **Dedicated Timesheets & Planning Route (`/dashboard/timesheets`):** Live Stopwatch Task Timer widget with project/issue tagging and auto-logging.
+  * **Weekly Timesheet Matrix (`TIME-01`):** Mon–Sun heat strip with daily hour totals, itemized tasks, billable flags, and activity categories (Development, Design, Code Review, Meeting, Bug Fix, DevOps).
+  * **Manager Approval & Lock Workflow (`TIME-02`):** Developer 1-click submission, Manager certification (`APPROVE`), actionable rejection notes (`REJECT`), and immutable locking of certified timesheets.
+  * **Resource Capacity Planning Matrix (`TIME-03`):** Weekly per-project allocations, standard 40h capacity bars, over-allocation warnings (>40h), and bench alerts (<20h).
+  * **Rate Cards & Contractor Cost Tracking (`TIME-04`, `TIME-07`):** Role-level and developer rate cards with external contractor tagging and weekly expenditure tracking.
+  * **Utilization & Activity Analytics (`TIME-05`):** Billable vs internal non-billable hours, utilization rate %, and activity distribution breakdown.
+  * **Estimate Accuracy Intelligence (`TIME-06`):** Automated comparison of `Issue.estimate` story points/hours against actual logged hours, calculating variance and accuracy percentage ratings.
+* **What is LEFT:** Nothing. Fully implemented.
 
 ---
 

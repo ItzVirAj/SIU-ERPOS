@@ -53,6 +53,10 @@ model Team {
   domainProducts    DomainProduct[]
   reusableComponents ReusableComponent[]
   employees         Employee[]
+  timesheets        Timesheet[]
+  timeEntries       TimeEntry[]
+  resourceAllocations ResourceAllocation[]
+  rateCards         RateCard[]
 
   @@map("teams")
 }
@@ -85,6 +89,8 @@ model Project {
 
   invoices Invoice[]
   expenses Expense[]
+  timeEntries TimeEntry[]
+  resourceAllocations ResourceAllocation[]
 
   @@unique([teamId, key])
   @@map("projects")
@@ -155,6 +161,7 @@ model Issue {
 
   comments Comment[]
   labels   IssueLabel[]
+  timeEntries TimeEntry[]
 
   @@unique([teamId, number])
   @@map("issues")
@@ -264,6 +271,9 @@ model User {
   twoFactorEnabled Boolean?    @default(false)
   twofactors       TwoFactor[]
   employee         Employee?
+  timesheets       Timesheet[]
+  timeEntries      TimeEntry[]
+  resourceAllocations ResourceAllocation[]
 
   @@unique([email])
   @@map("user")
@@ -1284,4 +1294,112 @@ model Employee {
   @@index([roleId])
   @@index([status])
   @@map("employees")
+}
+
+enum TimesheetStatus {
+  DRAFT
+  SUBMITTED
+  APPROVED
+  REJECTED
+}
+
+model Timesheet {
+  id              String          @id @default(cuid())
+  teamId          String
+  team            Team            @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  userId          String
+  user            User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  weekStartDate   DateTime
+  weekEndDate     DateTime
+  status          TimesheetStatus @default(DRAFT)
+  totalHours      Float           @default(0)
+  billableHours   Float           @default(0)
+  submittedAt     DateTime?
+  approvedAt      DateTime?
+  approvedBy      String?
+  rejectionReason String?
+  notes           String?
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  entries         TimeEntry[]
+
+  @@unique([teamId, userId, weekStartDate])
+  @@index([teamId, status])
+  @@index([userId])
+  @@map("timesheets")
+}
+
+model TimeEntry {
+  id           String     @id @default(cuid())
+  teamId       String
+  team         Team       @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  userId       String
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  timesheetId  String?
+  timesheet    Timesheet? @relation(fields: [timesheetId], references: [id], onDelete: SetNull)
+  projectId    String?
+  project      Project?   @relation(fields: [projectId], references: [id], onDelete: SetNull)
+  issueId      String?
+  issue        Issue?     @relation(fields: [issueId], references: [id], onDelete: SetNull)
+  date         DateTime
+  hours        Float
+  description  String
+  isBillable   Boolean    @default(true)
+  category     String     @default("DEVELOPMENT") // DEVELOPMENT, DESIGN, CODE_REVIEW, MEETING, BUG_FIX, DEVOPS, OTHER
+  costRate     Float?
+  billingRate  Float?
+  isTimer      Boolean    @default(false)
+  startedAt    DateTime?
+  stoppedAt    DateTime?
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  @@index([teamId, date])
+  @@index([userId, date])
+  @@index([timesheetId])
+  @@index([projectId])
+  @@index([issueId])
+  @@map("time_entries")
+}
+
+model ResourceAllocation {
+  id              String   @id @default(cuid())
+  teamId          String
+  team            Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  userId          String
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  projectId       String
+  project         Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  weekStartDate   DateTime
+  allocatedHours  Float    @default(0)
+  role            String?
+  notes           String?
+  isContractor    Boolean  @default(false)
+  contractorRate  Float?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@unique([teamId, userId, projectId, weekStartDate])
+  @@index([teamId, weekStartDate])
+  @@index([userId])
+  @@index([projectId])
+  @@map("resource_allocations")
+}
+
+model RateCard {
+  id                String   @id @default(cuid())
+  teamId            String
+  team              Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  roleKey           String?
+  userId            String?
+  hourlyCostRate    Float    @default(0)
+  hourlyBillingRate Float    @default(0)
+  currency          String   @default("INR")
+  effectiveFrom     DateTime @default(now())
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@index([teamId])
+  @@map("rate_cards")
 }

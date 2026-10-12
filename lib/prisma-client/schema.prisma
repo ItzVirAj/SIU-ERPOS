@@ -26,33 +26,37 @@ model Team {
   updatedAt  DateTime @updatedAt
 
   // Relations
-  projects           Project[]
-  issues             Issue[]
-  workflowStates     WorkflowState[]
-  labels             Label[]
-  members            TeamMember[]
-  invitations        Invitation[]
-  chatConversations  ChatConversation[]
-  events             Event[]
-  standupEntries     StandupEntry[]
-  clients            Client[]
-  leadPipelines      LeadPipeline[]
-  leads              Lead[]
-  teamChannels       TeamChannel[]
-  announcements      TeamAnnouncement[]
-  auditLogs          AuditLog[]
-  companySettings    CompanySetting?
-  automationRules    AutomationRule[]
-  developerApiKeys   DeveloperApiKey[]
-  webhookEndpoints   WebhookEndpoint[]
-  kpis               CompanyKpi[]
-  invoices           Invoice[]
-  payments           Payment[]
-  expenses           Expense[]
-  subscriptions      ToolSubscription[]
-  domainProducts     DomainProduct[]
-  reusableComponents ReusableComponent[]
-  employees          Employee[]
+  projects            Project[]
+  issues              Issue[]
+  workflowStates      WorkflowState[]
+  labels              Label[]
+  members             TeamMember[]
+  invitations         Invitation[]
+  chatConversations   ChatConversation[]
+  events              Event[]
+  standupEntries      StandupEntry[]
+  clients             Client[]
+  leadPipelines       LeadPipeline[]
+  leads               Lead[]
+  teamChannels        TeamChannel[]
+  announcements       TeamAnnouncement[]
+  auditLogs           AuditLog[]
+  companySettings     CompanySetting?
+  automationRules     AutomationRule[]
+  developerApiKeys    DeveloperApiKey[]
+  webhookEndpoints    WebhookEndpoint[]
+  kpis                CompanyKpi[]
+  invoices            Invoice[]
+  payments            Payment[]
+  expenses            Expense[]
+  subscriptions       ToolSubscription[]
+  domainProducts      DomainProduct[]
+  reusableComponents  ReusableComponent[]
+  employees           Employee[]
+  timesheets          Timesheet[]
+  timeEntries         TimeEntry[]
+  resourceAllocations ResourceAllocation[]
+  rateCards           RateCard[]
 
   @@map("teams")
 }
@@ -83,8 +87,10 @@ model Project {
   clientId String?
   client   Client? @relation(fields: [clientId], references: [id], onDelete: SetNull)
 
-  invoices Invoice[]
-  expenses Expense[]
+  invoices            Invoice[]
+  expenses            Expense[]
+  timeEntries         TimeEntry[]
+  resourceAllocations ResourceAllocation[]
 
   @@unique([teamId, key])
   @@map("projects")
@@ -153,8 +159,9 @@ model Issue {
   creatorId String // Clerk user ID
   creator   String // User display name
 
-  comments Comment[]
-  labels   IssueLabel[]
+  comments    Comment[]
+  labels      IssueLabel[]
+  timeEntries TimeEntry[]
 
   @@unique([teamId, number])
   @@map("issues")
@@ -243,27 +250,30 @@ model Invitation {
 }
 
 model User {
-  id               String      @id
-  name             String
-  email            String
-  emailVerified    Boolean     @default(false)
-  image            String?
-  username         String?     @unique
-  dateOfBirth      DateTime?
-  joiningDate      DateTime?
-  position         String?
-  department       String?
-  employeeCode     String?     @unique
-  phone            String?
-  location         String?
-  bio              String?
-  createdAt        DateTime    @default(now())
-  updatedAt        DateTime    @default(now()) @updatedAt
-  sessions         Session[]
-  accounts         Account[]
-  twoFactorEnabled Boolean?    @default(false)
-  twofactors       TwoFactor[]
-  employee         Employee?
+  id                  String               @id
+  name                String
+  email               String
+  emailVerified       Boolean              @default(false)
+  image               String?
+  username            String?              @unique
+  dateOfBirth         DateTime?
+  joiningDate         DateTime?
+  position            String?
+  department          String?
+  employeeCode        String?              @unique
+  phone               String?
+  location            String?
+  bio                 String?
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @default(now()) @updatedAt
+  sessions            Session[]
+  accounts            Account[]
+  twoFactorEnabled    Boolean?             @default(false)
+  twofactors          TwoFactor[]
+  employee            Employee?
+  timesheets          Timesheet[]
+  timeEntries         TimeEntry[]
+  resourceAllocations ResourceAllocation[]
 
   @@unique([email])
   @@map("user")
@@ -1284,4 +1294,112 @@ model Employee {
   @@index([roleId])
   @@index([status])
   @@map("employees")
+}
+
+enum TimesheetStatus {
+  DRAFT
+  SUBMITTED
+  APPROVED
+  REJECTED
+}
+
+model Timesheet {
+  id              String          @id @default(cuid())
+  teamId          String
+  team            Team            @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  userId          String
+  user            User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  weekStartDate   DateTime
+  weekEndDate     DateTime
+  status          TimesheetStatus @default(DRAFT)
+  totalHours      Float           @default(0)
+  billableHours   Float           @default(0)
+  submittedAt     DateTime?
+  approvedAt      DateTime?
+  approvedBy      String?
+  rejectionReason String?
+  notes           String?
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  entries TimeEntry[]
+
+  @@unique([teamId, userId, weekStartDate])
+  @@index([teamId, status])
+  @@index([userId])
+  @@map("timesheets")
+}
+
+model TimeEntry {
+  id          String     @id @default(cuid())
+  teamId      String
+  team        Team       @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  userId      String
+  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  timesheetId String?
+  timesheet   Timesheet? @relation(fields: [timesheetId], references: [id], onDelete: SetNull)
+  projectId   String?
+  project     Project?   @relation(fields: [projectId], references: [id], onDelete: SetNull)
+  issueId     String?
+  issue       Issue?     @relation(fields: [issueId], references: [id], onDelete: SetNull)
+  date        DateTime
+  hours       Float
+  description String
+  isBillable  Boolean    @default(true)
+  category    String     @default("DEVELOPMENT") // DEVELOPMENT, DESIGN, CODE_REVIEW, MEETING, BUG_FIX, DEVOPS, OTHER
+  costRate    Float?
+  billingRate Float?
+  isTimer     Boolean    @default(false)
+  startedAt   DateTime?
+  stoppedAt   DateTime?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@index([teamId, date])
+  @@index([userId, date])
+  @@index([timesheetId])
+  @@index([projectId])
+  @@index([issueId])
+  @@map("time_entries")
+}
+
+model ResourceAllocation {
+  id             String   @id @default(cuid())
+  teamId         String
+  team           Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  userId         String
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  projectId      String
+  project        Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  weekStartDate  DateTime
+  allocatedHours Float    @default(0)
+  role           String?
+  notes          String?
+  isContractor   Boolean  @default(false)
+  contractorRate Float?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@unique([teamId, userId, projectId, weekStartDate])
+  @@index([teamId, weekStartDate])
+  @@index([userId])
+  @@index([projectId])
+  @@map("resource_allocations")
+}
+
+model RateCard {
+  id                String   @id @default(cuid())
+  teamId            String
+  team              Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  roleKey           String?
+  userId            String?
+  hourlyCostRate    Float    @default(0)
+  hourlyBillingRate Float    @default(0)
+  currency          String   @default("INR")
+  effectiveFrom     DateTime @default(now())
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@index([teamId])
+  @@map("rate_cards")
 }

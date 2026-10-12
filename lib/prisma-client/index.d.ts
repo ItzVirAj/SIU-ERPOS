@@ -308,6 +308,26 @@ export type RoleAccess = $Result.DefaultSelection<Prisma.$RoleAccessPayload>
  * 
  */
 export type Employee = $Result.DefaultSelection<Prisma.$EmployeePayload>
+/**
+ * Model Timesheet
+ * 
+ */
+export type Timesheet = $Result.DefaultSelection<Prisma.$TimesheetPayload>
+/**
+ * Model TimeEntry
+ * 
+ */
+export type TimeEntry = $Result.DefaultSelection<Prisma.$TimeEntryPayload>
+/**
+ * Model ResourceAllocation
+ * 
+ */
+export type ResourceAllocation = $Result.DefaultSelection<Prisma.$ResourceAllocationPayload>
+/**
+ * Model RateCard
+ * 
+ */
+export type RateCard = $Result.DefaultSelection<Prisma.$RateCardPayload>
 
 /**
  * Enums
@@ -349,6 +369,16 @@ export const EmployeeStatus: {
 
 export type EmployeeStatus = (typeof EmployeeStatus)[keyof typeof EmployeeStatus]
 
+
+export const TimesheetStatus: {
+  DRAFT: 'DRAFT',
+  SUBMITTED: 'SUBMITTED',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED'
+};
+
+export type TimesheetStatus = (typeof TimesheetStatus)[keyof typeof TimesheetStatus]
+
 }
 
 export type AccessLevel = $Enums.AccessLevel
@@ -362,6 +392,10 @@ export const AppModule: typeof $Enums.AppModule
 export type EmployeeStatus = $Enums.EmployeeStatus
 
 export const EmployeeStatus: typeof $Enums.EmployeeStatus
+
+export type TimesheetStatus = $Enums.TimesheetStatus
+
+export const TimesheetStatus: typeof $Enums.TimesheetStatus
 
 /**
  * ##  Prisma Client ʲˢ
@@ -1070,6 +1104,46 @@ export class PrismaClient<
     * ```
     */
   get employee(): Prisma.EmployeeDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.timesheet`: Exposes CRUD operations for the **Timesheet** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Timesheets
+    * const timesheets = await prisma.timesheet.findMany()
+    * ```
+    */
+  get timesheet(): Prisma.TimesheetDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.timeEntry`: Exposes CRUD operations for the **TimeEntry** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more TimeEntries
+    * const timeEntries = await prisma.timeEntry.findMany()
+    * ```
+    */
+  get timeEntry(): Prisma.TimeEntryDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.resourceAllocation`: Exposes CRUD operations for the **ResourceAllocation** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ResourceAllocations
+    * const resourceAllocations = await prisma.resourceAllocation.findMany()
+    * ```
+    */
+  get resourceAllocation(): Prisma.ResourceAllocationDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.rateCard`: Exposes CRUD operations for the **RateCard** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more RateCards
+    * const rateCards = await prisma.rateCard.findMany()
+    * ```
+    */
+  get rateCard(): Prisma.RateCardDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1569,7 +1643,11 @@ export namespace Prisma {
     ReusableComponent: 'ReusableComponent',
     Role: 'Role',
     RoleAccess: 'RoleAccess',
-    Employee: 'Employee'
+    Employee: 'Employee',
+    Timesheet: 'Timesheet',
+    TimeEntry: 'TimeEntry',
+    ResourceAllocation: 'ResourceAllocation',
+    RateCard: 'RateCard'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1588,7 +1666,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "team" | "project" | "workflowState" | "label" | "issue" | "issueLabel" | "comment" | "teamMember" | "projectMember" | "invitation" | "user" | "session" | "account" | "verification" | "twoFactor" | "rateLimit" | "loginThrottle" | "chatConversation" | "chatMessage" | "event" | "eventAttendee" | "meetingNote" | "meetingActionItem" | "standupEntry" | "client" | "contact" | "leadPipeline" | "leadStage" | "lead" | "leadActivity" | "teamChannel" | "teamChannelMember" | "teamChatMessage" | "teamChatReaction" | "teamAnnouncement" | "teamAnnouncementAck" | "inboxMessage" | "auditLog" | "companySetting" | "automationRule" | "automationLog" | "developerApiKey" | "webhookEndpoint" | "webhookDelivery" | "companyKpi" | "invoice" | "invoiceItem" | "payment" | "expense" | "toolSubscription" | "domainProduct" | "productRoadmapItem" | "productFeatureRequest" | "productPilotCustomer" | "productReleaseNote" | "reusableComponent" | "role" | "roleAccess" | "employee"
+      modelProps: "team" | "project" | "workflowState" | "label" | "issue" | "issueLabel" | "comment" | "teamMember" | "projectMember" | "invitation" | "user" | "session" | "account" | "verification" | "twoFactor" | "rateLimit" | "loginThrottle" | "chatConversation" | "chatMessage" | "event" | "eventAttendee" | "meetingNote" | "meetingActionItem" | "standupEntry" | "client" | "contact" | "leadPipeline" | "leadStage" | "lead" | "leadActivity" | "teamChannel" | "teamChannelMember" | "teamChatMessage" | "teamChatReaction" | "teamAnnouncement" | "teamAnnouncementAck" | "inboxMessage" | "auditLog" | "companySetting" | "automationRule" | "automationLog" | "developerApiKey" | "webhookEndpoint" | "webhookDelivery" | "companyKpi" | "invoice" | "invoiceItem" | "payment" | "expense" | "toolSubscription" | "domainProduct" | "productRoadmapItem" | "productFeatureRequest" | "productPilotCustomer" | "productReleaseNote" | "reusableComponent" | "role" | "roleAccess" | "employee" | "timesheet" | "timeEntry" | "resourceAllocation" | "rateCard"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -5958,6 +6036,302 @@ export namespace Prisma {
           }
         }
       }
+      Timesheet: {
+        payload: Prisma.$TimesheetPayload<ExtArgs>
+        fields: Prisma.TimesheetFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.TimesheetFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TimesheetPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TimesheetFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TimesheetPayload>
+          }
+          findFirst: {
+            args: Prisma.TimesheetFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TimesheetPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TimesheetFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TimesheetPayload>
+          }
+          findMany: {
+            args: Prisma.TimesheetFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TimesheetPayload>[]
+          }
+          create: {
+            args: Prisma.TimesheetCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TimesheetPayload>
+          }
+          createMany: {
+            args: Prisma.TimesheetCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.TimesheetCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TimesheetPayload>[]
+          }
+          delete: {
+            args: Prisma.TimesheetDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TimesheetPayload>
+          }
+          update: {
+            args: Prisma.TimesheetUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TimesheetPayload>
+          }
+          deleteMany: {
+            args: Prisma.TimesheetDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TimesheetUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.TimesheetUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TimesheetPayload>[]
+          }
+          upsert: {
+            args: Prisma.TimesheetUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TimesheetPayload>
+          }
+          aggregate: {
+            args: Prisma.TimesheetAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTimesheet>
+          }
+          groupBy: {
+            args: Prisma.TimesheetGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TimesheetGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TimesheetCountArgs<ExtArgs>
+            result: $Utils.Optional<TimesheetCountAggregateOutputType> | number
+          }
+        }
+      }
+      TimeEntry: {
+        payload: Prisma.$TimeEntryPayload<ExtArgs>
+        fields: Prisma.TimeEntryFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.TimeEntryFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TimeEntryPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TimeEntryFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TimeEntryPayload>
+          }
+          findFirst: {
+            args: Prisma.TimeEntryFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TimeEntryPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TimeEntryFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TimeEntryPayload>
+          }
+          findMany: {
+            args: Prisma.TimeEntryFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TimeEntryPayload>[]
+          }
+          create: {
+            args: Prisma.TimeEntryCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TimeEntryPayload>
+          }
+          createMany: {
+            args: Prisma.TimeEntryCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.TimeEntryCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TimeEntryPayload>[]
+          }
+          delete: {
+            args: Prisma.TimeEntryDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TimeEntryPayload>
+          }
+          update: {
+            args: Prisma.TimeEntryUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TimeEntryPayload>
+          }
+          deleteMany: {
+            args: Prisma.TimeEntryDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TimeEntryUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.TimeEntryUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TimeEntryPayload>[]
+          }
+          upsert: {
+            args: Prisma.TimeEntryUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TimeEntryPayload>
+          }
+          aggregate: {
+            args: Prisma.TimeEntryAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTimeEntry>
+          }
+          groupBy: {
+            args: Prisma.TimeEntryGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TimeEntryGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TimeEntryCountArgs<ExtArgs>
+            result: $Utils.Optional<TimeEntryCountAggregateOutputType> | number
+          }
+        }
+      }
+      ResourceAllocation: {
+        payload: Prisma.$ResourceAllocationPayload<ExtArgs>
+        fields: Prisma.ResourceAllocationFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ResourceAllocationFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResourceAllocationPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ResourceAllocationFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResourceAllocationPayload>
+          }
+          findFirst: {
+            args: Prisma.ResourceAllocationFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResourceAllocationPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ResourceAllocationFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResourceAllocationPayload>
+          }
+          findMany: {
+            args: Prisma.ResourceAllocationFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResourceAllocationPayload>[]
+          }
+          create: {
+            args: Prisma.ResourceAllocationCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResourceAllocationPayload>
+          }
+          createMany: {
+            args: Prisma.ResourceAllocationCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ResourceAllocationCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResourceAllocationPayload>[]
+          }
+          delete: {
+            args: Prisma.ResourceAllocationDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResourceAllocationPayload>
+          }
+          update: {
+            args: Prisma.ResourceAllocationUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResourceAllocationPayload>
+          }
+          deleteMany: {
+            args: Prisma.ResourceAllocationDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ResourceAllocationUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ResourceAllocationUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResourceAllocationPayload>[]
+          }
+          upsert: {
+            args: Prisma.ResourceAllocationUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResourceAllocationPayload>
+          }
+          aggregate: {
+            args: Prisma.ResourceAllocationAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateResourceAllocation>
+          }
+          groupBy: {
+            args: Prisma.ResourceAllocationGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ResourceAllocationGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ResourceAllocationCountArgs<ExtArgs>
+            result: $Utils.Optional<ResourceAllocationCountAggregateOutputType> | number
+          }
+        }
+      }
+      RateCard: {
+        payload: Prisma.$RateCardPayload<ExtArgs>
+        fields: Prisma.RateCardFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.RateCardFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RateCardPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.RateCardFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RateCardPayload>
+          }
+          findFirst: {
+            args: Prisma.RateCardFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RateCardPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.RateCardFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RateCardPayload>
+          }
+          findMany: {
+            args: Prisma.RateCardFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RateCardPayload>[]
+          }
+          create: {
+            args: Prisma.RateCardCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RateCardPayload>
+          }
+          createMany: {
+            args: Prisma.RateCardCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.RateCardCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RateCardPayload>[]
+          }
+          delete: {
+            args: Prisma.RateCardDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RateCardPayload>
+          }
+          update: {
+            args: Prisma.RateCardUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RateCardPayload>
+          }
+          deleteMany: {
+            args: Prisma.RateCardDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.RateCardUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.RateCardUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RateCardPayload>[]
+          }
+          upsert: {
+            args: Prisma.RateCardUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RateCardPayload>
+          }
+          aggregate: {
+            args: Prisma.RateCardAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateRateCard>
+          }
+          groupBy: {
+            args: Prisma.RateCardGroupByArgs<ExtArgs>
+            result: $Utils.Optional<RateCardGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.RateCardCountArgs<ExtArgs>
+            result: $Utils.Optional<RateCardCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -6113,6 +6487,10 @@ export namespace Prisma {
     role?: RoleOmit
     roleAccess?: RoleAccessOmit
     employee?: EmployeeOmit
+    timesheet?: TimesheetOmit
+    timeEntry?: TimeEntryOmit
+    resourceAllocation?: ResourceAllocationOmit
+    rateCard?: RateCardOmit
   }
 
   /* Types for Logging */
@@ -6219,6 +6597,10 @@ export namespace Prisma {
     domainProducts: number
     reusableComponents: number
     employees: number
+    timesheets: number
+    timeEntries: number
+    resourceAllocations: number
+    rateCards: number
   }
 
   export type TeamCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6248,6 +6630,10 @@ export namespace Prisma {
     domainProducts?: boolean | TeamCountOutputTypeCountDomainProductsArgs
     reusableComponents?: boolean | TeamCountOutputTypeCountReusableComponentsArgs
     employees?: boolean | TeamCountOutputTypeCountEmployeesArgs
+    timesheets?: boolean | TeamCountOutputTypeCountTimesheetsArgs
+    timeEntries?: boolean | TeamCountOutputTypeCountTimeEntriesArgs
+    resourceAllocations?: boolean | TeamCountOutputTypeCountResourceAllocationsArgs
+    rateCards?: boolean | TeamCountOutputTypeCountRateCardsArgs
   }
 
   // Custom InputTypes
@@ -6443,6 +6829,34 @@ export namespace Prisma {
     where?: EmployeeWhereInput
   }
 
+  /**
+   * TeamCountOutputType without action
+   */
+  export type TeamCountOutputTypeCountTimesheetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TimesheetWhereInput
+  }
+
+  /**
+   * TeamCountOutputType without action
+   */
+  export type TeamCountOutputTypeCountTimeEntriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TimeEntryWhereInput
+  }
+
+  /**
+   * TeamCountOutputType without action
+   */
+  export type TeamCountOutputTypeCountResourceAllocationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ResourceAllocationWhereInput
+  }
+
+  /**
+   * TeamCountOutputType without action
+   */
+  export type TeamCountOutputTypeCountRateCardsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RateCardWhereInput
+  }
+
 
   /**
    * Count Type ProjectCountOutputType
@@ -6455,6 +6869,8 @@ export namespace Prisma {
     teamChannels: number
     invoices: number
     expenses: number
+    timeEntries: number
+    resourceAllocations: number
   }
 
   export type ProjectCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6464,6 +6880,8 @@ export namespace Prisma {
     teamChannels?: boolean | ProjectCountOutputTypeCountTeamChannelsArgs
     invoices?: boolean | ProjectCountOutputTypeCountInvoicesArgs
     expenses?: boolean | ProjectCountOutputTypeCountExpensesArgs
+    timeEntries?: boolean | ProjectCountOutputTypeCountTimeEntriesArgs
+    resourceAllocations?: boolean | ProjectCountOutputTypeCountResourceAllocationsArgs
   }
 
   // Custom InputTypes
@@ -6517,6 +6935,20 @@ export namespace Prisma {
    */
   export type ProjectCountOutputTypeCountExpensesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ExpenseWhereInput
+  }
+
+  /**
+   * ProjectCountOutputType without action
+   */
+  export type ProjectCountOutputTypeCountTimeEntriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TimeEntryWhereInput
+  }
+
+  /**
+   * ProjectCountOutputType without action
+   */
+  export type ProjectCountOutputTypeCountResourceAllocationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ResourceAllocationWhereInput
   }
 
 
@@ -6589,11 +7021,13 @@ export namespace Prisma {
   export type IssueCountOutputType = {
     comments: number
     labels: number
+    timeEntries: number
   }
 
   export type IssueCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     comments?: boolean | IssueCountOutputTypeCountCommentsArgs
     labels?: boolean | IssueCountOutputTypeCountLabelsArgs
+    timeEntries?: boolean | IssueCountOutputTypeCountTimeEntriesArgs
   }
 
   // Custom InputTypes
@@ -6621,6 +7055,13 @@ export namespace Prisma {
     where?: IssueLabelWhereInput
   }
 
+  /**
+   * IssueCountOutputType without action
+   */
+  export type IssueCountOutputTypeCountTimeEntriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TimeEntryWhereInput
+  }
+
 
   /**
    * Count Type UserCountOutputType
@@ -6630,12 +7071,18 @@ export namespace Prisma {
     sessions: number
     accounts: number
     twofactors: number
+    timesheets: number
+    timeEntries: number
+    resourceAllocations: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     sessions?: boolean | UserCountOutputTypeCountSessionsArgs
     accounts?: boolean | UserCountOutputTypeCountAccountsArgs
     twofactors?: boolean | UserCountOutputTypeCountTwofactorsArgs
+    timesheets?: boolean | UserCountOutputTypeCountTimesheetsArgs
+    timeEntries?: boolean | UserCountOutputTypeCountTimeEntriesArgs
+    resourceAllocations?: boolean | UserCountOutputTypeCountResourceAllocationsArgs
   }
 
   // Custom InputTypes
@@ -6668,6 +7115,27 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountTwofactorsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: TwoFactorWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountTimesheetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TimesheetWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountTimeEntriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TimeEntryWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountResourceAllocationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ResourceAllocationWhereInput
   }
 
 
@@ -7245,6 +7713,37 @@ export namespace Prisma {
 
 
   /**
+   * Count Type TimesheetCountOutputType
+   */
+
+  export type TimesheetCountOutputType = {
+    entries: number
+  }
+
+  export type TimesheetCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    entries?: boolean | TimesheetCountOutputTypeCountEntriesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * TimesheetCountOutputType without action
+   */
+  export type TimesheetCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimesheetCountOutputType
+     */
+    select?: TimesheetCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * TimesheetCountOutputType without action
+   */
+  export type TimesheetCountOutputTypeCountEntriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TimeEntryWhereInput
+  }
+
+
+  /**
    * Models
    */
 
@@ -7447,6 +7946,10 @@ export namespace Prisma {
     domainProducts?: boolean | Team$domainProductsArgs<ExtArgs>
     reusableComponents?: boolean | Team$reusableComponentsArgs<ExtArgs>
     employees?: boolean | Team$employeesArgs<ExtArgs>
+    timesheets?: boolean | Team$timesheetsArgs<ExtArgs>
+    timeEntries?: boolean | Team$timeEntriesArgs<ExtArgs>
+    resourceAllocations?: boolean | Team$resourceAllocationsArgs<ExtArgs>
+    rateCards?: boolean | Team$rateCardsArgs<ExtArgs>
     _count?: boolean | TeamCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["team"]>
 
@@ -7506,6 +8009,10 @@ export namespace Prisma {
     domainProducts?: boolean | Team$domainProductsArgs<ExtArgs>
     reusableComponents?: boolean | Team$reusableComponentsArgs<ExtArgs>
     employees?: boolean | Team$employeesArgs<ExtArgs>
+    timesheets?: boolean | Team$timesheetsArgs<ExtArgs>
+    timeEntries?: boolean | Team$timeEntriesArgs<ExtArgs>
+    resourceAllocations?: boolean | Team$resourceAllocationsArgs<ExtArgs>
+    rateCards?: boolean | Team$rateCardsArgs<ExtArgs>
     _count?: boolean | TeamCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TeamIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -7541,6 +8048,10 @@ export namespace Prisma {
       domainProducts: Prisma.$DomainProductPayload<ExtArgs>[]
       reusableComponents: Prisma.$ReusableComponentPayload<ExtArgs>[]
       employees: Prisma.$EmployeePayload<ExtArgs>[]
+      timesheets: Prisma.$TimesheetPayload<ExtArgs>[]
+      timeEntries: Prisma.$TimeEntryPayload<ExtArgs>[]
+      resourceAllocations: Prisma.$ResourceAllocationPayload<ExtArgs>[]
+      rateCards: Prisma.$RateCardPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -7970,6 +8481,10 @@ export namespace Prisma {
     domainProducts<T extends Team$domainProductsArgs<ExtArgs> = {}>(args?: Subset<T, Team$domainProductsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DomainProductPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     reusableComponents<T extends Team$reusableComponentsArgs<ExtArgs> = {}>(args?: Subset<T, Team$reusableComponentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReusableComponentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     employees<T extends Team$employeesArgs<ExtArgs> = {}>(args?: Subset<T, Team$employeesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmployeePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    timesheets<T extends Team$timesheetsArgs<ExtArgs> = {}>(args?: Subset<T, Team$timesheetsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TimesheetPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    timeEntries<T extends Team$timeEntriesArgs<ExtArgs> = {}>(args?: Subset<T, Team$timeEntriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TimeEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    resourceAllocations<T extends Team$resourceAllocationsArgs<ExtArgs> = {}>(args?: Subset<T, Team$resourceAllocationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ResourceAllocationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    rateCards<T extends Team$rateCardsArgs<ExtArgs> = {}>(args?: Subset<T, Team$rateCardsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RateCardPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -9036,6 +9551,102 @@ export namespace Prisma {
   }
 
   /**
+   * Team.timesheets
+   */
+  export type Team$timesheetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Timesheet
+     */
+    select?: TimesheetSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Timesheet
+     */
+    omit?: TimesheetOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimesheetInclude<ExtArgs> | null
+    where?: TimesheetWhereInput
+    orderBy?: TimesheetOrderByWithRelationInput | TimesheetOrderByWithRelationInput[]
+    cursor?: TimesheetWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TimesheetScalarFieldEnum | TimesheetScalarFieldEnum[]
+  }
+
+  /**
+   * Team.timeEntries
+   */
+  export type Team$timeEntriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimeEntry
+     */
+    select?: TimeEntrySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TimeEntry
+     */
+    omit?: TimeEntryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimeEntryInclude<ExtArgs> | null
+    where?: TimeEntryWhereInput
+    orderBy?: TimeEntryOrderByWithRelationInput | TimeEntryOrderByWithRelationInput[]
+    cursor?: TimeEntryWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TimeEntryScalarFieldEnum | TimeEntryScalarFieldEnum[]
+  }
+
+  /**
+   * Team.resourceAllocations
+   */
+  export type Team$resourceAllocationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResourceAllocation
+     */
+    select?: ResourceAllocationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResourceAllocation
+     */
+    omit?: ResourceAllocationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceAllocationInclude<ExtArgs> | null
+    where?: ResourceAllocationWhereInput
+    orderBy?: ResourceAllocationOrderByWithRelationInput | ResourceAllocationOrderByWithRelationInput[]
+    cursor?: ResourceAllocationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ResourceAllocationScalarFieldEnum | ResourceAllocationScalarFieldEnum[]
+  }
+
+  /**
+   * Team.rateCards
+   */
+  export type Team$rateCardsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RateCard
+     */
+    select?: RateCardSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RateCard
+     */
+    omit?: RateCardOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RateCardInclude<ExtArgs> | null
+    where?: RateCardWhereInput
+    orderBy?: RateCardOrderByWithRelationInput | RateCardOrderByWithRelationInput[]
+    cursor?: RateCardWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RateCardScalarFieldEnum | RateCardScalarFieldEnum[]
+  }
+
+  /**
    * Team without action
    */
   export type TeamDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -9290,6 +9901,8 @@ export namespace Prisma {
     client?: boolean | Project$clientArgs<ExtArgs>
     invoices?: boolean | Project$invoicesArgs<ExtArgs>
     expenses?: boolean | Project$expensesArgs<ExtArgs>
+    timeEntries?: boolean | Project$timeEntriesArgs<ExtArgs>
+    resourceAllocations?: boolean | Project$resourceAllocationsArgs<ExtArgs>
     _count?: boolean | ProjectCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["project"]>
 
@@ -9355,6 +9968,8 @@ export namespace Prisma {
     client?: boolean | Project$clientArgs<ExtArgs>
     invoices?: boolean | Project$invoicesArgs<ExtArgs>
     expenses?: boolean | Project$expensesArgs<ExtArgs>
+    timeEntries?: boolean | Project$timeEntriesArgs<ExtArgs>
+    resourceAllocations?: boolean | Project$resourceAllocationsArgs<ExtArgs>
     _count?: boolean | ProjectCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ProjectIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -9377,6 +9992,8 @@ export namespace Prisma {
       client: Prisma.$ClientPayload<ExtArgs> | null
       invoices: Prisma.$InvoicePayload<ExtArgs>[]
       expenses: Prisma.$ExpensePayload<ExtArgs>[]
+      timeEntries: Prisma.$TimeEntryPayload<ExtArgs>[]
+      resourceAllocations: Prisma.$ResourceAllocationPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -9794,6 +10411,8 @@ export namespace Prisma {
     client<T extends Project$clientArgs<ExtArgs> = {}>(args?: Subset<T, Project$clientArgs<ExtArgs>>): Prisma__ClientClient<$Result.GetResult<Prisma.$ClientPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     invoices<T extends Project$invoicesArgs<ExtArgs> = {}>(args?: Subset<T, Project$invoicesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     expenses<T extends Project$expensesArgs<ExtArgs> = {}>(args?: Subset<T, Project$expensesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExpensePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    timeEntries<T extends Project$timeEntriesArgs<ExtArgs> = {}>(args?: Subset<T, Project$timeEntriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TimeEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    resourceAllocations<T extends Project$resourceAllocationsArgs<ExtArgs> = {}>(args?: Subset<T, Project$resourceAllocationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ResourceAllocationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -10392,6 +11011,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ExpenseScalarFieldEnum | ExpenseScalarFieldEnum[]
+  }
+
+  /**
+   * Project.timeEntries
+   */
+  export type Project$timeEntriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimeEntry
+     */
+    select?: TimeEntrySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TimeEntry
+     */
+    omit?: TimeEntryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimeEntryInclude<ExtArgs> | null
+    where?: TimeEntryWhereInput
+    orderBy?: TimeEntryOrderByWithRelationInput | TimeEntryOrderByWithRelationInput[]
+    cursor?: TimeEntryWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TimeEntryScalarFieldEnum | TimeEntryScalarFieldEnum[]
+  }
+
+  /**
+   * Project.resourceAllocations
+   */
+  export type Project$resourceAllocationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResourceAllocation
+     */
+    select?: ResourceAllocationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResourceAllocation
+     */
+    omit?: ResourceAllocationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceAllocationInclude<ExtArgs> | null
+    where?: ResourceAllocationWhereInput
+    orderBy?: ResourceAllocationOrderByWithRelationInput | ResourceAllocationOrderByWithRelationInput[]
+    cursor?: ResourceAllocationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ResourceAllocationScalarFieldEnum | ResourceAllocationScalarFieldEnum[]
   }
 
   /**
@@ -12970,6 +13637,7 @@ export namespace Prisma {
     workflowState?: boolean | WorkflowStateDefaultArgs<ExtArgs>
     comments?: boolean | Issue$commentsArgs<ExtArgs>
     labels?: boolean | Issue$labelsArgs<ExtArgs>
+    timeEntries?: boolean | Issue$timeEntriesArgs<ExtArgs>
     _count?: boolean | IssueCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["issue"]>
 
@@ -13043,6 +13711,7 @@ export namespace Prisma {
     workflowState?: boolean | WorkflowStateDefaultArgs<ExtArgs>
     comments?: boolean | Issue$commentsArgs<ExtArgs>
     labels?: boolean | Issue$labelsArgs<ExtArgs>
+    timeEntries?: boolean | Issue$timeEntriesArgs<ExtArgs>
     _count?: boolean | IssueCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type IssueIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -13064,6 +13733,7 @@ export namespace Prisma {
       workflowState: Prisma.$WorkflowStatePayload<ExtArgs>
       comments: Prisma.$CommentPayload<ExtArgs>[]
       labels: Prisma.$IssueLabelPayload<ExtArgs>[]
+      timeEntries: Prisma.$TimeEntryPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -13481,6 +14151,7 @@ export namespace Prisma {
     workflowState<T extends WorkflowStateDefaultArgs<ExtArgs> = {}>(args?: Subset<T, WorkflowStateDefaultArgs<ExtArgs>>): Prisma__WorkflowStateClient<$Result.GetResult<Prisma.$WorkflowStatePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     comments<T extends Issue$commentsArgs<ExtArgs> = {}>(args?: Subset<T, Issue$commentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     labels<T extends Issue$labelsArgs<ExtArgs> = {}>(args?: Subset<T, Issue$labelsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$IssueLabelPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    timeEntries<T extends Issue$timeEntriesArgs<ExtArgs> = {}>(args?: Subset<T, Issue$timeEntriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TimeEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -13986,6 +14657,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: IssueLabelScalarFieldEnum | IssueLabelScalarFieldEnum[]
+  }
+
+  /**
+   * Issue.timeEntries
+   */
+  export type Issue$timeEntriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimeEntry
+     */
+    select?: TimeEntrySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TimeEntry
+     */
+    omit?: TimeEntryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimeEntryInclude<ExtArgs> | null
+    where?: TimeEntryWhereInput
+    orderBy?: TimeEntryOrderByWithRelationInput | TimeEntryOrderByWithRelationInput[]
+    cursor?: TimeEntryWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TimeEntryScalarFieldEnum | TimeEntryScalarFieldEnum[]
   }
 
   /**
@@ -19686,6 +20381,9 @@ export namespace Prisma {
     accounts?: boolean | User$accountsArgs<ExtArgs>
     twofactors?: boolean | User$twofactorsArgs<ExtArgs>
     employee?: boolean | User$employeeArgs<ExtArgs>
+    timesheets?: boolean | User$timesheetsArgs<ExtArgs>
+    timeEntries?: boolean | User$timeEntriesArgs<ExtArgs>
+    resourceAllocations?: boolean | User$resourceAllocationsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -19755,6 +20453,9 @@ export namespace Prisma {
     accounts?: boolean | User$accountsArgs<ExtArgs>
     twofactors?: boolean | User$twofactorsArgs<ExtArgs>
     employee?: boolean | User$employeeArgs<ExtArgs>
+    timesheets?: boolean | User$timesheetsArgs<ExtArgs>
+    timeEntries?: boolean | User$timeEntriesArgs<ExtArgs>
+    resourceAllocations?: boolean | User$resourceAllocationsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -19767,6 +20468,9 @@ export namespace Prisma {
       accounts: Prisma.$AccountPayload<ExtArgs>[]
       twofactors: Prisma.$TwoFactorPayload<ExtArgs>[]
       employee: Prisma.$EmployeePayload<ExtArgs> | null
+      timesheets: Prisma.$TimesheetPayload<ExtArgs>[]
+      timeEntries: Prisma.$TimeEntryPayload<ExtArgs>[]
+      resourceAllocations: Prisma.$ResourceAllocationPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -20184,6 +20888,9 @@ export namespace Prisma {
     accounts<T extends User$accountsArgs<ExtArgs> = {}>(args?: Subset<T, User$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     twofactors<T extends User$twofactorsArgs<ExtArgs> = {}>(args?: Subset<T, User$twofactorsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TwoFactorPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     employee<T extends User$employeeArgs<ExtArgs> = {}>(args?: Subset<T, User$employeeArgs<ExtArgs>>): Prisma__EmployeeClient<$Result.GetResult<Prisma.$EmployeePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    timesheets<T extends User$timesheetsArgs<ExtArgs> = {}>(args?: Subset<T, User$timesheetsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TimesheetPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    timeEntries<T extends User$timeEntriesArgs<ExtArgs> = {}>(args?: Subset<T, User$timeEntriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TimeEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    resourceAllocations<T extends User$resourceAllocationsArgs<ExtArgs> = {}>(args?: Subset<T, User$resourceAllocationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ResourceAllocationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -20706,6 +21413,78 @@ export namespace Prisma {
      */
     include?: EmployeeInclude<ExtArgs> | null
     where?: EmployeeWhereInput
+  }
+
+  /**
+   * User.timesheets
+   */
+  export type User$timesheetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Timesheet
+     */
+    select?: TimesheetSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Timesheet
+     */
+    omit?: TimesheetOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimesheetInclude<ExtArgs> | null
+    where?: TimesheetWhereInput
+    orderBy?: TimesheetOrderByWithRelationInput | TimesheetOrderByWithRelationInput[]
+    cursor?: TimesheetWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TimesheetScalarFieldEnum | TimesheetScalarFieldEnum[]
+  }
+
+  /**
+   * User.timeEntries
+   */
+  export type User$timeEntriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimeEntry
+     */
+    select?: TimeEntrySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TimeEntry
+     */
+    omit?: TimeEntryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimeEntryInclude<ExtArgs> | null
+    where?: TimeEntryWhereInput
+    orderBy?: TimeEntryOrderByWithRelationInput | TimeEntryOrderByWithRelationInput[]
+    cursor?: TimeEntryWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TimeEntryScalarFieldEnum | TimeEntryScalarFieldEnum[]
+  }
+
+  /**
+   * User.resourceAllocations
+   */
+  export type User$resourceAllocationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResourceAllocation
+     */
+    select?: ResourceAllocationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResourceAllocation
+     */
+    omit?: ResourceAllocationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceAllocationInclude<ExtArgs> | null
+    where?: ResourceAllocationWhereInput
+    orderBy?: ResourceAllocationOrderByWithRelationInput | ResourceAllocationOrderByWithRelationInput[]
+    cursor?: ResourceAllocationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ResourceAllocationScalarFieldEnum | ResourceAllocationScalarFieldEnum[]
   }
 
   /**
@@ -76847,6 +77626,4992 @@ export namespace Prisma {
 
 
   /**
+   * Model Timesheet
+   */
+
+  export type AggregateTimesheet = {
+    _count: TimesheetCountAggregateOutputType | null
+    _avg: TimesheetAvgAggregateOutputType | null
+    _sum: TimesheetSumAggregateOutputType | null
+    _min: TimesheetMinAggregateOutputType | null
+    _max: TimesheetMaxAggregateOutputType | null
+  }
+
+  export type TimesheetAvgAggregateOutputType = {
+    totalHours: number | null
+    billableHours: number | null
+  }
+
+  export type TimesheetSumAggregateOutputType = {
+    totalHours: number | null
+    billableHours: number | null
+  }
+
+  export type TimesheetMinAggregateOutputType = {
+    id: string | null
+    teamId: string | null
+    userId: string | null
+    weekStartDate: Date | null
+    weekEndDate: Date | null
+    status: $Enums.TimesheetStatus | null
+    totalHours: number | null
+    billableHours: number | null
+    submittedAt: Date | null
+    approvedAt: Date | null
+    approvedBy: string | null
+    rejectionReason: string | null
+    notes: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type TimesheetMaxAggregateOutputType = {
+    id: string | null
+    teamId: string | null
+    userId: string | null
+    weekStartDate: Date | null
+    weekEndDate: Date | null
+    status: $Enums.TimesheetStatus | null
+    totalHours: number | null
+    billableHours: number | null
+    submittedAt: Date | null
+    approvedAt: Date | null
+    approvedBy: string | null
+    rejectionReason: string | null
+    notes: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type TimesheetCountAggregateOutputType = {
+    id: number
+    teamId: number
+    userId: number
+    weekStartDate: number
+    weekEndDate: number
+    status: number
+    totalHours: number
+    billableHours: number
+    submittedAt: number
+    approvedAt: number
+    approvedBy: number
+    rejectionReason: number
+    notes: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type TimesheetAvgAggregateInputType = {
+    totalHours?: true
+    billableHours?: true
+  }
+
+  export type TimesheetSumAggregateInputType = {
+    totalHours?: true
+    billableHours?: true
+  }
+
+  export type TimesheetMinAggregateInputType = {
+    id?: true
+    teamId?: true
+    userId?: true
+    weekStartDate?: true
+    weekEndDate?: true
+    status?: true
+    totalHours?: true
+    billableHours?: true
+    submittedAt?: true
+    approvedAt?: true
+    approvedBy?: true
+    rejectionReason?: true
+    notes?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type TimesheetMaxAggregateInputType = {
+    id?: true
+    teamId?: true
+    userId?: true
+    weekStartDate?: true
+    weekEndDate?: true
+    status?: true
+    totalHours?: true
+    billableHours?: true
+    submittedAt?: true
+    approvedAt?: true
+    approvedBy?: true
+    rejectionReason?: true
+    notes?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type TimesheetCountAggregateInputType = {
+    id?: true
+    teamId?: true
+    userId?: true
+    weekStartDate?: true
+    weekEndDate?: true
+    status?: true
+    totalHours?: true
+    billableHours?: true
+    submittedAt?: true
+    approvedAt?: true
+    approvedBy?: true
+    rejectionReason?: true
+    notes?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type TimesheetAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Timesheet to aggregate.
+     */
+    where?: TimesheetWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Timesheets to fetch.
+     */
+    orderBy?: TimesheetOrderByWithRelationInput | TimesheetOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TimesheetWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Timesheets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Timesheets.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Timesheets
+    **/
+    _count?: true | TimesheetCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: TimesheetAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: TimesheetSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TimesheetMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TimesheetMaxAggregateInputType
+  }
+
+  export type GetTimesheetAggregateType<T extends TimesheetAggregateArgs> = {
+        [P in keyof T & keyof AggregateTimesheet]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTimesheet[P]>
+      : GetScalarType<T[P], AggregateTimesheet[P]>
+  }
+
+
+
+
+  export type TimesheetGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TimesheetWhereInput
+    orderBy?: TimesheetOrderByWithAggregationInput | TimesheetOrderByWithAggregationInput[]
+    by: TimesheetScalarFieldEnum[] | TimesheetScalarFieldEnum
+    having?: TimesheetScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TimesheetCountAggregateInputType | true
+    _avg?: TimesheetAvgAggregateInputType
+    _sum?: TimesheetSumAggregateInputType
+    _min?: TimesheetMinAggregateInputType
+    _max?: TimesheetMaxAggregateInputType
+  }
+
+  export type TimesheetGroupByOutputType = {
+    id: string
+    teamId: string
+    userId: string
+    weekStartDate: Date
+    weekEndDate: Date
+    status: $Enums.TimesheetStatus
+    totalHours: number
+    billableHours: number
+    submittedAt: Date | null
+    approvedAt: Date | null
+    approvedBy: string | null
+    rejectionReason: string | null
+    notes: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: TimesheetCountAggregateOutputType | null
+    _avg: TimesheetAvgAggregateOutputType | null
+    _sum: TimesheetSumAggregateOutputType | null
+    _min: TimesheetMinAggregateOutputType | null
+    _max: TimesheetMaxAggregateOutputType | null
+  }
+
+  type GetTimesheetGroupByPayload<T extends TimesheetGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TimesheetGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TimesheetGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TimesheetGroupByOutputType[P]>
+            : GetScalarType<T[P], TimesheetGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TimesheetSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    teamId?: boolean
+    userId?: boolean
+    weekStartDate?: boolean
+    weekEndDate?: boolean
+    status?: boolean
+    totalHours?: boolean
+    billableHours?: boolean
+    submittedAt?: boolean
+    approvedAt?: boolean
+    approvedBy?: boolean
+    rejectionReason?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    entries?: boolean | Timesheet$entriesArgs<ExtArgs>
+    _count?: boolean | TimesheetCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["timesheet"]>
+
+  export type TimesheetSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    teamId?: boolean
+    userId?: boolean
+    weekStartDate?: boolean
+    weekEndDate?: boolean
+    status?: boolean
+    totalHours?: boolean
+    billableHours?: boolean
+    submittedAt?: boolean
+    approvedAt?: boolean
+    approvedBy?: boolean
+    rejectionReason?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["timesheet"]>
+
+  export type TimesheetSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    teamId?: boolean
+    userId?: boolean
+    weekStartDate?: boolean
+    weekEndDate?: boolean
+    status?: boolean
+    totalHours?: boolean
+    billableHours?: boolean
+    submittedAt?: boolean
+    approvedAt?: boolean
+    approvedBy?: boolean
+    rejectionReason?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["timesheet"]>
+
+  export type TimesheetSelectScalar = {
+    id?: boolean
+    teamId?: boolean
+    userId?: boolean
+    weekStartDate?: boolean
+    weekEndDate?: boolean
+    status?: boolean
+    totalHours?: boolean
+    billableHours?: boolean
+    submittedAt?: boolean
+    approvedAt?: boolean
+    approvedBy?: boolean
+    rejectionReason?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type TimesheetOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "teamId" | "userId" | "weekStartDate" | "weekEndDate" | "status" | "totalHours" | "billableHours" | "submittedAt" | "approvedAt" | "approvedBy" | "rejectionReason" | "notes" | "createdAt" | "updatedAt", ExtArgs["result"]["timesheet"]>
+  export type TimesheetInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    entries?: boolean | Timesheet$entriesArgs<ExtArgs>
+    _count?: boolean | TimesheetCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type TimesheetIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type TimesheetIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $TimesheetPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Timesheet"
+    objects: {
+      team: Prisma.$TeamPayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs>
+      entries: Prisma.$TimeEntryPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      teamId: string
+      userId: string
+      weekStartDate: Date
+      weekEndDate: Date
+      status: $Enums.TimesheetStatus
+      totalHours: number
+      billableHours: number
+      submittedAt: Date | null
+      approvedAt: Date | null
+      approvedBy: string | null
+      rejectionReason: string | null
+      notes: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["timesheet"]>
+    composites: {}
+  }
+
+  type TimesheetGetPayload<S extends boolean | null | undefined | TimesheetDefaultArgs> = $Result.GetResult<Prisma.$TimesheetPayload, S>
+
+  type TimesheetCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<TimesheetFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TimesheetCountAggregateInputType | true
+    }
+
+  export interface TimesheetDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Timesheet'], meta: { name: 'Timesheet' } }
+    /**
+     * Find zero or one Timesheet that matches the filter.
+     * @param {TimesheetFindUniqueArgs} args - Arguments to find a Timesheet
+     * @example
+     * // Get one Timesheet
+     * const timesheet = await prisma.timesheet.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends TimesheetFindUniqueArgs>(args: SelectSubset<T, TimesheetFindUniqueArgs<ExtArgs>>): Prisma__TimesheetClient<$Result.GetResult<Prisma.$TimesheetPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Timesheet that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {TimesheetFindUniqueOrThrowArgs} args - Arguments to find a Timesheet
+     * @example
+     * // Get one Timesheet
+     * const timesheet = await prisma.timesheet.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends TimesheetFindUniqueOrThrowArgs>(args: SelectSubset<T, TimesheetFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TimesheetClient<$Result.GetResult<Prisma.$TimesheetPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Timesheet that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TimesheetFindFirstArgs} args - Arguments to find a Timesheet
+     * @example
+     * // Get one Timesheet
+     * const timesheet = await prisma.timesheet.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends TimesheetFindFirstArgs>(args?: SelectSubset<T, TimesheetFindFirstArgs<ExtArgs>>): Prisma__TimesheetClient<$Result.GetResult<Prisma.$TimesheetPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Timesheet that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TimesheetFindFirstOrThrowArgs} args - Arguments to find a Timesheet
+     * @example
+     * // Get one Timesheet
+     * const timesheet = await prisma.timesheet.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends TimesheetFindFirstOrThrowArgs>(args?: SelectSubset<T, TimesheetFindFirstOrThrowArgs<ExtArgs>>): Prisma__TimesheetClient<$Result.GetResult<Prisma.$TimesheetPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Timesheets that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TimesheetFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Timesheets
+     * const timesheets = await prisma.timesheet.findMany()
+     * 
+     * // Get first 10 Timesheets
+     * const timesheets = await prisma.timesheet.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const timesheetWithIdOnly = await prisma.timesheet.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends TimesheetFindManyArgs>(args?: SelectSubset<T, TimesheetFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TimesheetPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Timesheet.
+     * @param {TimesheetCreateArgs} args - Arguments to create a Timesheet.
+     * @example
+     * // Create one Timesheet
+     * const Timesheet = await prisma.timesheet.create({
+     *   data: {
+     *     // ... data to create a Timesheet
+     *   }
+     * })
+     * 
+     */
+    create<T extends TimesheetCreateArgs>(args: SelectSubset<T, TimesheetCreateArgs<ExtArgs>>): Prisma__TimesheetClient<$Result.GetResult<Prisma.$TimesheetPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Timesheets.
+     * @param {TimesheetCreateManyArgs} args - Arguments to create many Timesheets.
+     * @example
+     * // Create many Timesheets
+     * const timesheet = await prisma.timesheet.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends TimesheetCreateManyArgs>(args?: SelectSubset<T, TimesheetCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Timesheets and returns the data saved in the database.
+     * @param {TimesheetCreateManyAndReturnArgs} args - Arguments to create many Timesheets.
+     * @example
+     * // Create many Timesheets
+     * const timesheet = await prisma.timesheet.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Timesheets and only return the `id`
+     * const timesheetWithIdOnly = await prisma.timesheet.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends TimesheetCreateManyAndReturnArgs>(args?: SelectSubset<T, TimesheetCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TimesheetPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Timesheet.
+     * @param {TimesheetDeleteArgs} args - Arguments to delete one Timesheet.
+     * @example
+     * // Delete one Timesheet
+     * const Timesheet = await prisma.timesheet.delete({
+     *   where: {
+     *     // ... filter to delete one Timesheet
+     *   }
+     * })
+     * 
+     */
+    delete<T extends TimesheetDeleteArgs>(args: SelectSubset<T, TimesheetDeleteArgs<ExtArgs>>): Prisma__TimesheetClient<$Result.GetResult<Prisma.$TimesheetPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Timesheet.
+     * @param {TimesheetUpdateArgs} args - Arguments to update one Timesheet.
+     * @example
+     * // Update one Timesheet
+     * const timesheet = await prisma.timesheet.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends TimesheetUpdateArgs>(args: SelectSubset<T, TimesheetUpdateArgs<ExtArgs>>): Prisma__TimesheetClient<$Result.GetResult<Prisma.$TimesheetPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Timesheets.
+     * @param {TimesheetDeleteManyArgs} args - Arguments to filter Timesheets to delete.
+     * @example
+     * // Delete a few Timesheets
+     * const { count } = await prisma.timesheet.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends TimesheetDeleteManyArgs>(args?: SelectSubset<T, TimesheetDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Timesheets.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TimesheetUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Timesheets
+     * const timesheet = await prisma.timesheet.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends TimesheetUpdateManyArgs>(args: SelectSubset<T, TimesheetUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Timesheets and returns the data updated in the database.
+     * @param {TimesheetUpdateManyAndReturnArgs} args - Arguments to update many Timesheets.
+     * @example
+     * // Update many Timesheets
+     * const timesheet = await prisma.timesheet.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Timesheets and only return the `id`
+     * const timesheetWithIdOnly = await prisma.timesheet.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends TimesheetUpdateManyAndReturnArgs>(args: SelectSubset<T, TimesheetUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TimesheetPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Timesheet.
+     * @param {TimesheetUpsertArgs} args - Arguments to update or create a Timesheet.
+     * @example
+     * // Update or create a Timesheet
+     * const timesheet = await prisma.timesheet.upsert({
+     *   create: {
+     *     // ... data to create a Timesheet
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Timesheet we want to update
+     *   }
+     * })
+     */
+    upsert<T extends TimesheetUpsertArgs>(args: SelectSubset<T, TimesheetUpsertArgs<ExtArgs>>): Prisma__TimesheetClient<$Result.GetResult<Prisma.$TimesheetPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Timesheets.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TimesheetCountArgs} args - Arguments to filter Timesheets to count.
+     * @example
+     * // Count the number of Timesheets
+     * const count = await prisma.timesheet.count({
+     *   where: {
+     *     // ... the filter for the Timesheets we want to count
+     *   }
+     * })
+    **/
+    count<T extends TimesheetCountArgs>(
+      args?: Subset<T, TimesheetCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TimesheetCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Timesheet.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TimesheetAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TimesheetAggregateArgs>(args: Subset<T, TimesheetAggregateArgs>): Prisma.PrismaPromise<GetTimesheetAggregateType<T>>
+
+    /**
+     * Group by Timesheet.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TimesheetGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TimesheetGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TimesheetGroupByArgs['orderBy'] }
+        : { orderBy?: TimesheetGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TimesheetGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTimesheetGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Timesheet model
+   */
+  readonly fields: TimesheetFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Timesheet.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__TimesheetClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    team<T extends TeamDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TeamDefaultArgs<ExtArgs>>): Prisma__TeamClient<$Result.GetResult<Prisma.$TeamPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    entries<T extends Timesheet$entriesArgs<ExtArgs> = {}>(args?: Subset<T, Timesheet$entriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TimeEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Timesheet model
+   */
+  interface TimesheetFieldRefs {
+    readonly id: FieldRef<"Timesheet", 'String'>
+    readonly teamId: FieldRef<"Timesheet", 'String'>
+    readonly userId: FieldRef<"Timesheet", 'String'>
+    readonly weekStartDate: FieldRef<"Timesheet", 'DateTime'>
+    readonly weekEndDate: FieldRef<"Timesheet", 'DateTime'>
+    readonly status: FieldRef<"Timesheet", 'TimesheetStatus'>
+    readonly totalHours: FieldRef<"Timesheet", 'Float'>
+    readonly billableHours: FieldRef<"Timesheet", 'Float'>
+    readonly submittedAt: FieldRef<"Timesheet", 'DateTime'>
+    readonly approvedAt: FieldRef<"Timesheet", 'DateTime'>
+    readonly approvedBy: FieldRef<"Timesheet", 'String'>
+    readonly rejectionReason: FieldRef<"Timesheet", 'String'>
+    readonly notes: FieldRef<"Timesheet", 'String'>
+    readonly createdAt: FieldRef<"Timesheet", 'DateTime'>
+    readonly updatedAt: FieldRef<"Timesheet", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Timesheet findUnique
+   */
+  export type TimesheetFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Timesheet
+     */
+    select?: TimesheetSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Timesheet
+     */
+    omit?: TimesheetOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimesheetInclude<ExtArgs> | null
+    /**
+     * Filter, which Timesheet to fetch.
+     */
+    where: TimesheetWhereUniqueInput
+  }
+
+  /**
+   * Timesheet findUniqueOrThrow
+   */
+  export type TimesheetFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Timesheet
+     */
+    select?: TimesheetSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Timesheet
+     */
+    omit?: TimesheetOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimesheetInclude<ExtArgs> | null
+    /**
+     * Filter, which Timesheet to fetch.
+     */
+    where: TimesheetWhereUniqueInput
+  }
+
+  /**
+   * Timesheet findFirst
+   */
+  export type TimesheetFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Timesheet
+     */
+    select?: TimesheetSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Timesheet
+     */
+    omit?: TimesheetOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimesheetInclude<ExtArgs> | null
+    /**
+     * Filter, which Timesheet to fetch.
+     */
+    where?: TimesheetWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Timesheets to fetch.
+     */
+    orderBy?: TimesheetOrderByWithRelationInput | TimesheetOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Timesheets.
+     */
+    cursor?: TimesheetWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Timesheets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Timesheets.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Timesheets.
+     */
+    distinct?: TimesheetScalarFieldEnum | TimesheetScalarFieldEnum[]
+  }
+
+  /**
+   * Timesheet findFirstOrThrow
+   */
+  export type TimesheetFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Timesheet
+     */
+    select?: TimesheetSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Timesheet
+     */
+    omit?: TimesheetOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimesheetInclude<ExtArgs> | null
+    /**
+     * Filter, which Timesheet to fetch.
+     */
+    where?: TimesheetWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Timesheets to fetch.
+     */
+    orderBy?: TimesheetOrderByWithRelationInput | TimesheetOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Timesheets.
+     */
+    cursor?: TimesheetWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Timesheets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Timesheets.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Timesheets.
+     */
+    distinct?: TimesheetScalarFieldEnum | TimesheetScalarFieldEnum[]
+  }
+
+  /**
+   * Timesheet findMany
+   */
+  export type TimesheetFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Timesheet
+     */
+    select?: TimesheetSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Timesheet
+     */
+    omit?: TimesheetOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimesheetInclude<ExtArgs> | null
+    /**
+     * Filter, which Timesheets to fetch.
+     */
+    where?: TimesheetWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Timesheets to fetch.
+     */
+    orderBy?: TimesheetOrderByWithRelationInput | TimesheetOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Timesheets.
+     */
+    cursor?: TimesheetWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Timesheets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Timesheets.
+     */
+    skip?: number
+    distinct?: TimesheetScalarFieldEnum | TimesheetScalarFieldEnum[]
+  }
+
+  /**
+   * Timesheet create
+   */
+  export type TimesheetCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Timesheet
+     */
+    select?: TimesheetSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Timesheet
+     */
+    omit?: TimesheetOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimesheetInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Timesheet.
+     */
+    data: XOR<TimesheetCreateInput, TimesheetUncheckedCreateInput>
+  }
+
+  /**
+   * Timesheet createMany
+   */
+  export type TimesheetCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Timesheets.
+     */
+    data: TimesheetCreateManyInput | TimesheetCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Timesheet createManyAndReturn
+   */
+  export type TimesheetCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Timesheet
+     */
+    select?: TimesheetSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Timesheet
+     */
+    omit?: TimesheetOmit<ExtArgs> | null
+    /**
+     * The data used to create many Timesheets.
+     */
+    data: TimesheetCreateManyInput | TimesheetCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimesheetIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Timesheet update
+   */
+  export type TimesheetUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Timesheet
+     */
+    select?: TimesheetSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Timesheet
+     */
+    omit?: TimesheetOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimesheetInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Timesheet.
+     */
+    data: XOR<TimesheetUpdateInput, TimesheetUncheckedUpdateInput>
+    /**
+     * Choose, which Timesheet to update.
+     */
+    where: TimesheetWhereUniqueInput
+  }
+
+  /**
+   * Timesheet updateMany
+   */
+  export type TimesheetUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Timesheets.
+     */
+    data: XOR<TimesheetUpdateManyMutationInput, TimesheetUncheckedUpdateManyInput>
+    /**
+     * Filter which Timesheets to update
+     */
+    where?: TimesheetWhereInput
+    /**
+     * Limit how many Timesheets to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Timesheet updateManyAndReturn
+   */
+  export type TimesheetUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Timesheet
+     */
+    select?: TimesheetSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Timesheet
+     */
+    omit?: TimesheetOmit<ExtArgs> | null
+    /**
+     * The data used to update Timesheets.
+     */
+    data: XOR<TimesheetUpdateManyMutationInput, TimesheetUncheckedUpdateManyInput>
+    /**
+     * Filter which Timesheets to update
+     */
+    where?: TimesheetWhereInput
+    /**
+     * Limit how many Timesheets to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimesheetIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Timesheet upsert
+   */
+  export type TimesheetUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Timesheet
+     */
+    select?: TimesheetSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Timesheet
+     */
+    omit?: TimesheetOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimesheetInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Timesheet to update in case it exists.
+     */
+    where: TimesheetWhereUniqueInput
+    /**
+     * In case the Timesheet found by the `where` argument doesn't exist, create a new Timesheet with this data.
+     */
+    create: XOR<TimesheetCreateInput, TimesheetUncheckedCreateInput>
+    /**
+     * In case the Timesheet was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TimesheetUpdateInput, TimesheetUncheckedUpdateInput>
+  }
+
+  /**
+   * Timesheet delete
+   */
+  export type TimesheetDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Timesheet
+     */
+    select?: TimesheetSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Timesheet
+     */
+    omit?: TimesheetOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimesheetInclude<ExtArgs> | null
+    /**
+     * Filter which Timesheet to delete.
+     */
+    where: TimesheetWhereUniqueInput
+  }
+
+  /**
+   * Timesheet deleteMany
+   */
+  export type TimesheetDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Timesheets to delete
+     */
+    where?: TimesheetWhereInput
+    /**
+     * Limit how many Timesheets to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Timesheet.entries
+   */
+  export type Timesheet$entriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimeEntry
+     */
+    select?: TimeEntrySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TimeEntry
+     */
+    omit?: TimeEntryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimeEntryInclude<ExtArgs> | null
+    where?: TimeEntryWhereInput
+    orderBy?: TimeEntryOrderByWithRelationInput | TimeEntryOrderByWithRelationInput[]
+    cursor?: TimeEntryWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TimeEntryScalarFieldEnum | TimeEntryScalarFieldEnum[]
+  }
+
+  /**
+   * Timesheet without action
+   */
+  export type TimesheetDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Timesheet
+     */
+    select?: TimesheetSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Timesheet
+     */
+    omit?: TimesheetOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimesheetInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model TimeEntry
+   */
+
+  export type AggregateTimeEntry = {
+    _count: TimeEntryCountAggregateOutputType | null
+    _avg: TimeEntryAvgAggregateOutputType | null
+    _sum: TimeEntrySumAggregateOutputType | null
+    _min: TimeEntryMinAggregateOutputType | null
+    _max: TimeEntryMaxAggregateOutputType | null
+  }
+
+  export type TimeEntryAvgAggregateOutputType = {
+    hours: number | null
+    costRate: number | null
+    billingRate: number | null
+  }
+
+  export type TimeEntrySumAggregateOutputType = {
+    hours: number | null
+    costRate: number | null
+    billingRate: number | null
+  }
+
+  export type TimeEntryMinAggregateOutputType = {
+    id: string | null
+    teamId: string | null
+    userId: string | null
+    timesheetId: string | null
+    projectId: string | null
+    issueId: string | null
+    date: Date | null
+    hours: number | null
+    description: string | null
+    isBillable: boolean | null
+    category: string | null
+    costRate: number | null
+    billingRate: number | null
+    isTimer: boolean | null
+    startedAt: Date | null
+    stoppedAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type TimeEntryMaxAggregateOutputType = {
+    id: string | null
+    teamId: string | null
+    userId: string | null
+    timesheetId: string | null
+    projectId: string | null
+    issueId: string | null
+    date: Date | null
+    hours: number | null
+    description: string | null
+    isBillable: boolean | null
+    category: string | null
+    costRate: number | null
+    billingRate: number | null
+    isTimer: boolean | null
+    startedAt: Date | null
+    stoppedAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type TimeEntryCountAggregateOutputType = {
+    id: number
+    teamId: number
+    userId: number
+    timesheetId: number
+    projectId: number
+    issueId: number
+    date: number
+    hours: number
+    description: number
+    isBillable: number
+    category: number
+    costRate: number
+    billingRate: number
+    isTimer: number
+    startedAt: number
+    stoppedAt: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type TimeEntryAvgAggregateInputType = {
+    hours?: true
+    costRate?: true
+    billingRate?: true
+  }
+
+  export type TimeEntrySumAggregateInputType = {
+    hours?: true
+    costRate?: true
+    billingRate?: true
+  }
+
+  export type TimeEntryMinAggregateInputType = {
+    id?: true
+    teamId?: true
+    userId?: true
+    timesheetId?: true
+    projectId?: true
+    issueId?: true
+    date?: true
+    hours?: true
+    description?: true
+    isBillable?: true
+    category?: true
+    costRate?: true
+    billingRate?: true
+    isTimer?: true
+    startedAt?: true
+    stoppedAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type TimeEntryMaxAggregateInputType = {
+    id?: true
+    teamId?: true
+    userId?: true
+    timesheetId?: true
+    projectId?: true
+    issueId?: true
+    date?: true
+    hours?: true
+    description?: true
+    isBillable?: true
+    category?: true
+    costRate?: true
+    billingRate?: true
+    isTimer?: true
+    startedAt?: true
+    stoppedAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type TimeEntryCountAggregateInputType = {
+    id?: true
+    teamId?: true
+    userId?: true
+    timesheetId?: true
+    projectId?: true
+    issueId?: true
+    date?: true
+    hours?: true
+    description?: true
+    isBillable?: true
+    category?: true
+    costRate?: true
+    billingRate?: true
+    isTimer?: true
+    startedAt?: true
+    stoppedAt?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type TimeEntryAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TimeEntry to aggregate.
+     */
+    where?: TimeEntryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TimeEntries to fetch.
+     */
+    orderBy?: TimeEntryOrderByWithRelationInput | TimeEntryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TimeEntryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TimeEntries from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TimeEntries.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned TimeEntries
+    **/
+    _count?: true | TimeEntryCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: TimeEntryAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: TimeEntrySumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TimeEntryMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TimeEntryMaxAggregateInputType
+  }
+
+  export type GetTimeEntryAggregateType<T extends TimeEntryAggregateArgs> = {
+        [P in keyof T & keyof AggregateTimeEntry]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTimeEntry[P]>
+      : GetScalarType<T[P], AggregateTimeEntry[P]>
+  }
+
+
+
+
+  export type TimeEntryGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TimeEntryWhereInput
+    orderBy?: TimeEntryOrderByWithAggregationInput | TimeEntryOrderByWithAggregationInput[]
+    by: TimeEntryScalarFieldEnum[] | TimeEntryScalarFieldEnum
+    having?: TimeEntryScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TimeEntryCountAggregateInputType | true
+    _avg?: TimeEntryAvgAggregateInputType
+    _sum?: TimeEntrySumAggregateInputType
+    _min?: TimeEntryMinAggregateInputType
+    _max?: TimeEntryMaxAggregateInputType
+  }
+
+  export type TimeEntryGroupByOutputType = {
+    id: string
+    teamId: string
+    userId: string
+    timesheetId: string | null
+    projectId: string | null
+    issueId: string | null
+    date: Date
+    hours: number
+    description: string
+    isBillable: boolean
+    category: string
+    costRate: number | null
+    billingRate: number | null
+    isTimer: boolean
+    startedAt: Date | null
+    stoppedAt: Date | null
+    createdAt: Date
+    updatedAt: Date
+    _count: TimeEntryCountAggregateOutputType | null
+    _avg: TimeEntryAvgAggregateOutputType | null
+    _sum: TimeEntrySumAggregateOutputType | null
+    _min: TimeEntryMinAggregateOutputType | null
+    _max: TimeEntryMaxAggregateOutputType | null
+  }
+
+  type GetTimeEntryGroupByPayload<T extends TimeEntryGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TimeEntryGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TimeEntryGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TimeEntryGroupByOutputType[P]>
+            : GetScalarType<T[P], TimeEntryGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TimeEntrySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    teamId?: boolean
+    userId?: boolean
+    timesheetId?: boolean
+    projectId?: boolean
+    issueId?: boolean
+    date?: boolean
+    hours?: boolean
+    description?: boolean
+    isBillable?: boolean
+    category?: boolean
+    costRate?: boolean
+    billingRate?: boolean
+    isTimer?: boolean
+    startedAt?: boolean
+    stoppedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    timesheet?: boolean | TimeEntry$timesheetArgs<ExtArgs>
+    project?: boolean | TimeEntry$projectArgs<ExtArgs>
+    issue?: boolean | TimeEntry$issueArgs<ExtArgs>
+  }, ExtArgs["result"]["timeEntry"]>
+
+  export type TimeEntrySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    teamId?: boolean
+    userId?: boolean
+    timesheetId?: boolean
+    projectId?: boolean
+    issueId?: boolean
+    date?: boolean
+    hours?: boolean
+    description?: boolean
+    isBillable?: boolean
+    category?: boolean
+    costRate?: boolean
+    billingRate?: boolean
+    isTimer?: boolean
+    startedAt?: boolean
+    stoppedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    timesheet?: boolean | TimeEntry$timesheetArgs<ExtArgs>
+    project?: boolean | TimeEntry$projectArgs<ExtArgs>
+    issue?: boolean | TimeEntry$issueArgs<ExtArgs>
+  }, ExtArgs["result"]["timeEntry"]>
+
+  export type TimeEntrySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    teamId?: boolean
+    userId?: boolean
+    timesheetId?: boolean
+    projectId?: boolean
+    issueId?: boolean
+    date?: boolean
+    hours?: boolean
+    description?: boolean
+    isBillable?: boolean
+    category?: boolean
+    costRate?: boolean
+    billingRate?: boolean
+    isTimer?: boolean
+    startedAt?: boolean
+    stoppedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    timesheet?: boolean | TimeEntry$timesheetArgs<ExtArgs>
+    project?: boolean | TimeEntry$projectArgs<ExtArgs>
+    issue?: boolean | TimeEntry$issueArgs<ExtArgs>
+  }, ExtArgs["result"]["timeEntry"]>
+
+  export type TimeEntrySelectScalar = {
+    id?: boolean
+    teamId?: boolean
+    userId?: boolean
+    timesheetId?: boolean
+    projectId?: boolean
+    issueId?: boolean
+    date?: boolean
+    hours?: boolean
+    description?: boolean
+    isBillable?: boolean
+    category?: boolean
+    costRate?: boolean
+    billingRate?: boolean
+    isTimer?: boolean
+    startedAt?: boolean
+    stoppedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type TimeEntryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "teamId" | "userId" | "timesheetId" | "projectId" | "issueId" | "date" | "hours" | "description" | "isBillable" | "category" | "costRate" | "billingRate" | "isTimer" | "startedAt" | "stoppedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["timeEntry"]>
+  export type TimeEntryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    timesheet?: boolean | TimeEntry$timesheetArgs<ExtArgs>
+    project?: boolean | TimeEntry$projectArgs<ExtArgs>
+    issue?: boolean | TimeEntry$issueArgs<ExtArgs>
+  }
+  export type TimeEntryIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    timesheet?: boolean | TimeEntry$timesheetArgs<ExtArgs>
+    project?: boolean | TimeEntry$projectArgs<ExtArgs>
+    issue?: boolean | TimeEntry$issueArgs<ExtArgs>
+  }
+  export type TimeEntryIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    timesheet?: boolean | TimeEntry$timesheetArgs<ExtArgs>
+    project?: boolean | TimeEntry$projectArgs<ExtArgs>
+    issue?: boolean | TimeEntry$issueArgs<ExtArgs>
+  }
+
+  export type $TimeEntryPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "TimeEntry"
+    objects: {
+      team: Prisma.$TeamPayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs>
+      timesheet: Prisma.$TimesheetPayload<ExtArgs> | null
+      project: Prisma.$ProjectPayload<ExtArgs> | null
+      issue: Prisma.$IssuePayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      teamId: string
+      userId: string
+      timesheetId: string | null
+      projectId: string | null
+      issueId: string | null
+      date: Date
+      hours: number
+      description: string
+      isBillable: boolean
+      category: string
+      costRate: number | null
+      billingRate: number | null
+      isTimer: boolean
+      startedAt: Date | null
+      stoppedAt: Date | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["timeEntry"]>
+    composites: {}
+  }
+
+  type TimeEntryGetPayload<S extends boolean | null | undefined | TimeEntryDefaultArgs> = $Result.GetResult<Prisma.$TimeEntryPayload, S>
+
+  type TimeEntryCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<TimeEntryFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TimeEntryCountAggregateInputType | true
+    }
+
+  export interface TimeEntryDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['TimeEntry'], meta: { name: 'TimeEntry' } }
+    /**
+     * Find zero or one TimeEntry that matches the filter.
+     * @param {TimeEntryFindUniqueArgs} args - Arguments to find a TimeEntry
+     * @example
+     * // Get one TimeEntry
+     * const timeEntry = await prisma.timeEntry.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends TimeEntryFindUniqueArgs>(args: SelectSubset<T, TimeEntryFindUniqueArgs<ExtArgs>>): Prisma__TimeEntryClient<$Result.GetResult<Prisma.$TimeEntryPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one TimeEntry that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {TimeEntryFindUniqueOrThrowArgs} args - Arguments to find a TimeEntry
+     * @example
+     * // Get one TimeEntry
+     * const timeEntry = await prisma.timeEntry.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends TimeEntryFindUniqueOrThrowArgs>(args: SelectSubset<T, TimeEntryFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TimeEntryClient<$Result.GetResult<Prisma.$TimeEntryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TimeEntry that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TimeEntryFindFirstArgs} args - Arguments to find a TimeEntry
+     * @example
+     * // Get one TimeEntry
+     * const timeEntry = await prisma.timeEntry.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends TimeEntryFindFirstArgs>(args?: SelectSubset<T, TimeEntryFindFirstArgs<ExtArgs>>): Prisma__TimeEntryClient<$Result.GetResult<Prisma.$TimeEntryPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TimeEntry that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TimeEntryFindFirstOrThrowArgs} args - Arguments to find a TimeEntry
+     * @example
+     * // Get one TimeEntry
+     * const timeEntry = await prisma.timeEntry.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends TimeEntryFindFirstOrThrowArgs>(args?: SelectSubset<T, TimeEntryFindFirstOrThrowArgs<ExtArgs>>): Prisma__TimeEntryClient<$Result.GetResult<Prisma.$TimeEntryPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more TimeEntries that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TimeEntryFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all TimeEntries
+     * const timeEntries = await prisma.timeEntry.findMany()
+     * 
+     * // Get first 10 TimeEntries
+     * const timeEntries = await prisma.timeEntry.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const timeEntryWithIdOnly = await prisma.timeEntry.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends TimeEntryFindManyArgs>(args?: SelectSubset<T, TimeEntryFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TimeEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a TimeEntry.
+     * @param {TimeEntryCreateArgs} args - Arguments to create a TimeEntry.
+     * @example
+     * // Create one TimeEntry
+     * const TimeEntry = await prisma.timeEntry.create({
+     *   data: {
+     *     // ... data to create a TimeEntry
+     *   }
+     * })
+     * 
+     */
+    create<T extends TimeEntryCreateArgs>(args: SelectSubset<T, TimeEntryCreateArgs<ExtArgs>>): Prisma__TimeEntryClient<$Result.GetResult<Prisma.$TimeEntryPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many TimeEntries.
+     * @param {TimeEntryCreateManyArgs} args - Arguments to create many TimeEntries.
+     * @example
+     * // Create many TimeEntries
+     * const timeEntry = await prisma.timeEntry.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends TimeEntryCreateManyArgs>(args?: SelectSubset<T, TimeEntryCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many TimeEntries and returns the data saved in the database.
+     * @param {TimeEntryCreateManyAndReturnArgs} args - Arguments to create many TimeEntries.
+     * @example
+     * // Create many TimeEntries
+     * const timeEntry = await prisma.timeEntry.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many TimeEntries and only return the `id`
+     * const timeEntryWithIdOnly = await prisma.timeEntry.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends TimeEntryCreateManyAndReturnArgs>(args?: SelectSubset<T, TimeEntryCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TimeEntryPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a TimeEntry.
+     * @param {TimeEntryDeleteArgs} args - Arguments to delete one TimeEntry.
+     * @example
+     * // Delete one TimeEntry
+     * const TimeEntry = await prisma.timeEntry.delete({
+     *   where: {
+     *     // ... filter to delete one TimeEntry
+     *   }
+     * })
+     * 
+     */
+    delete<T extends TimeEntryDeleteArgs>(args: SelectSubset<T, TimeEntryDeleteArgs<ExtArgs>>): Prisma__TimeEntryClient<$Result.GetResult<Prisma.$TimeEntryPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one TimeEntry.
+     * @param {TimeEntryUpdateArgs} args - Arguments to update one TimeEntry.
+     * @example
+     * // Update one TimeEntry
+     * const timeEntry = await prisma.timeEntry.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends TimeEntryUpdateArgs>(args: SelectSubset<T, TimeEntryUpdateArgs<ExtArgs>>): Prisma__TimeEntryClient<$Result.GetResult<Prisma.$TimeEntryPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more TimeEntries.
+     * @param {TimeEntryDeleteManyArgs} args - Arguments to filter TimeEntries to delete.
+     * @example
+     * // Delete a few TimeEntries
+     * const { count } = await prisma.timeEntry.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends TimeEntryDeleteManyArgs>(args?: SelectSubset<T, TimeEntryDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TimeEntries.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TimeEntryUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many TimeEntries
+     * const timeEntry = await prisma.timeEntry.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends TimeEntryUpdateManyArgs>(args: SelectSubset<T, TimeEntryUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TimeEntries and returns the data updated in the database.
+     * @param {TimeEntryUpdateManyAndReturnArgs} args - Arguments to update many TimeEntries.
+     * @example
+     * // Update many TimeEntries
+     * const timeEntry = await prisma.timeEntry.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more TimeEntries and only return the `id`
+     * const timeEntryWithIdOnly = await prisma.timeEntry.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends TimeEntryUpdateManyAndReturnArgs>(args: SelectSubset<T, TimeEntryUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TimeEntryPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one TimeEntry.
+     * @param {TimeEntryUpsertArgs} args - Arguments to update or create a TimeEntry.
+     * @example
+     * // Update or create a TimeEntry
+     * const timeEntry = await prisma.timeEntry.upsert({
+     *   create: {
+     *     // ... data to create a TimeEntry
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the TimeEntry we want to update
+     *   }
+     * })
+     */
+    upsert<T extends TimeEntryUpsertArgs>(args: SelectSubset<T, TimeEntryUpsertArgs<ExtArgs>>): Prisma__TimeEntryClient<$Result.GetResult<Prisma.$TimeEntryPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of TimeEntries.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TimeEntryCountArgs} args - Arguments to filter TimeEntries to count.
+     * @example
+     * // Count the number of TimeEntries
+     * const count = await prisma.timeEntry.count({
+     *   where: {
+     *     // ... the filter for the TimeEntries we want to count
+     *   }
+     * })
+    **/
+    count<T extends TimeEntryCountArgs>(
+      args?: Subset<T, TimeEntryCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TimeEntryCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a TimeEntry.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TimeEntryAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TimeEntryAggregateArgs>(args: Subset<T, TimeEntryAggregateArgs>): Prisma.PrismaPromise<GetTimeEntryAggregateType<T>>
+
+    /**
+     * Group by TimeEntry.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TimeEntryGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TimeEntryGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TimeEntryGroupByArgs['orderBy'] }
+        : { orderBy?: TimeEntryGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TimeEntryGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTimeEntryGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the TimeEntry model
+   */
+  readonly fields: TimeEntryFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for TimeEntry.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__TimeEntryClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    team<T extends TeamDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TeamDefaultArgs<ExtArgs>>): Prisma__TeamClient<$Result.GetResult<Prisma.$TeamPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    timesheet<T extends TimeEntry$timesheetArgs<ExtArgs> = {}>(args?: Subset<T, TimeEntry$timesheetArgs<ExtArgs>>): Prisma__TimesheetClient<$Result.GetResult<Prisma.$TimesheetPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    project<T extends TimeEntry$projectArgs<ExtArgs> = {}>(args?: Subset<T, TimeEntry$projectArgs<ExtArgs>>): Prisma__ProjectClient<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    issue<T extends TimeEntry$issueArgs<ExtArgs> = {}>(args?: Subset<T, TimeEntry$issueArgs<ExtArgs>>): Prisma__IssueClient<$Result.GetResult<Prisma.$IssuePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the TimeEntry model
+   */
+  interface TimeEntryFieldRefs {
+    readonly id: FieldRef<"TimeEntry", 'String'>
+    readonly teamId: FieldRef<"TimeEntry", 'String'>
+    readonly userId: FieldRef<"TimeEntry", 'String'>
+    readonly timesheetId: FieldRef<"TimeEntry", 'String'>
+    readonly projectId: FieldRef<"TimeEntry", 'String'>
+    readonly issueId: FieldRef<"TimeEntry", 'String'>
+    readonly date: FieldRef<"TimeEntry", 'DateTime'>
+    readonly hours: FieldRef<"TimeEntry", 'Float'>
+    readonly description: FieldRef<"TimeEntry", 'String'>
+    readonly isBillable: FieldRef<"TimeEntry", 'Boolean'>
+    readonly category: FieldRef<"TimeEntry", 'String'>
+    readonly costRate: FieldRef<"TimeEntry", 'Float'>
+    readonly billingRate: FieldRef<"TimeEntry", 'Float'>
+    readonly isTimer: FieldRef<"TimeEntry", 'Boolean'>
+    readonly startedAt: FieldRef<"TimeEntry", 'DateTime'>
+    readonly stoppedAt: FieldRef<"TimeEntry", 'DateTime'>
+    readonly createdAt: FieldRef<"TimeEntry", 'DateTime'>
+    readonly updatedAt: FieldRef<"TimeEntry", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * TimeEntry findUnique
+   */
+  export type TimeEntryFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimeEntry
+     */
+    select?: TimeEntrySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TimeEntry
+     */
+    omit?: TimeEntryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimeEntryInclude<ExtArgs> | null
+    /**
+     * Filter, which TimeEntry to fetch.
+     */
+    where: TimeEntryWhereUniqueInput
+  }
+
+  /**
+   * TimeEntry findUniqueOrThrow
+   */
+  export type TimeEntryFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimeEntry
+     */
+    select?: TimeEntrySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TimeEntry
+     */
+    omit?: TimeEntryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimeEntryInclude<ExtArgs> | null
+    /**
+     * Filter, which TimeEntry to fetch.
+     */
+    where: TimeEntryWhereUniqueInput
+  }
+
+  /**
+   * TimeEntry findFirst
+   */
+  export type TimeEntryFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimeEntry
+     */
+    select?: TimeEntrySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TimeEntry
+     */
+    omit?: TimeEntryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimeEntryInclude<ExtArgs> | null
+    /**
+     * Filter, which TimeEntry to fetch.
+     */
+    where?: TimeEntryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TimeEntries to fetch.
+     */
+    orderBy?: TimeEntryOrderByWithRelationInput | TimeEntryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TimeEntries.
+     */
+    cursor?: TimeEntryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TimeEntries from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TimeEntries.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TimeEntries.
+     */
+    distinct?: TimeEntryScalarFieldEnum | TimeEntryScalarFieldEnum[]
+  }
+
+  /**
+   * TimeEntry findFirstOrThrow
+   */
+  export type TimeEntryFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimeEntry
+     */
+    select?: TimeEntrySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TimeEntry
+     */
+    omit?: TimeEntryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimeEntryInclude<ExtArgs> | null
+    /**
+     * Filter, which TimeEntry to fetch.
+     */
+    where?: TimeEntryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TimeEntries to fetch.
+     */
+    orderBy?: TimeEntryOrderByWithRelationInput | TimeEntryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TimeEntries.
+     */
+    cursor?: TimeEntryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TimeEntries from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TimeEntries.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TimeEntries.
+     */
+    distinct?: TimeEntryScalarFieldEnum | TimeEntryScalarFieldEnum[]
+  }
+
+  /**
+   * TimeEntry findMany
+   */
+  export type TimeEntryFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimeEntry
+     */
+    select?: TimeEntrySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TimeEntry
+     */
+    omit?: TimeEntryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimeEntryInclude<ExtArgs> | null
+    /**
+     * Filter, which TimeEntries to fetch.
+     */
+    where?: TimeEntryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TimeEntries to fetch.
+     */
+    orderBy?: TimeEntryOrderByWithRelationInput | TimeEntryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing TimeEntries.
+     */
+    cursor?: TimeEntryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TimeEntries from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TimeEntries.
+     */
+    skip?: number
+    distinct?: TimeEntryScalarFieldEnum | TimeEntryScalarFieldEnum[]
+  }
+
+  /**
+   * TimeEntry create
+   */
+  export type TimeEntryCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimeEntry
+     */
+    select?: TimeEntrySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TimeEntry
+     */
+    omit?: TimeEntryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimeEntryInclude<ExtArgs> | null
+    /**
+     * The data needed to create a TimeEntry.
+     */
+    data: XOR<TimeEntryCreateInput, TimeEntryUncheckedCreateInput>
+  }
+
+  /**
+   * TimeEntry createMany
+   */
+  export type TimeEntryCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many TimeEntries.
+     */
+    data: TimeEntryCreateManyInput | TimeEntryCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * TimeEntry createManyAndReturn
+   */
+  export type TimeEntryCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimeEntry
+     */
+    select?: TimeEntrySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TimeEntry
+     */
+    omit?: TimeEntryOmit<ExtArgs> | null
+    /**
+     * The data used to create many TimeEntries.
+     */
+    data: TimeEntryCreateManyInput | TimeEntryCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimeEntryIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TimeEntry update
+   */
+  export type TimeEntryUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimeEntry
+     */
+    select?: TimeEntrySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TimeEntry
+     */
+    omit?: TimeEntryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimeEntryInclude<ExtArgs> | null
+    /**
+     * The data needed to update a TimeEntry.
+     */
+    data: XOR<TimeEntryUpdateInput, TimeEntryUncheckedUpdateInput>
+    /**
+     * Choose, which TimeEntry to update.
+     */
+    where: TimeEntryWhereUniqueInput
+  }
+
+  /**
+   * TimeEntry updateMany
+   */
+  export type TimeEntryUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update TimeEntries.
+     */
+    data: XOR<TimeEntryUpdateManyMutationInput, TimeEntryUncheckedUpdateManyInput>
+    /**
+     * Filter which TimeEntries to update
+     */
+    where?: TimeEntryWhereInput
+    /**
+     * Limit how many TimeEntries to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * TimeEntry updateManyAndReturn
+   */
+  export type TimeEntryUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimeEntry
+     */
+    select?: TimeEntrySelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TimeEntry
+     */
+    omit?: TimeEntryOmit<ExtArgs> | null
+    /**
+     * The data used to update TimeEntries.
+     */
+    data: XOR<TimeEntryUpdateManyMutationInput, TimeEntryUncheckedUpdateManyInput>
+    /**
+     * Filter which TimeEntries to update
+     */
+    where?: TimeEntryWhereInput
+    /**
+     * Limit how many TimeEntries to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimeEntryIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TimeEntry upsert
+   */
+  export type TimeEntryUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimeEntry
+     */
+    select?: TimeEntrySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TimeEntry
+     */
+    omit?: TimeEntryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimeEntryInclude<ExtArgs> | null
+    /**
+     * The filter to search for the TimeEntry to update in case it exists.
+     */
+    where: TimeEntryWhereUniqueInput
+    /**
+     * In case the TimeEntry found by the `where` argument doesn't exist, create a new TimeEntry with this data.
+     */
+    create: XOR<TimeEntryCreateInput, TimeEntryUncheckedCreateInput>
+    /**
+     * In case the TimeEntry was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TimeEntryUpdateInput, TimeEntryUncheckedUpdateInput>
+  }
+
+  /**
+   * TimeEntry delete
+   */
+  export type TimeEntryDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimeEntry
+     */
+    select?: TimeEntrySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TimeEntry
+     */
+    omit?: TimeEntryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimeEntryInclude<ExtArgs> | null
+    /**
+     * Filter which TimeEntry to delete.
+     */
+    where: TimeEntryWhereUniqueInput
+  }
+
+  /**
+   * TimeEntry deleteMany
+   */
+  export type TimeEntryDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TimeEntries to delete
+     */
+    where?: TimeEntryWhereInput
+    /**
+     * Limit how many TimeEntries to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * TimeEntry.timesheet
+   */
+  export type TimeEntry$timesheetArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Timesheet
+     */
+    select?: TimesheetSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Timesheet
+     */
+    omit?: TimesheetOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimesheetInclude<ExtArgs> | null
+    where?: TimesheetWhereInput
+  }
+
+  /**
+   * TimeEntry.project
+   */
+  export type TimeEntry$projectArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Project
+     */
+    select?: ProjectSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Project
+     */
+    omit?: ProjectOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectInclude<ExtArgs> | null
+    where?: ProjectWhereInput
+  }
+
+  /**
+   * TimeEntry.issue
+   */
+  export type TimeEntry$issueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Issue
+     */
+    select?: IssueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Issue
+     */
+    omit?: IssueOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IssueInclude<ExtArgs> | null
+    where?: IssueWhereInput
+  }
+
+  /**
+   * TimeEntry without action
+   */
+  export type TimeEntryDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimeEntry
+     */
+    select?: TimeEntrySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TimeEntry
+     */
+    omit?: TimeEntryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimeEntryInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ResourceAllocation
+   */
+
+  export type AggregateResourceAllocation = {
+    _count: ResourceAllocationCountAggregateOutputType | null
+    _avg: ResourceAllocationAvgAggregateOutputType | null
+    _sum: ResourceAllocationSumAggregateOutputType | null
+    _min: ResourceAllocationMinAggregateOutputType | null
+    _max: ResourceAllocationMaxAggregateOutputType | null
+  }
+
+  export type ResourceAllocationAvgAggregateOutputType = {
+    allocatedHours: number | null
+    contractorRate: number | null
+  }
+
+  export type ResourceAllocationSumAggregateOutputType = {
+    allocatedHours: number | null
+    contractorRate: number | null
+  }
+
+  export type ResourceAllocationMinAggregateOutputType = {
+    id: string | null
+    teamId: string | null
+    userId: string | null
+    projectId: string | null
+    weekStartDate: Date | null
+    allocatedHours: number | null
+    role: string | null
+    notes: string | null
+    isContractor: boolean | null
+    contractorRate: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ResourceAllocationMaxAggregateOutputType = {
+    id: string | null
+    teamId: string | null
+    userId: string | null
+    projectId: string | null
+    weekStartDate: Date | null
+    allocatedHours: number | null
+    role: string | null
+    notes: string | null
+    isContractor: boolean | null
+    contractorRate: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ResourceAllocationCountAggregateOutputType = {
+    id: number
+    teamId: number
+    userId: number
+    projectId: number
+    weekStartDate: number
+    allocatedHours: number
+    role: number
+    notes: number
+    isContractor: number
+    contractorRate: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ResourceAllocationAvgAggregateInputType = {
+    allocatedHours?: true
+    contractorRate?: true
+  }
+
+  export type ResourceAllocationSumAggregateInputType = {
+    allocatedHours?: true
+    contractorRate?: true
+  }
+
+  export type ResourceAllocationMinAggregateInputType = {
+    id?: true
+    teamId?: true
+    userId?: true
+    projectId?: true
+    weekStartDate?: true
+    allocatedHours?: true
+    role?: true
+    notes?: true
+    isContractor?: true
+    contractorRate?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ResourceAllocationMaxAggregateInputType = {
+    id?: true
+    teamId?: true
+    userId?: true
+    projectId?: true
+    weekStartDate?: true
+    allocatedHours?: true
+    role?: true
+    notes?: true
+    isContractor?: true
+    contractorRate?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ResourceAllocationCountAggregateInputType = {
+    id?: true
+    teamId?: true
+    userId?: true
+    projectId?: true
+    weekStartDate?: true
+    allocatedHours?: true
+    role?: true
+    notes?: true
+    isContractor?: true
+    contractorRate?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ResourceAllocationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ResourceAllocation to aggregate.
+     */
+    where?: ResourceAllocationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ResourceAllocations to fetch.
+     */
+    orderBy?: ResourceAllocationOrderByWithRelationInput | ResourceAllocationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ResourceAllocationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ResourceAllocations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ResourceAllocations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ResourceAllocations
+    **/
+    _count?: true | ResourceAllocationCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ResourceAllocationAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ResourceAllocationSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ResourceAllocationMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ResourceAllocationMaxAggregateInputType
+  }
+
+  export type GetResourceAllocationAggregateType<T extends ResourceAllocationAggregateArgs> = {
+        [P in keyof T & keyof AggregateResourceAllocation]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateResourceAllocation[P]>
+      : GetScalarType<T[P], AggregateResourceAllocation[P]>
+  }
+
+
+
+
+  export type ResourceAllocationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ResourceAllocationWhereInput
+    orderBy?: ResourceAllocationOrderByWithAggregationInput | ResourceAllocationOrderByWithAggregationInput[]
+    by: ResourceAllocationScalarFieldEnum[] | ResourceAllocationScalarFieldEnum
+    having?: ResourceAllocationScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ResourceAllocationCountAggregateInputType | true
+    _avg?: ResourceAllocationAvgAggregateInputType
+    _sum?: ResourceAllocationSumAggregateInputType
+    _min?: ResourceAllocationMinAggregateInputType
+    _max?: ResourceAllocationMaxAggregateInputType
+  }
+
+  export type ResourceAllocationGroupByOutputType = {
+    id: string
+    teamId: string
+    userId: string
+    projectId: string
+    weekStartDate: Date
+    allocatedHours: number
+    role: string | null
+    notes: string | null
+    isContractor: boolean
+    contractorRate: number | null
+    createdAt: Date
+    updatedAt: Date
+    _count: ResourceAllocationCountAggregateOutputType | null
+    _avg: ResourceAllocationAvgAggregateOutputType | null
+    _sum: ResourceAllocationSumAggregateOutputType | null
+    _min: ResourceAllocationMinAggregateOutputType | null
+    _max: ResourceAllocationMaxAggregateOutputType | null
+  }
+
+  type GetResourceAllocationGroupByPayload<T extends ResourceAllocationGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ResourceAllocationGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ResourceAllocationGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ResourceAllocationGroupByOutputType[P]>
+            : GetScalarType<T[P], ResourceAllocationGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ResourceAllocationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    teamId?: boolean
+    userId?: boolean
+    projectId?: boolean
+    weekStartDate?: boolean
+    allocatedHours?: boolean
+    role?: boolean
+    notes?: boolean
+    isContractor?: boolean
+    contractorRate?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    project?: boolean | ProjectDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["resourceAllocation"]>
+
+  export type ResourceAllocationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    teamId?: boolean
+    userId?: boolean
+    projectId?: boolean
+    weekStartDate?: boolean
+    allocatedHours?: boolean
+    role?: boolean
+    notes?: boolean
+    isContractor?: boolean
+    contractorRate?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    project?: boolean | ProjectDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["resourceAllocation"]>
+
+  export type ResourceAllocationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    teamId?: boolean
+    userId?: boolean
+    projectId?: boolean
+    weekStartDate?: boolean
+    allocatedHours?: boolean
+    role?: boolean
+    notes?: boolean
+    isContractor?: boolean
+    contractorRate?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    project?: boolean | ProjectDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["resourceAllocation"]>
+
+  export type ResourceAllocationSelectScalar = {
+    id?: boolean
+    teamId?: boolean
+    userId?: boolean
+    projectId?: boolean
+    weekStartDate?: boolean
+    allocatedHours?: boolean
+    role?: boolean
+    notes?: boolean
+    isContractor?: boolean
+    contractorRate?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type ResourceAllocationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "teamId" | "userId" | "projectId" | "weekStartDate" | "allocatedHours" | "role" | "notes" | "isContractor" | "contractorRate" | "createdAt" | "updatedAt", ExtArgs["result"]["resourceAllocation"]>
+  export type ResourceAllocationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    project?: boolean | ProjectDefaultArgs<ExtArgs>
+  }
+  export type ResourceAllocationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    project?: boolean | ProjectDefaultArgs<ExtArgs>
+  }
+  export type ResourceAllocationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    project?: boolean | ProjectDefaultArgs<ExtArgs>
+  }
+
+  export type $ResourceAllocationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ResourceAllocation"
+    objects: {
+      team: Prisma.$TeamPayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs>
+      project: Prisma.$ProjectPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      teamId: string
+      userId: string
+      projectId: string
+      weekStartDate: Date
+      allocatedHours: number
+      role: string | null
+      notes: string | null
+      isContractor: boolean
+      contractorRate: number | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["resourceAllocation"]>
+    composites: {}
+  }
+
+  type ResourceAllocationGetPayload<S extends boolean | null | undefined | ResourceAllocationDefaultArgs> = $Result.GetResult<Prisma.$ResourceAllocationPayload, S>
+
+  type ResourceAllocationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ResourceAllocationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ResourceAllocationCountAggregateInputType | true
+    }
+
+  export interface ResourceAllocationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ResourceAllocation'], meta: { name: 'ResourceAllocation' } }
+    /**
+     * Find zero or one ResourceAllocation that matches the filter.
+     * @param {ResourceAllocationFindUniqueArgs} args - Arguments to find a ResourceAllocation
+     * @example
+     * // Get one ResourceAllocation
+     * const resourceAllocation = await prisma.resourceAllocation.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ResourceAllocationFindUniqueArgs>(args: SelectSubset<T, ResourceAllocationFindUniqueArgs<ExtArgs>>): Prisma__ResourceAllocationClient<$Result.GetResult<Prisma.$ResourceAllocationPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ResourceAllocation that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ResourceAllocationFindUniqueOrThrowArgs} args - Arguments to find a ResourceAllocation
+     * @example
+     * // Get one ResourceAllocation
+     * const resourceAllocation = await prisma.resourceAllocation.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ResourceAllocationFindUniqueOrThrowArgs>(args: SelectSubset<T, ResourceAllocationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ResourceAllocationClient<$Result.GetResult<Prisma.$ResourceAllocationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ResourceAllocation that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ResourceAllocationFindFirstArgs} args - Arguments to find a ResourceAllocation
+     * @example
+     * // Get one ResourceAllocation
+     * const resourceAllocation = await prisma.resourceAllocation.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ResourceAllocationFindFirstArgs>(args?: SelectSubset<T, ResourceAllocationFindFirstArgs<ExtArgs>>): Prisma__ResourceAllocationClient<$Result.GetResult<Prisma.$ResourceAllocationPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ResourceAllocation that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ResourceAllocationFindFirstOrThrowArgs} args - Arguments to find a ResourceAllocation
+     * @example
+     * // Get one ResourceAllocation
+     * const resourceAllocation = await prisma.resourceAllocation.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ResourceAllocationFindFirstOrThrowArgs>(args?: SelectSubset<T, ResourceAllocationFindFirstOrThrowArgs<ExtArgs>>): Prisma__ResourceAllocationClient<$Result.GetResult<Prisma.$ResourceAllocationPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ResourceAllocations that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ResourceAllocationFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ResourceAllocations
+     * const resourceAllocations = await prisma.resourceAllocation.findMany()
+     * 
+     * // Get first 10 ResourceAllocations
+     * const resourceAllocations = await prisma.resourceAllocation.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const resourceAllocationWithIdOnly = await prisma.resourceAllocation.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ResourceAllocationFindManyArgs>(args?: SelectSubset<T, ResourceAllocationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ResourceAllocationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ResourceAllocation.
+     * @param {ResourceAllocationCreateArgs} args - Arguments to create a ResourceAllocation.
+     * @example
+     * // Create one ResourceAllocation
+     * const ResourceAllocation = await prisma.resourceAllocation.create({
+     *   data: {
+     *     // ... data to create a ResourceAllocation
+     *   }
+     * })
+     * 
+     */
+    create<T extends ResourceAllocationCreateArgs>(args: SelectSubset<T, ResourceAllocationCreateArgs<ExtArgs>>): Prisma__ResourceAllocationClient<$Result.GetResult<Prisma.$ResourceAllocationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ResourceAllocations.
+     * @param {ResourceAllocationCreateManyArgs} args - Arguments to create many ResourceAllocations.
+     * @example
+     * // Create many ResourceAllocations
+     * const resourceAllocation = await prisma.resourceAllocation.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ResourceAllocationCreateManyArgs>(args?: SelectSubset<T, ResourceAllocationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ResourceAllocations and returns the data saved in the database.
+     * @param {ResourceAllocationCreateManyAndReturnArgs} args - Arguments to create many ResourceAllocations.
+     * @example
+     * // Create many ResourceAllocations
+     * const resourceAllocation = await prisma.resourceAllocation.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ResourceAllocations and only return the `id`
+     * const resourceAllocationWithIdOnly = await prisma.resourceAllocation.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ResourceAllocationCreateManyAndReturnArgs>(args?: SelectSubset<T, ResourceAllocationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ResourceAllocationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ResourceAllocation.
+     * @param {ResourceAllocationDeleteArgs} args - Arguments to delete one ResourceAllocation.
+     * @example
+     * // Delete one ResourceAllocation
+     * const ResourceAllocation = await prisma.resourceAllocation.delete({
+     *   where: {
+     *     // ... filter to delete one ResourceAllocation
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ResourceAllocationDeleteArgs>(args: SelectSubset<T, ResourceAllocationDeleteArgs<ExtArgs>>): Prisma__ResourceAllocationClient<$Result.GetResult<Prisma.$ResourceAllocationPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ResourceAllocation.
+     * @param {ResourceAllocationUpdateArgs} args - Arguments to update one ResourceAllocation.
+     * @example
+     * // Update one ResourceAllocation
+     * const resourceAllocation = await prisma.resourceAllocation.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ResourceAllocationUpdateArgs>(args: SelectSubset<T, ResourceAllocationUpdateArgs<ExtArgs>>): Prisma__ResourceAllocationClient<$Result.GetResult<Prisma.$ResourceAllocationPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ResourceAllocations.
+     * @param {ResourceAllocationDeleteManyArgs} args - Arguments to filter ResourceAllocations to delete.
+     * @example
+     * // Delete a few ResourceAllocations
+     * const { count } = await prisma.resourceAllocation.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ResourceAllocationDeleteManyArgs>(args?: SelectSubset<T, ResourceAllocationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ResourceAllocations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ResourceAllocationUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ResourceAllocations
+     * const resourceAllocation = await prisma.resourceAllocation.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ResourceAllocationUpdateManyArgs>(args: SelectSubset<T, ResourceAllocationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ResourceAllocations and returns the data updated in the database.
+     * @param {ResourceAllocationUpdateManyAndReturnArgs} args - Arguments to update many ResourceAllocations.
+     * @example
+     * // Update many ResourceAllocations
+     * const resourceAllocation = await prisma.resourceAllocation.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ResourceAllocations and only return the `id`
+     * const resourceAllocationWithIdOnly = await prisma.resourceAllocation.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ResourceAllocationUpdateManyAndReturnArgs>(args: SelectSubset<T, ResourceAllocationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ResourceAllocationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ResourceAllocation.
+     * @param {ResourceAllocationUpsertArgs} args - Arguments to update or create a ResourceAllocation.
+     * @example
+     * // Update or create a ResourceAllocation
+     * const resourceAllocation = await prisma.resourceAllocation.upsert({
+     *   create: {
+     *     // ... data to create a ResourceAllocation
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ResourceAllocation we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ResourceAllocationUpsertArgs>(args: SelectSubset<T, ResourceAllocationUpsertArgs<ExtArgs>>): Prisma__ResourceAllocationClient<$Result.GetResult<Prisma.$ResourceAllocationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ResourceAllocations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ResourceAllocationCountArgs} args - Arguments to filter ResourceAllocations to count.
+     * @example
+     * // Count the number of ResourceAllocations
+     * const count = await prisma.resourceAllocation.count({
+     *   where: {
+     *     // ... the filter for the ResourceAllocations we want to count
+     *   }
+     * })
+    **/
+    count<T extends ResourceAllocationCountArgs>(
+      args?: Subset<T, ResourceAllocationCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ResourceAllocationCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ResourceAllocation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ResourceAllocationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ResourceAllocationAggregateArgs>(args: Subset<T, ResourceAllocationAggregateArgs>): Prisma.PrismaPromise<GetResourceAllocationAggregateType<T>>
+
+    /**
+     * Group by ResourceAllocation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ResourceAllocationGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ResourceAllocationGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ResourceAllocationGroupByArgs['orderBy'] }
+        : { orderBy?: ResourceAllocationGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ResourceAllocationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetResourceAllocationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ResourceAllocation model
+   */
+  readonly fields: ResourceAllocationFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ResourceAllocation.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ResourceAllocationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    team<T extends TeamDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TeamDefaultArgs<ExtArgs>>): Prisma__TeamClient<$Result.GetResult<Prisma.$TeamPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    project<T extends ProjectDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProjectDefaultArgs<ExtArgs>>): Prisma__ProjectClient<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ResourceAllocation model
+   */
+  interface ResourceAllocationFieldRefs {
+    readonly id: FieldRef<"ResourceAllocation", 'String'>
+    readonly teamId: FieldRef<"ResourceAllocation", 'String'>
+    readonly userId: FieldRef<"ResourceAllocation", 'String'>
+    readonly projectId: FieldRef<"ResourceAllocation", 'String'>
+    readonly weekStartDate: FieldRef<"ResourceAllocation", 'DateTime'>
+    readonly allocatedHours: FieldRef<"ResourceAllocation", 'Float'>
+    readonly role: FieldRef<"ResourceAllocation", 'String'>
+    readonly notes: FieldRef<"ResourceAllocation", 'String'>
+    readonly isContractor: FieldRef<"ResourceAllocation", 'Boolean'>
+    readonly contractorRate: FieldRef<"ResourceAllocation", 'Float'>
+    readonly createdAt: FieldRef<"ResourceAllocation", 'DateTime'>
+    readonly updatedAt: FieldRef<"ResourceAllocation", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ResourceAllocation findUnique
+   */
+  export type ResourceAllocationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResourceAllocation
+     */
+    select?: ResourceAllocationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResourceAllocation
+     */
+    omit?: ResourceAllocationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceAllocationInclude<ExtArgs> | null
+    /**
+     * Filter, which ResourceAllocation to fetch.
+     */
+    where: ResourceAllocationWhereUniqueInput
+  }
+
+  /**
+   * ResourceAllocation findUniqueOrThrow
+   */
+  export type ResourceAllocationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResourceAllocation
+     */
+    select?: ResourceAllocationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResourceAllocation
+     */
+    omit?: ResourceAllocationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceAllocationInclude<ExtArgs> | null
+    /**
+     * Filter, which ResourceAllocation to fetch.
+     */
+    where: ResourceAllocationWhereUniqueInput
+  }
+
+  /**
+   * ResourceAllocation findFirst
+   */
+  export type ResourceAllocationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResourceAllocation
+     */
+    select?: ResourceAllocationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResourceAllocation
+     */
+    omit?: ResourceAllocationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceAllocationInclude<ExtArgs> | null
+    /**
+     * Filter, which ResourceAllocation to fetch.
+     */
+    where?: ResourceAllocationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ResourceAllocations to fetch.
+     */
+    orderBy?: ResourceAllocationOrderByWithRelationInput | ResourceAllocationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ResourceAllocations.
+     */
+    cursor?: ResourceAllocationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ResourceAllocations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ResourceAllocations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ResourceAllocations.
+     */
+    distinct?: ResourceAllocationScalarFieldEnum | ResourceAllocationScalarFieldEnum[]
+  }
+
+  /**
+   * ResourceAllocation findFirstOrThrow
+   */
+  export type ResourceAllocationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResourceAllocation
+     */
+    select?: ResourceAllocationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResourceAllocation
+     */
+    omit?: ResourceAllocationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceAllocationInclude<ExtArgs> | null
+    /**
+     * Filter, which ResourceAllocation to fetch.
+     */
+    where?: ResourceAllocationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ResourceAllocations to fetch.
+     */
+    orderBy?: ResourceAllocationOrderByWithRelationInput | ResourceAllocationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ResourceAllocations.
+     */
+    cursor?: ResourceAllocationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ResourceAllocations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ResourceAllocations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ResourceAllocations.
+     */
+    distinct?: ResourceAllocationScalarFieldEnum | ResourceAllocationScalarFieldEnum[]
+  }
+
+  /**
+   * ResourceAllocation findMany
+   */
+  export type ResourceAllocationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResourceAllocation
+     */
+    select?: ResourceAllocationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResourceAllocation
+     */
+    omit?: ResourceAllocationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceAllocationInclude<ExtArgs> | null
+    /**
+     * Filter, which ResourceAllocations to fetch.
+     */
+    where?: ResourceAllocationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ResourceAllocations to fetch.
+     */
+    orderBy?: ResourceAllocationOrderByWithRelationInput | ResourceAllocationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ResourceAllocations.
+     */
+    cursor?: ResourceAllocationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ResourceAllocations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ResourceAllocations.
+     */
+    skip?: number
+    distinct?: ResourceAllocationScalarFieldEnum | ResourceAllocationScalarFieldEnum[]
+  }
+
+  /**
+   * ResourceAllocation create
+   */
+  export type ResourceAllocationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResourceAllocation
+     */
+    select?: ResourceAllocationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResourceAllocation
+     */
+    omit?: ResourceAllocationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceAllocationInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ResourceAllocation.
+     */
+    data: XOR<ResourceAllocationCreateInput, ResourceAllocationUncheckedCreateInput>
+  }
+
+  /**
+   * ResourceAllocation createMany
+   */
+  export type ResourceAllocationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ResourceAllocations.
+     */
+    data: ResourceAllocationCreateManyInput | ResourceAllocationCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ResourceAllocation createManyAndReturn
+   */
+  export type ResourceAllocationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResourceAllocation
+     */
+    select?: ResourceAllocationSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResourceAllocation
+     */
+    omit?: ResourceAllocationOmit<ExtArgs> | null
+    /**
+     * The data used to create many ResourceAllocations.
+     */
+    data: ResourceAllocationCreateManyInput | ResourceAllocationCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceAllocationIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ResourceAllocation update
+   */
+  export type ResourceAllocationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResourceAllocation
+     */
+    select?: ResourceAllocationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResourceAllocation
+     */
+    omit?: ResourceAllocationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceAllocationInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ResourceAllocation.
+     */
+    data: XOR<ResourceAllocationUpdateInput, ResourceAllocationUncheckedUpdateInput>
+    /**
+     * Choose, which ResourceAllocation to update.
+     */
+    where: ResourceAllocationWhereUniqueInput
+  }
+
+  /**
+   * ResourceAllocation updateMany
+   */
+  export type ResourceAllocationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ResourceAllocations.
+     */
+    data: XOR<ResourceAllocationUpdateManyMutationInput, ResourceAllocationUncheckedUpdateManyInput>
+    /**
+     * Filter which ResourceAllocations to update
+     */
+    where?: ResourceAllocationWhereInput
+    /**
+     * Limit how many ResourceAllocations to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ResourceAllocation updateManyAndReturn
+   */
+  export type ResourceAllocationUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResourceAllocation
+     */
+    select?: ResourceAllocationSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResourceAllocation
+     */
+    omit?: ResourceAllocationOmit<ExtArgs> | null
+    /**
+     * The data used to update ResourceAllocations.
+     */
+    data: XOR<ResourceAllocationUpdateManyMutationInput, ResourceAllocationUncheckedUpdateManyInput>
+    /**
+     * Filter which ResourceAllocations to update
+     */
+    where?: ResourceAllocationWhereInput
+    /**
+     * Limit how many ResourceAllocations to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceAllocationIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ResourceAllocation upsert
+   */
+  export type ResourceAllocationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResourceAllocation
+     */
+    select?: ResourceAllocationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResourceAllocation
+     */
+    omit?: ResourceAllocationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceAllocationInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ResourceAllocation to update in case it exists.
+     */
+    where: ResourceAllocationWhereUniqueInput
+    /**
+     * In case the ResourceAllocation found by the `where` argument doesn't exist, create a new ResourceAllocation with this data.
+     */
+    create: XOR<ResourceAllocationCreateInput, ResourceAllocationUncheckedCreateInput>
+    /**
+     * In case the ResourceAllocation was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ResourceAllocationUpdateInput, ResourceAllocationUncheckedUpdateInput>
+  }
+
+  /**
+   * ResourceAllocation delete
+   */
+  export type ResourceAllocationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResourceAllocation
+     */
+    select?: ResourceAllocationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResourceAllocation
+     */
+    omit?: ResourceAllocationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceAllocationInclude<ExtArgs> | null
+    /**
+     * Filter which ResourceAllocation to delete.
+     */
+    where: ResourceAllocationWhereUniqueInput
+  }
+
+  /**
+   * ResourceAllocation deleteMany
+   */
+  export type ResourceAllocationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ResourceAllocations to delete
+     */
+    where?: ResourceAllocationWhereInput
+    /**
+     * Limit how many ResourceAllocations to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ResourceAllocation without action
+   */
+  export type ResourceAllocationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResourceAllocation
+     */
+    select?: ResourceAllocationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResourceAllocation
+     */
+    omit?: ResourceAllocationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceAllocationInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model RateCard
+   */
+
+  export type AggregateRateCard = {
+    _count: RateCardCountAggregateOutputType | null
+    _avg: RateCardAvgAggregateOutputType | null
+    _sum: RateCardSumAggregateOutputType | null
+    _min: RateCardMinAggregateOutputType | null
+    _max: RateCardMaxAggregateOutputType | null
+  }
+
+  export type RateCardAvgAggregateOutputType = {
+    hourlyCostRate: number | null
+    hourlyBillingRate: number | null
+  }
+
+  export type RateCardSumAggregateOutputType = {
+    hourlyCostRate: number | null
+    hourlyBillingRate: number | null
+  }
+
+  export type RateCardMinAggregateOutputType = {
+    id: string | null
+    teamId: string | null
+    roleKey: string | null
+    userId: string | null
+    hourlyCostRate: number | null
+    hourlyBillingRate: number | null
+    currency: string | null
+    effectiveFrom: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type RateCardMaxAggregateOutputType = {
+    id: string | null
+    teamId: string | null
+    roleKey: string | null
+    userId: string | null
+    hourlyCostRate: number | null
+    hourlyBillingRate: number | null
+    currency: string | null
+    effectiveFrom: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type RateCardCountAggregateOutputType = {
+    id: number
+    teamId: number
+    roleKey: number
+    userId: number
+    hourlyCostRate: number
+    hourlyBillingRate: number
+    currency: number
+    effectiveFrom: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type RateCardAvgAggregateInputType = {
+    hourlyCostRate?: true
+    hourlyBillingRate?: true
+  }
+
+  export type RateCardSumAggregateInputType = {
+    hourlyCostRate?: true
+    hourlyBillingRate?: true
+  }
+
+  export type RateCardMinAggregateInputType = {
+    id?: true
+    teamId?: true
+    roleKey?: true
+    userId?: true
+    hourlyCostRate?: true
+    hourlyBillingRate?: true
+    currency?: true
+    effectiveFrom?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type RateCardMaxAggregateInputType = {
+    id?: true
+    teamId?: true
+    roleKey?: true
+    userId?: true
+    hourlyCostRate?: true
+    hourlyBillingRate?: true
+    currency?: true
+    effectiveFrom?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type RateCardCountAggregateInputType = {
+    id?: true
+    teamId?: true
+    roleKey?: true
+    userId?: true
+    hourlyCostRate?: true
+    hourlyBillingRate?: true
+    currency?: true
+    effectiveFrom?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type RateCardAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which RateCard to aggregate.
+     */
+    where?: RateCardWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RateCards to fetch.
+     */
+    orderBy?: RateCardOrderByWithRelationInput | RateCardOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: RateCardWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RateCards from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RateCards.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned RateCards
+    **/
+    _count?: true | RateCardCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: RateCardAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: RateCardSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: RateCardMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: RateCardMaxAggregateInputType
+  }
+
+  export type GetRateCardAggregateType<T extends RateCardAggregateArgs> = {
+        [P in keyof T & keyof AggregateRateCard]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateRateCard[P]>
+      : GetScalarType<T[P], AggregateRateCard[P]>
+  }
+
+
+
+
+  export type RateCardGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RateCardWhereInput
+    orderBy?: RateCardOrderByWithAggregationInput | RateCardOrderByWithAggregationInput[]
+    by: RateCardScalarFieldEnum[] | RateCardScalarFieldEnum
+    having?: RateCardScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: RateCardCountAggregateInputType | true
+    _avg?: RateCardAvgAggregateInputType
+    _sum?: RateCardSumAggregateInputType
+    _min?: RateCardMinAggregateInputType
+    _max?: RateCardMaxAggregateInputType
+  }
+
+  export type RateCardGroupByOutputType = {
+    id: string
+    teamId: string
+    roleKey: string | null
+    userId: string | null
+    hourlyCostRate: number
+    hourlyBillingRate: number
+    currency: string
+    effectiveFrom: Date
+    createdAt: Date
+    updatedAt: Date
+    _count: RateCardCountAggregateOutputType | null
+    _avg: RateCardAvgAggregateOutputType | null
+    _sum: RateCardSumAggregateOutputType | null
+    _min: RateCardMinAggregateOutputType | null
+    _max: RateCardMaxAggregateOutputType | null
+  }
+
+  type GetRateCardGroupByPayload<T extends RateCardGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<RateCardGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof RateCardGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], RateCardGroupByOutputType[P]>
+            : GetScalarType<T[P], RateCardGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type RateCardSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    teamId?: boolean
+    roleKey?: boolean
+    userId?: boolean
+    hourlyCostRate?: boolean
+    hourlyBillingRate?: boolean
+    currency?: boolean
+    effectiveFrom?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["rateCard"]>
+
+  export type RateCardSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    teamId?: boolean
+    roleKey?: boolean
+    userId?: boolean
+    hourlyCostRate?: boolean
+    hourlyBillingRate?: boolean
+    currency?: boolean
+    effectiveFrom?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["rateCard"]>
+
+  export type RateCardSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    teamId?: boolean
+    roleKey?: boolean
+    userId?: boolean
+    hourlyCostRate?: boolean
+    hourlyBillingRate?: boolean
+    currency?: boolean
+    effectiveFrom?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["rateCard"]>
+
+  export type RateCardSelectScalar = {
+    id?: boolean
+    teamId?: boolean
+    roleKey?: boolean
+    userId?: boolean
+    hourlyCostRate?: boolean
+    hourlyBillingRate?: boolean
+    currency?: boolean
+    effectiveFrom?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type RateCardOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "teamId" | "roleKey" | "userId" | "hourlyCostRate" | "hourlyBillingRate" | "currency" | "effectiveFrom" | "createdAt" | "updatedAt", ExtArgs["result"]["rateCard"]>
+  export type RateCardInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+  }
+  export type RateCardIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+  }
+  export type RateCardIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+  }
+
+  export type $RateCardPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "RateCard"
+    objects: {
+      team: Prisma.$TeamPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      teamId: string
+      roleKey: string | null
+      userId: string | null
+      hourlyCostRate: number
+      hourlyBillingRate: number
+      currency: string
+      effectiveFrom: Date
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["rateCard"]>
+    composites: {}
+  }
+
+  type RateCardGetPayload<S extends boolean | null | undefined | RateCardDefaultArgs> = $Result.GetResult<Prisma.$RateCardPayload, S>
+
+  type RateCardCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<RateCardFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: RateCardCountAggregateInputType | true
+    }
+
+  export interface RateCardDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['RateCard'], meta: { name: 'RateCard' } }
+    /**
+     * Find zero or one RateCard that matches the filter.
+     * @param {RateCardFindUniqueArgs} args - Arguments to find a RateCard
+     * @example
+     * // Get one RateCard
+     * const rateCard = await prisma.rateCard.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends RateCardFindUniqueArgs>(args: SelectSubset<T, RateCardFindUniqueArgs<ExtArgs>>): Prisma__RateCardClient<$Result.GetResult<Prisma.$RateCardPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one RateCard that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {RateCardFindUniqueOrThrowArgs} args - Arguments to find a RateCard
+     * @example
+     * // Get one RateCard
+     * const rateCard = await prisma.rateCard.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends RateCardFindUniqueOrThrowArgs>(args: SelectSubset<T, RateCardFindUniqueOrThrowArgs<ExtArgs>>): Prisma__RateCardClient<$Result.GetResult<Prisma.$RateCardPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first RateCard that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RateCardFindFirstArgs} args - Arguments to find a RateCard
+     * @example
+     * // Get one RateCard
+     * const rateCard = await prisma.rateCard.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends RateCardFindFirstArgs>(args?: SelectSubset<T, RateCardFindFirstArgs<ExtArgs>>): Prisma__RateCardClient<$Result.GetResult<Prisma.$RateCardPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first RateCard that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RateCardFindFirstOrThrowArgs} args - Arguments to find a RateCard
+     * @example
+     * // Get one RateCard
+     * const rateCard = await prisma.rateCard.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends RateCardFindFirstOrThrowArgs>(args?: SelectSubset<T, RateCardFindFirstOrThrowArgs<ExtArgs>>): Prisma__RateCardClient<$Result.GetResult<Prisma.$RateCardPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more RateCards that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RateCardFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all RateCards
+     * const rateCards = await prisma.rateCard.findMany()
+     * 
+     * // Get first 10 RateCards
+     * const rateCards = await prisma.rateCard.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const rateCardWithIdOnly = await prisma.rateCard.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends RateCardFindManyArgs>(args?: SelectSubset<T, RateCardFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RateCardPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a RateCard.
+     * @param {RateCardCreateArgs} args - Arguments to create a RateCard.
+     * @example
+     * // Create one RateCard
+     * const RateCard = await prisma.rateCard.create({
+     *   data: {
+     *     // ... data to create a RateCard
+     *   }
+     * })
+     * 
+     */
+    create<T extends RateCardCreateArgs>(args: SelectSubset<T, RateCardCreateArgs<ExtArgs>>): Prisma__RateCardClient<$Result.GetResult<Prisma.$RateCardPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many RateCards.
+     * @param {RateCardCreateManyArgs} args - Arguments to create many RateCards.
+     * @example
+     * // Create many RateCards
+     * const rateCard = await prisma.rateCard.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends RateCardCreateManyArgs>(args?: SelectSubset<T, RateCardCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many RateCards and returns the data saved in the database.
+     * @param {RateCardCreateManyAndReturnArgs} args - Arguments to create many RateCards.
+     * @example
+     * // Create many RateCards
+     * const rateCard = await prisma.rateCard.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many RateCards and only return the `id`
+     * const rateCardWithIdOnly = await prisma.rateCard.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends RateCardCreateManyAndReturnArgs>(args?: SelectSubset<T, RateCardCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RateCardPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a RateCard.
+     * @param {RateCardDeleteArgs} args - Arguments to delete one RateCard.
+     * @example
+     * // Delete one RateCard
+     * const RateCard = await prisma.rateCard.delete({
+     *   where: {
+     *     // ... filter to delete one RateCard
+     *   }
+     * })
+     * 
+     */
+    delete<T extends RateCardDeleteArgs>(args: SelectSubset<T, RateCardDeleteArgs<ExtArgs>>): Prisma__RateCardClient<$Result.GetResult<Prisma.$RateCardPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one RateCard.
+     * @param {RateCardUpdateArgs} args - Arguments to update one RateCard.
+     * @example
+     * // Update one RateCard
+     * const rateCard = await prisma.rateCard.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends RateCardUpdateArgs>(args: SelectSubset<T, RateCardUpdateArgs<ExtArgs>>): Prisma__RateCardClient<$Result.GetResult<Prisma.$RateCardPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more RateCards.
+     * @param {RateCardDeleteManyArgs} args - Arguments to filter RateCards to delete.
+     * @example
+     * // Delete a few RateCards
+     * const { count } = await prisma.rateCard.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends RateCardDeleteManyArgs>(args?: SelectSubset<T, RateCardDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more RateCards.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RateCardUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many RateCards
+     * const rateCard = await prisma.rateCard.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends RateCardUpdateManyArgs>(args: SelectSubset<T, RateCardUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more RateCards and returns the data updated in the database.
+     * @param {RateCardUpdateManyAndReturnArgs} args - Arguments to update many RateCards.
+     * @example
+     * // Update many RateCards
+     * const rateCard = await prisma.rateCard.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more RateCards and only return the `id`
+     * const rateCardWithIdOnly = await prisma.rateCard.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends RateCardUpdateManyAndReturnArgs>(args: SelectSubset<T, RateCardUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RateCardPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one RateCard.
+     * @param {RateCardUpsertArgs} args - Arguments to update or create a RateCard.
+     * @example
+     * // Update or create a RateCard
+     * const rateCard = await prisma.rateCard.upsert({
+     *   create: {
+     *     // ... data to create a RateCard
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the RateCard we want to update
+     *   }
+     * })
+     */
+    upsert<T extends RateCardUpsertArgs>(args: SelectSubset<T, RateCardUpsertArgs<ExtArgs>>): Prisma__RateCardClient<$Result.GetResult<Prisma.$RateCardPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of RateCards.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RateCardCountArgs} args - Arguments to filter RateCards to count.
+     * @example
+     * // Count the number of RateCards
+     * const count = await prisma.rateCard.count({
+     *   where: {
+     *     // ... the filter for the RateCards we want to count
+     *   }
+     * })
+    **/
+    count<T extends RateCardCountArgs>(
+      args?: Subset<T, RateCardCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], RateCardCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a RateCard.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RateCardAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends RateCardAggregateArgs>(args: Subset<T, RateCardAggregateArgs>): Prisma.PrismaPromise<GetRateCardAggregateType<T>>
+
+    /**
+     * Group by RateCard.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RateCardGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends RateCardGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: RateCardGroupByArgs['orderBy'] }
+        : { orderBy?: RateCardGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, RateCardGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRateCardGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the RateCard model
+   */
+  readonly fields: RateCardFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for RateCard.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__RateCardClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    team<T extends TeamDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TeamDefaultArgs<ExtArgs>>): Prisma__TeamClient<$Result.GetResult<Prisma.$TeamPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the RateCard model
+   */
+  interface RateCardFieldRefs {
+    readonly id: FieldRef<"RateCard", 'String'>
+    readonly teamId: FieldRef<"RateCard", 'String'>
+    readonly roleKey: FieldRef<"RateCard", 'String'>
+    readonly userId: FieldRef<"RateCard", 'String'>
+    readonly hourlyCostRate: FieldRef<"RateCard", 'Float'>
+    readonly hourlyBillingRate: FieldRef<"RateCard", 'Float'>
+    readonly currency: FieldRef<"RateCard", 'String'>
+    readonly effectiveFrom: FieldRef<"RateCard", 'DateTime'>
+    readonly createdAt: FieldRef<"RateCard", 'DateTime'>
+    readonly updatedAt: FieldRef<"RateCard", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * RateCard findUnique
+   */
+  export type RateCardFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RateCard
+     */
+    select?: RateCardSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RateCard
+     */
+    omit?: RateCardOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RateCardInclude<ExtArgs> | null
+    /**
+     * Filter, which RateCard to fetch.
+     */
+    where: RateCardWhereUniqueInput
+  }
+
+  /**
+   * RateCard findUniqueOrThrow
+   */
+  export type RateCardFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RateCard
+     */
+    select?: RateCardSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RateCard
+     */
+    omit?: RateCardOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RateCardInclude<ExtArgs> | null
+    /**
+     * Filter, which RateCard to fetch.
+     */
+    where: RateCardWhereUniqueInput
+  }
+
+  /**
+   * RateCard findFirst
+   */
+  export type RateCardFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RateCard
+     */
+    select?: RateCardSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RateCard
+     */
+    omit?: RateCardOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RateCardInclude<ExtArgs> | null
+    /**
+     * Filter, which RateCard to fetch.
+     */
+    where?: RateCardWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RateCards to fetch.
+     */
+    orderBy?: RateCardOrderByWithRelationInput | RateCardOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for RateCards.
+     */
+    cursor?: RateCardWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RateCards from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RateCards.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RateCards.
+     */
+    distinct?: RateCardScalarFieldEnum | RateCardScalarFieldEnum[]
+  }
+
+  /**
+   * RateCard findFirstOrThrow
+   */
+  export type RateCardFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RateCard
+     */
+    select?: RateCardSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RateCard
+     */
+    omit?: RateCardOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RateCardInclude<ExtArgs> | null
+    /**
+     * Filter, which RateCard to fetch.
+     */
+    where?: RateCardWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RateCards to fetch.
+     */
+    orderBy?: RateCardOrderByWithRelationInput | RateCardOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for RateCards.
+     */
+    cursor?: RateCardWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RateCards from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RateCards.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RateCards.
+     */
+    distinct?: RateCardScalarFieldEnum | RateCardScalarFieldEnum[]
+  }
+
+  /**
+   * RateCard findMany
+   */
+  export type RateCardFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RateCard
+     */
+    select?: RateCardSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RateCard
+     */
+    omit?: RateCardOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RateCardInclude<ExtArgs> | null
+    /**
+     * Filter, which RateCards to fetch.
+     */
+    where?: RateCardWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RateCards to fetch.
+     */
+    orderBy?: RateCardOrderByWithRelationInput | RateCardOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing RateCards.
+     */
+    cursor?: RateCardWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RateCards from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RateCards.
+     */
+    skip?: number
+    distinct?: RateCardScalarFieldEnum | RateCardScalarFieldEnum[]
+  }
+
+  /**
+   * RateCard create
+   */
+  export type RateCardCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RateCard
+     */
+    select?: RateCardSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RateCard
+     */
+    omit?: RateCardOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RateCardInclude<ExtArgs> | null
+    /**
+     * The data needed to create a RateCard.
+     */
+    data: XOR<RateCardCreateInput, RateCardUncheckedCreateInput>
+  }
+
+  /**
+   * RateCard createMany
+   */
+  export type RateCardCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many RateCards.
+     */
+    data: RateCardCreateManyInput | RateCardCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * RateCard createManyAndReturn
+   */
+  export type RateCardCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RateCard
+     */
+    select?: RateCardSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the RateCard
+     */
+    omit?: RateCardOmit<ExtArgs> | null
+    /**
+     * The data used to create many RateCards.
+     */
+    data: RateCardCreateManyInput | RateCardCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RateCardIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * RateCard update
+   */
+  export type RateCardUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RateCard
+     */
+    select?: RateCardSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RateCard
+     */
+    omit?: RateCardOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RateCardInclude<ExtArgs> | null
+    /**
+     * The data needed to update a RateCard.
+     */
+    data: XOR<RateCardUpdateInput, RateCardUncheckedUpdateInput>
+    /**
+     * Choose, which RateCard to update.
+     */
+    where: RateCardWhereUniqueInput
+  }
+
+  /**
+   * RateCard updateMany
+   */
+  export type RateCardUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update RateCards.
+     */
+    data: XOR<RateCardUpdateManyMutationInput, RateCardUncheckedUpdateManyInput>
+    /**
+     * Filter which RateCards to update
+     */
+    where?: RateCardWhereInput
+    /**
+     * Limit how many RateCards to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * RateCard updateManyAndReturn
+   */
+  export type RateCardUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RateCard
+     */
+    select?: RateCardSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the RateCard
+     */
+    omit?: RateCardOmit<ExtArgs> | null
+    /**
+     * The data used to update RateCards.
+     */
+    data: XOR<RateCardUpdateManyMutationInput, RateCardUncheckedUpdateManyInput>
+    /**
+     * Filter which RateCards to update
+     */
+    where?: RateCardWhereInput
+    /**
+     * Limit how many RateCards to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RateCardIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * RateCard upsert
+   */
+  export type RateCardUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RateCard
+     */
+    select?: RateCardSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RateCard
+     */
+    omit?: RateCardOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RateCardInclude<ExtArgs> | null
+    /**
+     * The filter to search for the RateCard to update in case it exists.
+     */
+    where: RateCardWhereUniqueInput
+    /**
+     * In case the RateCard found by the `where` argument doesn't exist, create a new RateCard with this data.
+     */
+    create: XOR<RateCardCreateInput, RateCardUncheckedCreateInput>
+    /**
+     * In case the RateCard was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<RateCardUpdateInput, RateCardUncheckedUpdateInput>
+  }
+
+  /**
+   * RateCard delete
+   */
+  export type RateCardDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RateCard
+     */
+    select?: RateCardSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RateCard
+     */
+    omit?: RateCardOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RateCardInclude<ExtArgs> | null
+    /**
+     * Filter which RateCard to delete.
+     */
+    where: RateCardWhereUniqueInput
+  }
+
+  /**
+   * RateCard deleteMany
+   */
+  export type RateCardDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which RateCards to delete
+     */
+    where?: RateCardWhereInput
+    /**
+     * Limit how many RateCards to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * RateCard without action
+   */
+  export type RateCardDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RateCard
+     */
+    select?: RateCardSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RateCard
+     */
+    omit?: RateCardOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RateCardInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -77855,6 +83620,85 @@ export namespace Prisma {
   export type EmployeeScalarFieldEnum = (typeof EmployeeScalarFieldEnum)[keyof typeof EmployeeScalarFieldEnum]
 
 
+  export const TimesheetScalarFieldEnum: {
+    id: 'id',
+    teamId: 'teamId',
+    userId: 'userId',
+    weekStartDate: 'weekStartDate',
+    weekEndDate: 'weekEndDate',
+    status: 'status',
+    totalHours: 'totalHours',
+    billableHours: 'billableHours',
+    submittedAt: 'submittedAt',
+    approvedAt: 'approvedAt',
+    approvedBy: 'approvedBy',
+    rejectionReason: 'rejectionReason',
+    notes: 'notes',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type TimesheetScalarFieldEnum = (typeof TimesheetScalarFieldEnum)[keyof typeof TimesheetScalarFieldEnum]
+
+
+  export const TimeEntryScalarFieldEnum: {
+    id: 'id',
+    teamId: 'teamId',
+    userId: 'userId',
+    timesheetId: 'timesheetId',
+    projectId: 'projectId',
+    issueId: 'issueId',
+    date: 'date',
+    hours: 'hours',
+    description: 'description',
+    isBillable: 'isBillable',
+    category: 'category',
+    costRate: 'costRate',
+    billingRate: 'billingRate',
+    isTimer: 'isTimer',
+    startedAt: 'startedAt',
+    stoppedAt: 'stoppedAt',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type TimeEntryScalarFieldEnum = (typeof TimeEntryScalarFieldEnum)[keyof typeof TimeEntryScalarFieldEnum]
+
+
+  export const ResourceAllocationScalarFieldEnum: {
+    id: 'id',
+    teamId: 'teamId',
+    userId: 'userId',
+    projectId: 'projectId',
+    weekStartDate: 'weekStartDate',
+    allocatedHours: 'allocatedHours',
+    role: 'role',
+    notes: 'notes',
+    isContractor: 'isContractor',
+    contractorRate: 'contractorRate',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ResourceAllocationScalarFieldEnum = (typeof ResourceAllocationScalarFieldEnum)[keyof typeof ResourceAllocationScalarFieldEnum]
+
+
+  export const RateCardScalarFieldEnum: {
+    id: 'id',
+    teamId: 'teamId',
+    roleKey: 'roleKey',
+    userId: 'userId',
+    hourlyCostRate: 'hourlyCostRate',
+    hourlyBillingRate: 'hourlyBillingRate',
+    currency: 'currency',
+    effectiveFrom: 'effectiveFrom',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type RateCardScalarFieldEnum = (typeof RateCardScalarFieldEnum)[keyof typeof RateCardScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -78032,6 +83876,20 @@ export namespace Prisma {
    */
   export type ListEnumEmployeeStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EmployeeStatus[]'>
     
+
+
+  /**
+   * Reference to a field of type 'TimesheetStatus'
+   */
+  export type EnumTimesheetStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TimesheetStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'TimesheetStatus[]'
+   */
+  export type ListEnumTimesheetStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TimesheetStatus[]'>
+    
   /**
    * Deep Input Types
    */
@@ -78074,6 +83932,10 @@ export namespace Prisma {
     domainProducts?: DomainProductListRelationFilter
     reusableComponents?: ReusableComponentListRelationFilter
     employees?: EmployeeListRelationFilter
+    timesheets?: TimesheetListRelationFilter
+    timeEntries?: TimeEntryListRelationFilter
+    resourceAllocations?: ResourceAllocationListRelationFilter
+    rateCards?: RateCardListRelationFilter
   }
 
   export type TeamOrderByWithRelationInput = {
@@ -78110,6 +83972,10 @@ export namespace Prisma {
     domainProducts?: DomainProductOrderByRelationAggregateInput
     reusableComponents?: ReusableComponentOrderByRelationAggregateInput
     employees?: EmployeeOrderByRelationAggregateInput
+    timesheets?: TimesheetOrderByRelationAggregateInput
+    timeEntries?: TimeEntryOrderByRelationAggregateInput
+    resourceAllocations?: ResourceAllocationOrderByRelationAggregateInput
+    rateCards?: RateCardOrderByRelationAggregateInput
   }
 
   export type TeamWhereUniqueInput = Prisma.AtLeast<{
@@ -78149,6 +84015,10 @@ export namespace Prisma {
     domainProducts?: DomainProductListRelationFilter
     reusableComponents?: ReusableComponentListRelationFilter
     employees?: EmployeeListRelationFilter
+    timesheets?: TimesheetListRelationFilter
+    timeEntries?: TimeEntryListRelationFilter
+    resourceAllocations?: ResourceAllocationListRelationFilter
+    rateCards?: RateCardListRelationFilter
   }, "id" | "key">
 
   export type TeamOrderByWithAggregationInput = {
@@ -78200,6 +84070,8 @@ export namespace Prisma {
     client?: XOR<ClientNullableScalarRelationFilter, ClientWhereInput> | null
     invoices?: InvoiceListRelationFilter
     expenses?: ExpenseListRelationFilter
+    timeEntries?: TimeEntryListRelationFilter
+    resourceAllocations?: ResourceAllocationListRelationFilter
   }
 
   export type ProjectOrderByWithRelationInput = {
@@ -78224,6 +84096,8 @@ export namespace Prisma {
     client?: ClientOrderByWithRelationInput
     invoices?: InvoiceOrderByRelationAggregateInput
     expenses?: ExpenseOrderByRelationAggregateInput
+    timeEntries?: TimeEntryOrderByRelationAggregateInput
+    resourceAllocations?: ResourceAllocationOrderByRelationAggregateInput
   }
 
   export type ProjectWhereUniqueInput = Prisma.AtLeast<{
@@ -78252,6 +84126,8 @@ export namespace Prisma {
     client?: XOR<ClientNullableScalarRelationFilter, ClientWhereInput> | null
     invoices?: InvoiceListRelationFilter
     expenses?: ExpenseListRelationFilter
+    timeEntries?: TimeEntryListRelationFilter
+    resourceAllocations?: ResourceAllocationListRelationFilter
   }, "id" | "teamId_key">
 
   export type ProjectOrderByWithAggregationInput = {
@@ -78457,6 +84333,7 @@ export namespace Prisma {
     workflowState?: XOR<WorkflowStateScalarRelationFilter, WorkflowStateWhereInput>
     comments?: CommentListRelationFilter
     labels?: IssueLabelListRelationFilter
+    timeEntries?: TimeEntryListRelationFilter
   }
 
   export type IssueOrderByWithRelationInput = {
@@ -78481,6 +84358,7 @@ export namespace Prisma {
     workflowState?: WorkflowStateOrderByWithRelationInput
     comments?: CommentOrderByRelationAggregateInput
     labels?: IssueLabelOrderByRelationAggregateInput
+    timeEntries?: TimeEntryOrderByRelationAggregateInput
   }
 
   export type IssueWhereUniqueInput = Prisma.AtLeast<{
@@ -78509,6 +84387,7 @@ export namespace Prisma {
     workflowState?: XOR<WorkflowStateScalarRelationFilter, WorkflowStateWhereInput>
     comments?: CommentListRelationFilter
     labels?: IssueLabelListRelationFilter
+    timeEntries?: TimeEntryListRelationFilter
   }, "id" | "teamId_number">
 
   export type IssueOrderByWithAggregationInput = {
@@ -78909,6 +84788,9 @@ export namespace Prisma {
     accounts?: AccountListRelationFilter
     twofactors?: TwoFactorListRelationFilter
     employee?: XOR<EmployeeNullableScalarRelationFilter, EmployeeWhereInput> | null
+    timesheets?: TimesheetListRelationFilter
+    timeEntries?: TimeEntryListRelationFilter
+    resourceAllocations?: ResourceAllocationListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -78933,6 +84815,9 @@ export namespace Prisma {
     accounts?: AccountOrderByRelationAggregateInput
     twofactors?: TwoFactorOrderByRelationAggregateInput
     employee?: EmployeeOrderByWithRelationInput
+    timesheets?: TimesheetOrderByRelationAggregateInput
+    timeEntries?: TimeEntryOrderByRelationAggregateInput
+    resourceAllocations?: ResourceAllocationOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -78960,6 +84845,9 @@ export namespace Prisma {
     accounts?: AccountListRelationFilter
     twofactors?: TwoFactorListRelationFilter
     employee?: XOR<EmployeeNullableScalarRelationFilter, EmployeeWhereInput> | null
+    timesheets?: TimesheetListRelationFilter
+    timeEntries?: TimeEntryListRelationFilter
+    resourceAllocations?: ResourceAllocationListRelationFilter
   }, "id" | "username" | "employeeCode" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -83308,6 +89196,435 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"Employee"> | Date | string
   }
 
+  export type TimesheetWhereInput = {
+    AND?: TimesheetWhereInput | TimesheetWhereInput[]
+    OR?: TimesheetWhereInput[]
+    NOT?: TimesheetWhereInput | TimesheetWhereInput[]
+    id?: StringFilter<"Timesheet"> | string
+    teamId?: StringFilter<"Timesheet"> | string
+    userId?: StringFilter<"Timesheet"> | string
+    weekStartDate?: DateTimeFilter<"Timesheet"> | Date | string
+    weekEndDate?: DateTimeFilter<"Timesheet"> | Date | string
+    status?: EnumTimesheetStatusFilter<"Timesheet"> | $Enums.TimesheetStatus
+    totalHours?: FloatFilter<"Timesheet"> | number
+    billableHours?: FloatFilter<"Timesheet"> | number
+    submittedAt?: DateTimeNullableFilter<"Timesheet"> | Date | string | null
+    approvedAt?: DateTimeNullableFilter<"Timesheet"> | Date | string | null
+    approvedBy?: StringNullableFilter<"Timesheet"> | string | null
+    rejectionReason?: StringNullableFilter<"Timesheet"> | string | null
+    notes?: StringNullableFilter<"Timesheet"> | string | null
+    createdAt?: DateTimeFilter<"Timesheet"> | Date | string
+    updatedAt?: DateTimeFilter<"Timesheet"> | Date | string
+    team?: XOR<TeamScalarRelationFilter, TeamWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    entries?: TimeEntryListRelationFilter
+  }
+
+  export type TimesheetOrderByWithRelationInput = {
+    id?: SortOrder
+    teamId?: SortOrder
+    userId?: SortOrder
+    weekStartDate?: SortOrder
+    weekEndDate?: SortOrder
+    status?: SortOrder
+    totalHours?: SortOrder
+    billableHours?: SortOrder
+    submittedAt?: SortOrderInput | SortOrder
+    approvedAt?: SortOrderInput | SortOrder
+    approvedBy?: SortOrderInput | SortOrder
+    rejectionReason?: SortOrderInput | SortOrder
+    notes?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    team?: TeamOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
+    entries?: TimeEntryOrderByRelationAggregateInput
+  }
+
+  export type TimesheetWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    teamId_userId_weekStartDate?: TimesheetTeamIdUserIdWeekStartDateCompoundUniqueInput
+    AND?: TimesheetWhereInput | TimesheetWhereInput[]
+    OR?: TimesheetWhereInput[]
+    NOT?: TimesheetWhereInput | TimesheetWhereInput[]
+    teamId?: StringFilter<"Timesheet"> | string
+    userId?: StringFilter<"Timesheet"> | string
+    weekStartDate?: DateTimeFilter<"Timesheet"> | Date | string
+    weekEndDate?: DateTimeFilter<"Timesheet"> | Date | string
+    status?: EnumTimesheetStatusFilter<"Timesheet"> | $Enums.TimesheetStatus
+    totalHours?: FloatFilter<"Timesheet"> | number
+    billableHours?: FloatFilter<"Timesheet"> | number
+    submittedAt?: DateTimeNullableFilter<"Timesheet"> | Date | string | null
+    approvedAt?: DateTimeNullableFilter<"Timesheet"> | Date | string | null
+    approvedBy?: StringNullableFilter<"Timesheet"> | string | null
+    rejectionReason?: StringNullableFilter<"Timesheet"> | string | null
+    notes?: StringNullableFilter<"Timesheet"> | string | null
+    createdAt?: DateTimeFilter<"Timesheet"> | Date | string
+    updatedAt?: DateTimeFilter<"Timesheet"> | Date | string
+    team?: XOR<TeamScalarRelationFilter, TeamWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    entries?: TimeEntryListRelationFilter
+  }, "id" | "teamId_userId_weekStartDate">
+
+  export type TimesheetOrderByWithAggregationInput = {
+    id?: SortOrder
+    teamId?: SortOrder
+    userId?: SortOrder
+    weekStartDate?: SortOrder
+    weekEndDate?: SortOrder
+    status?: SortOrder
+    totalHours?: SortOrder
+    billableHours?: SortOrder
+    submittedAt?: SortOrderInput | SortOrder
+    approvedAt?: SortOrderInput | SortOrder
+    approvedBy?: SortOrderInput | SortOrder
+    rejectionReason?: SortOrderInput | SortOrder
+    notes?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: TimesheetCountOrderByAggregateInput
+    _avg?: TimesheetAvgOrderByAggregateInput
+    _max?: TimesheetMaxOrderByAggregateInput
+    _min?: TimesheetMinOrderByAggregateInput
+    _sum?: TimesheetSumOrderByAggregateInput
+  }
+
+  export type TimesheetScalarWhereWithAggregatesInput = {
+    AND?: TimesheetScalarWhereWithAggregatesInput | TimesheetScalarWhereWithAggregatesInput[]
+    OR?: TimesheetScalarWhereWithAggregatesInput[]
+    NOT?: TimesheetScalarWhereWithAggregatesInput | TimesheetScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Timesheet"> | string
+    teamId?: StringWithAggregatesFilter<"Timesheet"> | string
+    userId?: StringWithAggregatesFilter<"Timesheet"> | string
+    weekStartDate?: DateTimeWithAggregatesFilter<"Timesheet"> | Date | string
+    weekEndDate?: DateTimeWithAggregatesFilter<"Timesheet"> | Date | string
+    status?: EnumTimesheetStatusWithAggregatesFilter<"Timesheet"> | $Enums.TimesheetStatus
+    totalHours?: FloatWithAggregatesFilter<"Timesheet"> | number
+    billableHours?: FloatWithAggregatesFilter<"Timesheet"> | number
+    submittedAt?: DateTimeNullableWithAggregatesFilter<"Timesheet"> | Date | string | null
+    approvedAt?: DateTimeNullableWithAggregatesFilter<"Timesheet"> | Date | string | null
+    approvedBy?: StringNullableWithAggregatesFilter<"Timesheet"> | string | null
+    rejectionReason?: StringNullableWithAggregatesFilter<"Timesheet"> | string | null
+    notes?: StringNullableWithAggregatesFilter<"Timesheet"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Timesheet"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Timesheet"> | Date | string
+  }
+
+  export type TimeEntryWhereInput = {
+    AND?: TimeEntryWhereInput | TimeEntryWhereInput[]
+    OR?: TimeEntryWhereInput[]
+    NOT?: TimeEntryWhereInput | TimeEntryWhereInput[]
+    id?: StringFilter<"TimeEntry"> | string
+    teamId?: StringFilter<"TimeEntry"> | string
+    userId?: StringFilter<"TimeEntry"> | string
+    timesheetId?: StringNullableFilter<"TimeEntry"> | string | null
+    projectId?: StringNullableFilter<"TimeEntry"> | string | null
+    issueId?: StringNullableFilter<"TimeEntry"> | string | null
+    date?: DateTimeFilter<"TimeEntry"> | Date | string
+    hours?: FloatFilter<"TimeEntry"> | number
+    description?: StringFilter<"TimeEntry"> | string
+    isBillable?: BoolFilter<"TimeEntry"> | boolean
+    category?: StringFilter<"TimeEntry"> | string
+    costRate?: FloatNullableFilter<"TimeEntry"> | number | null
+    billingRate?: FloatNullableFilter<"TimeEntry"> | number | null
+    isTimer?: BoolFilter<"TimeEntry"> | boolean
+    startedAt?: DateTimeNullableFilter<"TimeEntry"> | Date | string | null
+    stoppedAt?: DateTimeNullableFilter<"TimeEntry"> | Date | string | null
+    createdAt?: DateTimeFilter<"TimeEntry"> | Date | string
+    updatedAt?: DateTimeFilter<"TimeEntry"> | Date | string
+    team?: XOR<TeamScalarRelationFilter, TeamWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    timesheet?: XOR<TimesheetNullableScalarRelationFilter, TimesheetWhereInput> | null
+    project?: XOR<ProjectNullableScalarRelationFilter, ProjectWhereInput> | null
+    issue?: XOR<IssueNullableScalarRelationFilter, IssueWhereInput> | null
+  }
+
+  export type TimeEntryOrderByWithRelationInput = {
+    id?: SortOrder
+    teamId?: SortOrder
+    userId?: SortOrder
+    timesheetId?: SortOrderInput | SortOrder
+    projectId?: SortOrderInput | SortOrder
+    issueId?: SortOrderInput | SortOrder
+    date?: SortOrder
+    hours?: SortOrder
+    description?: SortOrder
+    isBillable?: SortOrder
+    category?: SortOrder
+    costRate?: SortOrderInput | SortOrder
+    billingRate?: SortOrderInput | SortOrder
+    isTimer?: SortOrder
+    startedAt?: SortOrderInput | SortOrder
+    stoppedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    team?: TeamOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
+    timesheet?: TimesheetOrderByWithRelationInput
+    project?: ProjectOrderByWithRelationInput
+    issue?: IssueOrderByWithRelationInput
+  }
+
+  export type TimeEntryWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: TimeEntryWhereInput | TimeEntryWhereInput[]
+    OR?: TimeEntryWhereInput[]
+    NOT?: TimeEntryWhereInput | TimeEntryWhereInput[]
+    teamId?: StringFilter<"TimeEntry"> | string
+    userId?: StringFilter<"TimeEntry"> | string
+    timesheetId?: StringNullableFilter<"TimeEntry"> | string | null
+    projectId?: StringNullableFilter<"TimeEntry"> | string | null
+    issueId?: StringNullableFilter<"TimeEntry"> | string | null
+    date?: DateTimeFilter<"TimeEntry"> | Date | string
+    hours?: FloatFilter<"TimeEntry"> | number
+    description?: StringFilter<"TimeEntry"> | string
+    isBillable?: BoolFilter<"TimeEntry"> | boolean
+    category?: StringFilter<"TimeEntry"> | string
+    costRate?: FloatNullableFilter<"TimeEntry"> | number | null
+    billingRate?: FloatNullableFilter<"TimeEntry"> | number | null
+    isTimer?: BoolFilter<"TimeEntry"> | boolean
+    startedAt?: DateTimeNullableFilter<"TimeEntry"> | Date | string | null
+    stoppedAt?: DateTimeNullableFilter<"TimeEntry"> | Date | string | null
+    createdAt?: DateTimeFilter<"TimeEntry"> | Date | string
+    updatedAt?: DateTimeFilter<"TimeEntry"> | Date | string
+    team?: XOR<TeamScalarRelationFilter, TeamWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    timesheet?: XOR<TimesheetNullableScalarRelationFilter, TimesheetWhereInput> | null
+    project?: XOR<ProjectNullableScalarRelationFilter, ProjectWhereInput> | null
+    issue?: XOR<IssueNullableScalarRelationFilter, IssueWhereInput> | null
+  }, "id">
+
+  export type TimeEntryOrderByWithAggregationInput = {
+    id?: SortOrder
+    teamId?: SortOrder
+    userId?: SortOrder
+    timesheetId?: SortOrderInput | SortOrder
+    projectId?: SortOrderInput | SortOrder
+    issueId?: SortOrderInput | SortOrder
+    date?: SortOrder
+    hours?: SortOrder
+    description?: SortOrder
+    isBillable?: SortOrder
+    category?: SortOrder
+    costRate?: SortOrderInput | SortOrder
+    billingRate?: SortOrderInput | SortOrder
+    isTimer?: SortOrder
+    startedAt?: SortOrderInput | SortOrder
+    stoppedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: TimeEntryCountOrderByAggregateInput
+    _avg?: TimeEntryAvgOrderByAggregateInput
+    _max?: TimeEntryMaxOrderByAggregateInput
+    _min?: TimeEntryMinOrderByAggregateInput
+    _sum?: TimeEntrySumOrderByAggregateInput
+  }
+
+  export type TimeEntryScalarWhereWithAggregatesInput = {
+    AND?: TimeEntryScalarWhereWithAggregatesInput | TimeEntryScalarWhereWithAggregatesInput[]
+    OR?: TimeEntryScalarWhereWithAggregatesInput[]
+    NOT?: TimeEntryScalarWhereWithAggregatesInput | TimeEntryScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"TimeEntry"> | string
+    teamId?: StringWithAggregatesFilter<"TimeEntry"> | string
+    userId?: StringWithAggregatesFilter<"TimeEntry"> | string
+    timesheetId?: StringNullableWithAggregatesFilter<"TimeEntry"> | string | null
+    projectId?: StringNullableWithAggregatesFilter<"TimeEntry"> | string | null
+    issueId?: StringNullableWithAggregatesFilter<"TimeEntry"> | string | null
+    date?: DateTimeWithAggregatesFilter<"TimeEntry"> | Date | string
+    hours?: FloatWithAggregatesFilter<"TimeEntry"> | number
+    description?: StringWithAggregatesFilter<"TimeEntry"> | string
+    isBillable?: BoolWithAggregatesFilter<"TimeEntry"> | boolean
+    category?: StringWithAggregatesFilter<"TimeEntry"> | string
+    costRate?: FloatNullableWithAggregatesFilter<"TimeEntry"> | number | null
+    billingRate?: FloatNullableWithAggregatesFilter<"TimeEntry"> | number | null
+    isTimer?: BoolWithAggregatesFilter<"TimeEntry"> | boolean
+    startedAt?: DateTimeNullableWithAggregatesFilter<"TimeEntry"> | Date | string | null
+    stoppedAt?: DateTimeNullableWithAggregatesFilter<"TimeEntry"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"TimeEntry"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"TimeEntry"> | Date | string
+  }
+
+  export type ResourceAllocationWhereInput = {
+    AND?: ResourceAllocationWhereInput | ResourceAllocationWhereInput[]
+    OR?: ResourceAllocationWhereInput[]
+    NOT?: ResourceAllocationWhereInput | ResourceAllocationWhereInput[]
+    id?: StringFilter<"ResourceAllocation"> | string
+    teamId?: StringFilter<"ResourceAllocation"> | string
+    userId?: StringFilter<"ResourceAllocation"> | string
+    projectId?: StringFilter<"ResourceAllocation"> | string
+    weekStartDate?: DateTimeFilter<"ResourceAllocation"> | Date | string
+    allocatedHours?: FloatFilter<"ResourceAllocation"> | number
+    role?: StringNullableFilter<"ResourceAllocation"> | string | null
+    notes?: StringNullableFilter<"ResourceAllocation"> | string | null
+    isContractor?: BoolFilter<"ResourceAllocation"> | boolean
+    contractorRate?: FloatNullableFilter<"ResourceAllocation"> | number | null
+    createdAt?: DateTimeFilter<"ResourceAllocation"> | Date | string
+    updatedAt?: DateTimeFilter<"ResourceAllocation"> | Date | string
+    team?: XOR<TeamScalarRelationFilter, TeamWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    project?: XOR<ProjectScalarRelationFilter, ProjectWhereInput>
+  }
+
+  export type ResourceAllocationOrderByWithRelationInput = {
+    id?: SortOrder
+    teamId?: SortOrder
+    userId?: SortOrder
+    projectId?: SortOrder
+    weekStartDate?: SortOrder
+    allocatedHours?: SortOrder
+    role?: SortOrderInput | SortOrder
+    notes?: SortOrderInput | SortOrder
+    isContractor?: SortOrder
+    contractorRate?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    team?: TeamOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
+    project?: ProjectOrderByWithRelationInput
+  }
+
+  export type ResourceAllocationWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    teamId_userId_projectId_weekStartDate?: ResourceAllocationTeamIdUserIdProjectIdWeekStartDateCompoundUniqueInput
+    AND?: ResourceAllocationWhereInput | ResourceAllocationWhereInput[]
+    OR?: ResourceAllocationWhereInput[]
+    NOT?: ResourceAllocationWhereInput | ResourceAllocationWhereInput[]
+    teamId?: StringFilter<"ResourceAllocation"> | string
+    userId?: StringFilter<"ResourceAllocation"> | string
+    projectId?: StringFilter<"ResourceAllocation"> | string
+    weekStartDate?: DateTimeFilter<"ResourceAllocation"> | Date | string
+    allocatedHours?: FloatFilter<"ResourceAllocation"> | number
+    role?: StringNullableFilter<"ResourceAllocation"> | string | null
+    notes?: StringNullableFilter<"ResourceAllocation"> | string | null
+    isContractor?: BoolFilter<"ResourceAllocation"> | boolean
+    contractorRate?: FloatNullableFilter<"ResourceAllocation"> | number | null
+    createdAt?: DateTimeFilter<"ResourceAllocation"> | Date | string
+    updatedAt?: DateTimeFilter<"ResourceAllocation"> | Date | string
+    team?: XOR<TeamScalarRelationFilter, TeamWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    project?: XOR<ProjectScalarRelationFilter, ProjectWhereInput>
+  }, "id" | "teamId_userId_projectId_weekStartDate">
+
+  export type ResourceAllocationOrderByWithAggregationInput = {
+    id?: SortOrder
+    teamId?: SortOrder
+    userId?: SortOrder
+    projectId?: SortOrder
+    weekStartDate?: SortOrder
+    allocatedHours?: SortOrder
+    role?: SortOrderInput | SortOrder
+    notes?: SortOrderInput | SortOrder
+    isContractor?: SortOrder
+    contractorRate?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ResourceAllocationCountOrderByAggregateInput
+    _avg?: ResourceAllocationAvgOrderByAggregateInput
+    _max?: ResourceAllocationMaxOrderByAggregateInput
+    _min?: ResourceAllocationMinOrderByAggregateInput
+    _sum?: ResourceAllocationSumOrderByAggregateInput
+  }
+
+  export type ResourceAllocationScalarWhereWithAggregatesInput = {
+    AND?: ResourceAllocationScalarWhereWithAggregatesInput | ResourceAllocationScalarWhereWithAggregatesInput[]
+    OR?: ResourceAllocationScalarWhereWithAggregatesInput[]
+    NOT?: ResourceAllocationScalarWhereWithAggregatesInput | ResourceAllocationScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ResourceAllocation"> | string
+    teamId?: StringWithAggregatesFilter<"ResourceAllocation"> | string
+    userId?: StringWithAggregatesFilter<"ResourceAllocation"> | string
+    projectId?: StringWithAggregatesFilter<"ResourceAllocation"> | string
+    weekStartDate?: DateTimeWithAggregatesFilter<"ResourceAllocation"> | Date | string
+    allocatedHours?: FloatWithAggregatesFilter<"ResourceAllocation"> | number
+    role?: StringNullableWithAggregatesFilter<"ResourceAllocation"> | string | null
+    notes?: StringNullableWithAggregatesFilter<"ResourceAllocation"> | string | null
+    isContractor?: BoolWithAggregatesFilter<"ResourceAllocation"> | boolean
+    contractorRate?: FloatNullableWithAggregatesFilter<"ResourceAllocation"> | number | null
+    createdAt?: DateTimeWithAggregatesFilter<"ResourceAllocation"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"ResourceAllocation"> | Date | string
+  }
+
+  export type RateCardWhereInput = {
+    AND?: RateCardWhereInput | RateCardWhereInput[]
+    OR?: RateCardWhereInput[]
+    NOT?: RateCardWhereInput | RateCardWhereInput[]
+    id?: StringFilter<"RateCard"> | string
+    teamId?: StringFilter<"RateCard"> | string
+    roleKey?: StringNullableFilter<"RateCard"> | string | null
+    userId?: StringNullableFilter<"RateCard"> | string | null
+    hourlyCostRate?: FloatFilter<"RateCard"> | number
+    hourlyBillingRate?: FloatFilter<"RateCard"> | number
+    currency?: StringFilter<"RateCard"> | string
+    effectiveFrom?: DateTimeFilter<"RateCard"> | Date | string
+    createdAt?: DateTimeFilter<"RateCard"> | Date | string
+    updatedAt?: DateTimeFilter<"RateCard"> | Date | string
+    team?: XOR<TeamScalarRelationFilter, TeamWhereInput>
+  }
+
+  export type RateCardOrderByWithRelationInput = {
+    id?: SortOrder
+    teamId?: SortOrder
+    roleKey?: SortOrderInput | SortOrder
+    userId?: SortOrderInput | SortOrder
+    hourlyCostRate?: SortOrder
+    hourlyBillingRate?: SortOrder
+    currency?: SortOrder
+    effectiveFrom?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    team?: TeamOrderByWithRelationInput
+  }
+
+  export type RateCardWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: RateCardWhereInput | RateCardWhereInput[]
+    OR?: RateCardWhereInput[]
+    NOT?: RateCardWhereInput | RateCardWhereInput[]
+    teamId?: StringFilter<"RateCard"> | string
+    roleKey?: StringNullableFilter<"RateCard"> | string | null
+    userId?: StringNullableFilter<"RateCard"> | string | null
+    hourlyCostRate?: FloatFilter<"RateCard"> | number
+    hourlyBillingRate?: FloatFilter<"RateCard"> | number
+    currency?: StringFilter<"RateCard"> | string
+    effectiveFrom?: DateTimeFilter<"RateCard"> | Date | string
+    createdAt?: DateTimeFilter<"RateCard"> | Date | string
+    updatedAt?: DateTimeFilter<"RateCard"> | Date | string
+    team?: XOR<TeamScalarRelationFilter, TeamWhereInput>
+  }, "id">
+
+  export type RateCardOrderByWithAggregationInput = {
+    id?: SortOrder
+    teamId?: SortOrder
+    roleKey?: SortOrderInput | SortOrder
+    userId?: SortOrderInput | SortOrder
+    hourlyCostRate?: SortOrder
+    hourlyBillingRate?: SortOrder
+    currency?: SortOrder
+    effectiveFrom?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: RateCardCountOrderByAggregateInput
+    _avg?: RateCardAvgOrderByAggregateInput
+    _max?: RateCardMaxOrderByAggregateInput
+    _min?: RateCardMinOrderByAggregateInput
+    _sum?: RateCardSumOrderByAggregateInput
+  }
+
+  export type RateCardScalarWhereWithAggregatesInput = {
+    AND?: RateCardScalarWhereWithAggregatesInput | RateCardScalarWhereWithAggregatesInput[]
+    OR?: RateCardScalarWhereWithAggregatesInput[]
+    NOT?: RateCardScalarWhereWithAggregatesInput | RateCardScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"RateCard"> | string
+    teamId?: StringWithAggregatesFilter<"RateCard"> | string
+    roleKey?: StringNullableWithAggregatesFilter<"RateCard"> | string | null
+    userId?: StringNullableWithAggregatesFilter<"RateCard"> | string | null
+    hourlyCostRate?: FloatWithAggregatesFilter<"RateCard"> | number
+    hourlyBillingRate?: FloatWithAggregatesFilter<"RateCard"> | number
+    currency?: StringWithAggregatesFilter<"RateCard"> | string
+    effectiveFrom?: DateTimeWithAggregatesFilter<"RateCard"> | Date | string
+    createdAt?: DateTimeWithAggregatesFilter<"RateCard"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"RateCard"> | Date | string
+  }
+
   export type TeamCreateInput = {
     id?: string
     name: string
@@ -83342,6 +89659,10 @@ export namespace Prisma {
     domainProducts?: DomainProductCreateNestedManyWithoutTeamInput
     reusableComponents?: ReusableComponentCreateNestedManyWithoutTeamInput
     employees?: EmployeeCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateInput = {
@@ -83378,6 +89699,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUncheckedCreateNestedManyWithoutTeamInput
     reusableComponents?: ReusableComponentUncheckedCreateNestedManyWithoutTeamInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetUncheckedCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUpdateInput = {
@@ -83414,6 +89739,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUpdateManyWithoutTeamNestedInput
     reusableComponents?: ReusableComponentUpdateManyWithoutTeamNestedInput
     employees?: EmployeeUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateInput = {
@@ -83450,6 +89779,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUncheckedUpdateManyWithoutTeamNestedInput
     reusableComponents?: ReusableComponentUncheckedUpdateManyWithoutTeamNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUncheckedUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUncheckedUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamCreateManyInput = {
@@ -83499,6 +89832,8 @@ export namespace Prisma {
     client?: ClientCreateNestedOneWithoutProjectsInput
     invoices?: InvoiceCreateNestedManyWithoutProjectInput
     expenses?: ExpenseCreateNestedManyWithoutProjectInput
+    timeEntries?: TimeEntryCreateNestedManyWithoutProjectInput
+    resourceAllocations?: ResourceAllocationCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateInput = {
@@ -83521,6 +89856,8 @@ export namespace Prisma {
     teamChannels?: TeamChannelUncheckedCreateNestedManyWithoutProjectInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutProjectInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutProjectInput
+    timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutProjectInput
+    resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUpdateInput = {
@@ -83543,6 +89880,8 @@ export namespace Prisma {
     client?: ClientUpdateOneWithoutProjectsNestedInput
     invoices?: InvoiceUpdateManyWithoutProjectNestedInput
     expenses?: ExpenseUpdateManyWithoutProjectNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutProjectNestedInput
+    resourceAllocations?: ResourceAllocationUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateInput = {
@@ -83565,6 +89904,8 @@ export namespace Prisma {
     teamChannels?: TeamChannelUncheckedUpdateManyWithoutProjectNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutProjectNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutProjectNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
+    resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectCreateManyInput = {
@@ -83778,6 +90119,7 @@ export namespace Prisma {
     workflowState: WorkflowStateCreateNestedOneWithoutIssuesInput
     comments?: CommentCreateNestedManyWithoutIssueInput
     labels?: IssueLabelCreateNestedManyWithoutIssueInput
+    timeEntries?: TimeEntryCreateNestedManyWithoutIssueInput
   }
 
   export type IssueUncheckedCreateInput = {
@@ -83799,6 +90141,7 @@ export namespace Prisma {
     creator: string
     comments?: CommentUncheckedCreateNestedManyWithoutIssueInput
     labels?: IssueLabelUncheckedCreateNestedManyWithoutIssueInput
+    timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutIssueInput
   }
 
   export type IssueUpdateInput = {
@@ -83820,6 +90163,7 @@ export namespace Prisma {
     workflowState?: WorkflowStateUpdateOneRequiredWithoutIssuesNestedInput
     comments?: CommentUpdateManyWithoutIssueNestedInput
     labels?: IssueLabelUpdateManyWithoutIssueNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutIssueNestedInput
   }
 
   export type IssueUncheckedUpdateInput = {
@@ -83841,6 +90185,7 @@ export namespace Prisma {
     creator?: StringFieldUpdateOperationsInput | string
     comments?: CommentUncheckedUpdateManyWithoutIssueNestedInput
     labels?: IssueLabelUncheckedUpdateManyWithoutIssueNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutIssueNestedInput
   }
 
   export type IssueCreateManyInput = {
@@ -84256,6 +90601,9 @@ export namespace Prisma {
     accounts?: AccountCreateNestedManyWithoutUserInput
     twofactors?: TwoFactorCreateNestedManyWithoutUserInput
     employee?: EmployeeCreateNestedOneWithoutUserInput
+    timesheets?: TimesheetCreateNestedManyWithoutUserInput
+    timeEntries?: TimeEntryCreateNestedManyWithoutUserInput
+    resourceAllocations?: ResourceAllocationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -84280,6 +90628,9 @@ export namespace Prisma {
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     twofactors?: TwoFactorUncheckedCreateNestedManyWithoutUserInput
     employee?: EmployeeUncheckedCreateNestedOneWithoutUserInput
+    timesheets?: TimesheetUncheckedCreateNestedManyWithoutUserInput
+    timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutUserInput
+    resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -84304,6 +90655,9 @@ export namespace Prisma {
     accounts?: AccountUpdateManyWithoutUserNestedInput
     twofactors?: TwoFactorUpdateManyWithoutUserNestedInput
     employee?: EmployeeUpdateOneWithoutUserNestedInput
+    timesheets?: TimesheetUpdateManyWithoutUserNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutUserNestedInput
+    resourceAllocations?: ResourceAllocationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -84328,6 +90682,9 @@ export namespace Prisma {
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     twofactors?: TwoFactorUncheckedUpdateManyWithoutUserNestedInput
     employee?: EmployeeUncheckedUpdateOneWithoutUserNestedInput
+    timesheets?: TimesheetUncheckedUpdateManyWithoutUserNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutUserNestedInput
+    resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -89241,6 +95598,468 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type TimesheetCreateInput = {
+    id?: string
+    weekStartDate: Date | string
+    weekEndDate: Date | string
+    status?: $Enums.TimesheetStatus
+    totalHours?: number
+    billableHours?: number
+    submittedAt?: Date | string | null
+    approvedAt?: Date | string | null
+    approvedBy?: string | null
+    rejectionReason?: string | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    team: TeamCreateNestedOneWithoutTimesheetsInput
+    user: UserCreateNestedOneWithoutTimesheetsInput
+    entries?: TimeEntryCreateNestedManyWithoutTimesheetInput
+  }
+
+  export type TimesheetUncheckedCreateInput = {
+    id?: string
+    teamId: string
+    userId: string
+    weekStartDate: Date | string
+    weekEndDate: Date | string
+    status?: $Enums.TimesheetStatus
+    totalHours?: number
+    billableHours?: number
+    submittedAt?: Date | string | null
+    approvedAt?: Date | string | null
+    approvedBy?: string | null
+    rejectionReason?: string | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    entries?: TimeEntryUncheckedCreateNestedManyWithoutTimesheetInput
+  }
+
+  export type TimesheetUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    weekStartDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    weekEndDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumTimesheetStatusFieldUpdateOperationsInput | $Enums.TimesheetStatus
+    totalHours?: FloatFieldUpdateOperationsInput | number
+    billableHours?: FloatFieldUpdateOperationsInput | number
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    team?: TeamUpdateOneRequiredWithoutTimesheetsNestedInput
+    user?: UserUpdateOneRequiredWithoutTimesheetsNestedInput
+    entries?: TimeEntryUpdateManyWithoutTimesheetNestedInput
+  }
+
+  export type TimesheetUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    teamId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    weekStartDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    weekEndDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumTimesheetStatusFieldUpdateOperationsInput | $Enums.TimesheetStatus
+    totalHours?: FloatFieldUpdateOperationsInput | number
+    billableHours?: FloatFieldUpdateOperationsInput | number
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    entries?: TimeEntryUncheckedUpdateManyWithoutTimesheetNestedInput
+  }
+
+  export type TimesheetCreateManyInput = {
+    id?: string
+    teamId: string
+    userId: string
+    weekStartDate: Date | string
+    weekEndDate: Date | string
+    status?: $Enums.TimesheetStatus
+    totalHours?: number
+    billableHours?: number
+    submittedAt?: Date | string | null
+    approvedAt?: Date | string | null
+    approvedBy?: string | null
+    rejectionReason?: string | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TimesheetUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    weekStartDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    weekEndDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumTimesheetStatusFieldUpdateOperationsInput | $Enums.TimesheetStatus
+    totalHours?: FloatFieldUpdateOperationsInput | number
+    billableHours?: FloatFieldUpdateOperationsInput | number
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TimesheetUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    teamId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    weekStartDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    weekEndDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumTimesheetStatusFieldUpdateOperationsInput | $Enums.TimesheetStatus
+    totalHours?: FloatFieldUpdateOperationsInput | number
+    billableHours?: FloatFieldUpdateOperationsInput | number
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TimeEntryCreateInput = {
+    id?: string
+    date: Date | string
+    hours: number
+    description: string
+    isBillable?: boolean
+    category?: string
+    costRate?: number | null
+    billingRate?: number | null
+    isTimer?: boolean
+    startedAt?: Date | string | null
+    stoppedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    team: TeamCreateNestedOneWithoutTimeEntriesInput
+    user: UserCreateNestedOneWithoutTimeEntriesInput
+    timesheet?: TimesheetCreateNestedOneWithoutEntriesInput
+    project?: ProjectCreateNestedOneWithoutTimeEntriesInput
+    issue?: IssueCreateNestedOneWithoutTimeEntriesInput
+  }
+
+  export type TimeEntryUncheckedCreateInput = {
+    id?: string
+    teamId: string
+    userId: string
+    timesheetId?: string | null
+    projectId?: string | null
+    issueId?: string | null
+    date: Date | string
+    hours: number
+    description: string
+    isBillable?: boolean
+    category?: string
+    costRate?: number | null
+    billingRate?: number | null
+    isTimer?: boolean
+    startedAt?: Date | string | null
+    stoppedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TimeEntryUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    hours?: FloatFieldUpdateOperationsInput | number
+    description?: StringFieldUpdateOperationsInput | string
+    isBillable?: BoolFieldUpdateOperationsInput | boolean
+    category?: StringFieldUpdateOperationsInput | string
+    costRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    billingRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    isTimer?: BoolFieldUpdateOperationsInput | boolean
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    stoppedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    team?: TeamUpdateOneRequiredWithoutTimeEntriesNestedInput
+    user?: UserUpdateOneRequiredWithoutTimeEntriesNestedInput
+    timesheet?: TimesheetUpdateOneWithoutEntriesNestedInput
+    project?: ProjectUpdateOneWithoutTimeEntriesNestedInput
+    issue?: IssueUpdateOneWithoutTimeEntriesNestedInput
+  }
+
+  export type TimeEntryUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    teamId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    timesheetId?: NullableStringFieldUpdateOperationsInput | string | null
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+    issueId?: NullableStringFieldUpdateOperationsInput | string | null
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    hours?: FloatFieldUpdateOperationsInput | number
+    description?: StringFieldUpdateOperationsInput | string
+    isBillable?: BoolFieldUpdateOperationsInput | boolean
+    category?: StringFieldUpdateOperationsInput | string
+    costRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    billingRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    isTimer?: BoolFieldUpdateOperationsInput | boolean
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    stoppedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TimeEntryCreateManyInput = {
+    id?: string
+    teamId: string
+    userId: string
+    timesheetId?: string | null
+    projectId?: string | null
+    issueId?: string | null
+    date: Date | string
+    hours: number
+    description: string
+    isBillable?: boolean
+    category?: string
+    costRate?: number | null
+    billingRate?: number | null
+    isTimer?: boolean
+    startedAt?: Date | string | null
+    stoppedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TimeEntryUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    hours?: FloatFieldUpdateOperationsInput | number
+    description?: StringFieldUpdateOperationsInput | string
+    isBillable?: BoolFieldUpdateOperationsInput | boolean
+    category?: StringFieldUpdateOperationsInput | string
+    costRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    billingRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    isTimer?: BoolFieldUpdateOperationsInput | boolean
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    stoppedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TimeEntryUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    teamId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    timesheetId?: NullableStringFieldUpdateOperationsInput | string | null
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+    issueId?: NullableStringFieldUpdateOperationsInput | string | null
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    hours?: FloatFieldUpdateOperationsInput | number
+    description?: StringFieldUpdateOperationsInput | string
+    isBillable?: BoolFieldUpdateOperationsInput | boolean
+    category?: StringFieldUpdateOperationsInput | string
+    costRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    billingRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    isTimer?: BoolFieldUpdateOperationsInput | boolean
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    stoppedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ResourceAllocationCreateInput = {
+    id?: string
+    weekStartDate: Date | string
+    allocatedHours?: number
+    role?: string | null
+    notes?: string | null
+    isContractor?: boolean
+    contractorRate?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    team: TeamCreateNestedOneWithoutResourceAllocationsInput
+    user: UserCreateNestedOneWithoutResourceAllocationsInput
+    project: ProjectCreateNestedOneWithoutResourceAllocationsInput
+  }
+
+  export type ResourceAllocationUncheckedCreateInput = {
+    id?: string
+    teamId: string
+    userId: string
+    projectId: string
+    weekStartDate: Date | string
+    allocatedHours?: number
+    role?: string | null
+    notes?: string | null
+    isContractor?: boolean
+    contractorRate?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ResourceAllocationUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    weekStartDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    allocatedHours?: FloatFieldUpdateOperationsInput | number
+    role?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    isContractor?: BoolFieldUpdateOperationsInput | boolean
+    contractorRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    team?: TeamUpdateOneRequiredWithoutResourceAllocationsNestedInput
+    user?: UserUpdateOneRequiredWithoutResourceAllocationsNestedInput
+    project?: ProjectUpdateOneRequiredWithoutResourceAllocationsNestedInput
+  }
+
+  export type ResourceAllocationUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    teamId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    projectId?: StringFieldUpdateOperationsInput | string
+    weekStartDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    allocatedHours?: FloatFieldUpdateOperationsInput | number
+    role?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    isContractor?: BoolFieldUpdateOperationsInput | boolean
+    contractorRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ResourceAllocationCreateManyInput = {
+    id?: string
+    teamId: string
+    userId: string
+    projectId: string
+    weekStartDate: Date | string
+    allocatedHours?: number
+    role?: string | null
+    notes?: string | null
+    isContractor?: boolean
+    contractorRate?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ResourceAllocationUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    weekStartDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    allocatedHours?: FloatFieldUpdateOperationsInput | number
+    role?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    isContractor?: BoolFieldUpdateOperationsInput | boolean
+    contractorRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ResourceAllocationUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    teamId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    projectId?: StringFieldUpdateOperationsInput | string
+    weekStartDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    allocatedHours?: FloatFieldUpdateOperationsInput | number
+    role?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    isContractor?: BoolFieldUpdateOperationsInput | boolean
+    contractorRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RateCardCreateInput = {
+    id?: string
+    roleKey?: string | null
+    userId?: string | null
+    hourlyCostRate?: number
+    hourlyBillingRate?: number
+    currency?: string
+    effectiveFrom?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    team: TeamCreateNestedOneWithoutRateCardsInput
+  }
+
+  export type RateCardUncheckedCreateInput = {
+    id?: string
+    teamId: string
+    roleKey?: string | null
+    userId?: string | null
+    hourlyCostRate?: number
+    hourlyBillingRate?: number
+    currency?: string
+    effectiveFrom?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RateCardUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    roleKey?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    hourlyCostRate?: FloatFieldUpdateOperationsInput | number
+    hourlyBillingRate?: FloatFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    effectiveFrom?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    team?: TeamUpdateOneRequiredWithoutRateCardsNestedInput
+  }
+
+  export type RateCardUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    teamId?: StringFieldUpdateOperationsInput | string
+    roleKey?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    hourlyCostRate?: FloatFieldUpdateOperationsInput | number
+    hourlyBillingRate?: FloatFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    effectiveFrom?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RateCardCreateManyInput = {
+    id?: string
+    teamId: string
+    roleKey?: string | null
+    userId?: string | null
+    hourlyCostRate?: number
+    hourlyBillingRate?: number
+    currency?: string
+    effectiveFrom?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RateCardUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    roleKey?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    hourlyCostRate?: FloatFieldUpdateOperationsInput | number
+    hourlyBillingRate?: FloatFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    effectiveFrom?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RateCardUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    teamId?: StringFieldUpdateOperationsInput | string
+    roleKey?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    hourlyCostRate?: FloatFieldUpdateOperationsInput | number
+    hourlyBillingRate?: FloatFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    effectiveFrom?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -89443,6 +96262,30 @@ export namespace Prisma {
     none?: EmployeeWhereInput
   }
 
+  export type TimesheetListRelationFilter = {
+    every?: TimesheetWhereInput
+    some?: TimesheetWhereInput
+    none?: TimesheetWhereInput
+  }
+
+  export type TimeEntryListRelationFilter = {
+    every?: TimeEntryWhereInput
+    some?: TimeEntryWhereInput
+    none?: TimeEntryWhereInput
+  }
+
+  export type ResourceAllocationListRelationFilter = {
+    every?: ResourceAllocationWhereInput
+    some?: ResourceAllocationWhereInput
+    none?: ResourceAllocationWhereInput
+  }
+
+  export type RateCardListRelationFilter = {
+    every?: RateCardWhereInput
+    some?: RateCardWhereInput
+    none?: RateCardWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -89549,6 +96392,22 @@ export namespace Prisma {
   }
 
   export type EmployeeOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type TimesheetOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type TimeEntryOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ResourceAllocationOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type RateCardOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -92968,6 +99827,289 @@ export namespace Prisma {
     _max?: NestedEnumEmployeeStatusFilter<$PrismaModel>
   }
 
+  export type EnumTimesheetStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.TimesheetStatus | EnumTimesheetStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.TimesheetStatus[] | ListEnumTimesheetStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TimesheetStatus[] | ListEnumTimesheetStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumTimesheetStatusFilter<$PrismaModel> | $Enums.TimesheetStatus
+  }
+
+  export type TimesheetTeamIdUserIdWeekStartDateCompoundUniqueInput = {
+    teamId: string
+    userId: string
+    weekStartDate: Date | string
+  }
+
+  export type TimesheetCountOrderByAggregateInput = {
+    id?: SortOrder
+    teamId?: SortOrder
+    userId?: SortOrder
+    weekStartDate?: SortOrder
+    weekEndDate?: SortOrder
+    status?: SortOrder
+    totalHours?: SortOrder
+    billableHours?: SortOrder
+    submittedAt?: SortOrder
+    approvedAt?: SortOrder
+    approvedBy?: SortOrder
+    rejectionReason?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TimesheetAvgOrderByAggregateInput = {
+    totalHours?: SortOrder
+    billableHours?: SortOrder
+  }
+
+  export type TimesheetMaxOrderByAggregateInput = {
+    id?: SortOrder
+    teamId?: SortOrder
+    userId?: SortOrder
+    weekStartDate?: SortOrder
+    weekEndDate?: SortOrder
+    status?: SortOrder
+    totalHours?: SortOrder
+    billableHours?: SortOrder
+    submittedAt?: SortOrder
+    approvedAt?: SortOrder
+    approvedBy?: SortOrder
+    rejectionReason?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TimesheetMinOrderByAggregateInput = {
+    id?: SortOrder
+    teamId?: SortOrder
+    userId?: SortOrder
+    weekStartDate?: SortOrder
+    weekEndDate?: SortOrder
+    status?: SortOrder
+    totalHours?: SortOrder
+    billableHours?: SortOrder
+    submittedAt?: SortOrder
+    approvedAt?: SortOrder
+    approvedBy?: SortOrder
+    rejectionReason?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TimesheetSumOrderByAggregateInput = {
+    totalHours?: SortOrder
+    billableHours?: SortOrder
+  }
+
+  export type EnumTimesheetStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TimesheetStatus | EnumTimesheetStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.TimesheetStatus[] | ListEnumTimesheetStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TimesheetStatus[] | ListEnumTimesheetStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumTimesheetStatusWithAggregatesFilter<$PrismaModel> | $Enums.TimesheetStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumTimesheetStatusFilter<$PrismaModel>
+    _max?: NestedEnumTimesheetStatusFilter<$PrismaModel>
+  }
+
+  export type TimesheetNullableScalarRelationFilter = {
+    is?: TimesheetWhereInput | null
+    isNot?: TimesheetWhereInput | null
+  }
+
+  export type IssueNullableScalarRelationFilter = {
+    is?: IssueWhereInput | null
+    isNot?: IssueWhereInput | null
+  }
+
+  export type TimeEntryCountOrderByAggregateInput = {
+    id?: SortOrder
+    teamId?: SortOrder
+    userId?: SortOrder
+    timesheetId?: SortOrder
+    projectId?: SortOrder
+    issueId?: SortOrder
+    date?: SortOrder
+    hours?: SortOrder
+    description?: SortOrder
+    isBillable?: SortOrder
+    category?: SortOrder
+    costRate?: SortOrder
+    billingRate?: SortOrder
+    isTimer?: SortOrder
+    startedAt?: SortOrder
+    stoppedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TimeEntryAvgOrderByAggregateInput = {
+    hours?: SortOrder
+    costRate?: SortOrder
+    billingRate?: SortOrder
+  }
+
+  export type TimeEntryMaxOrderByAggregateInput = {
+    id?: SortOrder
+    teamId?: SortOrder
+    userId?: SortOrder
+    timesheetId?: SortOrder
+    projectId?: SortOrder
+    issueId?: SortOrder
+    date?: SortOrder
+    hours?: SortOrder
+    description?: SortOrder
+    isBillable?: SortOrder
+    category?: SortOrder
+    costRate?: SortOrder
+    billingRate?: SortOrder
+    isTimer?: SortOrder
+    startedAt?: SortOrder
+    stoppedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TimeEntryMinOrderByAggregateInput = {
+    id?: SortOrder
+    teamId?: SortOrder
+    userId?: SortOrder
+    timesheetId?: SortOrder
+    projectId?: SortOrder
+    issueId?: SortOrder
+    date?: SortOrder
+    hours?: SortOrder
+    description?: SortOrder
+    isBillable?: SortOrder
+    category?: SortOrder
+    costRate?: SortOrder
+    billingRate?: SortOrder
+    isTimer?: SortOrder
+    startedAt?: SortOrder
+    stoppedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TimeEntrySumOrderByAggregateInput = {
+    hours?: SortOrder
+    costRate?: SortOrder
+    billingRate?: SortOrder
+  }
+
+  export type ResourceAllocationTeamIdUserIdProjectIdWeekStartDateCompoundUniqueInput = {
+    teamId: string
+    userId: string
+    projectId: string
+    weekStartDate: Date | string
+  }
+
+  export type ResourceAllocationCountOrderByAggregateInput = {
+    id?: SortOrder
+    teamId?: SortOrder
+    userId?: SortOrder
+    projectId?: SortOrder
+    weekStartDate?: SortOrder
+    allocatedHours?: SortOrder
+    role?: SortOrder
+    notes?: SortOrder
+    isContractor?: SortOrder
+    contractorRate?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ResourceAllocationAvgOrderByAggregateInput = {
+    allocatedHours?: SortOrder
+    contractorRate?: SortOrder
+  }
+
+  export type ResourceAllocationMaxOrderByAggregateInput = {
+    id?: SortOrder
+    teamId?: SortOrder
+    userId?: SortOrder
+    projectId?: SortOrder
+    weekStartDate?: SortOrder
+    allocatedHours?: SortOrder
+    role?: SortOrder
+    notes?: SortOrder
+    isContractor?: SortOrder
+    contractorRate?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ResourceAllocationMinOrderByAggregateInput = {
+    id?: SortOrder
+    teamId?: SortOrder
+    userId?: SortOrder
+    projectId?: SortOrder
+    weekStartDate?: SortOrder
+    allocatedHours?: SortOrder
+    role?: SortOrder
+    notes?: SortOrder
+    isContractor?: SortOrder
+    contractorRate?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ResourceAllocationSumOrderByAggregateInput = {
+    allocatedHours?: SortOrder
+    contractorRate?: SortOrder
+  }
+
+  export type RateCardCountOrderByAggregateInput = {
+    id?: SortOrder
+    teamId?: SortOrder
+    roleKey?: SortOrder
+    userId?: SortOrder
+    hourlyCostRate?: SortOrder
+    hourlyBillingRate?: SortOrder
+    currency?: SortOrder
+    effectiveFrom?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type RateCardAvgOrderByAggregateInput = {
+    hourlyCostRate?: SortOrder
+    hourlyBillingRate?: SortOrder
+  }
+
+  export type RateCardMaxOrderByAggregateInput = {
+    id?: SortOrder
+    teamId?: SortOrder
+    roleKey?: SortOrder
+    userId?: SortOrder
+    hourlyCostRate?: SortOrder
+    hourlyBillingRate?: SortOrder
+    currency?: SortOrder
+    effectiveFrom?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type RateCardMinOrderByAggregateInput = {
+    id?: SortOrder
+    teamId?: SortOrder
+    roleKey?: SortOrder
+    userId?: SortOrder
+    hourlyCostRate?: SortOrder
+    hourlyBillingRate?: SortOrder
+    currency?: SortOrder
+    effectiveFrom?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type RateCardSumOrderByAggregateInput = {
+    hourlyCostRate?: SortOrder
+    hourlyBillingRate?: SortOrder
+  }
+
   export type ProjectCreateNestedManyWithoutTeamInput = {
     create?: XOR<ProjectCreateWithoutTeamInput, ProjectUncheckedCreateWithoutTeamInput> | ProjectCreateWithoutTeamInput[] | ProjectUncheckedCreateWithoutTeamInput[]
     connectOrCreate?: ProjectCreateOrConnectWithoutTeamInput | ProjectCreateOrConnectWithoutTeamInput[]
@@ -93156,6 +100298,34 @@ export namespace Prisma {
     connect?: EmployeeWhereUniqueInput | EmployeeWhereUniqueInput[]
   }
 
+  export type TimesheetCreateNestedManyWithoutTeamInput = {
+    create?: XOR<TimesheetCreateWithoutTeamInput, TimesheetUncheckedCreateWithoutTeamInput> | TimesheetCreateWithoutTeamInput[] | TimesheetUncheckedCreateWithoutTeamInput[]
+    connectOrCreate?: TimesheetCreateOrConnectWithoutTeamInput | TimesheetCreateOrConnectWithoutTeamInput[]
+    createMany?: TimesheetCreateManyTeamInputEnvelope
+    connect?: TimesheetWhereUniqueInput | TimesheetWhereUniqueInput[]
+  }
+
+  export type TimeEntryCreateNestedManyWithoutTeamInput = {
+    create?: XOR<TimeEntryCreateWithoutTeamInput, TimeEntryUncheckedCreateWithoutTeamInput> | TimeEntryCreateWithoutTeamInput[] | TimeEntryUncheckedCreateWithoutTeamInput[]
+    connectOrCreate?: TimeEntryCreateOrConnectWithoutTeamInput | TimeEntryCreateOrConnectWithoutTeamInput[]
+    createMany?: TimeEntryCreateManyTeamInputEnvelope
+    connect?: TimeEntryWhereUniqueInput | TimeEntryWhereUniqueInput[]
+  }
+
+  export type ResourceAllocationCreateNestedManyWithoutTeamInput = {
+    create?: XOR<ResourceAllocationCreateWithoutTeamInput, ResourceAllocationUncheckedCreateWithoutTeamInput> | ResourceAllocationCreateWithoutTeamInput[] | ResourceAllocationUncheckedCreateWithoutTeamInput[]
+    connectOrCreate?: ResourceAllocationCreateOrConnectWithoutTeamInput | ResourceAllocationCreateOrConnectWithoutTeamInput[]
+    createMany?: ResourceAllocationCreateManyTeamInputEnvelope
+    connect?: ResourceAllocationWhereUniqueInput | ResourceAllocationWhereUniqueInput[]
+  }
+
+  export type RateCardCreateNestedManyWithoutTeamInput = {
+    create?: XOR<RateCardCreateWithoutTeamInput, RateCardUncheckedCreateWithoutTeamInput> | RateCardCreateWithoutTeamInput[] | RateCardUncheckedCreateWithoutTeamInput[]
+    connectOrCreate?: RateCardCreateOrConnectWithoutTeamInput | RateCardCreateOrConnectWithoutTeamInput[]
+    createMany?: RateCardCreateManyTeamInputEnvelope
+    connect?: RateCardWhereUniqueInput | RateCardWhereUniqueInput[]
+  }
+
   export type ProjectUncheckedCreateNestedManyWithoutTeamInput = {
     create?: XOR<ProjectCreateWithoutTeamInput, ProjectUncheckedCreateWithoutTeamInput> | ProjectCreateWithoutTeamInput[] | ProjectUncheckedCreateWithoutTeamInput[]
     connectOrCreate?: ProjectCreateOrConnectWithoutTeamInput | ProjectCreateOrConnectWithoutTeamInput[]
@@ -93342,6 +100512,34 @@ export namespace Prisma {
     connectOrCreate?: EmployeeCreateOrConnectWithoutTeamInput | EmployeeCreateOrConnectWithoutTeamInput[]
     createMany?: EmployeeCreateManyTeamInputEnvelope
     connect?: EmployeeWhereUniqueInput | EmployeeWhereUniqueInput[]
+  }
+
+  export type TimesheetUncheckedCreateNestedManyWithoutTeamInput = {
+    create?: XOR<TimesheetCreateWithoutTeamInput, TimesheetUncheckedCreateWithoutTeamInput> | TimesheetCreateWithoutTeamInput[] | TimesheetUncheckedCreateWithoutTeamInput[]
+    connectOrCreate?: TimesheetCreateOrConnectWithoutTeamInput | TimesheetCreateOrConnectWithoutTeamInput[]
+    createMany?: TimesheetCreateManyTeamInputEnvelope
+    connect?: TimesheetWhereUniqueInput | TimesheetWhereUniqueInput[]
+  }
+
+  export type TimeEntryUncheckedCreateNestedManyWithoutTeamInput = {
+    create?: XOR<TimeEntryCreateWithoutTeamInput, TimeEntryUncheckedCreateWithoutTeamInput> | TimeEntryCreateWithoutTeamInput[] | TimeEntryUncheckedCreateWithoutTeamInput[]
+    connectOrCreate?: TimeEntryCreateOrConnectWithoutTeamInput | TimeEntryCreateOrConnectWithoutTeamInput[]
+    createMany?: TimeEntryCreateManyTeamInputEnvelope
+    connect?: TimeEntryWhereUniqueInput | TimeEntryWhereUniqueInput[]
+  }
+
+  export type ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput = {
+    create?: XOR<ResourceAllocationCreateWithoutTeamInput, ResourceAllocationUncheckedCreateWithoutTeamInput> | ResourceAllocationCreateWithoutTeamInput[] | ResourceAllocationUncheckedCreateWithoutTeamInput[]
+    connectOrCreate?: ResourceAllocationCreateOrConnectWithoutTeamInput | ResourceAllocationCreateOrConnectWithoutTeamInput[]
+    createMany?: ResourceAllocationCreateManyTeamInputEnvelope
+    connect?: ResourceAllocationWhereUniqueInput | ResourceAllocationWhereUniqueInput[]
+  }
+
+  export type RateCardUncheckedCreateNestedManyWithoutTeamInput = {
+    create?: XOR<RateCardCreateWithoutTeamInput, RateCardUncheckedCreateWithoutTeamInput> | RateCardCreateWithoutTeamInput[] | RateCardUncheckedCreateWithoutTeamInput[]
+    connectOrCreate?: RateCardCreateOrConnectWithoutTeamInput | RateCardCreateOrConnectWithoutTeamInput[]
+    createMany?: RateCardCreateManyTeamInputEnvelope
+    connect?: RateCardWhereUniqueInput | RateCardWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -93730,6 +100928,62 @@ export namespace Prisma {
     deleteMany?: EmployeeScalarWhereInput | EmployeeScalarWhereInput[]
   }
 
+  export type TimesheetUpdateManyWithoutTeamNestedInput = {
+    create?: XOR<TimesheetCreateWithoutTeamInput, TimesheetUncheckedCreateWithoutTeamInput> | TimesheetCreateWithoutTeamInput[] | TimesheetUncheckedCreateWithoutTeamInput[]
+    connectOrCreate?: TimesheetCreateOrConnectWithoutTeamInput | TimesheetCreateOrConnectWithoutTeamInput[]
+    upsert?: TimesheetUpsertWithWhereUniqueWithoutTeamInput | TimesheetUpsertWithWhereUniqueWithoutTeamInput[]
+    createMany?: TimesheetCreateManyTeamInputEnvelope
+    set?: TimesheetWhereUniqueInput | TimesheetWhereUniqueInput[]
+    disconnect?: TimesheetWhereUniqueInput | TimesheetWhereUniqueInput[]
+    delete?: TimesheetWhereUniqueInput | TimesheetWhereUniqueInput[]
+    connect?: TimesheetWhereUniqueInput | TimesheetWhereUniqueInput[]
+    update?: TimesheetUpdateWithWhereUniqueWithoutTeamInput | TimesheetUpdateWithWhereUniqueWithoutTeamInput[]
+    updateMany?: TimesheetUpdateManyWithWhereWithoutTeamInput | TimesheetUpdateManyWithWhereWithoutTeamInput[]
+    deleteMany?: TimesheetScalarWhereInput | TimesheetScalarWhereInput[]
+  }
+
+  export type TimeEntryUpdateManyWithoutTeamNestedInput = {
+    create?: XOR<TimeEntryCreateWithoutTeamInput, TimeEntryUncheckedCreateWithoutTeamInput> | TimeEntryCreateWithoutTeamInput[] | TimeEntryUncheckedCreateWithoutTeamInput[]
+    connectOrCreate?: TimeEntryCreateOrConnectWithoutTeamInput | TimeEntryCreateOrConnectWithoutTeamInput[]
+    upsert?: TimeEntryUpsertWithWhereUniqueWithoutTeamInput | TimeEntryUpsertWithWhereUniqueWithoutTeamInput[]
+    createMany?: TimeEntryCreateManyTeamInputEnvelope
+    set?: TimeEntryWhereUniqueInput | TimeEntryWhereUniqueInput[]
+    disconnect?: TimeEntryWhereUniqueInput | TimeEntryWhereUniqueInput[]
+    delete?: TimeEntryWhereUniqueInput | TimeEntryWhereUniqueInput[]
+    connect?: TimeEntryWhereUniqueInput | TimeEntryWhereUniqueInput[]
+    update?: TimeEntryUpdateWithWhereUniqueWithoutTeamInput | TimeEntryUpdateWithWhereUniqueWithoutTeamInput[]
+    updateMany?: TimeEntryUpdateManyWithWhereWithoutTeamInput | TimeEntryUpdateManyWithWhereWithoutTeamInput[]
+    deleteMany?: TimeEntryScalarWhereInput | TimeEntryScalarWhereInput[]
+  }
+
+  export type ResourceAllocationUpdateManyWithoutTeamNestedInput = {
+    create?: XOR<ResourceAllocationCreateWithoutTeamInput, ResourceAllocationUncheckedCreateWithoutTeamInput> | ResourceAllocationCreateWithoutTeamInput[] | ResourceAllocationUncheckedCreateWithoutTeamInput[]
+    connectOrCreate?: ResourceAllocationCreateOrConnectWithoutTeamInput | ResourceAllocationCreateOrConnectWithoutTeamInput[]
+    upsert?: ResourceAllocationUpsertWithWhereUniqueWithoutTeamInput | ResourceAllocationUpsertWithWhereUniqueWithoutTeamInput[]
+    createMany?: ResourceAllocationCreateManyTeamInputEnvelope
+    set?: ResourceAllocationWhereUniqueInput | ResourceAllocationWhereUniqueInput[]
+    disconnect?: ResourceAllocationWhereUniqueInput | ResourceAllocationWhereUniqueInput[]
+    delete?: ResourceAllocationWhereUniqueInput | ResourceAllocationWhereUniqueInput[]
+    connect?: ResourceAllocationWhereUniqueInput | ResourceAllocationWhereUniqueInput[]
+    update?: ResourceAllocationUpdateWithWhereUniqueWithoutTeamInput | ResourceAllocationUpdateWithWhereUniqueWithoutTeamInput[]
+    updateMany?: ResourceAllocationUpdateManyWithWhereWithoutTeamInput | ResourceAllocationUpdateManyWithWhereWithoutTeamInput[]
+    deleteMany?: ResourceAllocationScalarWhereInput | ResourceAllocationScalarWhereInput[]
+  }
+
+  export type RateCardUpdateManyWithoutTeamNestedInput = {
+    create?: XOR<RateCardCreateWithoutTeamInput, RateCardUncheckedCreateWithoutTeamInput> | RateCardCreateWithoutTeamInput[] | RateCardUncheckedCreateWithoutTeamInput[]
+    connectOrCreate?: RateCardCreateOrConnectWithoutTeamInput | RateCardCreateOrConnectWithoutTeamInput[]
+    upsert?: RateCardUpsertWithWhereUniqueWithoutTeamInput | RateCardUpsertWithWhereUniqueWithoutTeamInput[]
+    createMany?: RateCardCreateManyTeamInputEnvelope
+    set?: RateCardWhereUniqueInput | RateCardWhereUniqueInput[]
+    disconnect?: RateCardWhereUniqueInput | RateCardWhereUniqueInput[]
+    delete?: RateCardWhereUniqueInput | RateCardWhereUniqueInput[]
+    connect?: RateCardWhereUniqueInput | RateCardWhereUniqueInput[]
+    update?: RateCardUpdateWithWhereUniqueWithoutTeamInput | RateCardUpdateWithWhereUniqueWithoutTeamInput[]
+    updateMany?: RateCardUpdateManyWithWhereWithoutTeamInput | RateCardUpdateManyWithWhereWithoutTeamInput[]
+    deleteMany?: RateCardScalarWhereInput | RateCardScalarWhereInput[]
+  }
+
   export type ProjectUncheckedUpdateManyWithoutTeamNestedInput = {
     create?: XOR<ProjectCreateWithoutTeamInput, ProjectUncheckedCreateWithoutTeamInput> | ProjectCreateWithoutTeamInput[] | ProjectUncheckedCreateWithoutTeamInput[]
     connectOrCreate?: ProjectCreateOrConnectWithoutTeamInput | ProjectCreateOrConnectWithoutTeamInput[]
@@ -94104,6 +101358,62 @@ export namespace Prisma {
     deleteMany?: EmployeeScalarWhereInput | EmployeeScalarWhereInput[]
   }
 
+  export type TimesheetUncheckedUpdateManyWithoutTeamNestedInput = {
+    create?: XOR<TimesheetCreateWithoutTeamInput, TimesheetUncheckedCreateWithoutTeamInput> | TimesheetCreateWithoutTeamInput[] | TimesheetUncheckedCreateWithoutTeamInput[]
+    connectOrCreate?: TimesheetCreateOrConnectWithoutTeamInput | TimesheetCreateOrConnectWithoutTeamInput[]
+    upsert?: TimesheetUpsertWithWhereUniqueWithoutTeamInput | TimesheetUpsertWithWhereUniqueWithoutTeamInput[]
+    createMany?: TimesheetCreateManyTeamInputEnvelope
+    set?: TimesheetWhereUniqueInput | TimesheetWhereUniqueInput[]
+    disconnect?: TimesheetWhereUniqueInput | TimesheetWhereUniqueInput[]
+    delete?: TimesheetWhereUniqueInput | TimesheetWhereUniqueInput[]
+    connect?: TimesheetWhereUniqueInput | TimesheetWhereUniqueInput[]
+    update?: TimesheetUpdateWithWhereUniqueWithoutTeamInput | TimesheetUpdateWithWhereUniqueWithoutTeamInput[]
+    updateMany?: TimesheetUpdateManyWithWhereWithoutTeamInput | TimesheetUpdateManyWithWhereWithoutTeamInput[]
+    deleteMany?: TimesheetScalarWhereInput | TimesheetScalarWhereInput[]
+  }
+
+  export type TimeEntryUncheckedUpdateManyWithoutTeamNestedInput = {
+    create?: XOR<TimeEntryCreateWithoutTeamInput, TimeEntryUncheckedCreateWithoutTeamInput> | TimeEntryCreateWithoutTeamInput[] | TimeEntryUncheckedCreateWithoutTeamInput[]
+    connectOrCreate?: TimeEntryCreateOrConnectWithoutTeamInput | TimeEntryCreateOrConnectWithoutTeamInput[]
+    upsert?: TimeEntryUpsertWithWhereUniqueWithoutTeamInput | TimeEntryUpsertWithWhereUniqueWithoutTeamInput[]
+    createMany?: TimeEntryCreateManyTeamInputEnvelope
+    set?: TimeEntryWhereUniqueInput | TimeEntryWhereUniqueInput[]
+    disconnect?: TimeEntryWhereUniqueInput | TimeEntryWhereUniqueInput[]
+    delete?: TimeEntryWhereUniqueInput | TimeEntryWhereUniqueInput[]
+    connect?: TimeEntryWhereUniqueInput | TimeEntryWhereUniqueInput[]
+    update?: TimeEntryUpdateWithWhereUniqueWithoutTeamInput | TimeEntryUpdateWithWhereUniqueWithoutTeamInput[]
+    updateMany?: TimeEntryUpdateManyWithWhereWithoutTeamInput | TimeEntryUpdateManyWithWhereWithoutTeamInput[]
+    deleteMany?: TimeEntryScalarWhereInput | TimeEntryScalarWhereInput[]
+  }
+
+  export type ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput = {
+    create?: XOR<ResourceAllocationCreateWithoutTeamInput, ResourceAllocationUncheckedCreateWithoutTeamInput> | ResourceAllocationCreateWithoutTeamInput[] | ResourceAllocationUncheckedCreateWithoutTeamInput[]
+    connectOrCreate?: ResourceAllocationCreateOrConnectWithoutTeamInput | ResourceAllocationCreateOrConnectWithoutTeamInput[]
+    upsert?: ResourceAllocationUpsertWithWhereUniqueWithoutTeamInput | ResourceAllocationUpsertWithWhereUniqueWithoutTeamInput[]
+    createMany?: ResourceAllocationCreateManyTeamInputEnvelope
+    set?: ResourceAllocationWhereUniqueInput | ResourceAllocationWhereUniqueInput[]
+    disconnect?: ResourceAllocationWhereUniqueInput | ResourceAllocationWhereUniqueInput[]
+    delete?: ResourceAllocationWhereUniqueInput | ResourceAllocationWhereUniqueInput[]
+    connect?: ResourceAllocationWhereUniqueInput | ResourceAllocationWhereUniqueInput[]
+    update?: ResourceAllocationUpdateWithWhereUniqueWithoutTeamInput | ResourceAllocationUpdateWithWhereUniqueWithoutTeamInput[]
+    updateMany?: ResourceAllocationUpdateManyWithWhereWithoutTeamInput | ResourceAllocationUpdateManyWithWhereWithoutTeamInput[]
+    deleteMany?: ResourceAllocationScalarWhereInput | ResourceAllocationScalarWhereInput[]
+  }
+
+  export type RateCardUncheckedUpdateManyWithoutTeamNestedInput = {
+    create?: XOR<RateCardCreateWithoutTeamInput, RateCardUncheckedCreateWithoutTeamInput> | RateCardCreateWithoutTeamInput[] | RateCardUncheckedCreateWithoutTeamInput[]
+    connectOrCreate?: RateCardCreateOrConnectWithoutTeamInput | RateCardCreateOrConnectWithoutTeamInput[]
+    upsert?: RateCardUpsertWithWhereUniqueWithoutTeamInput | RateCardUpsertWithWhereUniqueWithoutTeamInput[]
+    createMany?: RateCardCreateManyTeamInputEnvelope
+    set?: RateCardWhereUniqueInput | RateCardWhereUniqueInput[]
+    disconnect?: RateCardWhereUniqueInput | RateCardWhereUniqueInput[]
+    delete?: RateCardWhereUniqueInput | RateCardWhereUniqueInput[]
+    connect?: RateCardWhereUniqueInput | RateCardWhereUniqueInput[]
+    update?: RateCardUpdateWithWhereUniqueWithoutTeamInput | RateCardUpdateWithWhereUniqueWithoutTeamInput[]
+    updateMany?: RateCardUpdateManyWithWhereWithoutTeamInput | RateCardUpdateManyWithWhereWithoutTeamInput[]
+    deleteMany?: RateCardScalarWhereInput | RateCardScalarWhereInput[]
+  }
+
   export type TeamCreateNestedOneWithoutProjectsInput = {
     create?: XOR<TeamCreateWithoutProjectsInput, TeamUncheckedCreateWithoutProjectsInput>
     connectOrCreate?: TeamCreateOrConnectWithoutProjectsInput
@@ -94158,6 +101468,20 @@ export namespace Prisma {
     connect?: ExpenseWhereUniqueInput | ExpenseWhereUniqueInput[]
   }
 
+  export type TimeEntryCreateNestedManyWithoutProjectInput = {
+    create?: XOR<TimeEntryCreateWithoutProjectInput, TimeEntryUncheckedCreateWithoutProjectInput> | TimeEntryCreateWithoutProjectInput[] | TimeEntryUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: TimeEntryCreateOrConnectWithoutProjectInput | TimeEntryCreateOrConnectWithoutProjectInput[]
+    createMany?: TimeEntryCreateManyProjectInputEnvelope
+    connect?: TimeEntryWhereUniqueInput | TimeEntryWhereUniqueInput[]
+  }
+
+  export type ResourceAllocationCreateNestedManyWithoutProjectInput = {
+    create?: XOR<ResourceAllocationCreateWithoutProjectInput, ResourceAllocationUncheckedCreateWithoutProjectInput> | ResourceAllocationCreateWithoutProjectInput[] | ResourceAllocationUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: ResourceAllocationCreateOrConnectWithoutProjectInput | ResourceAllocationCreateOrConnectWithoutProjectInput[]
+    createMany?: ResourceAllocationCreateManyProjectInputEnvelope
+    connect?: ResourceAllocationWhereUniqueInput | ResourceAllocationWhereUniqueInput[]
+  }
+
   export type IssueUncheckedCreateNestedManyWithoutProjectInput = {
     create?: XOR<IssueCreateWithoutProjectInput, IssueUncheckedCreateWithoutProjectInput> | IssueCreateWithoutProjectInput[] | IssueUncheckedCreateWithoutProjectInput[]
     connectOrCreate?: IssueCreateOrConnectWithoutProjectInput | IssueCreateOrConnectWithoutProjectInput[]
@@ -94198,6 +101522,20 @@ export namespace Prisma {
     connectOrCreate?: ExpenseCreateOrConnectWithoutProjectInput | ExpenseCreateOrConnectWithoutProjectInput[]
     createMany?: ExpenseCreateManyProjectInputEnvelope
     connect?: ExpenseWhereUniqueInput | ExpenseWhereUniqueInput[]
+  }
+
+  export type TimeEntryUncheckedCreateNestedManyWithoutProjectInput = {
+    create?: XOR<TimeEntryCreateWithoutProjectInput, TimeEntryUncheckedCreateWithoutProjectInput> | TimeEntryCreateWithoutProjectInput[] | TimeEntryUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: TimeEntryCreateOrConnectWithoutProjectInput | TimeEntryCreateOrConnectWithoutProjectInput[]
+    createMany?: TimeEntryCreateManyProjectInputEnvelope
+    connect?: TimeEntryWhereUniqueInput | TimeEntryWhereUniqueInput[]
+  }
+
+  export type ResourceAllocationUncheckedCreateNestedManyWithoutProjectInput = {
+    create?: XOR<ResourceAllocationCreateWithoutProjectInput, ResourceAllocationUncheckedCreateWithoutProjectInput> | ResourceAllocationCreateWithoutProjectInput[] | ResourceAllocationUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: ResourceAllocationCreateOrConnectWithoutProjectInput | ResourceAllocationCreateOrConnectWithoutProjectInput[]
+    createMany?: ResourceAllocationCreateManyProjectInputEnvelope
+    connect?: ResourceAllocationWhereUniqueInput | ResourceAllocationWhereUniqueInput[]
   }
 
   export type TeamUpdateOneRequiredWithoutProjectsNestedInput = {
@@ -94302,6 +101640,34 @@ export namespace Prisma {
     deleteMany?: ExpenseScalarWhereInput | ExpenseScalarWhereInput[]
   }
 
+  export type TimeEntryUpdateManyWithoutProjectNestedInput = {
+    create?: XOR<TimeEntryCreateWithoutProjectInput, TimeEntryUncheckedCreateWithoutProjectInput> | TimeEntryCreateWithoutProjectInput[] | TimeEntryUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: TimeEntryCreateOrConnectWithoutProjectInput | TimeEntryCreateOrConnectWithoutProjectInput[]
+    upsert?: TimeEntryUpsertWithWhereUniqueWithoutProjectInput | TimeEntryUpsertWithWhereUniqueWithoutProjectInput[]
+    createMany?: TimeEntryCreateManyProjectInputEnvelope
+    set?: TimeEntryWhereUniqueInput | TimeEntryWhereUniqueInput[]
+    disconnect?: TimeEntryWhereUniqueInput | TimeEntryWhereUniqueInput[]
+    delete?: TimeEntryWhereUniqueInput | TimeEntryWhereUniqueInput[]
+    connect?: TimeEntryWhereUniqueInput | TimeEntryWhereUniqueInput[]
+    update?: TimeEntryUpdateWithWhereUniqueWithoutProjectInput | TimeEntryUpdateWithWhereUniqueWithoutProjectInput[]
+    updateMany?: TimeEntryUpdateManyWithWhereWithoutProjectInput | TimeEntryUpdateManyWithWhereWithoutProjectInput[]
+    deleteMany?: TimeEntryScalarWhereInput | TimeEntryScalarWhereInput[]
+  }
+
+  export type ResourceAllocationUpdateManyWithoutProjectNestedInput = {
+    create?: XOR<ResourceAllocationCreateWithoutProjectInput, ResourceAllocationUncheckedCreateWithoutProjectInput> | ResourceAllocationCreateWithoutProjectInput[] | ResourceAllocationUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: ResourceAllocationCreateOrConnectWithoutProjectInput | ResourceAllocationCreateOrConnectWithoutProjectInput[]
+    upsert?: ResourceAllocationUpsertWithWhereUniqueWithoutProjectInput | ResourceAllocationUpsertWithWhereUniqueWithoutProjectInput[]
+    createMany?: ResourceAllocationCreateManyProjectInputEnvelope
+    set?: ResourceAllocationWhereUniqueInput | ResourceAllocationWhereUniqueInput[]
+    disconnect?: ResourceAllocationWhereUniqueInput | ResourceAllocationWhereUniqueInput[]
+    delete?: ResourceAllocationWhereUniqueInput | ResourceAllocationWhereUniqueInput[]
+    connect?: ResourceAllocationWhereUniqueInput | ResourceAllocationWhereUniqueInput[]
+    update?: ResourceAllocationUpdateWithWhereUniqueWithoutProjectInput | ResourceAllocationUpdateWithWhereUniqueWithoutProjectInput[]
+    updateMany?: ResourceAllocationUpdateManyWithWhereWithoutProjectInput | ResourceAllocationUpdateManyWithWhereWithoutProjectInput[]
+    deleteMany?: ResourceAllocationScalarWhereInput | ResourceAllocationScalarWhereInput[]
+  }
+
   export type IssueUncheckedUpdateManyWithoutProjectNestedInput = {
     create?: XOR<IssueCreateWithoutProjectInput, IssueUncheckedCreateWithoutProjectInput> | IssueCreateWithoutProjectInput[] | IssueUncheckedCreateWithoutProjectInput[]
     connectOrCreate?: IssueCreateOrConnectWithoutProjectInput | IssueCreateOrConnectWithoutProjectInput[]
@@ -94384,6 +101750,34 @@ export namespace Prisma {
     update?: ExpenseUpdateWithWhereUniqueWithoutProjectInput | ExpenseUpdateWithWhereUniqueWithoutProjectInput[]
     updateMany?: ExpenseUpdateManyWithWhereWithoutProjectInput | ExpenseUpdateManyWithWhereWithoutProjectInput[]
     deleteMany?: ExpenseScalarWhereInput | ExpenseScalarWhereInput[]
+  }
+
+  export type TimeEntryUncheckedUpdateManyWithoutProjectNestedInput = {
+    create?: XOR<TimeEntryCreateWithoutProjectInput, TimeEntryUncheckedCreateWithoutProjectInput> | TimeEntryCreateWithoutProjectInput[] | TimeEntryUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: TimeEntryCreateOrConnectWithoutProjectInput | TimeEntryCreateOrConnectWithoutProjectInput[]
+    upsert?: TimeEntryUpsertWithWhereUniqueWithoutProjectInput | TimeEntryUpsertWithWhereUniqueWithoutProjectInput[]
+    createMany?: TimeEntryCreateManyProjectInputEnvelope
+    set?: TimeEntryWhereUniqueInput | TimeEntryWhereUniqueInput[]
+    disconnect?: TimeEntryWhereUniqueInput | TimeEntryWhereUniqueInput[]
+    delete?: TimeEntryWhereUniqueInput | TimeEntryWhereUniqueInput[]
+    connect?: TimeEntryWhereUniqueInput | TimeEntryWhereUniqueInput[]
+    update?: TimeEntryUpdateWithWhereUniqueWithoutProjectInput | TimeEntryUpdateWithWhereUniqueWithoutProjectInput[]
+    updateMany?: TimeEntryUpdateManyWithWhereWithoutProjectInput | TimeEntryUpdateManyWithWhereWithoutProjectInput[]
+    deleteMany?: TimeEntryScalarWhereInput | TimeEntryScalarWhereInput[]
+  }
+
+  export type ResourceAllocationUncheckedUpdateManyWithoutProjectNestedInput = {
+    create?: XOR<ResourceAllocationCreateWithoutProjectInput, ResourceAllocationUncheckedCreateWithoutProjectInput> | ResourceAllocationCreateWithoutProjectInput[] | ResourceAllocationUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: ResourceAllocationCreateOrConnectWithoutProjectInput | ResourceAllocationCreateOrConnectWithoutProjectInput[]
+    upsert?: ResourceAllocationUpsertWithWhereUniqueWithoutProjectInput | ResourceAllocationUpsertWithWhereUniqueWithoutProjectInput[]
+    createMany?: ResourceAllocationCreateManyProjectInputEnvelope
+    set?: ResourceAllocationWhereUniqueInput | ResourceAllocationWhereUniqueInput[]
+    disconnect?: ResourceAllocationWhereUniqueInput | ResourceAllocationWhereUniqueInput[]
+    delete?: ResourceAllocationWhereUniqueInput | ResourceAllocationWhereUniqueInput[]
+    connect?: ResourceAllocationWhereUniqueInput | ResourceAllocationWhereUniqueInput[]
+    update?: ResourceAllocationUpdateWithWhereUniqueWithoutProjectInput | ResourceAllocationUpdateWithWhereUniqueWithoutProjectInput[]
+    updateMany?: ResourceAllocationUpdateManyWithWhereWithoutProjectInput | ResourceAllocationUpdateManyWithWhereWithoutProjectInput[]
+    deleteMany?: ResourceAllocationScalarWhereInput | ResourceAllocationScalarWhereInput[]
   }
 
   export type TeamCreateNestedOneWithoutWorkflowStatesInput = {
@@ -94538,6 +101932,13 @@ export namespace Prisma {
     connect?: IssueLabelWhereUniqueInput | IssueLabelWhereUniqueInput[]
   }
 
+  export type TimeEntryCreateNestedManyWithoutIssueInput = {
+    create?: XOR<TimeEntryCreateWithoutIssueInput, TimeEntryUncheckedCreateWithoutIssueInput> | TimeEntryCreateWithoutIssueInput[] | TimeEntryUncheckedCreateWithoutIssueInput[]
+    connectOrCreate?: TimeEntryCreateOrConnectWithoutIssueInput | TimeEntryCreateOrConnectWithoutIssueInput[]
+    createMany?: TimeEntryCreateManyIssueInputEnvelope
+    connect?: TimeEntryWhereUniqueInput | TimeEntryWhereUniqueInput[]
+  }
+
   export type CommentUncheckedCreateNestedManyWithoutIssueInput = {
     create?: XOR<CommentCreateWithoutIssueInput, CommentUncheckedCreateWithoutIssueInput> | CommentCreateWithoutIssueInput[] | CommentUncheckedCreateWithoutIssueInput[]
     connectOrCreate?: CommentCreateOrConnectWithoutIssueInput | CommentCreateOrConnectWithoutIssueInput[]
@@ -94550,6 +101951,13 @@ export namespace Prisma {
     connectOrCreate?: IssueLabelCreateOrConnectWithoutIssueInput | IssueLabelCreateOrConnectWithoutIssueInput[]
     createMany?: IssueLabelCreateManyIssueInputEnvelope
     connect?: IssueLabelWhereUniqueInput | IssueLabelWhereUniqueInput[]
+  }
+
+  export type TimeEntryUncheckedCreateNestedManyWithoutIssueInput = {
+    create?: XOR<TimeEntryCreateWithoutIssueInput, TimeEntryUncheckedCreateWithoutIssueInput> | TimeEntryCreateWithoutIssueInput[] | TimeEntryUncheckedCreateWithoutIssueInput[]
+    connectOrCreate?: TimeEntryCreateOrConnectWithoutIssueInput | TimeEntryCreateOrConnectWithoutIssueInput[]
+    createMany?: TimeEntryCreateManyIssueInputEnvelope
+    connect?: TimeEntryWhereUniqueInput | TimeEntryWhereUniqueInput[]
   }
 
   export type NullableIntFieldUpdateOperationsInput = {
@@ -94618,6 +102026,20 @@ export namespace Prisma {
     deleteMany?: IssueLabelScalarWhereInput | IssueLabelScalarWhereInput[]
   }
 
+  export type TimeEntryUpdateManyWithoutIssueNestedInput = {
+    create?: XOR<TimeEntryCreateWithoutIssueInput, TimeEntryUncheckedCreateWithoutIssueInput> | TimeEntryCreateWithoutIssueInput[] | TimeEntryUncheckedCreateWithoutIssueInput[]
+    connectOrCreate?: TimeEntryCreateOrConnectWithoutIssueInput | TimeEntryCreateOrConnectWithoutIssueInput[]
+    upsert?: TimeEntryUpsertWithWhereUniqueWithoutIssueInput | TimeEntryUpsertWithWhereUniqueWithoutIssueInput[]
+    createMany?: TimeEntryCreateManyIssueInputEnvelope
+    set?: TimeEntryWhereUniqueInput | TimeEntryWhereUniqueInput[]
+    disconnect?: TimeEntryWhereUniqueInput | TimeEntryWhereUniqueInput[]
+    delete?: TimeEntryWhereUniqueInput | TimeEntryWhereUniqueInput[]
+    connect?: TimeEntryWhereUniqueInput | TimeEntryWhereUniqueInput[]
+    update?: TimeEntryUpdateWithWhereUniqueWithoutIssueInput | TimeEntryUpdateWithWhereUniqueWithoutIssueInput[]
+    updateMany?: TimeEntryUpdateManyWithWhereWithoutIssueInput | TimeEntryUpdateManyWithWhereWithoutIssueInput[]
+    deleteMany?: TimeEntryScalarWhereInput | TimeEntryScalarWhereInput[]
+  }
+
   export type CommentUncheckedUpdateManyWithoutIssueNestedInput = {
     create?: XOR<CommentCreateWithoutIssueInput, CommentUncheckedCreateWithoutIssueInput> | CommentCreateWithoutIssueInput[] | CommentUncheckedCreateWithoutIssueInput[]
     connectOrCreate?: CommentCreateOrConnectWithoutIssueInput | CommentCreateOrConnectWithoutIssueInput[]
@@ -94644,6 +102066,20 @@ export namespace Prisma {
     update?: IssueLabelUpdateWithWhereUniqueWithoutIssueInput | IssueLabelUpdateWithWhereUniqueWithoutIssueInput[]
     updateMany?: IssueLabelUpdateManyWithWhereWithoutIssueInput | IssueLabelUpdateManyWithWhereWithoutIssueInput[]
     deleteMany?: IssueLabelScalarWhereInput | IssueLabelScalarWhereInput[]
+  }
+
+  export type TimeEntryUncheckedUpdateManyWithoutIssueNestedInput = {
+    create?: XOR<TimeEntryCreateWithoutIssueInput, TimeEntryUncheckedCreateWithoutIssueInput> | TimeEntryCreateWithoutIssueInput[] | TimeEntryUncheckedCreateWithoutIssueInput[]
+    connectOrCreate?: TimeEntryCreateOrConnectWithoutIssueInput | TimeEntryCreateOrConnectWithoutIssueInput[]
+    upsert?: TimeEntryUpsertWithWhereUniqueWithoutIssueInput | TimeEntryUpsertWithWhereUniqueWithoutIssueInput[]
+    createMany?: TimeEntryCreateManyIssueInputEnvelope
+    set?: TimeEntryWhereUniqueInput | TimeEntryWhereUniqueInput[]
+    disconnect?: TimeEntryWhereUniqueInput | TimeEntryWhereUniqueInput[]
+    delete?: TimeEntryWhereUniqueInput | TimeEntryWhereUniqueInput[]
+    connect?: TimeEntryWhereUniqueInput | TimeEntryWhereUniqueInput[]
+    update?: TimeEntryUpdateWithWhereUniqueWithoutIssueInput | TimeEntryUpdateWithWhereUniqueWithoutIssueInput[]
+    updateMany?: TimeEntryUpdateManyWithWhereWithoutIssueInput | TimeEntryUpdateManyWithWhereWithoutIssueInput[]
+    deleteMany?: TimeEntryScalarWhereInput | TimeEntryScalarWhereInput[]
   }
 
   export type IssueCreateNestedOneWithoutLabelsInput = {
@@ -94757,6 +102193,27 @@ export namespace Prisma {
     connect?: EmployeeWhereUniqueInput
   }
 
+  export type TimesheetCreateNestedManyWithoutUserInput = {
+    create?: XOR<TimesheetCreateWithoutUserInput, TimesheetUncheckedCreateWithoutUserInput> | TimesheetCreateWithoutUserInput[] | TimesheetUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: TimesheetCreateOrConnectWithoutUserInput | TimesheetCreateOrConnectWithoutUserInput[]
+    createMany?: TimesheetCreateManyUserInputEnvelope
+    connect?: TimesheetWhereUniqueInput | TimesheetWhereUniqueInput[]
+  }
+
+  export type TimeEntryCreateNestedManyWithoutUserInput = {
+    create?: XOR<TimeEntryCreateWithoutUserInput, TimeEntryUncheckedCreateWithoutUserInput> | TimeEntryCreateWithoutUserInput[] | TimeEntryUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: TimeEntryCreateOrConnectWithoutUserInput | TimeEntryCreateOrConnectWithoutUserInput[]
+    createMany?: TimeEntryCreateManyUserInputEnvelope
+    connect?: TimeEntryWhereUniqueInput | TimeEntryWhereUniqueInput[]
+  }
+
+  export type ResourceAllocationCreateNestedManyWithoutUserInput = {
+    create?: XOR<ResourceAllocationCreateWithoutUserInput, ResourceAllocationUncheckedCreateWithoutUserInput> | ResourceAllocationCreateWithoutUserInput[] | ResourceAllocationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ResourceAllocationCreateOrConnectWithoutUserInput | ResourceAllocationCreateOrConnectWithoutUserInput[]
+    createMany?: ResourceAllocationCreateManyUserInputEnvelope
+    connect?: ResourceAllocationWhereUniqueInput | ResourceAllocationWhereUniqueInput[]
+  }
+
   export type SessionUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
@@ -94782,6 +102239,27 @@ export namespace Prisma {
     create?: XOR<EmployeeCreateWithoutUserInput, EmployeeUncheckedCreateWithoutUserInput>
     connectOrCreate?: EmployeeCreateOrConnectWithoutUserInput
     connect?: EmployeeWhereUniqueInput
+  }
+
+  export type TimesheetUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<TimesheetCreateWithoutUserInput, TimesheetUncheckedCreateWithoutUserInput> | TimesheetCreateWithoutUserInput[] | TimesheetUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: TimesheetCreateOrConnectWithoutUserInput | TimesheetCreateOrConnectWithoutUserInput[]
+    createMany?: TimesheetCreateManyUserInputEnvelope
+    connect?: TimesheetWhereUniqueInput | TimesheetWhereUniqueInput[]
+  }
+
+  export type TimeEntryUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<TimeEntryCreateWithoutUserInput, TimeEntryUncheckedCreateWithoutUserInput> | TimeEntryCreateWithoutUserInput[] | TimeEntryUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: TimeEntryCreateOrConnectWithoutUserInput | TimeEntryCreateOrConnectWithoutUserInput[]
+    createMany?: TimeEntryCreateManyUserInputEnvelope
+    connect?: TimeEntryWhereUniqueInput | TimeEntryWhereUniqueInput[]
+  }
+
+  export type ResourceAllocationUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<ResourceAllocationCreateWithoutUserInput, ResourceAllocationUncheckedCreateWithoutUserInput> | ResourceAllocationCreateWithoutUserInput[] | ResourceAllocationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ResourceAllocationCreateOrConnectWithoutUserInput | ResourceAllocationCreateOrConnectWithoutUserInput[]
+    createMany?: ResourceAllocationCreateManyUserInputEnvelope
+    connect?: ResourceAllocationWhereUniqueInput | ResourceAllocationWhereUniqueInput[]
   }
 
   export type BoolFieldUpdateOperationsInput = {
@@ -94844,6 +102322,48 @@ export namespace Prisma {
     update?: XOR<XOR<EmployeeUpdateToOneWithWhereWithoutUserInput, EmployeeUpdateWithoutUserInput>, EmployeeUncheckedUpdateWithoutUserInput>
   }
 
+  export type TimesheetUpdateManyWithoutUserNestedInput = {
+    create?: XOR<TimesheetCreateWithoutUserInput, TimesheetUncheckedCreateWithoutUserInput> | TimesheetCreateWithoutUserInput[] | TimesheetUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: TimesheetCreateOrConnectWithoutUserInput | TimesheetCreateOrConnectWithoutUserInput[]
+    upsert?: TimesheetUpsertWithWhereUniqueWithoutUserInput | TimesheetUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: TimesheetCreateManyUserInputEnvelope
+    set?: TimesheetWhereUniqueInput | TimesheetWhereUniqueInput[]
+    disconnect?: TimesheetWhereUniqueInput | TimesheetWhereUniqueInput[]
+    delete?: TimesheetWhereUniqueInput | TimesheetWhereUniqueInput[]
+    connect?: TimesheetWhereUniqueInput | TimesheetWhereUniqueInput[]
+    update?: TimesheetUpdateWithWhereUniqueWithoutUserInput | TimesheetUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: TimesheetUpdateManyWithWhereWithoutUserInput | TimesheetUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: TimesheetScalarWhereInput | TimesheetScalarWhereInput[]
+  }
+
+  export type TimeEntryUpdateManyWithoutUserNestedInput = {
+    create?: XOR<TimeEntryCreateWithoutUserInput, TimeEntryUncheckedCreateWithoutUserInput> | TimeEntryCreateWithoutUserInput[] | TimeEntryUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: TimeEntryCreateOrConnectWithoutUserInput | TimeEntryCreateOrConnectWithoutUserInput[]
+    upsert?: TimeEntryUpsertWithWhereUniqueWithoutUserInput | TimeEntryUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: TimeEntryCreateManyUserInputEnvelope
+    set?: TimeEntryWhereUniqueInput | TimeEntryWhereUniqueInput[]
+    disconnect?: TimeEntryWhereUniqueInput | TimeEntryWhereUniqueInput[]
+    delete?: TimeEntryWhereUniqueInput | TimeEntryWhereUniqueInput[]
+    connect?: TimeEntryWhereUniqueInput | TimeEntryWhereUniqueInput[]
+    update?: TimeEntryUpdateWithWhereUniqueWithoutUserInput | TimeEntryUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: TimeEntryUpdateManyWithWhereWithoutUserInput | TimeEntryUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: TimeEntryScalarWhereInput | TimeEntryScalarWhereInput[]
+  }
+
+  export type ResourceAllocationUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ResourceAllocationCreateWithoutUserInput, ResourceAllocationUncheckedCreateWithoutUserInput> | ResourceAllocationCreateWithoutUserInput[] | ResourceAllocationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ResourceAllocationCreateOrConnectWithoutUserInput | ResourceAllocationCreateOrConnectWithoutUserInput[]
+    upsert?: ResourceAllocationUpsertWithWhereUniqueWithoutUserInput | ResourceAllocationUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ResourceAllocationCreateManyUserInputEnvelope
+    set?: ResourceAllocationWhereUniqueInput | ResourceAllocationWhereUniqueInput[]
+    disconnect?: ResourceAllocationWhereUniqueInput | ResourceAllocationWhereUniqueInput[]
+    delete?: ResourceAllocationWhereUniqueInput | ResourceAllocationWhereUniqueInput[]
+    connect?: ResourceAllocationWhereUniqueInput | ResourceAllocationWhereUniqueInput[]
+    update?: ResourceAllocationUpdateWithWhereUniqueWithoutUserInput | ResourceAllocationUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ResourceAllocationUpdateManyWithWhereWithoutUserInput | ResourceAllocationUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ResourceAllocationScalarWhereInput | ResourceAllocationScalarWhereInput[]
+  }
+
   export type SessionUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
@@ -94894,6 +102414,48 @@ export namespace Prisma {
     delete?: EmployeeWhereInput | boolean
     connect?: EmployeeWhereUniqueInput
     update?: XOR<XOR<EmployeeUpdateToOneWithWhereWithoutUserInput, EmployeeUpdateWithoutUserInput>, EmployeeUncheckedUpdateWithoutUserInput>
+  }
+
+  export type TimesheetUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<TimesheetCreateWithoutUserInput, TimesheetUncheckedCreateWithoutUserInput> | TimesheetCreateWithoutUserInput[] | TimesheetUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: TimesheetCreateOrConnectWithoutUserInput | TimesheetCreateOrConnectWithoutUserInput[]
+    upsert?: TimesheetUpsertWithWhereUniqueWithoutUserInput | TimesheetUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: TimesheetCreateManyUserInputEnvelope
+    set?: TimesheetWhereUniqueInput | TimesheetWhereUniqueInput[]
+    disconnect?: TimesheetWhereUniqueInput | TimesheetWhereUniqueInput[]
+    delete?: TimesheetWhereUniqueInput | TimesheetWhereUniqueInput[]
+    connect?: TimesheetWhereUniqueInput | TimesheetWhereUniqueInput[]
+    update?: TimesheetUpdateWithWhereUniqueWithoutUserInput | TimesheetUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: TimesheetUpdateManyWithWhereWithoutUserInput | TimesheetUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: TimesheetScalarWhereInput | TimesheetScalarWhereInput[]
+  }
+
+  export type TimeEntryUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<TimeEntryCreateWithoutUserInput, TimeEntryUncheckedCreateWithoutUserInput> | TimeEntryCreateWithoutUserInput[] | TimeEntryUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: TimeEntryCreateOrConnectWithoutUserInput | TimeEntryCreateOrConnectWithoutUserInput[]
+    upsert?: TimeEntryUpsertWithWhereUniqueWithoutUserInput | TimeEntryUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: TimeEntryCreateManyUserInputEnvelope
+    set?: TimeEntryWhereUniqueInput | TimeEntryWhereUniqueInput[]
+    disconnect?: TimeEntryWhereUniqueInput | TimeEntryWhereUniqueInput[]
+    delete?: TimeEntryWhereUniqueInput | TimeEntryWhereUniqueInput[]
+    connect?: TimeEntryWhereUniqueInput | TimeEntryWhereUniqueInput[]
+    update?: TimeEntryUpdateWithWhereUniqueWithoutUserInput | TimeEntryUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: TimeEntryUpdateManyWithWhereWithoutUserInput | TimeEntryUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: TimeEntryScalarWhereInput | TimeEntryScalarWhereInput[]
+  }
+
+  export type ResourceAllocationUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ResourceAllocationCreateWithoutUserInput, ResourceAllocationUncheckedCreateWithoutUserInput> | ResourceAllocationCreateWithoutUserInput[] | ResourceAllocationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ResourceAllocationCreateOrConnectWithoutUserInput | ResourceAllocationCreateOrConnectWithoutUserInput[]
+    upsert?: ResourceAllocationUpsertWithWhereUniqueWithoutUserInput | ResourceAllocationUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ResourceAllocationCreateManyUserInputEnvelope
+    set?: ResourceAllocationWhereUniqueInput | ResourceAllocationWhereUniqueInput[]
+    disconnect?: ResourceAllocationWhereUniqueInput | ResourceAllocationWhereUniqueInput[]
+    delete?: ResourceAllocationWhereUniqueInput | ResourceAllocationWhereUniqueInput[]
+    connect?: ResourceAllocationWhereUniqueInput | ResourceAllocationWhereUniqueInput[]
+    update?: ResourceAllocationUpdateWithWhereUniqueWithoutUserInput | ResourceAllocationUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ResourceAllocationUpdateManyWithWhereWithoutUserInput | ResourceAllocationUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ResourceAllocationScalarWhereInput | ResourceAllocationScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutSessionsInput = {
@@ -96896,6 +104458,212 @@ export namespace Prisma {
     update?: XOR<XOR<TeamUpdateToOneWithWhereWithoutEmployeesInput, TeamUpdateWithoutEmployeesInput>, TeamUncheckedUpdateWithoutEmployeesInput>
   }
 
+  export type TeamCreateNestedOneWithoutTimesheetsInput = {
+    create?: XOR<TeamCreateWithoutTimesheetsInput, TeamUncheckedCreateWithoutTimesheetsInput>
+    connectOrCreate?: TeamCreateOrConnectWithoutTimesheetsInput
+    connect?: TeamWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutTimesheetsInput = {
+    create?: XOR<UserCreateWithoutTimesheetsInput, UserUncheckedCreateWithoutTimesheetsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutTimesheetsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type TimeEntryCreateNestedManyWithoutTimesheetInput = {
+    create?: XOR<TimeEntryCreateWithoutTimesheetInput, TimeEntryUncheckedCreateWithoutTimesheetInput> | TimeEntryCreateWithoutTimesheetInput[] | TimeEntryUncheckedCreateWithoutTimesheetInput[]
+    connectOrCreate?: TimeEntryCreateOrConnectWithoutTimesheetInput | TimeEntryCreateOrConnectWithoutTimesheetInput[]
+    createMany?: TimeEntryCreateManyTimesheetInputEnvelope
+    connect?: TimeEntryWhereUniqueInput | TimeEntryWhereUniqueInput[]
+  }
+
+  export type TimeEntryUncheckedCreateNestedManyWithoutTimesheetInput = {
+    create?: XOR<TimeEntryCreateWithoutTimesheetInput, TimeEntryUncheckedCreateWithoutTimesheetInput> | TimeEntryCreateWithoutTimesheetInput[] | TimeEntryUncheckedCreateWithoutTimesheetInput[]
+    connectOrCreate?: TimeEntryCreateOrConnectWithoutTimesheetInput | TimeEntryCreateOrConnectWithoutTimesheetInput[]
+    createMany?: TimeEntryCreateManyTimesheetInputEnvelope
+    connect?: TimeEntryWhereUniqueInput | TimeEntryWhereUniqueInput[]
+  }
+
+  export type EnumTimesheetStatusFieldUpdateOperationsInput = {
+    set?: $Enums.TimesheetStatus
+  }
+
+  export type TeamUpdateOneRequiredWithoutTimesheetsNestedInput = {
+    create?: XOR<TeamCreateWithoutTimesheetsInput, TeamUncheckedCreateWithoutTimesheetsInput>
+    connectOrCreate?: TeamCreateOrConnectWithoutTimesheetsInput
+    upsert?: TeamUpsertWithoutTimesheetsInput
+    connect?: TeamWhereUniqueInput
+    update?: XOR<XOR<TeamUpdateToOneWithWhereWithoutTimesheetsInput, TeamUpdateWithoutTimesheetsInput>, TeamUncheckedUpdateWithoutTimesheetsInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutTimesheetsNestedInput = {
+    create?: XOR<UserCreateWithoutTimesheetsInput, UserUncheckedCreateWithoutTimesheetsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutTimesheetsInput
+    upsert?: UserUpsertWithoutTimesheetsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutTimesheetsInput, UserUpdateWithoutTimesheetsInput>, UserUncheckedUpdateWithoutTimesheetsInput>
+  }
+
+  export type TimeEntryUpdateManyWithoutTimesheetNestedInput = {
+    create?: XOR<TimeEntryCreateWithoutTimesheetInput, TimeEntryUncheckedCreateWithoutTimesheetInput> | TimeEntryCreateWithoutTimesheetInput[] | TimeEntryUncheckedCreateWithoutTimesheetInput[]
+    connectOrCreate?: TimeEntryCreateOrConnectWithoutTimesheetInput | TimeEntryCreateOrConnectWithoutTimesheetInput[]
+    upsert?: TimeEntryUpsertWithWhereUniqueWithoutTimesheetInput | TimeEntryUpsertWithWhereUniqueWithoutTimesheetInput[]
+    createMany?: TimeEntryCreateManyTimesheetInputEnvelope
+    set?: TimeEntryWhereUniqueInput | TimeEntryWhereUniqueInput[]
+    disconnect?: TimeEntryWhereUniqueInput | TimeEntryWhereUniqueInput[]
+    delete?: TimeEntryWhereUniqueInput | TimeEntryWhereUniqueInput[]
+    connect?: TimeEntryWhereUniqueInput | TimeEntryWhereUniqueInput[]
+    update?: TimeEntryUpdateWithWhereUniqueWithoutTimesheetInput | TimeEntryUpdateWithWhereUniqueWithoutTimesheetInput[]
+    updateMany?: TimeEntryUpdateManyWithWhereWithoutTimesheetInput | TimeEntryUpdateManyWithWhereWithoutTimesheetInput[]
+    deleteMany?: TimeEntryScalarWhereInput | TimeEntryScalarWhereInput[]
+  }
+
+  export type TimeEntryUncheckedUpdateManyWithoutTimesheetNestedInput = {
+    create?: XOR<TimeEntryCreateWithoutTimesheetInput, TimeEntryUncheckedCreateWithoutTimesheetInput> | TimeEntryCreateWithoutTimesheetInput[] | TimeEntryUncheckedCreateWithoutTimesheetInput[]
+    connectOrCreate?: TimeEntryCreateOrConnectWithoutTimesheetInput | TimeEntryCreateOrConnectWithoutTimesheetInput[]
+    upsert?: TimeEntryUpsertWithWhereUniqueWithoutTimesheetInput | TimeEntryUpsertWithWhereUniqueWithoutTimesheetInput[]
+    createMany?: TimeEntryCreateManyTimesheetInputEnvelope
+    set?: TimeEntryWhereUniqueInput | TimeEntryWhereUniqueInput[]
+    disconnect?: TimeEntryWhereUniqueInput | TimeEntryWhereUniqueInput[]
+    delete?: TimeEntryWhereUniqueInput | TimeEntryWhereUniqueInput[]
+    connect?: TimeEntryWhereUniqueInput | TimeEntryWhereUniqueInput[]
+    update?: TimeEntryUpdateWithWhereUniqueWithoutTimesheetInput | TimeEntryUpdateWithWhereUniqueWithoutTimesheetInput[]
+    updateMany?: TimeEntryUpdateManyWithWhereWithoutTimesheetInput | TimeEntryUpdateManyWithWhereWithoutTimesheetInput[]
+    deleteMany?: TimeEntryScalarWhereInput | TimeEntryScalarWhereInput[]
+  }
+
+  export type TeamCreateNestedOneWithoutTimeEntriesInput = {
+    create?: XOR<TeamCreateWithoutTimeEntriesInput, TeamUncheckedCreateWithoutTimeEntriesInput>
+    connectOrCreate?: TeamCreateOrConnectWithoutTimeEntriesInput
+    connect?: TeamWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutTimeEntriesInput = {
+    create?: XOR<UserCreateWithoutTimeEntriesInput, UserUncheckedCreateWithoutTimeEntriesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutTimeEntriesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type TimesheetCreateNestedOneWithoutEntriesInput = {
+    create?: XOR<TimesheetCreateWithoutEntriesInput, TimesheetUncheckedCreateWithoutEntriesInput>
+    connectOrCreate?: TimesheetCreateOrConnectWithoutEntriesInput
+    connect?: TimesheetWhereUniqueInput
+  }
+
+  export type ProjectCreateNestedOneWithoutTimeEntriesInput = {
+    create?: XOR<ProjectCreateWithoutTimeEntriesInput, ProjectUncheckedCreateWithoutTimeEntriesInput>
+    connectOrCreate?: ProjectCreateOrConnectWithoutTimeEntriesInput
+    connect?: ProjectWhereUniqueInput
+  }
+
+  export type IssueCreateNestedOneWithoutTimeEntriesInput = {
+    create?: XOR<IssueCreateWithoutTimeEntriesInput, IssueUncheckedCreateWithoutTimeEntriesInput>
+    connectOrCreate?: IssueCreateOrConnectWithoutTimeEntriesInput
+    connect?: IssueWhereUniqueInput
+  }
+
+  export type TeamUpdateOneRequiredWithoutTimeEntriesNestedInput = {
+    create?: XOR<TeamCreateWithoutTimeEntriesInput, TeamUncheckedCreateWithoutTimeEntriesInput>
+    connectOrCreate?: TeamCreateOrConnectWithoutTimeEntriesInput
+    upsert?: TeamUpsertWithoutTimeEntriesInput
+    connect?: TeamWhereUniqueInput
+    update?: XOR<XOR<TeamUpdateToOneWithWhereWithoutTimeEntriesInput, TeamUpdateWithoutTimeEntriesInput>, TeamUncheckedUpdateWithoutTimeEntriesInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutTimeEntriesNestedInput = {
+    create?: XOR<UserCreateWithoutTimeEntriesInput, UserUncheckedCreateWithoutTimeEntriesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutTimeEntriesInput
+    upsert?: UserUpsertWithoutTimeEntriesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutTimeEntriesInput, UserUpdateWithoutTimeEntriesInput>, UserUncheckedUpdateWithoutTimeEntriesInput>
+  }
+
+  export type TimesheetUpdateOneWithoutEntriesNestedInput = {
+    create?: XOR<TimesheetCreateWithoutEntriesInput, TimesheetUncheckedCreateWithoutEntriesInput>
+    connectOrCreate?: TimesheetCreateOrConnectWithoutEntriesInput
+    upsert?: TimesheetUpsertWithoutEntriesInput
+    disconnect?: TimesheetWhereInput | boolean
+    delete?: TimesheetWhereInput | boolean
+    connect?: TimesheetWhereUniqueInput
+    update?: XOR<XOR<TimesheetUpdateToOneWithWhereWithoutEntriesInput, TimesheetUpdateWithoutEntriesInput>, TimesheetUncheckedUpdateWithoutEntriesInput>
+  }
+
+  export type ProjectUpdateOneWithoutTimeEntriesNestedInput = {
+    create?: XOR<ProjectCreateWithoutTimeEntriesInput, ProjectUncheckedCreateWithoutTimeEntriesInput>
+    connectOrCreate?: ProjectCreateOrConnectWithoutTimeEntriesInput
+    upsert?: ProjectUpsertWithoutTimeEntriesInput
+    disconnect?: ProjectWhereInput | boolean
+    delete?: ProjectWhereInput | boolean
+    connect?: ProjectWhereUniqueInput
+    update?: XOR<XOR<ProjectUpdateToOneWithWhereWithoutTimeEntriesInput, ProjectUpdateWithoutTimeEntriesInput>, ProjectUncheckedUpdateWithoutTimeEntriesInput>
+  }
+
+  export type IssueUpdateOneWithoutTimeEntriesNestedInput = {
+    create?: XOR<IssueCreateWithoutTimeEntriesInput, IssueUncheckedCreateWithoutTimeEntriesInput>
+    connectOrCreate?: IssueCreateOrConnectWithoutTimeEntriesInput
+    upsert?: IssueUpsertWithoutTimeEntriesInput
+    disconnect?: IssueWhereInput | boolean
+    delete?: IssueWhereInput | boolean
+    connect?: IssueWhereUniqueInput
+    update?: XOR<XOR<IssueUpdateToOneWithWhereWithoutTimeEntriesInput, IssueUpdateWithoutTimeEntriesInput>, IssueUncheckedUpdateWithoutTimeEntriesInput>
+  }
+
+  export type TeamCreateNestedOneWithoutResourceAllocationsInput = {
+    create?: XOR<TeamCreateWithoutResourceAllocationsInput, TeamUncheckedCreateWithoutResourceAllocationsInput>
+    connectOrCreate?: TeamCreateOrConnectWithoutResourceAllocationsInput
+    connect?: TeamWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutResourceAllocationsInput = {
+    create?: XOR<UserCreateWithoutResourceAllocationsInput, UserUncheckedCreateWithoutResourceAllocationsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutResourceAllocationsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type ProjectCreateNestedOneWithoutResourceAllocationsInput = {
+    create?: XOR<ProjectCreateWithoutResourceAllocationsInput, ProjectUncheckedCreateWithoutResourceAllocationsInput>
+    connectOrCreate?: ProjectCreateOrConnectWithoutResourceAllocationsInput
+    connect?: ProjectWhereUniqueInput
+  }
+
+  export type TeamUpdateOneRequiredWithoutResourceAllocationsNestedInput = {
+    create?: XOR<TeamCreateWithoutResourceAllocationsInput, TeamUncheckedCreateWithoutResourceAllocationsInput>
+    connectOrCreate?: TeamCreateOrConnectWithoutResourceAllocationsInput
+    upsert?: TeamUpsertWithoutResourceAllocationsInput
+    connect?: TeamWhereUniqueInput
+    update?: XOR<XOR<TeamUpdateToOneWithWhereWithoutResourceAllocationsInput, TeamUpdateWithoutResourceAllocationsInput>, TeamUncheckedUpdateWithoutResourceAllocationsInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutResourceAllocationsNestedInput = {
+    create?: XOR<UserCreateWithoutResourceAllocationsInput, UserUncheckedCreateWithoutResourceAllocationsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutResourceAllocationsInput
+    upsert?: UserUpsertWithoutResourceAllocationsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutResourceAllocationsInput, UserUpdateWithoutResourceAllocationsInput>, UserUncheckedUpdateWithoutResourceAllocationsInput>
+  }
+
+  export type ProjectUpdateOneRequiredWithoutResourceAllocationsNestedInput = {
+    create?: XOR<ProjectCreateWithoutResourceAllocationsInput, ProjectUncheckedCreateWithoutResourceAllocationsInput>
+    connectOrCreate?: ProjectCreateOrConnectWithoutResourceAllocationsInput
+    upsert?: ProjectUpsertWithoutResourceAllocationsInput
+    connect?: ProjectWhereUniqueInput
+    update?: XOR<XOR<ProjectUpdateToOneWithWhereWithoutResourceAllocationsInput, ProjectUpdateWithoutResourceAllocationsInput>, ProjectUncheckedUpdateWithoutResourceAllocationsInput>
+  }
+
+  export type TeamCreateNestedOneWithoutRateCardsInput = {
+    create?: XOR<TeamCreateWithoutRateCardsInput, TeamUncheckedCreateWithoutRateCardsInput>
+    connectOrCreate?: TeamCreateOrConnectWithoutRateCardsInput
+    connect?: TeamWhereUniqueInput
+  }
+
+  export type TeamUpdateOneRequiredWithoutRateCardsNestedInput = {
+    create?: XOR<TeamCreateWithoutRateCardsInput, TeamUncheckedCreateWithoutRateCardsInput>
+    connectOrCreate?: TeamCreateOrConnectWithoutRateCardsInput
+    upsert?: TeamUpsertWithoutRateCardsInput
+    connect?: TeamWhereUniqueInput
+    update?: XOR<XOR<TeamUpdateToOneWithWhereWithoutRateCardsInput, TeamUpdateWithoutRateCardsInput>, TeamUncheckedUpdateWithoutRateCardsInput>
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -97243,6 +105011,23 @@ export namespace Prisma {
     _max?: NestedEnumEmployeeStatusFilter<$PrismaModel>
   }
 
+  export type NestedEnumTimesheetStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.TimesheetStatus | EnumTimesheetStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.TimesheetStatus[] | ListEnumTimesheetStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TimesheetStatus[] | ListEnumTimesheetStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumTimesheetStatusFilter<$PrismaModel> | $Enums.TimesheetStatus
+  }
+
+  export type NestedEnumTimesheetStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TimesheetStatus | EnumTimesheetStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.TimesheetStatus[] | ListEnumTimesheetStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TimesheetStatus[] | ListEnumTimesheetStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumTimesheetStatusWithAggregatesFilter<$PrismaModel> | $Enums.TimesheetStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumTimesheetStatusFilter<$PrismaModel>
+    _max?: NestedEnumTimesheetStatusFilter<$PrismaModel>
+  }
+
   export type ProjectCreateWithoutTeamInput = {
     id?: string
     name: string
@@ -97262,6 +105047,8 @@ export namespace Prisma {
     client?: ClientCreateNestedOneWithoutProjectsInput
     invoices?: InvoiceCreateNestedManyWithoutProjectInput
     expenses?: ExpenseCreateNestedManyWithoutProjectInput
+    timeEntries?: TimeEntryCreateNestedManyWithoutProjectInput
+    resourceAllocations?: ResourceAllocationCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateWithoutTeamInput = {
@@ -97283,6 +105070,8 @@ export namespace Prisma {
     teamChannels?: TeamChannelUncheckedCreateNestedManyWithoutProjectInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutProjectInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutProjectInput
+    timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutProjectInput
+    resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectCreateOrConnectWithoutTeamInput = {
@@ -97313,6 +105102,7 @@ export namespace Prisma {
     workflowState: WorkflowStateCreateNestedOneWithoutIssuesInput
     comments?: CommentCreateNestedManyWithoutIssueInput
     labels?: IssueLabelCreateNestedManyWithoutIssueInput
+    timeEntries?: TimeEntryCreateNestedManyWithoutIssueInput
   }
 
   export type IssueUncheckedCreateWithoutTeamInput = {
@@ -97333,6 +105123,7 @@ export namespace Prisma {
     creator: string
     comments?: CommentUncheckedCreateNestedManyWithoutIssueInput
     labels?: IssueLabelUncheckedCreateNestedManyWithoutIssueInput
+    timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutIssueInput
   }
 
   export type IssueCreateOrConnectWithoutTeamInput = {
@@ -98400,6 +106191,174 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type TimesheetCreateWithoutTeamInput = {
+    id?: string
+    weekStartDate: Date | string
+    weekEndDate: Date | string
+    status?: $Enums.TimesheetStatus
+    totalHours?: number
+    billableHours?: number
+    submittedAt?: Date | string | null
+    approvedAt?: Date | string | null
+    approvedBy?: string | null
+    rejectionReason?: string | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutTimesheetsInput
+    entries?: TimeEntryCreateNestedManyWithoutTimesheetInput
+  }
+
+  export type TimesheetUncheckedCreateWithoutTeamInput = {
+    id?: string
+    userId: string
+    weekStartDate: Date | string
+    weekEndDate: Date | string
+    status?: $Enums.TimesheetStatus
+    totalHours?: number
+    billableHours?: number
+    submittedAt?: Date | string | null
+    approvedAt?: Date | string | null
+    approvedBy?: string | null
+    rejectionReason?: string | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    entries?: TimeEntryUncheckedCreateNestedManyWithoutTimesheetInput
+  }
+
+  export type TimesheetCreateOrConnectWithoutTeamInput = {
+    where: TimesheetWhereUniqueInput
+    create: XOR<TimesheetCreateWithoutTeamInput, TimesheetUncheckedCreateWithoutTeamInput>
+  }
+
+  export type TimesheetCreateManyTeamInputEnvelope = {
+    data: TimesheetCreateManyTeamInput | TimesheetCreateManyTeamInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TimeEntryCreateWithoutTeamInput = {
+    id?: string
+    date: Date | string
+    hours: number
+    description: string
+    isBillable?: boolean
+    category?: string
+    costRate?: number | null
+    billingRate?: number | null
+    isTimer?: boolean
+    startedAt?: Date | string | null
+    stoppedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutTimeEntriesInput
+    timesheet?: TimesheetCreateNestedOneWithoutEntriesInput
+    project?: ProjectCreateNestedOneWithoutTimeEntriesInput
+    issue?: IssueCreateNestedOneWithoutTimeEntriesInput
+  }
+
+  export type TimeEntryUncheckedCreateWithoutTeamInput = {
+    id?: string
+    userId: string
+    timesheetId?: string | null
+    projectId?: string | null
+    issueId?: string | null
+    date: Date | string
+    hours: number
+    description: string
+    isBillable?: boolean
+    category?: string
+    costRate?: number | null
+    billingRate?: number | null
+    isTimer?: boolean
+    startedAt?: Date | string | null
+    stoppedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TimeEntryCreateOrConnectWithoutTeamInput = {
+    where: TimeEntryWhereUniqueInput
+    create: XOR<TimeEntryCreateWithoutTeamInput, TimeEntryUncheckedCreateWithoutTeamInput>
+  }
+
+  export type TimeEntryCreateManyTeamInputEnvelope = {
+    data: TimeEntryCreateManyTeamInput | TimeEntryCreateManyTeamInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ResourceAllocationCreateWithoutTeamInput = {
+    id?: string
+    weekStartDate: Date | string
+    allocatedHours?: number
+    role?: string | null
+    notes?: string | null
+    isContractor?: boolean
+    contractorRate?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutResourceAllocationsInput
+    project: ProjectCreateNestedOneWithoutResourceAllocationsInput
+  }
+
+  export type ResourceAllocationUncheckedCreateWithoutTeamInput = {
+    id?: string
+    userId: string
+    projectId: string
+    weekStartDate: Date | string
+    allocatedHours?: number
+    role?: string | null
+    notes?: string | null
+    isContractor?: boolean
+    contractorRate?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ResourceAllocationCreateOrConnectWithoutTeamInput = {
+    where: ResourceAllocationWhereUniqueInput
+    create: XOR<ResourceAllocationCreateWithoutTeamInput, ResourceAllocationUncheckedCreateWithoutTeamInput>
+  }
+
+  export type ResourceAllocationCreateManyTeamInputEnvelope = {
+    data: ResourceAllocationCreateManyTeamInput | ResourceAllocationCreateManyTeamInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type RateCardCreateWithoutTeamInput = {
+    id?: string
+    roleKey?: string | null
+    userId?: string | null
+    hourlyCostRate?: number
+    hourlyBillingRate?: number
+    currency?: string
+    effectiveFrom?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RateCardUncheckedCreateWithoutTeamInput = {
+    id?: string
+    roleKey?: string | null
+    userId?: string | null
+    hourlyCostRate?: number
+    hourlyBillingRate?: number
+    currency?: string
+    effectiveFrom?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RateCardCreateOrConnectWithoutTeamInput = {
+    where: RateCardWhereUniqueInput
+    create: XOR<RateCardCreateWithoutTeamInput, RateCardUncheckedCreateWithoutTeamInput>
+  }
+
+  export type RateCardCreateManyTeamInputEnvelope = {
+    data: RateCardCreateManyTeamInput | RateCardCreateManyTeamInput[]
+    skipDuplicates?: boolean
+  }
+
   export type ProjectUpsertWithWhereUniqueWithoutTeamInput = {
     where: ProjectWhereUniqueInput
     update: XOR<ProjectUpdateWithoutTeamInput, ProjectUncheckedUpdateWithoutTeamInput>
@@ -99366,6 +107325,149 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Employee"> | Date | string
   }
 
+  export type TimesheetUpsertWithWhereUniqueWithoutTeamInput = {
+    where: TimesheetWhereUniqueInput
+    update: XOR<TimesheetUpdateWithoutTeamInput, TimesheetUncheckedUpdateWithoutTeamInput>
+    create: XOR<TimesheetCreateWithoutTeamInput, TimesheetUncheckedCreateWithoutTeamInput>
+  }
+
+  export type TimesheetUpdateWithWhereUniqueWithoutTeamInput = {
+    where: TimesheetWhereUniqueInput
+    data: XOR<TimesheetUpdateWithoutTeamInput, TimesheetUncheckedUpdateWithoutTeamInput>
+  }
+
+  export type TimesheetUpdateManyWithWhereWithoutTeamInput = {
+    where: TimesheetScalarWhereInput
+    data: XOR<TimesheetUpdateManyMutationInput, TimesheetUncheckedUpdateManyWithoutTeamInput>
+  }
+
+  export type TimesheetScalarWhereInput = {
+    AND?: TimesheetScalarWhereInput | TimesheetScalarWhereInput[]
+    OR?: TimesheetScalarWhereInput[]
+    NOT?: TimesheetScalarWhereInput | TimesheetScalarWhereInput[]
+    id?: StringFilter<"Timesheet"> | string
+    teamId?: StringFilter<"Timesheet"> | string
+    userId?: StringFilter<"Timesheet"> | string
+    weekStartDate?: DateTimeFilter<"Timesheet"> | Date | string
+    weekEndDate?: DateTimeFilter<"Timesheet"> | Date | string
+    status?: EnumTimesheetStatusFilter<"Timesheet"> | $Enums.TimesheetStatus
+    totalHours?: FloatFilter<"Timesheet"> | number
+    billableHours?: FloatFilter<"Timesheet"> | number
+    submittedAt?: DateTimeNullableFilter<"Timesheet"> | Date | string | null
+    approvedAt?: DateTimeNullableFilter<"Timesheet"> | Date | string | null
+    approvedBy?: StringNullableFilter<"Timesheet"> | string | null
+    rejectionReason?: StringNullableFilter<"Timesheet"> | string | null
+    notes?: StringNullableFilter<"Timesheet"> | string | null
+    createdAt?: DateTimeFilter<"Timesheet"> | Date | string
+    updatedAt?: DateTimeFilter<"Timesheet"> | Date | string
+  }
+
+  export type TimeEntryUpsertWithWhereUniqueWithoutTeamInput = {
+    where: TimeEntryWhereUniqueInput
+    update: XOR<TimeEntryUpdateWithoutTeamInput, TimeEntryUncheckedUpdateWithoutTeamInput>
+    create: XOR<TimeEntryCreateWithoutTeamInput, TimeEntryUncheckedCreateWithoutTeamInput>
+  }
+
+  export type TimeEntryUpdateWithWhereUniqueWithoutTeamInput = {
+    where: TimeEntryWhereUniqueInput
+    data: XOR<TimeEntryUpdateWithoutTeamInput, TimeEntryUncheckedUpdateWithoutTeamInput>
+  }
+
+  export type TimeEntryUpdateManyWithWhereWithoutTeamInput = {
+    where: TimeEntryScalarWhereInput
+    data: XOR<TimeEntryUpdateManyMutationInput, TimeEntryUncheckedUpdateManyWithoutTeamInput>
+  }
+
+  export type TimeEntryScalarWhereInput = {
+    AND?: TimeEntryScalarWhereInput | TimeEntryScalarWhereInput[]
+    OR?: TimeEntryScalarWhereInput[]
+    NOT?: TimeEntryScalarWhereInput | TimeEntryScalarWhereInput[]
+    id?: StringFilter<"TimeEntry"> | string
+    teamId?: StringFilter<"TimeEntry"> | string
+    userId?: StringFilter<"TimeEntry"> | string
+    timesheetId?: StringNullableFilter<"TimeEntry"> | string | null
+    projectId?: StringNullableFilter<"TimeEntry"> | string | null
+    issueId?: StringNullableFilter<"TimeEntry"> | string | null
+    date?: DateTimeFilter<"TimeEntry"> | Date | string
+    hours?: FloatFilter<"TimeEntry"> | number
+    description?: StringFilter<"TimeEntry"> | string
+    isBillable?: BoolFilter<"TimeEntry"> | boolean
+    category?: StringFilter<"TimeEntry"> | string
+    costRate?: FloatNullableFilter<"TimeEntry"> | number | null
+    billingRate?: FloatNullableFilter<"TimeEntry"> | number | null
+    isTimer?: BoolFilter<"TimeEntry"> | boolean
+    startedAt?: DateTimeNullableFilter<"TimeEntry"> | Date | string | null
+    stoppedAt?: DateTimeNullableFilter<"TimeEntry"> | Date | string | null
+    createdAt?: DateTimeFilter<"TimeEntry"> | Date | string
+    updatedAt?: DateTimeFilter<"TimeEntry"> | Date | string
+  }
+
+  export type ResourceAllocationUpsertWithWhereUniqueWithoutTeamInput = {
+    where: ResourceAllocationWhereUniqueInput
+    update: XOR<ResourceAllocationUpdateWithoutTeamInput, ResourceAllocationUncheckedUpdateWithoutTeamInput>
+    create: XOR<ResourceAllocationCreateWithoutTeamInput, ResourceAllocationUncheckedCreateWithoutTeamInput>
+  }
+
+  export type ResourceAllocationUpdateWithWhereUniqueWithoutTeamInput = {
+    where: ResourceAllocationWhereUniqueInput
+    data: XOR<ResourceAllocationUpdateWithoutTeamInput, ResourceAllocationUncheckedUpdateWithoutTeamInput>
+  }
+
+  export type ResourceAllocationUpdateManyWithWhereWithoutTeamInput = {
+    where: ResourceAllocationScalarWhereInput
+    data: XOR<ResourceAllocationUpdateManyMutationInput, ResourceAllocationUncheckedUpdateManyWithoutTeamInput>
+  }
+
+  export type ResourceAllocationScalarWhereInput = {
+    AND?: ResourceAllocationScalarWhereInput | ResourceAllocationScalarWhereInput[]
+    OR?: ResourceAllocationScalarWhereInput[]
+    NOT?: ResourceAllocationScalarWhereInput | ResourceAllocationScalarWhereInput[]
+    id?: StringFilter<"ResourceAllocation"> | string
+    teamId?: StringFilter<"ResourceAllocation"> | string
+    userId?: StringFilter<"ResourceAllocation"> | string
+    projectId?: StringFilter<"ResourceAllocation"> | string
+    weekStartDate?: DateTimeFilter<"ResourceAllocation"> | Date | string
+    allocatedHours?: FloatFilter<"ResourceAllocation"> | number
+    role?: StringNullableFilter<"ResourceAllocation"> | string | null
+    notes?: StringNullableFilter<"ResourceAllocation"> | string | null
+    isContractor?: BoolFilter<"ResourceAllocation"> | boolean
+    contractorRate?: FloatNullableFilter<"ResourceAllocation"> | number | null
+    createdAt?: DateTimeFilter<"ResourceAllocation"> | Date | string
+    updatedAt?: DateTimeFilter<"ResourceAllocation"> | Date | string
+  }
+
+  export type RateCardUpsertWithWhereUniqueWithoutTeamInput = {
+    where: RateCardWhereUniqueInput
+    update: XOR<RateCardUpdateWithoutTeamInput, RateCardUncheckedUpdateWithoutTeamInput>
+    create: XOR<RateCardCreateWithoutTeamInput, RateCardUncheckedCreateWithoutTeamInput>
+  }
+
+  export type RateCardUpdateWithWhereUniqueWithoutTeamInput = {
+    where: RateCardWhereUniqueInput
+    data: XOR<RateCardUpdateWithoutTeamInput, RateCardUncheckedUpdateWithoutTeamInput>
+  }
+
+  export type RateCardUpdateManyWithWhereWithoutTeamInput = {
+    where: RateCardScalarWhereInput
+    data: XOR<RateCardUpdateManyMutationInput, RateCardUncheckedUpdateManyWithoutTeamInput>
+  }
+
+  export type RateCardScalarWhereInput = {
+    AND?: RateCardScalarWhereInput | RateCardScalarWhereInput[]
+    OR?: RateCardScalarWhereInput[]
+    NOT?: RateCardScalarWhereInput | RateCardScalarWhereInput[]
+    id?: StringFilter<"RateCard"> | string
+    teamId?: StringFilter<"RateCard"> | string
+    roleKey?: StringNullableFilter<"RateCard"> | string | null
+    userId?: StringNullableFilter<"RateCard"> | string | null
+    hourlyCostRate?: FloatFilter<"RateCard"> | number
+    hourlyBillingRate?: FloatFilter<"RateCard"> | number
+    currency?: StringFilter<"RateCard"> | string
+    effectiveFrom?: DateTimeFilter<"RateCard"> | Date | string
+    createdAt?: DateTimeFilter<"RateCard"> | Date | string
+    updatedAt?: DateTimeFilter<"RateCard"> | Date | string
+  }
+
   export type TeamCreateWithoutProjectsInput = {
     id?: string
     name: string
@@ -99399,6 +107501,10 @@ export namespace Prisma {
     domainProducts?: DomainProductCreateNestedManyWithoutTeamInput
     reusableComponents?: ReusableComponentCreateNestedManyWithoutTeamInput
     employees?: EmployeeCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateWithoutProjectsInput = {
@@ -99434,6 +107540,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUncheckedCreateNestedManyWithoutTeamInput
     reusableComponents?: ReusableComponentUncheckedCreateNestedManyWithoutTeamInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetUncheckedCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamCreateOrConnectWithoutProjectsInput = {
@@ -99459,6 +107569,7 @@ export namespace Prisma {
     workflowState: WorkflowStateCreateNestedOneWithoutIssuesInput
     comments?: CommentCreateNestedManyWithoutIssueInput
     labels?: IssueLabelCreateNestedManyWithoutIssueInput
+    timeEntries?: TimeEntryCreateNestedManyWithoutIssueInput
   }
 
   export type IssueUncheckedCreateWithoutProjectInput = {
@@ -99479,6 +107590,7 @@ export namespace Prisma {
     creator: string
     comments?: CommentUncheckedCreateNestedManyWithoutIssueInput
     labels?: IssueLabelUncheckedCreateNestedManyWithoutIssueInput
+    timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutIssueInput
   }
 
   export type IssueCreateOrConnectWithoutProjectInput = {
@@ -99772,6 +107884,94 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type TimeEntryCreateWithoutProjectInput = {
+    id?: string
+    date: Date | string
+    hours: number
+    description: string
+    isBillable?: boolean
+    category?: string
+    costRate?: number | null
+    billingRate?: number | null
+    isTimer?: boolean
+    startedAt?: Date | string | null
+    stoppedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    team: TeamCreateNestedOneWithoutTimeEntriesInput
+    user: UserCreateNestedOneWithoutTimeEntriesInput
+    timesheet?: TimesheetCreateNestedOneWithoutEntriesInput
+    issue?: IssueCreateNestedOneWithoutTimeEntriesInput
+  }
+
+  export type TimeEntryUncheckedCreateWithoutProjectInput = {
+    id?: string
+    teamId: string
+    userId: string
+    timesheetId?: string | null
+    issueId?: string | null
+    date: Date | string
+    hours: number
+    description: string
+    isBillable?: boolean
+    category?: string
+    costRate?: number | null
+    billingRate?: number | null
+    isTimer?: boolean
+    startedAt?: Date | string | null
+    stoppedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TimeEntryCreateOrConnectWithoutProjectInput = {
+    where: TimeEntryWhereUniqueInput
+    create: XOR<TimeEntryCreateWithoutProjectInput, TimeEntryUncheckedCreateWithoutProjectInput>
+  }
+
+  export type TimeEntryCreateManyProjectInputEnvelope = {
+    data: TimeEntryCreateManyProjectInput | TimeEntryCreateManyProjectInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ResourceAllocationCreateWithoutProjectInput = {
+    id?: string
+    weekStartDate: Date | string
+    allocatedHours?: number
+    role?: string | null
+    notes?: string | null
+    isContractor?: boolean
+    contractorRate?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    team: TeamCreateNestedOneWithoutResourceAllocationsInput
+    user: UserCreateNestedOneWithoutResourceAllocationsInput
+  }
+
+  export type ResourceAllocationUncheckedCreateWithoutProjectInput = {
+    id?: string
+    teamId: string
+    userId: string
+    weekStartDate: Date | string
+    allocatedHours?: number
+    role?: string | null
+    notes?: string | null
+    isContractor?: boolean
+    contractorRate?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ResourceAllocationCreateOrConnectWithoutProjectInput = {
+    where: ResourceAllocationWhereUniqueInput
+    create: XOR<ResourceAllocationCreateWithoutProjectInput, ResourceAllocationUncheckedCreateWithoutProjectInput>
+  }
+
+  export type ResourceAllocationCreateManyProjectInputEnvelope = {
+    data: ResourceAllocationCreateManyProjectInput | ResourceAllocationCreateManyProjectInput[]
+    skipDuplicates?: boolean
+  }
+
   export type TeamUpsertWithoutProjectsInput = {
     update: XOR<TeamUpdateWithoutProjectsInput, TeamUncheckedUpdateWithoutProjectsInput>
     create: XOR<TeamCreateWithoutProjectsInput, TeamUncheckedCreateWithoutProjectsInput>
@@ -99816,6 +108016,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUpdateManyWithoutTeamNestedInput
     reusableComponents?: ReusableComponentUpdateManyWithoutTeamNestedInput
     employees?: EmployeeUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateWithoutProjectsInput = {
@@ -99851,6 +108055,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUncheckedUpdateManyWithoutTeamNestedInput
     reusableComponents?: ReusableComponentUncheckedUpdateManyWithoutTeamNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUncheckedUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUncheckedUpdateManyWithoutTeamNestedInput
   }
 
   export type IssueUpsertWithWhereUniqueWithoutProjectInput = {
@@ -100021,6 +108229,38 @@ export namespace Prisma {
     data: XOR<ExpenseUpdateManyMutationInput, ExpenseUncheckedUpdateManyWithoutProjectInput>
   }
 
+  export type TimeEntryUpsertWithWhereUniqueWithoutProjectInput = {
+    where: TimeEntryWhereUniqueInput
+    update: XOR<TimeEntryUpdateWithoutProjectInput, TimeEntryUncheckedUpdateWithoutProjectInput>
+    create: XOR<TimeEntryCreateWithoutProjectInput, TimeEntryUncheckedCreateWithoutProjectInput>
+  }
+
+  export type TimeEntryUpdateWithWhereUniqueWithoutProjectInput = {
+    where: TimeEntryWhereUniqueInput
+    data: XOR<TimeEntryUpdateWithoutProjectInput, TimeEntryUncheckedUpdateWithoutProjectInput>
+  }
+
+  export type TimeEntryUpdateManyWithWhereWithoutProjectInput = {
+    where: TimeEntryScalarWhereInput
+    data: XOR<TimeEntryUpdateManyMutationInput, TimeEntryUncheckedUpdateManyWithoutProjectInput>
+  }
+
+  export type ResourceAllocationUpsertWithWhereUniqueWithoutProjectInput = {
+    where: ResourceAllocationWhereUniqueInput
+    update: XOR<ResourceAllocationUpdateWithoutProjectInput, ResourceAllocationUncheckedUpdateWithoutProjectInput>
+    create: XOR<ResourceAllocationCreateWithoutProjectInput, ResourceAllocationUncheckedCreateWithoutProjectInput>
+  }
+
+  export type ResourceAllocationUpdateWithWhereUniqueWithoutProjectInput = {
+    where: ResourceAllocationWhereUniqueInput
+    data: XOR<ResourceAllocationUpdateWithoutProjectInput, ResourceAllocationUncheckedUpdateWithoutProjectInput>
+  }
+
+  export type ResourceAllocationUpdateManyWithWhereWithoutProjectInput = {
+    where: ResourceAllocationScalarWhereInput
+    data: XOR<ResourceAllocationUpdateManyMutationInput, ResourceAllocationUncheckedUpdateManyWithoutProjectInput>
+  }
+
   export type TeamCreateWithoutWorkflowStatesInput = {
     id?: string
     name: string
@@ -100054,6 +108294,10 @@ export namespace Prisma {
     domainProducts?: DomainProductCreateNestedManyWithoutTeamInput
     reusableComponents?: ReusableComponentCreateNestedManyWithoutTeamInput
     employees?: EmployeeCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateWithoutWorkflowStatesInput = {
@@ -100089,6 +108333,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUncheckedCreateNestedManyWithoutTeamInput
     reusableComponents?: ReusableComponentUncheckedCreateNestedManyWithoutTeamInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetUncheckedCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamCreateOrConnectWithoutWorkflowStatesInput = {
@@ -100114,6 +108362,7 @@ export namespace Prisma {
     project?: ProjectCreateNestedOneWithoutIssuesInput
     comments?: CommentCreateNestedManyWithoutIssueInput
     labels?: IssueLabelCreateNestedManyWithoutIssueInput
+    timeEntries?: TimeEntryCreateNestedManyWithoutIssueInput
   }
 
   export type IssueUncheckedCreateWithoutWorkflowStateInput = {
@@ -100134,6 +108383,7 @@ export namespace Prisma {
     creator: string
     comments?: CommentUncheckedCreateNestedManyWithoutIssueInput
     labels?: IssueLabelUncheckedCreateNestedManyWithoutIssueInput
+    timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutIssueInput
   }
 
   export type IssueCreateOrConnectWithoutWorkflowStateInput = {
@@ -100190,6 +108440,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUpdateManyWithoutTeamNestedInput
     reusableComponents?: ReusableComponentUpdateManyWithoutTeamNestedInput
     employees?: EmployeeUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateWithoutWorkflowStatesInput = {
@@ -100225,6 +108479,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUncheckedUpdateManyWithoutTeamNestedInput
     reusableComponents?: ReusableComponentUncheckedUpdateManyWithoutTeamNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUncheckedUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUncheckedUpdateManyWithoutTeamNestedInput
   }
 
   export type IssueUpsertWithWhereUniqueWithoutWorkflowStateInput = {
@@ -100276,6 +108534,10 @@ export namespace Prisma {
     domainProducts?: DomainProductCreateNestedManyWithoutTeamInput
     reusableComponents?: ReusableComponentCreateNestedManyWithoutTeamInput
     employees?: EmployeeCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateWithoutLabelsInput = {
@@ -100311,6 +108573,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUncheckedCreateNestedManyWithoutTeamInput
     reusableComponents?: ReusableComponentUncheckedCreateNestedManyWithoutTeamInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetUncheckedCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamCreateOrConnectWithoutLabelsInput = {
@@ -100384,6 +108650,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUpdateManyWithoutTeamNestedInput
     reusableComponents?: ReusableComponentUpdateManyWithoutTeamNestedInput
     employees?: EmployeeUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateWithoutLabelsInput = {
@@ -100419,6 +108689,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUncheckedUpdateManyWithoutTeamNestedInput
     reusableComponents?: ReusableComponentUncheckedUpdateManyWithoutTeamNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUncheckedUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUncheckedUpdateManyWithoutTeamNestedInput
   }
 
   export type IssueLabelUpsertWithWhereUniqueWithoutLabelInput = {
@@ -100480,6 +108754,10 @@ export namespace Prisma {
     domainProducts?: DomainProductCreateNestedManyWithoutTeamInput
     reusableComponents?: ReusableComponentCreateNestedManyWithoutTeamInput
     employees?: EmployeeCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateWithoutIssuesInput = {
@@ -100515,6 +108793,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUncheckedCreateNestedManyWithoutTeamInput
     reusableComponents?: ReusableComponentUncheckedCreateNestedManyWithoutTeamInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetUncheckedCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamCreateOrConnectWithoutIssuesInput = {
@@ -100541,6 +108823,8 @@ export namespace Prisma {
     client?: ClientCreateNestedOneWithoutProjectsInput
     invoices?: InvoiceCreateNestedManyWithoutProjectInput
     expenses?: ExpenseCreateNestedManyWithoutProjectInput
+    timeEntries?: TimeEntryCreateNestedManyWithoutProjectInput
+    resourceAllocations?: ResourceAllocationCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateWithoutIssuesInput = {
@@ -100562,6 +108846,8 @@ export namespace Prisma {
     teamChannels?: TeamChannelUncheckedCreateNestedManyWithoutProjectInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutProjectInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutProjectInput
+    timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutProjectInput
+    resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectCreateOrConnectWithoutIssuesInput = {
@@ -100646,6 +108932,56 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type TimeEntryCreateWithoutIssueInput = {
+    id?: string
+    date: Date | string
+    hours: number
+    description: string
+    isBillable?: boolean
+    category?: string
+    costRate?: number | null
+    billingRate?: number | null
+    isTimer?: boolean
+    startedAt?: Date | string | null
+    stoppedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    team: TeamCreateNestedOneWithoutTimeEntriesInput
+    user: UserCreateNestedOneWithoutTimeEntriesInput
+    timesheet?: TimesheetCreateNestedOneWithoutEntriesInput
+    project?: ProjectCreateNestedOneWithoutTimeEntriesInput
+  }
+
+  export type TimeEntryUncheckedCreateWithoutIssueInput = {
+    id?: string
+    teamId: string
+    userId: string
+    timesheetId?: string | null
+    projectId?: string | null
+    date: Date | string
+    hours: number
+    description: string
+    isBillable?: boolean
+    category?: string
+    costRate?: number | null
+    billingRate?: number | null
+    isTimer?: boolean
+    startedAt?: Date | string | null
+    stoppedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TimeEntryCreateOrConnectWithoutIssueInput = {
+    where: TimeEntryWhereUniqueInput
+    create: XOR<TimeEntryCreateWithoutIssueInput, TimeEntryUncheckedCreateWithoutIssueInput>
+  }
+
+  export type TimeEntryCreateManyIssueInputEnvelope = {
+    data: TimeEntryCreateManyIssueInput | TimeEntryCreateManyIssueInput[]
+    skipDuplicates?: boolean
+  }
+
   export type TeamUpsertWithoutIssuesInput = {
     update: XOR<TeamUpdateWithoutIssuesInput, TeamUncheckedUpdateWithoutIssuesInput>
     create: XOR<TeamCreateWithoutIssuesInput, TeamUncheckedCreateWithoutIssuesInput>
@@ -100690,6 +109026,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUpdateManyWithoutTeamNestedInput
     reusableComponents?: ReusableComponentUpdateManyWithoutTeamNestedInput
     employees?: EmployeeUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateWithoutIssuesInput = {
@@ -100725,6 +109065,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUncheckedUpdateManyWithoutTeamNestedInput
     reusableComponents?: ReusableComponentUncheckedUpdateManyWithoutTeamNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUncheckedUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUncheckedUpdateManyWithoutTeamNestedInput
   }
 
   export type ProjectUpsertWithoutIssuesInput = {
@@ -100757,6 +109101,8 @@ export namespace Prisma {
     client?: ClientUpdateOneWithoutProjectsNestedInput
     invoices?: InvoiceUpdateManyWithoutProjectNestedInput
     expenses?: ExpenseUpdateManyWithoutProjectNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutProjectNestedInput
+    resourceAllocations?: ResourceAllocationUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateWithoutIssuesInput = {
@@ -100778,6 +109124,8 @@ export namespace Prisma {
     teamChannels?: TeamChannelUncheckedUpdateManyWithoutProjectNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutProjectNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutProjectNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
+    resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type WorkflowStateUpsertWithoutIssuesInput = {
@@ -100858,6 +109206,22 @@ export namespace Prisma {
     data: XOR<IssueLabelUpdateManyMutationInput, IssueLabelUncheckedUpdateManyWithoutIssueInput>
   }
 
+  export type TimeEntryUpsertWithWhereUniqueWithoutIssueInput = {
+    where: TimeEntryWhereUniqueInput
+    update: XOR<TimeEntryUpdateWithoutIssueInput, TimeEntryUncheckedUpdateWithoutIssueInput>
+    create: XOR<TimeEntryCreateWithoutIssueInput, TimeEntryUncheckedCreateWithoutIssueInput>
+  }
+
+  export type TimeEntryUpdateWithWhereUniqueWithoutIssueInput = {
+    where: TimeEntryWhereUniqueInput
+    data: XOR<TimeEntryUpdateWithoutIssueInput, TimeEntryUncheckedUpdateWithoutIssueInput>
+  }
+
+  export type TimeEntryUpdateManyWithWhereWithoutIssueInput = {
+    where: TimeEntryScalarWhereInput
+    data: XOR<TimeEntryUpdateManyMutationInput, TimeEntryUncheckedUpdateManyWithoutIssueInput>
+  }
+
   export type IssueCreateWithoutLabelsInput = {
     id?: string
     title: string
@@ -100876,6 +109240,7 @@ export namespace Prisma {
     project?: ProjectCreateNestedOneWithoutIssuesInput
     workflowState: WorkflowStateCreateNestedOneWithoutIssuesInput
     comments?: CommentCreateNestedManyWithoutIssueInput
+    timeEntries?: TimeEntryCreateNestedManyWithoutIssueInput
   }
 
   export type IssueUncheckedCreateWithoutLabelsInput = {
@@ -100896,6 +109261,7 @@ export namespace Prisma {
     creatorId: string
     creator: string
     comments?: CommentUncheckedCreateNestedManyWithoutIssueInput
+    timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutIssueInput
   }
 
   export type IssueCreateOrConnectWithoutLabelsInput = {
@@ -100955,6 +109321,7 @@ export namespace Prisma {
     project?: ProjectUpdateOneWithoutIssuesNestedInput
     workflowState?: WorkflowStateUpdateOneRequiredWithoutIssuesNestedInput
     comments?: CommentUpdateManyWithoutIssueNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutIssueNestedInput
   }
 
   export type IssueUncheckedUpdateWithoutLabelsInput = {
@@ -100975,6 +109342,7 @@ export namespace Prisma {
     creatorId?: StringFieldUpdateOperationsInput | string
     creator?: StringFieldUpdateOperationsInput | string
     comments?: CommentUncheckedUpdateManyWithoutIssueNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutIssueNestedInput
   }
 
   export type LabelUpsertWithoutIssuesInput = {
@@ -101024,6 +109392,7 @@ export namespace Prisma {
     project?: ProjectCreateNestedOneWithoutIssuesInput
     workflowState: WorkflowStateCreateNestedOneWithoutIssuesInput
     labels?: IssueLabelCreateNestedManyWithoutIssueInput
+    timeEntries?: TimeEntryCreateNestedManyWithoutIssueInput
   }
 
   export type IssueUncheckedCreateWithoutCommentsInput = {
@@ -101044,6 +109413,7 @@ export namespace Prisma {
     creatorId: string
     creator: string
     labels?: IssueLabelUncheckedCreateNestedManyWithoutIssueInput
+    timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutIssueInput
   }
 
   export type IssueCreateOrConnectWithoutCommentsInput = {
@@ -101080,6 +109450,7 @@ export namespace Prisma {
     project?: ProjectUpdateOneWithoutIssuesNestedInput
     workflowState?: WorkflowStateUpdateOneRequiredWithoutIssuesNestedInput
     labels?: IssueLabelUpdateManyWithoutIssueNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutIssueNestedInput
   }
 
   export type IssueUncheckedUpdateWithoutCommentsInput = {
@@ -101100,6 +109471,7 @@ export namespace Prisma {
     creatorId?: StringFieldUpdateOperationsInput | string
     creator?: StringFieldUpdateOperationsInput | string
     labels?: IssueLabelUncheckedUpdateManyWithoutIssueNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutIssueNestedInput
   }
 
   export type TeamCreateWithoutMembersInput = {
@@ -101135,6 +109507,10 @@ export namespace Prisma {
     domainProducts?: DomainProductCreateNestedManyWithoutTeamInput
     reusableComponents?: ReusableComponentCreateNestedManyWithoutTeamInput
     employees?: EmployeeCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateWithoutMembersInput = {
@@ -101170,6 +109546,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUncheckedCreateNestedManyWithoutTeamInput
     reusableComponents?: ReusableComponentUncheckedCreateNestedManyWithoutTeamInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetUncheckedCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamCreateOrConnectWithoutMembersInput = {
@@ -101221,6 +109601,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUpdateManyWithoutTeamNestedInput
     reusableComponents?: ReusableComponentUpdateManyWithoutTeamNestedInput
     employees?: EmployeeUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateWithoutMembersInput = {
@@ -101256,6 +109640,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUncheckedUpdateManyWithoutTeamNestedInput
     reusableComponents?: ReusableComponentUncheckedUpdateManyWithoutTeamNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUncheckedUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUncheckedUpdateManyWithoutTeamNestedInput
   }
 
   export type ProjectCreateWithoutMembersInput = {
@@ -101277,6 +109665,8 @@ export namespace Prisma {
     client?: ClientCreateNestedOneWithoutProjectsInput
     invoices?: InvoiceCreateNestedManyWithoutProjectInput
     expenses?: ExpenseCreateNestedManyWithoutProjectInput
+    timeEntries?: TimeEntryCreateNestedManyWithoutProjectInput
+    resourceAllocations?: ResourceAllocationCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateWithoutMembersInput = {
@@ -101298,6 +109688,8 @@ export namespace Prisma {
     teamChannels?: TeamChannelUncheckedCreateNestedManyWithoutProjectInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutProjectInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutProjectInput
+    timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutProjectInput
+    resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectCreateOrConnectWithoutMembersInput = {
@@ -101335,6 +109727,8 @@ export namespace Prisma {
     client?: ClientUpdateOneWithoutProjectsNestedInput
     invoices?: InvoiceUpdateManyWithoutProjectNestedInput
     expenses?: ExpenseUpdateManyWithoutProjectNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutProjectNestedInput
+    resourceAllocations?: ResourceAllocationUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateWithoutMembersInput = {
@@ -101356,6 +109750,8 @@ export namespace Prisma {
     teamChannels?: TeamChannelUncheckedUpdateManyWithoutProjectNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutProjectNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutProjectNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
+    resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type TeamCreateWithoutInvitationsInput = {
@@ -101391,6 +109787,10 @@ export namespace Prisma {
     domainProducts?: DomainProductCreateNestedManyWithoutTeamInput
     reusableComponents?: ReusableComponentCreateNestedManyWithoutTeamInput
     employees?: EmployeeCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateWithoutInvitationsInput = {
@@ -101426,6 +109826,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUncheckedCreateNestedManyWithoutTeamInput
     reusableComponents?: ReusableComponentUncheckedCreateNestedManyWithoutTeamInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetUncheckedCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamCreateOrConnectWithoutInvitationsInput = {
@@ -101477,6 +109881,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUpdateManyWithoutTeamNestedInput
     reusableComponents?: ReusableComponentUpdateManyWithoutTeamNestedInput
     employees?: EmployeeUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateWithoutInvitationsInput = {
@@ -101512,6 +109920,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUncheckedUpdateManyWithoutTeamNestedInput
     reusableComponents?: ReusableComponentUncheckedUpdateManyWithoutTeamNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUncheckedUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUncheckedUpdateManyWithoutTeamNestedInput
   }
 
   export type SessionCreateWithoutUserInput = {
@@ -101663,6 +110075,140 @@ export namespace Prisma {
   export type EmployeeCreateOrConnectWithoutUserInput = {
     where: EmployeeWhereUniqueInput
     create: XOR<EmployeeCreateWithoutUserInput, EmployeeUncheckedCreateWithoutUserInput>
+  }
+
+  export type TimesheetCreateWithoutUserInput = {
+    id?: string
+    weekStartDate: Date | string
+    weekEndDate: Date | string
+    status?: $Enums.TimesheetStatus
+    totalHours?: number
+    billableHours?: number
+    submittedAt?: Date | string | null
+    approvedAt?: Date | string | null
+    approvedBy?: string | null
+    rejectionReason?: string | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    team: TeamCreateNestedOneWithoutTimesheetsInput
+    entries?: TimeEntryCreateNestedManyWithoutTimesheetInput
+  }
+
+  export type TimesheetUncheckedCreateWithoutUserInput = {
+    id?: string
+    teamId: string
+    weekStartDate: Date | string
+    weekEndDate: Date | string
+    status?: $Enums.TimesheetStatus
+    totalHours?: number
+    billableHours?: number
+    submittedAt?: Date | string | null
+    approvedAt?: Date | string | null
+    approvedBy?: string | null
+    rejectionReason?: string | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    entries?: TimeEntryUncheckedCreateNestedManyWithoutTimesheetInput
+  }
+
+  export type TimesheetCreateOrConnectWithoutUserInput = {
+    where: TimesheetWhereUniqueInput
+    create: XOR<TimesheetCreateWithoutUserInput, TimesheetUncheckedCreateWithoutUserInput>
+  }
+
+  export type TimesheetCreateManyUserInputEnvelope = {
+    data: TimesheetCreateManyUserInput | TimesheetCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TimeEntryCreateWithoutUserInput = {
+    id?: string
+    date: Date | string
+    hours: number
+    description: string
+    isBillable?: boolean
+    category?: string
+    costRate?: number | null
+    billingRate?: number | null
+    isTimer?: boolean
+    startedAt?: Date | string | null
+    stoppedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    team: TeamCreateNestedOneWithoutTimeEntriesInput
+    timesheet?: TimesheetCreateNestedOneWithoutEntriesInput
+    project?: ProjectCreateNestedOneWithoutTimeEntriesInput
+    issue?: IssueCreateNestedOneWithoutTimeEntriesInput
+  }
+
+  export type TimeEntryUncheckedCreateWithoutUserInput = {
+    id?: string
+    teamId: string
+    timesheetId?: string | null
+    projectId?: string | null
+    issueId?: string | null
+    date: Date | string
+    hours: number
+    description: string
+    isBillable?: boolean
+    category?: string
+    costRate?: number | null
+    billingRate?: number | null
+    isTimer?: boolean
+    startedAt?: Date | string | null
+    stoppedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TimeEntryCreateOrConnectWithoutUserInput = {
+    where: TimeEntryWhereUniqueInput
+    create: XOR<TimeEntryCreateWithoutUserInput, TimeEntryUncheckedCreateWithoutUserInput>
+  }
+
+  export type TimeEntryCreateManyUserInputEnvelope = {
+    data: TimeEntryCreateManyUserInput | TimeEntryCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ResourceAllocationCreateWithoutUserInput = {
+    id?: string
+    weekStartDate: Date | string
+    allocatedHours?: number
+    role?: string | null
+    notes?: string | null
+    isContractor?: boolean
+    contractorRate?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    team: TeamCreateNestedOneWithoutResourceAllocationsInput
+    project: ProjectCreateNestedOneWithoutResourceAllocationsInput
+  }
+
+  export type ResourceAllocationUncheckedCreateWithoutUserInput = {
+    id?: string
+    teamId: string
+    projectId: string
+    weekStartDate: Date | string
+    allocatedHours?: number
+    role?: string | null
+    notes?: string | null
+    isContractor?: boolean
+    contractorRate?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ResourceAllocationCreateOrConnectWithoutUserInput = {
+    where: ResourceAllocationWhereUniqueInput
+    create: XOR<ResourceAllocationCreateWithoutUserInput, ResourceAllocationUncheckedCreateWithoutUserInput>
+  }
+
+  export type ResourceAllocationCreateManyUserInputEnvelope = {
+    data: ResourceAllocationCreateManyUserInput | ResourceAllocationCreateManyUserInput[]
+    skipDuplicates?: boolean
   }
 
   export type SessionUpsertWithWhereUniqueWithoutUserInput = {
@@ -101818,6 +110364,54 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type TimesheetUpsertWithWhereUniqueWithoutUserInput = {
+    where: TimesheetWhereUniqueInput
+    update: XOR<TimesheetUpdateWithoutUserInput, TimesheetUncheckedUpdateWithoutUserInput>
+    create: XOR<TimesheetCreateWithoutUserInput, TimesheetUncheckedCreateWithoutUserInput>
+  }
+
+  export type TimesheetUpdateWithWhereUniqueWithoutUserInput = {
+    where: TimesheetWhereUniqueInput
+    data: XOR<TimesheetUpdateWithoutUserInput, TimesheetUncheckedUpdateWithoutUserInput>
+  }
+
+  export type TimesheetUpdateManyWithWhereWithoutUserInput = {
+    where: TimesheetScalarWhereInput
+    data: XOR<TimesheetUpdateManyMutationInput, TimesheetUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type TimeEntryUpsertWithWhereUniqueWithoutUserInput = {
+    where: TimeEntryWhereUniqueInput
+    update: XOR<TimeEntryUpdateWithoutUserInput, TimeEntryUncheckedUpdateWithoutUserInput>
+    create: XOR<TimeEntryCreateWithoutUserInput, TimeEntryUncheckedCreateWithoutUserInput>
+  }
+
+  export type TimeEntryUpdateWithWhereUniqueWithoutUserInput = {
+    where: TimeEntryWhereUniqueInput
+    data: XOR<TimeEntryUpdateWithoutUserInput, TimeEntryUncheckedUpdateWithoutUserInput>
+  }
+
+  export type TimeEntryUpdateManyWithWhereWithoutUserInput = {
+    where: TimeEntryScalarWhereInput
+    data: XOR<TimeEntryUpdateManyMutationInput, TimeEntryUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type ResourceAllocationUpsertWithWhereUniqueWithoutUserInput = {
+    where: ResourceAllocationWhereUniqueInput
+    update: XOR<ResourceAllocationUpdateWithoutUserInput, ResourceAllocationUncheckedUpdateWithoutUserInput>
+    create: XOR<ResourceAllocationCreateWithoutUserInput, ResourceAllocationUncheckedCreateWithoutUserInput>
+  }
+
+  export type ResourceAllocationUpdateWithWhereUniqueWithoutUserInput = {
+    where: ResourceAllocationWhereUniqueInput
+    data: XOR<ResourceAllocationUpdateWithoutUserInput, ResourceAllocationUncheckedUpdateWithoutUserInput>
+  }
+
+  export type ResourceAllocationUpdateManyWithWhereWithoutUserInput = {
+    where: ResourceAllocationScalarWhereInput
+    data: XOR<ResourceAllocationUpdateManyMutationInput, ResourceAllocationUncheckedUpdateManyWithoutUserInput>
+  }
+
   export type UserCreateWithoutSessionsInput = {
     id: string
     name: string
@@ -101839,6 +110433,9 @@ export namespace Prisma {
     accounts?: AccountCreateNestedManyWithoutUserInput
     twofactors?: TwoFactorCreateNestedManyWithoutUserInput
     employee?: EmployeeCreateNestedOneWithoutUserInput
+    timesheets?: TimesheetCreateNestedManyWithoutUserInput
+    timeEntries?: TimeEntryCreateNestedManyWithoutUserInput
+    resourceAllocations?: ResourceAllocationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -101862,6 +110459,9 @@ export namespace Prisma {
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     twofactors?: TwoFactorUncheckedCreateNestedManyWithoutUserInput
     employee?: EmployeeUncheckedCreateNestedOneWithoutUserInput
+    timesheets?: TimesheetUncheckedCreateNestedManyWithoutUserInput
+    timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutUserInput
+    resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -101901,6 +110501,9 @@ export namespace Prisma {
     accounts?: AccountUpdateManyWithoutUserNestedInput
     twofactors?: TwoFactorUpdateManyWithoutUserNestedInput
     employee?: EmployeeUpdateOneWithoutUserNestedInput
+    timesheets?: TimesheetUpdateManyWithoutUserNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutUserNestedInput
+    resourceAllocations?: ResourceAllocationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -101924,6 +110527,9 @@ export namespace Prisma {
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     twofactors?: TwoFactorUncheckedUpdateManyWithoutUserNestedInput
     employee?: EmployeeUncheckedUpdateOneWithoutUserNestedInput
+    timesheets?: TimesheetUncheckedUpdateManyWithoutUserNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutUserNestedInput
+    resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutAccountsInput = {
@@ -101947,6 +110553,9 @@ export namespace Prisma {
     sessions?: SessionCreateNestedManyWithoutUserInput
     twofactors?: TwoFactorCreateNestedManyWithoutUserInput
     employee?: EmployeeCreateNestedOneWithoutUserInput
+    timesheets?: TimesheetCreateNestedManyWithoutUserInput
+    timeEntries?: TimeEntryCreateNestedManyWithoutUserInput
+    resourceAllocations?: ResourceAllocationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -101970,6 +110579,9 @@ export namespace Prisma {
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     twofactors?: TwoFactorUncheckedCreateNestedManyWithoutUserInput
     employee?: EmployeeUncheckedCreateNestedOneWithoutUserInput
+    timesheets?: TimesheetUncheckedCreateNestedManyWithoutUserInput
+    timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutUserInput
+    resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -102009,6 +110621,9 @@ export namespace Prisma {
     sessions?: SessionUpdateManyWithoutUserNestedInput
     twofactors?: TwoFactorUpdateManyWithoutUserNestedInput
     employee?: EmployeeUpdateOneWithoutUserNestedInput
+    timesheets?: TimesheetUpdateManyWithoutUserNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutUserNestedInput
+    resourceAllocations?: ResourceAllocationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -102032,6 +110647,9 @@ export namespace Prisma {
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     twofactors?: TwoFactorUncheckedUpdateManyWithoutUserNestedInput
     employee?: EmployeeUncheckedUpdateOneWithoutUserNestedInput
+    timesheets?: TimesheetUncheckedUpdateManyWithoutUserNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutUserNestedInput
+    resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutTwofactorsInput = {
@@ -102055,6 +110673,9 @@ export namespace Prisma {
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     employee?: EmployeeCreateNestedOneWithoutUserInput
+    timesheets?: TimesheetCreateNestedManyWithoutUserInput
+    timeEntries?: TimeEntryCreateNestedManyWithoutUserInput
+    resourceAllocations?: ResourceAllocationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTwofactorsInput = {
@@ -102078,6 +110699,9 @@ export namespace Prisma {
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     employee?: EmployeeUncheckedCreateNestedOneWithoutUserInput
+    timesheets?: TimesheetUncheckedCreateNestedManyWithoutUserInput
+    timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutUserInput
+    resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTwofactorsInput = {
@@ -102117,6 +110741,9 @@ export namespace Prisma {
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     employee?: EmployeeUpdateOneWithoutUserNestedInput
+    timesheets?: TimesheetUpdateManyWithoutUserNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutUserNestedInput
+    resourceAllocations?: ResourceAllocationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTwofactorsInput = {
@@ -102140,6 +110767,9 @@ export namespace Prisma {
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     employee?: EmployeeUncheckedUpdateOneWithoutUserNestedInput
+    timesheets?: TimesheetUncheckedUpdateManyWithoutUserNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutUserNestedInput
+    resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type TeamCreateWithoutChatConversationsInput = {
@@ -102175,6 +110805,10 @@ export namespace Prisma {
     domainProducts?: DomainProductCreateNestedManyWithoutTeamInput
     reusableComponents?: ReusableComponentCreateNestedManyWithoutTeamInput
     employees?: EmployeeCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateWithoutChatConversationsInput = {
@@ -102210,6 +110844,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUncheckedCreateNestedManyWithoutTeamInput
     reusableComponents?: ReusableComponentUncheckedCreateNestedManyWithoutTeamInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetUncheckedCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamCreateOrConnectWithoutChatConversationsInput = {
@@ -102287,6 +110925,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUpdateManyWithoutTeamNestedInput
     reusableComponents?: ReusableComponentUpdateManyWithoutTeamNestedInput
     employees?: EmployeeUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateWithoutChatConversationsInput = {
@@ -102322,6 +110964,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUncheckedUpdateManyWithoutTeamNestedInput
     reusableComponents?: ReusableComponentUncheckedUpdateManyWithoutTeamNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUncheckedUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUncheckedUpdateManyWithoutTeamNestedInput
   }
 
   export type ChatMessageUpsertWithWhereUniqueWithoutConversationInput = {
@@ -102437,6 +111083,10 @@ export namespace Prisma {
     domainProducts?: DomainProductCreateNestedManyWithoutTeamInput
     reusableComponents?: ReusableComponentCreateNestedManyWithoutTeamInput
     employees?: EmployeeCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateWithoutEventsInput = {
@@ -102472,6 +111122,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUncheckedCreateNestedManyWithoutTeamInput
     reusableComponents?: ReusableComponentUncheckedCreateNestedManyWithoutTeamInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetUncheckedCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamCreateOrConnectWithoutEventsInput = {
@@ -102498,6 +111152,8 @@ export namespace Prisma {
     client?: ClientCreateNestedOneWithoutProjectsInput
     invoices?: InvoiceCreateNestedManyWithoutProjectInput
     expenses?: ExpenseCreateNestedManyWithoutProjectInput
+    timeEntries?: TimeEntryCreateNestedManyWithoutProjectInput
+    resourceAllocations?: ResourceAllocationCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateWithoutEventsInput = {
@@ -102519,6 +111175,8 @@ export namespace Prisma {
     teamChannels?: TeamChannelUncheckedCreateNestedManyWithoutProjectInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutProjectInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutProjectInput
+    timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutProjectInput
+    resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectCreateOrConnectWithoutEventsInput = {
@@ -102627,6 +111285,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUpdateManyWithoutTeamNestedInput
     reusableComponents?: ReusableComponentUpdateManyWithoutTeamNestedInput
     employees?: EmployeeUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateWithoutEventsInput = {
@@ -102662,6 +111324,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUncheckedUpdateManyWithoutTeamNestedInput
     reusableComponents?: ReusableComponentUncheckedUpdateManyWithoutTeamNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUncheckedUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUncheckedUpdateManyWithoutTeamNestedInput
   }
 
   export type ProjectUpsertWithoutEventsInput = {
@@ -102694,6 +111360,8 @@ export namespace Prisma {
     client?: ClientUpdateOneWithoutProjectsNestedInput
     invoices?: InvoiceUpdateManyWithoutProjectNestedInput
     expenses?: ExpenseUpdateManyWithoutProjectNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutProjectNestedInput
+    resourceAllocations?: ResourceAllocationUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateWithoutEventsInput = {
@@ -102715,6 +111383,8 @@ export namespace Prisma {
     teamChannels?: TeamChannelUncheckedUpdateManyWithoutProjectNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutProjectNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutProjectNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
+    resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type EventAttendeeUpsertWithWhereUniqueWithoutEventInput = {
@@ -103149,6 +111819,10 @@ export namespace Prisma {
     domainProducts?: DomainProductCreateNestedManyWithoutTeamInput
     reusableComponents?: ReusableComponentCreateNestedManyWithoutTeamInput
     employees?: EmployeeCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateWithoutStandupEntriesInput = {
@@ -103184,6 +111858,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUncheckedCreateNestedManyWithoutTeamInput
     reusableComponents?: ReusableComponentUncheckedCreateNestedManyWithoutTeamInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetUncheckedCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamCreateOrConnectWithoutStandupEntriesInput = {
@@ -103235,6 +111913,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUpdateManyWithoutTeamNestedInput
     reusableComponents?: ReusableComponentUpdateManyWithoutTeamNestedInput
     employees?: EmployeeUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateWithoutStandupEntriesInput = {
@@ -103270,6 +111952,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUncheckedUpdateManyWithoutTeamNestedInput
     reusableComponents?: ReusableComponentUncheckedUpdateManyWithoutTeamNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUncheckedUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUncheckedUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamCreateWithoutClientsInput = {
@@ -103305,6 +111991,10 @@ export namespace Prisma {
     domainProducts?: DomainProductCreateNestedManyWithoutTeamInput
     reusableComponents?: ReusableComponentCreateNestedManyWithoutTeamInput
     employees?: EmployeeCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateWithoutClientsInput = {
@@ -103340,6 +112030,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUncheckedCreateNestedManyWithoutTeamInput
     reusableComponents?: ReusableComponentUncheckedCreateNestedManyWithoutTeamInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetUncheckedCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamCreateOrConnectWithoutClientsInput = {
@@ -103474,6 +112168,8 @@ export namespace Prisma {
     teamChannels?: TeamChannelCreateNestedManyWithoutProjectInput
     invoices?: InvoiceCreateNestedManyWithoutProjectInput
     expenses?: ExpenseCreateNestedManyWithoutProjectInput
+    timeEntries?: TimeEntryCreateNestedManyWithoutProjectInput
+    resourceAllocations?: ResourceAllocationCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateWithoutClientInput = {
@@ -103495,6 +112191,8 @@ export namespace Prisma {
     teamChannels?: TeamChannelUncheckedCreateNestedManyWithoutProjectInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutProjectInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutProjectInput
+    timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutProjectInput
+    resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectCreateOrConnectWithoutClientInput = {
@@ -103659,6 +112357,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUpdateManyWithoutTeamNestedInput
     reusableComponents?: ReusableComponentUpdateManyWithoutTeamNestedInput
     employees?: EmployeeUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateWithoutClientsInput = {
@@ -103694,6 +112396,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUncheckedUpdateManyWithoutTeamNestedInput
     reusableComponents?: ReusableComponentUncheckedUpdateManyWithoutTeamNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUncheckedUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUncheckedUpdateManyWithoutTeamNestedInput
   }
 
   export type ContactUpsertWithWhereUniqueWithoutClientInput = {
@@ -103957,6 +112663,10 @@ export namespace Prisma {
     domainProducts?: DomainProductCreateNestedManyWithoutTeamInput
     reusableComponents?: ReusableComponentCreateNestedManyWithoutTeamInput
     employees?: EmployeeCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateWithoutLeadPipelinesInput = {
@@ -103992,6 +112702,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUncheckedCreateNestedManyWithoutTeamInput
     reusableComponents?: ReusableComponentUncheckedCreateNestedManyWithoutTeamInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetUncheckedCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamCreateOrConnectWithoutLeadPipelinesInput = {
@@ -104149,6 +112863,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUpdateManyWithoutTeamNestedInput
     reusableComponents?: ReusableComponentUpdateManyWithoutTeamNestedInput
     employees?: EmployeeUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateWithoutLeadPipelinesInput = {
@@ -104184,6 +112902,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUncheckedUpdateManyWithoutTeamNestedInput
     reusableComponents?: ReusableComponentUncheckedUpdateManyWithoutTeamNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUncheckedUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUncheckedUpdateManyWithoutTeamNestedInput
   }
 
   export type LeadStageUpsertWithWhereUniqueWithoutPipelineInput = {
@@ -104411,6 +113133,10 @@ export namespace Prisma {
     domainProducts?: DomainProductCreateNestedManyWithoutTeamInput
     reusableComponents?: ReusableComponentCreateNestedManyWithoutTeamInput
     employees?: EmployeeCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateWithoutLeadsInput = {
@@ -104446,6 +113172,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUncheckedCreateNestedManyWithoutTeamInput
     reusableComponents?: ReusableComponentUncheckedCreateNestedManyWithoutTeamInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetUncheckedCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamCreateOrConnectWithoutLeadsInput = {
@@ -104628,6 +113358,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUpdateManyWithoutTeamNestedInput
     reusableComponents?: ReusableComponentUpdateManyWithoutTeamNestedInput
     employees?: EmployeeUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateWithoutLeadsInput = {
@@ -104663,6 +113397,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUncheckedUpdateManyWithoutTeamNestedInput
     reusableComponents?: ReusableComponentUncheckedUpdateManyWithoutTeamNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUncheckedUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUncheckedUpdateManyWithoutTeamNestedInput
   }
 
   export type LeadPipelineUpsertWithoutLeadsInput = {
@@ -104993,6 +113731,10 @@ export namespace Prisma {
     domainProducts?: DomainProductCreateNestedManyWithoutTeamInput
     reusableComponents?: ReusableComponentCreateNestedManyWithoutTeamInput
     employees?: EmployeeCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateWithoutTeamChannelsInput = {
@@ -105028,6 +113770,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUncheckedCreateNestedManyWithoutTeamInput
     reusableComponents?: ReusableComponentUncheckedCreateNestedManyWithoutTeamInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetUncheckedCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamCreateOrConnectWithoutTeamChannelsInput = {
@@ -105054,6 +113800,8 @@ export namespace Prisma {
     client?: ClientCreateNestedOneWithoutProjectsInput
     invoices?: InvoiceCreateNestedManyWithoutProjectInput
     expenses?: ExpenseCreateNestedManyWithoutProjectInput
+    timeEntries?: TimeEntryCreateNestedManyWithoutProjectInput
+    resourceAllocations?: ResourceAllocationCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateWithoutTeamChannelsInput = {
@@ -105075,6 +113823,8 @@ export namespace Prisma {
     events?: EventUncheckedCreateNestedManyWithoutProjectInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutProjectInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutProjectInput
+    timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutProjectInput
+    resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectCreateOrConnectWithoutTeamChannelsInput = {
@@ -105204,6 +113954,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUpdateManyWithoutTeamNestedInput
     reusableComponents?: ReusableComponentUpdateManyWithoutTeamNestedInput
     employees?: EmployeeUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateWithoutTeamChannelsInput = {
@@ -105239,6 +113993,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUncheckedUpdateManyWithoutTeamNestedInput
     reusableComponents?: ReusableComponentUncheckedUpdateManyWithoutTeamNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUncheckedUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUncheckedUpdateManyWithoutTeamNestedInput
   }
 
   export type ProjectUpsertWithoutTeamChannelsInput = {
@@ -105271,6 +114029,8 @@ export namespace Prisma {
     client?: ClientUpdateOneWithoutProjectsNestedInput
     invoices?: InvoiceUpdateManyWithoutProjectNestedInput
     expenses?: ExpenseUpdateManyWithoutProjectNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutProjectNestedInput
+    resourceAllocations?: ResourceAllocationUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateWithoutTeamChannelsInput = {
@@ -105292,6 +114052,8 @@ export namespace Prisma {
     events?: EventUncheckedUpdateManyWithoutProjectNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutProjectNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutProjectNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
+    resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type TeamChannelMemberUpsertWithWhereUniqueWithoutChannelInput = {
@@ -105850,6 +114612,10 @@ export namespace Prisma {
     domainProducts?: DomainProductCreateNestedManyWithoutTeamInput
     reusableComponents?: ReusableComponentCreateNestedManyWithoutTeamInput
     employees?: EmployeeCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateWithoutAnnouncementsInput = {
@@ -105885,6 +114651,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUncheckedCreateNestedManyWithoutTeamInput
     reusableComponents?: ReusableComponentUncheckedCreateNestedManyWithoutTeamInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetUncheckedCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamCreateOrConnectWithoutAnnouncementsInput = {
@@ -105960,6 +114730,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUpdateManyWithoutTeamNestedInput
     reusableComponents?: ReusableComponentUpdateManyWithoutTeamNestedInput
     employees?: EmployeeUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateWithoutAnnouncementsInput = {
@@ -105995,6 +114769,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUncheckedUpdateManyWithoutTeamNestedInput
     reusableComponents?: ReusableComponentUncheckedUpdateManyWithoutTeamNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUncheckedUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUncheckedUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamAnnouncementAckUpsertWithWhereUniqueWithoutAnnouncementInput = {
@@ -106125,6 +114903,10 @@ export namespace Prisma {
     domainProducts?: DomainProductCreateNestedManyWithoutTeamInput
     reusableComponents?: ReusableComponentCreateNestedManyWithoutTeamInput
     employees?: EmployeeCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateWithoutAuditLogsInput = {
@@ -106160,6 +114942,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUncheckedCreateNestedManyWithoutTeamInput
     reusableComponents?: ReusableComponentUncheckedCreateNestedManyWithoutTeamInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetUncheckedCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamCreateOrConnectWithoutAuditLogsInput = {
@@ -106211,6 +114997,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUpdateManyWithoutTeamNestedInput
     reusableComponents?: ReusableComponentUpdateManyWithoutTeamNestedInput
     employees?: EmployeeUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateWithoutAuditLogsInput = {
@@ -106246,6 +115036,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUncheckedUpdateManyWithoutTeamNestedInput
     reusableComponents?: ReusableComponentUncheckedUpdateManyWithoutTeamNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUncheckedUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUncheckedUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamCreateWithoutCompanySettingsInput = {
@@ -106281,6 +115075,10 @@ export namespace Prisma {
     domainProducts?: DomainProductCreateNestedManyWithoutTeamInput
     reusableComponents?: ReusableComponentCreateNestedManyWithoutTeamInput
     employees?: EmployeeCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateWithoutCompanySettingsInput = {
@@ -106316,6 +115114,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUncheckedCreateNestedManyWithoutTeamInput
     reusableComponents?: ReusableComponentUncheckedCreateNestedManyWithoutTeamInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetUncheckedCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamCreateOrConnectWithoutCompanySettingsInput = {
@@ -106367,6 +115169,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUpdateManyWithoutTeamNestedInput
     reusableComponents?: ReusableComponentUpdateManyWithoutTeamNestedInput
     employees?: EmployeeUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateWithoutCompanySettingsInput = {
@@ -106402,6 +115208,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUncheckedUpdateManyWithoutTeamNestedInput
     reusableComponents?: ReusableComponentUncheckedUpdateManyWithoutTeamNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUncheckedUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUncheckedUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamCreateWithoutAutomationRulesInput = {
@@ -106437,6 +115247,10 @@ export namespace Prisma {
     domainProducts?: DomainProductCreateNestedManyWithoutTeamInput
     reusableComponents?: ReusableComponentCreateNestedManyWithoutTeamInput
     employees?: EmployeeCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateWithoutAutomationRulesInput = {
@@ -106472,6 +115286,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUncheckedCreateNestedManyWithoutTeamInput
     reusableComponents?: ReusableComponentUncheckedCreateNestedManyWithoutTeamInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetUncheckedCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamCreateOrConnectWithoutAutomationRulesInput = {
@@ -106547,6 +115365,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUpdateManyWithoutTeamNestedInput
     reusableComponents?: ReusableComponentUpdateManyWithoutTeamNestedInput
     employees?: EmployeeUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateWithoutAutomationRulesInput = {
@@ -106582,6 +115404,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUncheckedUpdateManyWithoutTeamNestedInput
     reusableComponents?: ReusableComponentUncheckedUpdateManyWithoutTeamNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUncheckedUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUncheckedUpdateManyWithoutTeamNestedInput
   }
 
   export type AutomationLogUpsertWithWhereUniqueWithoutRuleInput = {
@@ -106724,6 +115550,10 @@ export namespace Prisma {
     domainProducts?: DomainProductCreateNestedManyWithoutTeamInput
     reusableComponents?: ReusableComponentCreateNestedManyWithoutTeamInput
     employees?: EmployeeCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateWithoutDeveloperApiKeysInput = {
@@ -106759,6 +115589,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUncheckedCreateNestedManyWithoutTeamInput
     reusableComponents?: ReusableComponentUncheckedCreateNestedManyWithoutTeamInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetUncheckedCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamCreateOrConnectWithoutDeveloperApiKeysInput = {
@@ -106810,6 +115644,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUpdateManyWithoutTeamNestedInput
     reusableComponents?: ReusableComponentUpdateManyWithoutTeamNestedInput
     employees?: EmployeeUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateWithoutDeveloperApiKeysInput = {
@@ -106845,6 +115683,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUncheckedUpdateManyWithoutTeamNestedInput
     reusableComponents?: ReusableComponentUncheckedUpdateManyWithoutTeamNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUncheckedUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUncheckedUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamCreateWithoutWebhookEndpointsInput = {
@@ -106880,6 +115722,10 @@ export namespace Prisma {
     domainProducts?: DomainProductCreateNestedManyWithoutTeamInput
     reusableComponents?: ReusableComponentCreateNestedManyWithoutTeamInput
     employees?: EmployeeCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateWithoutWebhookEndpointsInput = {
@@ -106915,6 +115761,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUncheckedCreateNestedManyWithoutTeamInput
     reusableComponents?: ReusableComponentUncheckedCreateNestedManyWithoutTeamInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetUncheckedCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamCreateOrConnectWithoutWebhookEndpointsInput = {
@@ -106994,6 +115844,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUpdateManyWithoutTeamNestedInput
     reusableComponents?: ReusableComponentUpdateManyWithoutTeamNestedInput
     employees?: EmployeeUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateWithoutWebhookEndpointsInput = {
@@ -107029,6 +115883,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUncheckedUpdateManyWithoutTeamNestedInput
     reusableComponents?: ReusableComponentUncheckedUpdateManyWithoutTeamNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUncheckedUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUncheckedUpdateManyWithoutTeamNestedInput
   }
 
   export type WebhookDeliveryUpsertWithWhereUniqueWithoutEndpointInput = {
@@ -107161,6 +116019,10 @@ export namespace Prisma {
     domainProducts?: DomainProductCreateNestedManyWithoutTeamInput
     reusableComponents?: ReusableComponentCreateNestedManyWithoutTeamInput
     employees?: EmployeeCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateWithoutKpisInput = {
@@ -107196,6 +116058,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUncheckedCreateNestedManyWithoutTeamInput
     reusableComponents?: ReusableComponentUncheckedCreateNestedManyWithoutTeamInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetUncheckedCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamCreateOrConnectWithoutKpisInput = {
@@ -107247,6 +116113,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUpdateManyWithoutTeamNestedInput
     reusableComponents?: ReusableComponentUpdateManyWithoutTeamNestedInput
     employees?: EmployeeUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateWithoutKpisInput = {
@@ -107282,6 +116152,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUncheckedUpdateManyWithoutTeamNestedInput
     reusableComponents?: ReusableComponentUncheckedUpdateManyWithoutTeamNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUncheckedUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUncheckedUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamCreateWithoutInvoicesInput = {
@@ -107317,6 +116191,10 @@ export namespace Prisma {
     domainProducts?: DomainProductCreateNestedManyWithoutTeamInput
     reusableComponents?: ReusableComponentCreateNestedManyWithoutTeamInput
     employees?: EmployeeCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateWithoutInvoicesInput = {
@@ -107352,6 +116230,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUncheckedCreateNestedManyWithoutTeamInput
     reusableComponents?: ReusableComponentUncheckedCreateNestedManyWithoutTeamInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetUncheckedCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamCreateOrConnectWithoutInvoicesInput = {
@@ -107431,6 +116313,8 @@ export namespace Prisma {
     teamChannels?: TeamChannelCreateNestedManyWithoutProjectInput
     client?: ClientCreateNestedOneWithoutProjectsInput
     expenses?: ExpenseCreateNestedManyWithoutProjectInput
+    timeEntries?: TimeEntryCreateNestedManyWithoutProjectInput
+    resourceAllocations?: ResourceAllocationCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateWithoutInvoicesInput = {
@@ -107452,6 +116336,8 @@ export namespace Prisma {
     events?: EventUncheckedCreateNestedManyWithoutProjectInput
     teamChannels?: TeamChannelUncheckedCreateNestedManyWithoutProjectInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutProjectInput
+    timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutProjectInput
+    resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectCreateOrConnectWithoutInvoicesInput = {
@@ -107571,6 +116457,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUpdateManyWithoutTeamNestedInput
     reusableComponents?: ReusableComponentUpdateManyWithoutTeamNestedInput
     employees?: EmployeeUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateWithoutInvoicesInput = {
@@ -107606,6 +116496,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUncheckedUpdateManyWithoutTeamNestedInput
     reusableComponents?: ReusableComponentUncheckedUpdateManyWithoutTeamNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUncheckedUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUncheckedUpdateManyWithoutTeamNestedInput
   }
 
   export type ClientUpsertWithoutInvoicesInput = {
@@ -107697,6 +116591,8 @@ export namespace Prisma {
     teamChannels?: TeamChannelUpdateManyWithoutProjectNestedInput
     client?: ClientUpdateOneWithoutProjectsNestedInput
     expenses?: ExpenseUpdateManyWithoutProjectNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutProjectNestedInput
+    resourceAllocations?: ResourceAllocationUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateWithoutInvoicesInput = {
@@ -107718,6 +116614,8 @@ export namespace Prisma {
     events?: EventUncheckedUpdateManyWithoutProjectNestedInput
     teamChannels?: TeamChannelUncheckedUpdateManyWithoutProjectNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutProjectNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
+    resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type InvoiceItemUpsertWithWhereUniqueWithoutInvoiceInput = {
@@ -107928,6 +116826,10 @@ export namespace Prisma {
     domainProducts?: DomainProductCreateNestedManyWithoutTeamInput
     reusableComponents?: ReusableComponentCreateNestedManyWithoutTeamInput
     employees?: EmployeeCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateWithoutPaymentsInput = {
@@ -107963,6 +116865,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUncheckedCreateNestedManyWithoutTeamInput
     reusableComponents?: ReusableComponentUncheckedCreateNestedManyWithoutTeamInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetUncheckedCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamCreateOrConnectWithoutPaymentsInput = {
@@ -108075,6 +116981,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUpdateManyWithoutTeamNestedInput
     reusableComponents?: ReusableComponentUpdateManyWithoutTeamNestedInput
     employees?: EmployeeUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateWithoutPaymentsInput = {
@@ -108110,6 +117020,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUncheckedUpdateManyWithoutTeamNestedInput
     reusableComponents?: ReusableComponentUncheckedUpdateManyWithoutTeamNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUncheckedUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUncheckedUpdateManyWithoutTeamNestedInput
   }
 
   export type InvoiceUpsertWithoutPaymentsInput = {
@@ -108212,6 +117126,10 @@ export namespace Prisma {
     domainProducts?: DomainProductCreateNestedManyWithoutTeamInput
     reusableComponents?: ReusableComponentCreateNestedManyWithoutTeamInput
     employees?: EmployeeCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateWithoutExpensesInput = {
@@ -108247,6 +117165,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUncheckedCreateNestedManyWithoutTeamInput
     reusableComponents?: ReusableComponentUncheckedCreateNestedManyWithoutTeamInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetUncheckedCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamCreateOrConnectWithoutExpensesInput = {
@@ -108273,6 +117195,8 @@ export namespace Prisma {
     teamChannels?: TeamChannelCreateNestedManyWithoutProjectInput
     client?: ClientCreateNestedOneWithoutProjectsInput
     invoices?: InvoiceCreateNestedManyWithoutProjectInput
+    timeEntries?: TimeEntryCreateNestedManyWithoutProjectInput
+    resourceAllocations?: ResourceAllocationCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateWithoutExpensesInput = {
@@ -108294,6 +117218,8 @@ export namespace Prisma {
     events?: EventUncheckedCreateNestedManyWithoutProjectInput
     teamChannels?: TeamChannelUncheckedCreateNestedManyWithoutProjectInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutProjectInput
+    timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutProjectInput
+    resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectCreateOrConnectWithoutExpensesInput = {
@@ -108345,6 +117271,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUpdateManyWithoutTeamNestedInput
     reusableComponents?: ReusableComponentUpdateManyWithoutTeamNestedInput
     employees?: EmployeeUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateWithoutExpensesInput = {
@@ -108380,6 +117310,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUncheckedUpdateManyWithoutTeamNestedInput
     reusableComponents?: ReusableComponentUncheckedUpdateManyWithoutTeamNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUncheckedUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUncheckedUpdateManyWithoutTeamNestedInput
   }
 
   export type ProjectUpsertWithoutExpensesInput = {
@@ -108412,6 +117346,8 @@ export namespace Prisma {
     teamChannels?: TeamChannelUpdateManyWithoutProjectNestedInput
     client?: ClientUpdateOneWithoutProjectsNestedInput
     invoices?: InvoiceUpdateManyWithoutProjectNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutProjectNestedInput
+    resourceAllocations?: ResourceAllocationUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateWithoutExpensesInput = {
@@ -108433,6 +117369,8 @@ export namespace Prisma {
     events?: EventUncheckedUpdateManyWithoutProjectNestedInput
     teamChannels?: TeamChannelUncheckedUpdateManyWithoutProjectNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutProjectNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
+    resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type TeamCreateWithoutSubscriptionsInput = {
@@ -108468,6 +117406,10 @@ export namespace Prisma {
     domainProducts?: DomainProductCreateNestedManyWithoutTeamInput
     reusableComponents?: ReusableComponentCreateNestedManyWithoutTeamInput
     employees?: EmployeeCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateWithoutSubscriptionsInput = {
@@ -108503,6 +117445,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUncheckedCreateNestedManyWithoutTeamInput
     reusableComponents?: ReusableComponentUncheckedCreateNestedManyWithoutTeamInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetUncheckedCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamCreateOrConnectWithoutSubscriptionsInput = {
@@ -108554,6 +117500,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUpdateManyWithoutTeamNestedInput
     reusableComponents?: ReusableComponentUpdateManyWithoutTeamNestedInput
     employees?: EmployeeUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateWithoutSubscriptionsInput = {
@@ -108589,6 +117539,10 @@ export namespace Prisma {
     domainProducts?: DomainProductUncheckedUpdateManyWithoutTeamNestedInput
     reusableComponents?: ReusableComponentUncheckedUpdateManyWithoutTeamNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUncheckedUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUncheckedUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamCreateWithoutDomainProductsInput = {
@@ -108624,6 +117578,10 @@ export namespace Prisma {
     subscriptions?: ToolSubscriptionCreateNestedManyWithoutTeamInput
     reusableComponents?: ReusableComponentCreateNestedManyWithoutTeamInput
     employees?: EmployeeCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateWithoutDomainProductsInput = {
@@ -108659,6 +117617,10 @@ export namespace Prisma {
     subscriptions?: ToolSubscriptionUncheckedCreateNestedManyWithoutTeamInput
     reusableComponents?: ReusableComponentUncheckedCreateNestedManyWithoutTeamInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetUncheckedCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamCreateOrConnectWithoutDomainProductsInput = {
@@ -108872,6 +117834,10 @@ export namespace Prisma {
     subscriptions?: ToolSubscriptionUpdateManyWithoutTeamNestedInput
     reusableComponents?: ReusableComponentUpdateManyWithoutTeamNestedInput
     employees?: EmployeeUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateWithoutDomainProductsInput = {
@@ -108907,6 +117873,10 @@ export namespace Prisma {
     subscriptions?: ToolSubscriptionUncheckedUpdateManyWithoutTeamNestedInput
     reusableComponents?: ReusableComponentUncheckedUpdateManyWithoutTeamNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUncheckedUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUncheckedUpdateManyWithoutTeamNestedInput
   }
 
   export type ProductRoadmapItemUpsertWithWhereUniqueWithoutProductInput = {
@@ -109623,6 +118593,10 @@ export namespace Prisma {
     subscriptions?: ToolSubscriptionCreateNestedManyWithoutTeamInput
     domainProducts?: DomainProductCreateNestedManyWithoutTeamInput
     employees?: EmployeeCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateWithoutReusableComponentsInput = {
@@ -109658,6 +118632,10 @@ export namespace Prisma {
     subscriptions?: ToolSubscriptionUncheckedCreateNestedManyWithoutTeamInput
     domainProducts?: DomainProductUncheckedCreateNestedManyWithoutTeamInput
     employees?: EmployeeUncheckedCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetUncheckedCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamCreateOrConnectWithoutReusableComponentsInput = {
@@ -109709,6 +118687,10 @@ export namespace Prisma {
     subscriptions?: ToolSubscriptionUpdateManyWithoutTeamNestedInput
     domainProducts?: DomainProductUpdateManyWithoutTeamNestedInput
     employees?: EmployeeUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateWithoutReusableComponentsInput = {
@@ -109744,6 +118726,10 @@ export namespace Prisma {
     subscriptions?: ToolSubscriptionUncheckedUpdateManyWithoutTeamNestedInput
     domainProducts?: DomainProductUncheckedUpdateManyWithoutTeamNestedInput
     employees?: EmployeeUncheckedUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUncheckedUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUncheckedUpdateManyWithoutTeamNestedInput
   }
 
   export type RoleAccessCreateWithoutRoleInput = {
@@ -109957,6 +118943,9 @@ export namespace Prisma {
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     twofactors?: TwoFactorCreateNestedManyWithoutUserInput
+    timesheets?: TimesheetCreateNestedManyWithoutUserInput
+    timeEntries?: TimeEntryCreateNestedManyWithoutUserInput
+    resourceAllocations?: ResourceAllocationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutEmployeeInput = {
@@ -109980,6 +118969,9 @@ export namespace Prisma {
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     twofactors?: TwoFactorUncheckedCreateNestedManyWithoutUserInput
+    timesheets?: TimesheetUncheckedCreateNestedManyWithoutUserInput
+    timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutUserInput
+    resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutEmployeeInput = {
@@ -110051,6 +119043,10 @@ export namespace Prisma {
     subscriptions?: ToolSubscriptionCreateNestedManyWithoutTeamInput
     domainProducts?: DomainProductCreateNestedManyWithoutTeamInput
     reusableComponents?: ReusableComponentCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateWithoutEmployeesInput = {
@@ -110086,6 +119082,10 @@ export namespace Prisma {
     subscriptions?: ToolSubscriptionUncheckedCreateNestedManyWithoutTeamInput
     domainProducts?: DomainProductUncheckedCreateNestedManyWithoutTeamInput
     reusableComponents?: ReusableComponentUncheckedCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetUncheckedCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamCreateOrConnectWithoutEmployeesInput = {
@@ -110125,6 +119125,9 @@ export namespace Prisma {
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     twofactors?: TwoFactorUpdateManyWithoutUserNestedInput
+    timesheets?: TimesheetUpdateManyWithoutUserNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutUserNestedInput
+    resourceAllocations?: ResourceAllocationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutEmployeeInput = {
@@ -110148,6 +119151,9 @@ export namespace Prisma {
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     twofactors?: TwoFactorUncheckedUpdateManyWithoutUserNestedInput
+    timesheets?: TimesheetUncheckedUpdateManyWithoutUserNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutUserNestedInput
+    resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type RoleUpsertWithoutEmployeesInput = {
@@ -110231,6 +119237,10 @@ export namespace Prisma {
     subscriptions?: ToolSubscriptionUpdateManyWithoutTeamNestedInput
     domainProducts?: DomainProductUpdateManyWithoutTeamNestedInput
     reusableComponents?: ReusableComponentUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateWithoutEmployeesInput = {
@@ -110266,6 +119276,1528 @@ export namespace Prisma {
     subscriptions?: ToolSubscriptionUncheckedUpdateManyWithoutTeamNestedInput
     domainProducts?: DomainProductUncheckedUpdateManyWithoutTeamNestedInput
     reusableComponents?: ReusableComponentUncheckedUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUncheckedUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUncheckedUpdateManyWithoutTeamNestedInput
+  }
+
+  export type TeamCreateWithoutTimesheetsInput = {
+    id?: string
+    name: string
+    key: string
+    groqApiKey?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    projects?: ProjectCreateNestedManyWithoutTeamInput
+    issues?: IssueCreateNestedManyWithoutTeamInput
+    workflowStates?: WorkflowStateCreateNestedManyWithoutTeamInput
+    labels?: LabelCreateNestedManyWithoutTeamInput
+    members?: TeamMemberCreateNestedManyWithoutTeamInput
+    invitations?: InvitationCreateNestedManyWithoutTeamInput
+    chatConversations?: ChatConversationCreateNestedManyWithoutTeamInput
+    events?: EventCreateNestedManyWithoutTeamInput
+    standupEntries?: StandupEntryCreateNestedManyWithoutTeamInput
+    clients?: ClientCreateNestedManyWithoutTeamInput
+    leadPipelines?: LeadPipelineCreateNestedManyWithoutTeamInput
+    leads?: LeadCreateNestedManyWithoutTeamInput
+    teamChannels?: TeamChannelCreateNestedManyWithoutTeamInput
+    announcements?: TeamAnnouncementCreateNestedManyWithoutTeamInput
+    auditLogs?: AuditLogCreateNestedManyWithoutTeamInput
+    companySettings?: CompanySettingCreateNestedOneWithoutTeamInput
+    automationRules?: AutomationRuleCreateNestedManyWithoutTeamInput
+    developerApiKeys?: DeveloperApiKeyCreateNestedManyWithoutTeamInput
+    webhookEndpoints?: WebhookEndpointCreateNestedManyWithoutTeamInput
+    kpis?: CompanyKpiCreateNestedManyWithoutTeamInput
+    invoices?: InvoiceCreateNestedManyWithoutTeamInput
+    payments?: PaymentCreateNestedManyWithoutTeamInput
+    expenses?: ExpenseCreateNestedManyWithoutTeamInput
+    subscriptions?: ToolSubscriptionCreateNestedManyWithoutTeamInput
+    domainProducts?: DomainProductCreateNestedManyWithoutTeamInput
+    reusableComponents?: ReusableComponentCreateNestedManyWithoutTeamInput
+    employees?: EmployeeCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardCreateNestedManyWithoutTeamInput
+  }
+
+  export type TeamUncheckedCreateWithoutTimesheetsInput = {
+    id?: string
+    name: string
+    key: string
+    groqApiKey?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    projects?: ProjectUncheckedCreateNestedManyWithoutTeamInput
+    issues?: IssueUncheckedCreateNestedManyWithoutTeamInput
+    workflowStates?: WorkflowStateUncheckedCreateNestedManyWithoutTeamInput
+    labels?: LabelUncheckedCreateNestedManyWithoutTeamInput
+    members?: TeamMemberUncheckedCreateNestedManyWithoutTeamInput
+    invitations?: InvitationUncheckedCreateNestedManyWithoutTeamInput
+    chatConversations?: ChatConversationUncheckedCreateNestedManyWithoutTeamInput
+    events?: EventUncheckedCreateNestedManyWithoutTeamInput
+    standupEntries?: StandupEntryUncheckedCreateNestedManyWithoutTeamInput
+    clients?: ClientUncheckedCreateNestedManyWithoutTeamInput
+    leadPipelines?: LeadPipelineUncheckedCreateNestedManyWithoutTeamInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTeamInput
+    teamChannels?: TeamChannelUncheckedCreateNestedManyWithoutTeamInput
+    announcements?: TeamAnnouncementUncheckedCreateNestedManyWithoutTeamInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTeamInput
+    companySettings?: CompanySettingUncheckedCreateNestedOneWithoutTeamInput
+    automationRules?: AutomationRuleUncheckedCreateNestedManyWithoutTeamInput
+    developerApiKeys?: DeveloperApiKeyUncheckedCreateNestedManyWithoutTeamInput
+    webhookEndpoints?: WebhookEndpointUncheckedCreateNestedManyWithoutTeamInput
+    kpis?: CompanyKpiUncheckedCreateNestedManyWithoutTeamInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTeamInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTeamInput
+    expenses?: ExpenseUncheckedCreateNestedManyWithoutTeamInput
+    subscriptions?: ToolSubscriptionUncheckedCreateNestedManyWithoutTeamInput
+    domainProducts?: DomainProductUncheckedCreateNestedManyWithoutTeamInput
+    reusableComponents?: ReusableComponentUncheckedCreateNestedManyWithoutTeamInput
+    employees?: EmployeeUncheckedCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardUncheckedCreateNestedManyWithoutTeamInput
+  }
+
+  export type TeamCreateOrConnectWithoutTimesheetsInput = {
+    where: TeamWhereUniqueInput
+    create: XOR<TeamCreateWithoutTimesheetsInput, TeamUncheckedCreateWithoutTimesheetsInput>
+  }
+
+  export type UserCreateWithoutTimesheetsInput = {
+    id: string
+    name: string
+    email: string
+    emailVerified?: boolean
+    image?: string | null
+    username?: string | null
+    dateOfBirth?: Date | string | null
+    joiningDate?: Date | string | null
+    position?: string | null
+    department?: string | null
+    employeeCode?: string | null
+    phone?: string | null
+    location?: string | null
+    bio?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    twoFactorEnabled?: boolean | null
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    twofactors?: TwoFactorCreateNestedManyWithoutUserInput
+    employee?: EmployeeCreateNestedOneWithoutUserInput
+    timeEntries?: TimeEntryCreateNestedManyWithoutUserInput
+    resourceAllocations?: ResourceAllocationCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutTimesheetsInput = {
+    id: string
+    name: string
+    email: string
+    emailVerified?: boolean
+    image?: string | null
+    username?: string | null
+    dateOfBirth?: Date | string | null
+    joiningDate?: Date | string | null
+    position?: string | null
+    department?: string | null
+    employeeCode?: string | null
+    phone?: string | null
+    location?: string | null
+    bio?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    twoFactorEnabled?: boolean | null
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    twofactors?: TwoFactorUncheckedCreateNestedManyWithoutUserInput
+    employee?: EmployeeUncheckedCreateNestedOneWithoutUserInput
+    timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutUserInput
+    resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutTimesheetsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutTimesheetsInput, UserUncheckedCreateWithoutTimesheetsInput>
+  }
+
+  export type TimeEntryCreateWithoutTimesheetInput = {
+    id?: string
+    date: Date | string
+    hours: number
+    description: string
+    isBillable?: boolean
+    category?: string
+    costRate?: number | null
+    billingRate?: number | null
+    isTimer?: boolean
+    startedAt?: Date | string | null
+    stoppedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    team: TeamCreateNestedOneWithoutTimeEntriesInput
+    user: UserCreateNestedOneWithoutTimeEntriesInput
+    project?: ProjectCreateNestedOneWithoutTimeEntriesInput
+    issue?: IssueCreateNestedOneWithoutTimeEntriesInput
+  }
+
+  export type TimeEntryUncheckedCreateWithoutTimesheetInput = {
+    id?: string
+    teamId: string
+    userId: string
+    projectId?: string | null
+    issueId?: string | null
+    date: Date | string
+    hours: number
+    description: string
+    isBillable?: boolean
+    category?: string
+    costRate?: number | null
+    billingRate?: number | null
+    isTimer?: boolean
+    startedAt?: Date | string | null
+    stoppedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TimeEntryCreateOrConnectWithoutTimesheetInput = {
+    where: TimeEntryWhereUniqueInput
+    create: XOR<TimeEntryCreateWithoutTimesheetInput, TimeEntryUncheckedCreateWithoutTimesheetInput>
+  }
+
+  export type TimeEntryCreateManyTimesheetInputEnvelope = {
+    data: TimeEntryCreateManyTimesheetInput | TimeEntryCreateManyTimesheetInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TeamUpsertWithoutTimesheetsInput = {
+    update: XOR<TeamUpdateWithoutTimesheetsInput, TeamUncheckedUpdateWithoutTimesheetsInput>
+    create: XOR<TeamCreateWithoutTimesheetsInput, TeamUncheckedCreateWithoutTimesheetsInput>
+    where?: TeamWhereInput
+  }
+
+  export type TeamUpdateToOneWithWhereWithoutTimesheetsInput = {
+    where?: TeamWhereInput
+    data: XOR<TeamUpdateWithoutTimesheetsInput, TeamUncheckedUpdateWithoutTimesheetsInput>
+  }
+
+  export type TeamUpdateWithoutTimesheetsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    groqApiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    projects?: ProjectUpdateManyWithoutTeamNestedInput
+    issues?: IssueUpdateManyWithoutTeamNestedInput
+    workflowStates?: WorkflowStateUpdateManyWithoutTeamNestedInput
+    labels?: LabelUpdateManyWithoutTeamNestedInput
+    members?: TeamMemberUpdateManyWithoutTeamNestedInput
+    invitations?: InvitationUpdateManyWithoutTeamNestedInput
+    chatConversations?: ChatConversationUpdateManyWithoutTeamNestedInput
+    events?: EventUpdateManyWithoutTeamNestedInput
+    standupEntries?: StandupEntryUpdateManyWithoutTeamNestedInput
+    clients?: ClientUpdateManyWithoutTeamNestedInput
+    leadPipelines?: LeadPipelineUpdateManyWithoutTeamNestedInput
+    leads?: LeadUpdateManyWithoutTeamNestedInput
+    teamChannels?: TeamChannelUpdateManyWithoutTeamNestedInput
+    announcements?: TeamAnnouncementUpdateManyWithoutTeamNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutTeamNestedInput
+    companySettings?: CompanySettingUpdateOneWithoutTeamNestedInput
+    automationRules?: AutomationRuleUpdateManyWithoutTeamNestedInput
+    developerApiKeys?: DeveloperApiKeyUpdateManyWithoutTeamNestedInput
+    webhookEndpoints?: WebhookEndpointUpdateManyWithoutTeamNestedInput
+    kpis?: CompanyKpiUpdateManyWithoutTeamNestedInput
+    invoices?: InvoiceUpdateManyWithoutTeamNestedInput
+    payments?: PaymentUpdateManyWithoutTeamNestedInput
+    expenses?: ExpenseUpdateManyWithoutTeamNestedInput
+    subscriptions?: ToolSubscriptionUpdateManyWithoutTeamNestedInput
+    domainProducts?: DomainProductUpdateManyWithoutTeamNestedInput
+    reusableComponents?: ReusableComponentUpdateManyWithoutTeamNestedInput
+    employees?: EmployeeUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUpdateManyWithoutTeamNestedInput
+  }
+
+  export type TeamUncheckedUpdateWithoutTimesheetsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    groqApiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    projects?: ProjectUncheckedUpdateManyWithoutTeamNestedInput
+    issues?: IssueUncheckedUpdateManyWithoutTeamNestedInput
+    workflowStates?: WorkflowStateUncheckedUpdateManyWithoutTeamNestedInput
+    labels?: LabelUncheckedUpdateManyWithoutTeamNestedInput
+    members?: TeamMemberUncheckedUpdateManyWithoutTeamNestedInput
+    invitations?: InvitationUncheckedUpdateManyWithoutTeamNestedInput
+    chatConversations?: ChatConversationUncheckedUpdateManyWithoutTeamNestedInput
+    events?: EventUncheckedUpdateManyWithoutTeamNestedInput
+    standupEntries?: StandupEntryUncheckedUpdateManyWithoutTeamNestedInput
+    clients?: ClientUncheckedUpdateManyWithoutTeamNestedInput
+    leadPipelines?: LeadPipelineUncheckedUpdateManyWithoutTeamNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTeamNestedInput
+    teamChannels?: TeamChannelUncheckedUpdateManyWithoutTeamNestedInput
+    announcements?: TeamAnnouncementUncheckedUpdateManyWithoutTeamNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutTeamNestedInput
+    companySettings?: CompanySettingUncheckedUpdateOneWithoutTeamNestedInput
+    automationRules?: AutomationRuleUncheckedUpdateManyWithoutTeamNestedInput
+    developerApiKeys?: DeveloperApiKeyUncheckedUpdateManyWithoutTeamNestedInput
+    webhookEndpoints?: WebhookEndpointUncheckedUpdateManyWithoutTeamNestedInput
+    kpis?: CompanyKpiUncheckedUpdateManyWithoutTeamNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTeamNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTeamNestedInput
+    expenses?: ExpenseUncheckedUpdateManyWithoutTeamNestedInput
+    subscriptions?: ToolSubscriptionUncheckedUpdateManyWithoutTeamNestedInput
+    domainProducts?: DomainProductUncheckedUpdateManyWithoutTeamNestedInput
+    reusableComponents?: ReusableComponentUncheckedUpdateManyWithoutTeamNestedInput
+    employees?: EmployeeUncheckedUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUncheckedUpdateManyWithoutTeamNestedInput
+  }
+
+  export type UserUpsertWithoutTimesheetsInput = {
+    update: XOR<UserUpdateWithoutTimesheetsInput, UserUncheckedUpdateWithoutTimesheetsInput>
+    create: XOR<UserCreateWithoutTimesheetsInput, UserUncheckedCreateWithoutTimesheetsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutTimesheetsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutTimesheetsInput, UserUncheckedUpdateWithoutTimesheetsInput>
+  }
+
+  export type UserUpdateWithoutTimesheetsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    joiningDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    position?: NullableStringFieldUpdateOperationsInput | string | null
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    twoFactorEnabled?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    twofactors?: TwoFactorUpdateManyWithoutUserNestedInput
+    employee?: EmployeeUpdateOneWithoutUserNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutUserNestedInput
+    resourceAllocations?: ResourceAllocationUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutTimesheetsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    joiningDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    position?: NullableStringFieldUpdateOperationsInput | string | null
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    twoFactorEnabled?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    twofactors?: TwoFactorUncheckedUpdateManyWithoutUserNestedInput
+    employee?: EmployeeUncheckedUpdateOneWithoutUserNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutUserNestedInput
+    resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type TimeEntryUpsertWithWhereUniqueWithoutTimesheetInput = {
+    where: TimeEntryWhereUniqueInput
+    update: XOR<TimeEntryUpdateWithoutTimesheetInput, TimeEntryUncheckedUpdateWithoutTimesheetInput>
+    create: XOR<TimeEntryCreateWithoutTimesheetInput, TimeEntryUncheckedCreateWithoutTimesheetInput>
+  }
+
+  export type TimeEntryUpdateWithWhereUniqueWithoutTimesheetInput = {
+    where: TimeEntryWhereUniqueInput
+    data: XOR<TimeEntryUpdateWithoutTimesheetInput, TimeEntryUncheckedUpdateWithoutTimesheetInput>
+  }
+
+  export type TimeEntryUpdateManyWithWhereWithoutTimesheetInput = {
+    where: TimeEntryScalarWhereInput
+    data: XOR<TimeEntryUpdateManyMutationInput, TimeEntryUncheckedUpdateManyWithoutTimesheetInput>
+  }
+
+  export type TeamCreateWithoutTimeEntriesInput = {
+    id?: string
+    name: string
+    key: string
+    groqApiKey?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    projects?: ProjectCreateNestedManyWithoutTeamInput
+    issues?: IssueCreateNestedManyWithoutTeamInput
+    workflowStates?: WorkflowStateCreateNestedManyWithoutTeamInput
+    labels?: LabelCreateNestedManyWithoutTeamInput
+    members?: TeamMemberCreateNestedManyWithoutTeamInput
+    invitations?: InvitationCreateNestedManyWithoutTeamInput
+    chatConversations?: ChatConversationCreateNestedManyWithoutTeamInput
+    events?: EventCreateNestedManyWithoutTeamInput
+    standupEntries?: StandupEntryCreateNestedManyWithoutTeamInput
+    clients?: ClientCreateNestedManyWithoutTeamInput
+    leadPipelines?: LeadPipelineCreateNestedManyWithoutTeamInput
+    leads?: LeadCreateNestedManyWithoutTeamInput
+    teamChannels?: TeamChannelCreateNestedManyWithoutTeamInput
+    announcements?: TeamAnnouncementCreateNestedManyWithoutTeamInput
+    auditLogs?: AuditLogCreateNestedManyWithoutTeamInput
+    companySettings?: CompanySettingCreateNestedOneWithoutTeamInput
+    automationRules?: AutomationRuleCreateNestedManyWithoutTeamInput
+    developerApiKeys?: DeveloperApiKeyCreateNestedManyWithoutTeamInput
+    webhookEndpoints?: WebhookEndpointCreateNestedManyWithoutTeamInput
+    kpis?: CompanyKpiCreateNestedManyWithoutTeamInput
+    invoices?: InvoiceCreateNestedManyWithoutTeamInput
+    payments?: PaymentCreateNestedManyWithoutTeamInput
+    expenses?: ExpenseCreateNestedManyWithoutTeamInput
+    subscriptions?: ToolSubscriptionCreateNestedManyWithoutTeamInput
+    domainProducts?: DomainProductCreateNestedManyWithoutTeamInput
+    reusableComponents?: ReusableComponentCreateNestedManyWithoutTeamInput
+    employees?: EmployeeCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardCreateNestedManyWithoutTeamInput
+  }
+
+  export type TeamUncheckedCreateWithoutTimeEntriesInput = {
+    id?: string
+    name: string
+    key: string
+    groqApiKey?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    projects?: ProjectUncheckedCreateNestedManyWithoutTeamInput
+    issues?: IssueUncheckedCreateNestedManyWithoutTeamInput
+    workflowStates?: WorkflowStateUncheckedCreateNestedManyWithoutTeamInput
+    labels?: LabelUncheckedCreateNestedManyWithoutTeamInput
+    members?: TeamMemberUncheckedCreateNestedManyWithoutTeamInput
+    invitations?: InvitationUncheckedCreateNestedManyWithoutTeamInput
+    chatConversations?: ChatConversationUncheckedCreateNestedManyWithoutTeamInput
+    events?: EventUncheckedCreateNestedManyWithoutTeamInput
+    standupEntries?: StandupEntryUncheckedCreateNestedManyWithoutTeamInput
+    clients?: ClientUncheckedCreateNestedManyWithoutTeamInput
+    leadPipelines?: LeadPipelineUncheckedCreateNestedManyWithoutTeamInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTeamInput
+    teamChannels?: TeamChannelUncheckedCreateNestedManyWithoutTeamInput
+    announcements?: TeamAnnouncementUncheckedCreateNestedManyWithoutTeamInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTeamInput
+    companySettings?: CompanySettingUncheckedCreateNestedOneWithoutTeamInput
+    automationRules?: AutomationRuleUncheckedCreateNestedManyWithoutTeamInput
+    developerApiKeys?: DeveloperApiKeyUncheckedCreateNestedManyWithoutTeamInput
+    webhookEndpoints?: WebhookEndpointUncheckedCreateNestedManyWithoutTeamInput
+    kpis?: CompanyKpiUncheckedCreateNestedManyWithoutTeamInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTeamInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTeamInput
+    expenses?: ExpenseUncheckedCreateNestedManyWithoutTeamInput
+    subscriptions?: ToolSubscriptionUncheckedCreateNestedManyWithoutTeamInput
+    domainProducts?: DomainProductUncheckedCreateNestedManyWithoutTeamInput
+    reusableComponents?: ReusableComponentUncheckedCreateNestedManyWithoutTeamInput
+    employees?: EmployeeUncheckedCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetUncheckedCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardUncheckedCreateNestedManyWithoutTeamInput
+  }
+
+  export type TeamCreateOrConnectWithoutTimeEntriesInput = {
+    where: TeamWhereUniqueInput
+    create: XOR<TeamCreateWithoutTimeEntriesInput, TeamUncheckedCreateWithoutTimeEntriesInput>
+  }
+
+  export type UserCreateWithoutTimeEntriesInput = {
+    id: string
+    name: string
+    email: string
+    emailVerified?: boolean
+    image?: string | null
+    username?: string | null
+    dateOfBirth?: Date | string | null
+    joiningDate?: Date | string | null
+    position?: string | null
+    department?: string | null
+    employeeCode?: string | null
+    phone?: string | null
+    location?: string | null
+    bio?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    twoFactorEnabled?: boolean | null
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    twofactors?: TwoFactorCreateNestedManyWithoutUserInput
+    employee?: EmployeeCreateNestedOneWithoutUserInput
+    timesheets?: TimesheetCreateNestedManyWithoutUserInput
+    resourceAllocations?: ResourceAllocationCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutTimeEntriesInput = {
+    id: string
+    name: string
+    email: string
+    emailVerified?: boolean
+    image?: string | null
+    username?: string | null
+    dateOfBirth?: Date | string | null
+    joiningDate?: Date | string | null
+    position?: string | null
+    department?: string | null
+    employeeCode?: string | null
+    phone?: string | null
+    location?: string | null
+    bio?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    twoFactorEnabled?: boolean | null
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    twofactors?: TwoFactorUncheckedCreateNestedManyWithoutUserInput
+    employee?: EmployeeUncheckedCreateNestedOneWithoutUserInput
+    timesheets?: TimesheetUncheckedCreateNestedManyWithoutUserInput
+    resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutTimeEntriesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutTimeEntriesInput, UserUncheckedCreateWithoutTimeEntriesInput>
+  }
+
+  export type TimesheetCreateWithoutEntriesInput = {
+    id?: string
+    weekStartDate: Date | string
+    weekEndDate: Date | string
+    status?: $Enums.TimesheetStatus
+    totalHours?: number
+    billableHours?: number
+    submittedAt?: Date | string | null
+    approvedAt?: Date | string | null
+    approvedBy?: string | null
+    rejectionReason?: string | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    team: TeamCreateNestedOneWithoutTimesheetsInput
+    user: UserCreateNestedOneWithoutTimesheetsInput
+  }
+
+  export type TimesheetUncheckedCreateWithoutEntriesInput = {
+    id?: string
+    teamId: string
+    userId: string
+    weekStartDate: Date | string
+    weekEndDate: Date | string
+    status?: $Enums.TimesheetStatus
+    totalHours?: number
+    billableHours?: number
+    submittedAt?: Date | string | null
+    approvedAt?: Date | string | null
+    approvedBy?: string | null
+    rejectionReason?: string | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TimesheetCreateOrConnectWithoutEntriesInput = {
+    where: TimesheetWhereUniqueInput
+    create: XOR<TimesheetCreateWithoutEntriesInput, TimesheetUncheckedCreateWithoutEntriesInput>
+  }
+
+  export type ProjectCreateWithoutTimeEntriesInput = {
+    id?: string
+    name: string
+    description?: string | null
+    key: string
+    color?: string
+    icon?: string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    leadId?: string | null
+    lead?: string | null
+    team: TeamCreateNestedOneWithoutProjectsInput
+    issues?: IssueCreateNestedManyWithoutProjectInput
+    members?: ProjectMemberCreateNestedManyWithoutProjectInput
+    events?: EventCreateNestedManyWithoutProjectInput
+    teamChannels?: TeamChannelCreateNestedManyWithoutProjectInput
+    client?: ClientCreateNestedOneWithoutProjectsInput
+    invoices?: InvoiceCreateNestedManyWithoutProjectInput
+    expenses?: ExpenseCreateNestedManyWithoutProjectInput
+    resourceAllocations?: ResourceAllocationCreateNestedManyWithoutProjectInput
+  }
+
+  export type ProjectUncheckedCreateWithoutTimeEntriesInput = {
+    id?: string
+    name: string
+    description?: string | null
+    key: string
+    color?: string
+    icon?: string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    teamId: string
+    leadId?: string | null
+    lead?: string | null
+    clientId?: string | null
+    issues?: IssueUncheckedCreateNestedManyWithoutProjectInput
+    members?: ProjectMemberUncheckedCreateNestedManyWithoutProjectInput
+    events?: EventUncheckedCreateNestedManyWithoutProjectInput
+    teamChannels?: TeamChannelUncheckedCreateNestedManyWithoutProjectInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutProjectInput
+    expenses?: ExpenseUncheckedCreateNestedManyWithoutProjectInput
+    resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutProjectInput
+  }
+
+  export type ProjectCreateOrConnectWithoutTimeEntriesInput = {
+    where: ProjectWhereUniqueInput
+    create: XOR<ProjectCreateWithoutTimeEntriesInput, ProjectUncheckedCreateWithoutTimeEntriesInput>
+  }
+
+  export type IssueCreateWithoutTimeEntriesInput = {
+    id?: string
+    title: string
+    description?: string | null
+    number: number
+    priority?: string
+    estimate?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    completedAt?: Date | string | null
+    assigneeId?: string | null
+    assignee?: string | null
+    creatorId: string
+    creator: string
+    team: TeamCreateNestedOneWithoutIssuesInput
+    project?: ProjectCreateNestedOneWithoutIssuesInput
+    workflowState: WorkflowStateCreateNestedOneWithoutIssuesInput
+    comments?: CommentCreateNestedManyWithoutIssueInput
+    labels?: IssueLabelCreateNestedManyWithoutIssueInput
+  }
+
+  export type IssueUncheckedCreateWithoutTimeEntriesInput = {
+    id?: string
+    title: string
+    description?: string | null
+    number: number
+    priority?: string
+    estimate?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    completedAt?: Date | string | null
+    teamId: string
+    projectId?: string | null
+    workflowStateId: string
+    assigneeId?: string | null
+    assignee?: string | null
+    creatorId: string
+    creator: string
+    comments?: CommentUncheckedCreateNestedManyWithoutIssueInput
+    labels?: IssueLabelUncheckedCreateNestedManyWithoutIssueInput
+  }
+
+  export type IssueCreateOrConnectWithoutTimeEntriesInput = {
+    where: IssueWhereUniqueInput
+    create: XOR<IssueCreateWithoutTimeEntriesInput, IssueUncheckedCreateWithoutTimeEntriesInput>
+  }
+
+  export type TeamUpsertWithoutTimeEntriesInput = {
+    update: XOR<TeamUpdateWithoutTimeEntriesInput, TeamUncheckedUpdateWithoutTimeEntriesInput>
+    create: XOR<TeamCreateWithoutTimeEntriesInput, TeamUncheckedCreateWithoutTimeEntriesInput>
+    where?: TeamWhereInput
+  }
+
+  export type TeamUpdateToOneWithWhereWithoutTimeEntriesInput = {
+    where?: TeamWhereInput
+    data: XOR<TeamUpdateWithoutTimeEntriesInput, TeamUncheckedUpdateWithoutTimeEntriesInput>
+  }
+
+  export type TeamUpdateWithoutTimeEntriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    groqApiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    projects?: ProjectUpdateManyWithoutTeamNestedInput
+    issues?: IssueUpdateManyWithoutTeamNestedInput
+    workflowStates?: WorkflowStateUpdateManyWithoutTeamNestedInput
+    labels?: LabelUpdateManyWithoutTeamNestedInput
+    members?: TeamMemberUpdateManyWithoutTeamNestedInput
+    invitations?: InvitationUpdateManyWithoutTeamNestedInput
+    chatConversations?: ChatConversationUpdateManyWithoutTeamNestedInput
+    events?: EventUpdateManyWithoutTeamNestedInput
+    standupEntries?: StandupEntryUpdateManyWithoutTeamNestedInput
+    clients?: ClientUpdateManyWithoutTeamNestedInput
+    leadPipelines?: LeadPipelineUpdateManyWithoutTeamNestedInput
+    leads?: LeadUpdateManyWithoutTeamNestedInput
+    teamChannels?: TeamChannelUpdateManyWithoutTeamNestedInput
+    announcements?: TeamAnnouncementUpdateManyWithoutTeamNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutTeamNestedInput
+    companySettings?: CompanySettingUpdateOneWithoutTeamNestedInput
+    automationRules?: AutomationRuleUpdateManyWithoutTeamNestedInput
+    developerApiKeys?: DeveloperApiKeyUpdateManyWithoutTeamNestedInput
+    webhookEndpoints?: WebhookEndpointUpdateManyWithoutTeamNestedInput
+    kpis?: CompanyKpiUpdateManyWithoutTeamNestedInput
+    invoices?: InvoiceUpdateManyWithoutTeamNestedInput
+    payments?: PaymentUpdateManyWithoutTeamNestedInput
+    expenses?: ExpenseUpdateManyWithoutTeamNestedInput
+    subscriptions?: ToolSubscriptionUpdateManyWithoutTeamNestedInput
+    domainProducts?: DomainProductUpdateManyWithoutTeamNestedInput
+    reusableComponents?: ReusableComponentUpdateManyWithoutTeamNestedInput
+    employees?: EmployeeUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUpdateManyWithoutTeamNestedInput
+  }
+
+  export type TeamUncheckedUpdateWithoutTimeEntriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    groqApiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    projects?: ProjectUncheckedUpdateManyWithoutTeamNestedInput
+    issues?: IssueUncheckedUpdateManyWithoutTeamNestedInput
+    workflowStates?: WorkflowStateUncheckedUpdateManyWithoutTeamNestedInput
+    labels?: LabelUncheckedUpdateManyWithoutTeamNestedInput
+    members?: TeamMemberUncheckedUpdateManyWithoutTeamNestedInput
+    invitations?: InvitationUncheckedUpdateManyWithoutTeamNestedInput
+    chatConversations?: ChatConversationUncheckedUpdateManyWithoutTeamNestedInput
+    events?: EventUncheckedUpdateManyWithoutTeamNestedInput
+    standupEntries?: StandupEntryUncheckedUpdateManyWithoutTeamNestedInput
+    clients?: ClientUncheckedUpdateManyWithoutTeamNestedInput
+    leadPipelines?: LeadPipelineUncheckedUpdateManyWithoutTeamNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTeamNestedInput
+    teamChannels?: TeamChannelUncheckedUpdateManyWithoutTeamNestedInput
+    announcements?: TeamAnnouncementUncheckedUpdateManyWithoutTeamNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutTeamNestedInput
+    companySettings?: CompanySettingUncheckedUpdateOneWithoutTeamNestedInput
+    automationRules?: AutomationRuleUncheckedUpdateManyWithoutTeamNestedInput
+    developerApiKeys?: DeveloperApiKeyUncheckedUpdateManyWithoutTeamNestedInput
+    webhookEndpoints?: WebhookEndpointUncheckedUpdateManyWithoutTeamNestedInput
+    kpis?: CompanyKpiUncheckedUpdateManyWithoutTeamNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTeamNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTeamNestedInput
+    expenses?: ExpenseUncheckedUpdateManyWithoutTeamNestedInput
+    subscriptions?: ToolSubscriptionUncheckedUpdateManyWithoutTeamNestedInput
+    domainProducts?: DomainProductUncheckedUpdateManyWithoutTeamNestedInput
+    reusableComponents?: ReusableComponentUncheckedUpdateManyWithoutTeamNestedInput
+    employees?: EmployeeUncheckedUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUncheckedUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUncheckedUpdateManyWithoutTeamNestedInput
+  }
+
+  export type UserUpsertWithoutTimeEntriesInput = {
+    update: XOR<UserUpdateWithoutTimeEntriesInput, UserUncheckedUpdateWithoutTimeEntriesInput>
+    create: XOR<UserCreateWithoutTimeEntriesInput, UserUncheckedCreateWithoutTimeEntriesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutTimeEntriesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutTimeEntriesInput, UserUncheckedUpdateWithoutTimeEntriesInput>
+  }
+
+  export type UserUpdateWithoutTimeEntriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    joiningDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    position?: NullableStringFieldUpdateOperationsInput | string | null
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    twoFactorEnabled?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    twofactors?: TwoFactorUpdateManyWithoutUserNestedInput
+    employee?: EmployeeUpdateOneWithoutUserNestedInput
+    timesheets?: TimesheetUpdateManyWithoutUserNestedInput
+    resourceAllocations?: ResourceAllocationUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutTimeEntriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    joiningDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    position?: NullableStringFieldUpdateOperationsInput | string | null
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    twoFactorEnabled?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    twofactors?: TwoFactorUncheckedUpdateManyWithoutUserNestedInput
+    employee?: EmployeeUncheckedUpdateOneWithoutUserNestedInput
+    timesheets?: TimesheetUncheckedUpdateManyWithoutUserNestedInput
+    resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type TimesheetUpsertWithoutEntriesInput = {
+    update: XOR<TimesheetUpdateWithoutEntriesInput, TimesheetUncheckedUpdateWithoutEntriesInput>
+    create: XOR<TimesheetCreateWithoutEntriesInput, TimesheetUncheckedCreateWithoutEntriesInput>
+    where?: TimesheetWhereInput
+  }
+
+  export type TimesheetUpdateToOneWithWhereWithoutEntriesInput = {
+    where?: TimesheetWhereInput
+    data: XOR<TimesheetUpdateWithoutEntriesInput, TimesheetUncheckedUpdateWithoutEntriesInput>
+  }
+
+  export type TimesheetUpdateWithoutEntriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    weekStartDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    weekEndDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumTimesheetStatusFieldUpdateOperationsInput | $Enums.TimesheetStatus
+    totalHours?: FloatFieldUpdateOperationsInput | number
+    billableHours?: FloatFieldUpdateOperationsInput | number
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    team?: TeamUpdateOneRequiredWithoutTimesheetsNestedInput
+    user?: UserUpdateOneRequiredWithoutTimesheetsNestedInput
+  }
+
+  export type TimesheetUncheckedUpdateWithoutEntriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    teamId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    weekStartDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    weekEndDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumTimesheetStatusFieldUpdateOperationsInput | $Enums.TimesheetStatus
+    totalHours?: FloatFieldUpdateOperationsInput | number
+    billableHours?: FloatFieldUpdateOperationsInput | number
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProjectUpsertWithoutTimeEntriesInput = {
+    update: XOR<ProjectUpdateWithoutTimeEntriesInput, ProjectUncheckedUpdateWithoutTimeEntriesInput>
+    create: XOR<ProjectCreateWithoutTimeEntriesInput, ProjectUncheckedCreateWithoutTimeEntriesInput>
+    where?: ProjectWhereInput
+  }
+
+  export type ProjectUpdateToOneWithWhereWithoutTimeEntriesInput = {
+    where?: ProjectWhereInput
+    data: XOR<ProjectUpdateWithoutTimeEntriesInput, ProjectUncheckedUpdateWithoutTimeEntriesInput>
+  }
+
+  export type ProjectUpdateWithoutTimeEntriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    key?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    leadId?: NullableStringFieldUpdateOperationsInput | string | null
+    lead?: NullableStringFieldUpdateOperationsInput | string | null
+    team?: TeamUpdateOneRequiredWithoutProjectsNestedInput
+    issues?: IssueUpdateManyWithoutProjectNestedInput
+    members?: ProjectMemberUpdateManyWithoutProjectNestedInput
+    events?: EventUpdateManyWithoutProjectNestedInput
+    teamChannels?: TeamChannelUpdateManyWithoutProjectNestedInput
+    client?: ClientUpdateOneWithoutProjectsNestedInput
+    invoices?: InvoiceUpdateManyWithoutProjectNestedInput
+    expenses?: ExpenseUpdateManyWithoutProjectNestedInput
+    resourceAllocations?: ResourceAllocationUpdateManyWithoutProjectNestedInput
+  }
+
+  export type ProjectUncheckedUpdateWithoutTimeEntriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    key?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    teamId?: StringFieldUpdateOperationsInput | string
+    leadId?: NullableStringFieldUpdateOperationsInput | string | null
+    lead?: NullableStringFieldUpdateOperationsInput | string | null
+    clientId?: NullableStringFieldUpdateOperationsInput | string | null
+    issues?: IssueUncheckedUpdateManyWithoutProjectNestedInput
+    members?: ProjectMemberUncheckedUpdateManyWithoutProjectNestedInput
+    events?: EventUncheckedUpdateManyWithoutProjectNestedInput
+    teamChannels?: TeamChannelUncheckedUpdateManyWithoutProjectNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutProjectNestedInput
+    expenses?: ExpenseUncheckedUpdateManyWithoutProjectNestedInput
+    resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutProjectNestedInput
+  }
+
+  export type IssueUpsertWithoutTimeEntriesInput = {
+    update: XOR<IssueUpdateWithoutTimeEntriesInput, IssueUncheckedUpdateWithoutTimeEntriesInput>
+    create: XOR<IssueCreateWithoutTimeEntriesInput, IssueUncheckedCreateWithoutTimeEntriesInput>
+    where?: IssueWhereInput
+  }
+
+  export type IssueUpdateToOneWithWhereWithoutTimeEntriesInput = {
+    where?: IssueWhereInput
+    data: XOR<IssueUpdateWithoutTimeEntriesInput, IssueUncheckedUpdateWithoutTimeEntriesInput>
+  }
+
+  export type IssueUpdateWithoutTimeEntriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    number?: IntFieldUpdateOperationsInput | number
+    priority?: StringFieldUpdateOperationsInput | string
+    estimate?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+    assignee?: NullableStringFieldUpdateOperationsInput | string | null
+    creatorId?: StringFieldUpdateOperationsInput | string
+    creator?: StringFieldUpdateOperationsInput | string
+    team?: TeamUpdateOneRequiredWithoutIssuesNestedInput
+    project?: ProjectUpdateOneWithoutIssuesNestedInput
+    workflowState?: WorkflowStateUpdateOneRequiredWithoutIssuesNestedInput
+    comments?: CommentUpdateManyWithoutIssueNestedInput
+    labels?: IssueLabelUpdateManyWithoutIssueNestedInput
+  }
+
+  export type IssueUncheckedUpdateWithoutTimeEntriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    number?: IntFieldUpdateOperationsInput | number
+    priority?: StringFieldUpdateOperationsInput | string
+    estimate?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    teamId?: StringFieldUpdateOperationsInput | string
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+    workflowStateId?: StringFieldUpdateOperationsInput | string
+    assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+    assignee?: NullableStringFieldUpdateOperationsInput | string | null
+    creatorId?: StringFieldUpdateOperationsInput | string
+    creator?: StringFieldUpdateOperationsInput | string
+    comments?: CommentUncheckedUpdateManyWithoutIssueNestedInput
+    labels?: IssueLabelUncheckedUpdateManyWithoutIssueNestedInput
+  }
+
+  export type TeamCreateWithoutResourceAllocationsInput = {
+    id?: string
+    name: string
+    key: string
+    groqApiKey?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    projects?: ProjectCreateNestedManyWithoutTeamInput
+    issues?: IssueCreateNestedManyWithoutTeamInput
+    workflowStates?: WorkflowStateCreateNestedManyWithoutTeamInput
+    labels?: LabelCreateNestedManyWithoutTeamInput
+    members?: TeamMemberCreateNestedManyWithoutTeamInput
+    invitations?: InvitationCreateNestedManyWithoutTeamInput
+    chatConversations?: ChatConversationCreateNestedManyWithoutTeamInput
+    events?: EventCreateNestedManyWithoutTeamInput
+    standupEntries?: StandupEntryCreateNestedManyWithoutTeamInput
+    clients?: ClientCreateNestedManyWithoutTeamInput
+    leadPipelines?: LeadPipelineCreateNestedManyWithoutTeamInput
+    leads?: LeadCreateNestedManyWithoutTeamInput
+    teamChannels?: TeamChannelCreateNestedManyWithoutTeamInput
+    announcements?: TeamAnnouncementCreateNestedManyWithoutTeamInput
+    auditLogs?: AuditLogCreateNestedManyWithoutTeamInput
+    companySettings?: CompanySettingCreateNestedOneWithoutTeamInput
+    automationRules?: AutomationRuleCreateNestedManyWithoutTeamInput
+    developerApiKeys?: DeveloperApiKeyCreateNestedManyWithoutTeamInput
+    webhookEndpoints?: WebhookEndpointCreateNestedManyWithoutTeamInput
+    kpis?: CompanyKpiCreateNestedManyWithoutTeamInput
+    invoices?: InvoiceCreateNestedManyWithoutTeamInput
+    payments?: PaymentCreateNestedManyWithoutTeamInput
+    expenses?: ExpenseCreateNestedManyWithoutTeamInput
+    subscriptions?: ToolSubscriptionCreateNestedManyWithoutTeamInput
+    domainProducts?: DomainProductCreateNestedManyWithoutTeamInput
+    reusableComponents?: ReusableComponentCreateNestedManyWithoutTeamInput
+    employees?: EmployeeCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardCreateNestedManyWithoutTeamInput
+  }
+
+  export type TeamUncheckedCreateWithoutResourceAllocationsInput = {
+    id?: string
+    name: string
+    key: string
+    groqApiKey?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    projects?: ProjectUncheckedCreateNestedManyWithoutTeamInput
+    issues?: IssueUncheckedCreateNestedManyWithoutTeamInput
+    workflowStates?: WorkflowStateUncheckedCreateNestedManyWithoutTeamInput
+    labels?: LabelUncheckedCreateNestedManyWithoutTeamInput
+    members?: TeamMemberUncheckedCreateNestedManyWithoutTeamInput
+    invitations?: InvitationUncheckedCreateNestedManyWithoutTeamInput
+    chatConversations?: ChatConversationUncheckedCreateNestedManyWithoutTeamInput
+    events?: EventUncheckedCreateNestedManyWithoutTeamInput
+    standupEntries?: StandupEntryUncheckedCreateNestedManyWithoutTeamInput
+    clients?: ClientUncheckedCreateNestedManyWithoutTeamInput
+    leadPipelines?: LeadPipelineUncheckedCreateNestedManyWithoutTeamInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTeamInput
+    teamChannels?: TeamChannelUncheckedCreateNestedManyWithoutTeamInput
+    announcements?: TeamAnnouncementUncheckedCreateNestedManyWithoutTeamInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTeamInput
+    companySettings?: CompanySettingUncheckedCreateNestedOneWithoutTeamInput
+    automationRules?: AutomationRuleUncheckedCreateNestedManyWithoutTeamInput
+    developerApiKeys?: DeveloperApiKeyUncheckedCreateNestedManyWithoutTeamInput
+    webhookEndpoints?: WebhookEndpointUncheckedCreateNestedManyWithoutTeamInput
+    kpis?: CompanyKpiUncheckedCreateNestedManyWithoutTeamInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTeamInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTeamInput
+    expenses?: ExpenseUncheckedCreateNestedManyWithoutTeamInput
+    subscriptions?: ToolSubscriptionUncheckedCreateNestedManyWithoutTeamInput
+    domainProducts?: DomainProductUncheckedCreateNestedManyWithoutTeamInput
+    reusableComponents?: ReusableComponentUncheckedCreateNestedManyWithoutTeamInput
+    employees?: EmployeeUncheckedCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetUncheckedCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutTeamInput
+    rateCards?: RateCardUncheckedCreateNestedManyWithoutTeamInput
+  }
+
+  export type TeamCreateOrConnectWithoutResourceAllocationsInput = {
+    where: TeamWhereUniqueInput
+    create: XOR<TeamCreateWithoutResourceAllocationsInput, TeamUncheckedCreateWithoutResourceAllocationsInput>
+  }
+
+  export type UserCreateWithoutResourceAllocationsInput = {
+    id: string
+    name: string
+    email: string
+    emailVerified?: boolean
+    image?: string | null
+    username?: string | null
+    dateOfBirth?: Date | string | null
+    joiningDate?: Date | string | null
+    position?: string | null
+    department?: string | null
+    employeeCode?: string | null
+    phone?: string | null
+    location?: string | null
+    bio?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    twoFactorEnabled?: boolean | null
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    twofactors?: TwoFactorCreateNestedManyWithoutUserInput
+    employee?: EmployeeCreateNestedOneWithoutUserInput
+    timesheets?: TimesheetCreateNestedManyWithoutUserInput
+    timeEntries?: TimeEntryCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutResourceAllocationsInput = {
+    id: string
+    name: string
+    email: string
+    emailVerified?: boolean
+    image?: string | null
+    username?: string | null
+    dateOfBirth?: Date | string | null
+    joiningDate?: Date | string | null
+    position?: string | null
+    department?: string | null
+    employeeCode?: string | null
+    phone?: string | null
+    location?: string | null
+    bio?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    twoFactorEnabled?: boolean | null
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    twofactors?: TwoFactorUncheckedCreateNestedManyWithoutUserInput
+    employee?: EmployeeUncheckedCreateNestedOneWithoutUserInput
+    timesheets?: TimesheetUncheckedCreateNestedManyWithoutUserInput
+    timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutResourceAllocationsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutResourceAllocationsInput, UserUncheckedCreateWithoutResourceAllocationsInput>
+  }
+
+  export type ProjectCreateWithoutResourceAllocationsInput = {
+    id?: string
+    name: string
+    description?: string | null
+    key: string
+    color?: string
+    icon?: string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    leadId?: string | null
+    lead?: string | null
+    team: TeamCreateNestedOneWithoutProjectsInput
+    issues?: IssueCreateNestedManyWithoutProjectInput
+    members?: ProjectMemberCreateNestedManyWithoutProjectInput
+    events?: EventCreateNestedManyWithoutProjectInput
+    teamChannels?: TeamChannelCreateNestedManyWithoutProjectInput
+    client?: ClientCreateNestedOneWithoutProjectsInput
+    invoices?: InvoiceCreateNestedManyWithoutProjectInput
+    expenses?: ExpenseCreateNestedManyWithoutProjectInput
+    timeEntries?: TimeEntryCreateNestedManyWithoutProjectInput
+  }
+
+  export type ProjectUncheckedCreateWithoutResourceAllocationsInput = {
+    id?: string
+    name: string
+    description?: string | null
+    key: string
+    color?: string
+    icon?: string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    teamId: string
+    leadId?: string | null
+    lead?: string | null
+    clientId?: string | null
+    issues?: IssueUncheckedCreateNestedManyWithoutProjectInput
+    members?: ProjectMemberUncheckedCreateNestedManyWithoutProjectInput
+    events?: EventUncheckedCreateNestedManyWithoutProjectInput
+    teamChannels?: TeamChannelUncheckedCreateNestedManyWithoutProjectInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutProjectInput
+    expenses?: ExpenseUncheckedCreateNestedManyWithoutProjectInput
+    timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutProjectInput
+  }
+
+  export type ProjectCreateOrConnectWithoutResourceAllocationsInput = {
+    where: ProjectWhereUniqueInput
+    create: XOR<ProjectCreateWithoutResourceAllocationsInput, ProjectUncheckedCreateWithoutResourceAllocationsInput>
+  }
+
+  export type TeamUpsertWithoutResourceAllocationsInput = {
+    update: XOR<TeamUpdateWithoutResourceAllocationsInput, TeamUncheckedUpdateWithoutResourceAllocationsInput>
+    create: XOR<TeamCreateWithoutResourceAllocationsInput, TeamUncheckedCreateWithoutResourceAllocationsInput>
+    where?: TeamWhereInput
+  }
+
+  export type TeamUpdateToOneWithWhereWithoutResourceAllocationsInput = {
+    where?: TeamWhereInput
+    data: XOR<TeamUpdateWithoutResourceAllocationsInput, TeamUncheckedUpdateWithoutResourceAllocationsInput>
+  }
+
+  export type TeamUpdateWithoutResourceAllocationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    groqApiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    projects?: ProjectUpdateManyWithoutTeamNestedInput
+    issues?: IssueUpdateManyWithoutTeamNestedInput
+    workflowStates?: WorkflowStateUpdateManyWithoutTeamNestedInput
+    labels?: LabelUpdateManyWithoutTeamNestedInput
+    members?: TeamMemberUpdateManyWithoutTeamNestedInput
+    invitations?: InvitationUpdateManyWithoutTeamNestedInput
+    chatConversations?: ChatConversationUpdateManyWithoutTeamNestedInput
+    events?: EventUpdateManyWithoutTeamNestedInput
+    standupEntries?: StandupEntryUpdateManyWithoutTeamNestedInput
+    clients?: ClientUpdateManyWithoutTeamNestedInput
+    leadPipelines?: LeadPipelineUpdateManyWithoutTeamNestedInput
+    leads?: LeadUpdateManyWithoutTeamNestedInput
+    teamChannels?: TeamChannelUpdateManyWithoutTeamNestedInput
+    announcements?: TeamAnnouncementUpdateManyWithoutTeamNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutTeamNestedInput
+    companySettings?: CompanySettingUpdateOneWithoutTeamNestedInput
+    automationRules?: AutomationRuleUpdateManyWithoutTeamNestedInput
+    developerApiKeys?: DeveloperApiKeyUpdateManyWithoutTeamNestedInput
+    webhookEndpoints?: WebhookEndpointUpdateManyWithoutTeamNestedInput
+    kpis?: CompanyKpiUpdateManyWithoutTeamNestedInput
+    invoices?: InvoiceUpdateManyWithoutTeamNestedInput
+    payments?: PaymentUpdateManyWithoutTeamNestedInput
+    expenses?: ExpenseUpdateManyWithoutTeamNestedInput
+    subscriptions?: ToolSubscriptionUpdateManyWithoutTeamNestedInput
+    domainProducts?: DomainProductUpdateManyWithoutTeamNestedInput
+    reusableComponents?: ReusableComponentUpdateManyWithoutTeamNestedInput
+    employees?: EmployeeUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUpdateManyWithoutTeamNestedInput
+  }
+
+  export type TeamUncheckedUpdateWithoutResourceAllocationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    groqApiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    projects?: ProjectUncheckedUpdateManyWithoutTeamNestedInput
+    issues?: IssueUncheckedUpdateManyWithoutTeamNestedInput
+    workflowStates?: WorkflowStateUncheckedUpdateManyWithoutTeamNestedInput
+    labels?: LabelUncheckedUpdateManyWithoutTeamNestedInput
+    members?: TeamMemberUncheckedUpdateManyWithoutTeamNestedInput
+    invitations?: InvitationUncheckedUpdateManyWithoutTeamNestedInput
+    chatConversations?: ChatConversationUncheckedUpdateManyWithoutTeamNestedInput
+    events?: EventUncheckedUpdateManyWithoutTeamNestedInput
+    standupEntries?: StandupEntryUncheckedUpdateManyWithoutTeamNestedInput
+    clients?: ClientUncheckedUpdateManyWithoutTeamNestedInput
+    leadPipelines?: LeadPipelineUncheckedUpdateManyWithoutTeamNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTeamNestedInput
+    teamChannels?: TeamChannelUncheckedUpdateManyWithoutTeamNestedInput
+    announcements?: TeamAnnouncementUncheckedUpdateManyWithoutTeamNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutTeamNestedInput
+    companySettings?: CompanySettingUncheckedUpdateOneWithoutTeamNestedInput
+    automationRules?: AutomationRuleUncheckedUpdateManyWithoutTeamNestedInput
+    developerApiKeys?: DeveloperApiKeyUncheckedUpdateManyWithoutTeamNestedInput
+    webhookEndpoints?: WebhookEndpointUncheckedUpdateManyWithoutTeamNestedInput
+    kpis?: CompanyKpiUncheckedUpdateManyWithoutTeamNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTeamNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTeamNestedInput
+    expenses?: ExpenseUncheckedUpdateManyWithoutTeamNestedInput
+    subscriptions?: ToolSubscriptionUncheckedUpdateManyWithoutTeamNestedInput
+    domainProducts?: DomainProductUncheckedUpdateManyWithoutTeamNestedInput
+    reusableComponents?: ReusableComponentUncheckedUpdateManyWithoutTeamNestedInput
+    employees?: EmployeeUncheckedUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUncheckedUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutTeamNestedInput
+    rateCards?: RateCardUncheckedUpdateManyWithoutTeamNestedInput
+  }
+
+  export type UserUpsertWithoutResourceAllocationsInput = {
+    update: XOR<UserUpdateWithoutResourceAllocationsInput, UserUncheckedUpdateWithoutResourceAllocationsInput>
+    create: XOR<UserCreateWithoutResourceAllocationsInput, UserUncheckedCreateWithoutResourceAllocationsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutResourceAllocationsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutResourceAllocationsInput, UserUncheckedUpdateWithoutResourceAllocationsInput>
+  }
+
+  export type UserUpdateWithoutResourceAllocationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    joiningDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    position?: NullableStringFieldUpdateOperationsInput | string | null
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    twoFactorEnabled?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    twofactors?: TwoFactorUpdateManyWithoutUserNestedInput
+    employee?: EmployeeUpdateOneWithoutUserNestedInput
+    timesheets?: TimesheetUpdateManyWithoutUserNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutResourceAllocationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    joiningDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    position?: NullableStringFieldUpdateOperationsInput | string | null
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    twoFactorEnabled?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    twofactors?: TwoFactorUncheckedUpdateManyWithoutUserNestedInput
+    employee?: EmployeeUncheckedUpdateOneWithoutUserNestedInput
+    timesheets?: TimesheetUncheckedUpdateManyWithoutUserNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type ProjectUpsertWithoutResourceAllocationsInput = {
+    update: XOR<ProjectUpdateWithoutResourceAllocationsInput, ProjectUncheckedUpdateWithoutResourceAllocationsInput>
+    create: XOR<ProjectCreateWithoutResourceAllocationsInput, ProjectUncheckedCreateWithoutResourceAllocationsInput>
+    where?: ProjectWhereInput
+  }
+
+  export type ProjectUpdateToOneWithWhereWithoutResourceAllocationsInput = {
+    where?: ProjectWhereInput
+    data: XOR<ProjectUpdateWithoutResourceAllocationsInput, ProjectUncheckedUpdateWithoutResourceAllocationsInput>
+  }
+
+  export type ProjectUpdateWithoutResourceAllocationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    key?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    leadId?: NullableStringFieldUpdateOperationsInput | string | null
+    lead?: NullableStringFieldUpdateOperationsInput | string | null
+    team?: TeamUpdateOneRequiredWithoutProjectsNestedInput
+    issues?: IssueUpdateManyWithoutProjectNestedInput
+    members?: ProjectMemberUpdateManyWithoutProjectNestedInput
+    events?: EventUpdateManyWithoutProjectNestedInput
+    teamChannels?: TeamChannelUpdateManyWithoutProjectNestedInput
+    client?: ClientUpdateOneWithoutProjectsNestedInput
+    invoices?: InvoiceUpdateManyWithoutProjectNestedInput
+    expenses?: ExpenseUpdateManyWithoutProjectNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutProjectNestedInput
+  }
+
+  export type ProjectUncheckedUpdateWithoutResourceAllocationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    key?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    teamId?: StringFieldUpdateOperationsInput | string
+    leadId?: NullableStringFieldUpdateOperationsInput | string | null
+    lead?: NullableStringFieldUpdateOperationsInput | string | null
+    clientId?: NullableStringFieldUpdateOperationsInput | string | null
+    issues?: IssueUncheckedUpdateManyWithoutProjectNestedInput
+    members?: ProjectMemberUncheckedUpdateManyWithoutProjectNestedInput
+    events?: EventUncheckedUpdateManyWithoutProjectNestedInput
+    teamChannels?: TeamChannelUncheckedUpdateManyWithoutProjectNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutProjectNestedInput
+    expenses?: ExpenseUncheckedUpdateManyWithoutProjectNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
+  }
+
+  export type TeamCreateWithoutRateCardsInput = {
+    id?: string
+    name: string
+    key: string
+    groqApiKey?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    projects?: ProjectCreateNestedManyWithoutTeamInput
+    issues?: IssueCreateNestedManyWithoutTeamInput
+    workflowStates?: WorkflowStateCreateNestedManyWithoutTeamInput
+    labels?: LabelCreateNestedManyWithoutTeamInput
+    members?: TeamMemberCreateNestedManyWithoutTeamInput
+    invitations?: InvitationCreateNestedManyWithoutTeamInput
+    chatConversations?: ChatConversationCreateNestedManyWithoutTeamInput
+    events?: EventCreateNestedManyWithoutTeamInput
+    standupEntries?: StandupEntryCreateNestedManyWithoutTeamInput
+    clients?: ClientCreateNestedManyWithoutTeamInput
+    leadPipelines?: LeadPipelineCreateNestedManyWithoutTeamInput
+    leads?: LeadCreateNestedManyWithoutTeamInput
+    teamChannels?: TeamChannelCreateNestedManyWithoutTeamInput
+    announcements?: TeamAnnouncementCreateNestedManyWithoutTeamInput
+    auditLogs?: AuditLogCreateNestedManyWithoutTeamInput
+    companySettings?: CompanySettingCreateNestedOneWithoutTeamInput
+    automationRules?: AutomationRuleCreateNestedManyWithoutTeamInput
+    developerApiKeys?: DeveloperApiKeyCreateNestedManyWithoutTeamInput
+    webhookEndpoints?: WebhookEndpointCreateNestedManyWithoutTeamInput
+    kpis?: CompanyKpiCreateNestedManyWithoutTeamInput
+    invoices?: InvoiceCreateNestedManyWithoutTeamInput
+    payments?: PaymentCreateNestedManyWithoutTeamInput
+    expenses?: ExpenseCreateNestedManyWithoutTeamInput
+    subscriptions?: ToolSubscriptionCreateNestedManyWithoutTeamInput
+    domainProducts?: DomainProductCreateNestedManyWithoutTeamInput
+    reusableComponents?: ReusableComponentCreateNestedManyWithoutTeamInput
+    employees?: EmployeeCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationCreateNestedManyWithoutTeamInput
+  }
+
+  export type TeamUncheckedCreateWithoutRateCardsInput = {
+    id?: string
+    name: string
+    key: string
+    groqApiKey?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    projects?: ProjectUncheckedCreateNestedManyWithoutTeamInput
+    issues?: IssueUncheckedCreateNestedManyWithoutTeamInput
+    workflowStates?: WorkflowStateUncheckedCreateNestedManyWithoutTeamInput
+    labels?: LabelUncheckedCreateNestedManyWithoutTeamInput
+    members?: TeamMemberUncheckedCreateNestedManyWithoutTeamInput
+    invitations?: InvitationUncheckedCreateNestedManyWithoutTeamInput
+    chatConversations?: ChatConversationUncheckedCreateNestedManyWithoutTeamInput
+    events?: EventUncheckedCreateNestedManyWithoutTeamInput
+    standupEntries?: StandupEntryUncheckedCreateNestedManyWithoutTeamInput
+    clients?: ClientUncheckedCreateNestedManyWithoutTeamInput
+    leadPipelines?: LeadPipelineUncheckedCreateNestedManyWithoutTeamInput
+    leads?: LeadUncheckedCreateNestedManyWithoutTeamInput
+    teamChannels?: TeamChannelUncheckedCreateNestedManyWithoutTeamInput
+    announcements?: TeamAnnouncementUncheckedCreateNestedManyWithoutTeamInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutTeamInput
+    companySettings?: CompanySettingUncheckedCreateNestedOneWithoutTeamInput
+    automationRules?: AutomationRuleUncheckedCreateNestedManyWithoutTeamInput
+    developerApiKeys?: DeveloperApiKeyUncheckedCreateNestedManyWithoutTeamInput
+    webhookEndpoints?: WebhookEndpointUncheckedCreateNestedManyWithoutTeamInput
+    kpis?: CompanyKpiUncheckedCreateNestedManyWithoutTeamInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTeamInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutTeamInput
+    expenses?: ExpenseUncheckedCreateNestedManyWithoutTeamInput
+    subscriptions?: ToolSubscriptionUncheckedCreateNestedManyWithoutTeamInput
+    domainProducts?: DomainProductUncheckedCreateNestedManyWithoutTeamInput
+    reusableComponents?: ReusableComponentUncheckedCreateNestedManyWithoutTeamInput
+    employees?: EmployeeUncheckedCreateNestedManyWithoutTeamInput
+    timesheets?: TimesheetUncheckedCreateNestedManyWithoutTeamInput
+    timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutTeamInput
+    resourceAllocations?: ResourceAllocationUncheckedCreateNestedManyWithoutTeamInput
+  }
+
+  export type TeamCreateOrConnectWithoutRateCardsInput = {
+    where: TeamWhereUniqueInput
+    create: XOR<TeamCreateWithoutRateCardsInput, TeamUncheckedCreateWithoutRateCardsInput>
+  }
+
+  export type TeamUpsertWithoutRateCardsInput = {
+    update: XOR<TeamUpdateWithoutRateCardsInput, TeamUncheckedUpdateWithoutRateCardsInput>
+    create: XOR<TeamCreateWithoutRateCardsInput, TeamUncheckedCreateWithoutRateCardsInput>
+    where?: TeamWhereInput
+  }
+
+  export type TeamUpdateToOneWithWhereWithoutRateCardsInput = {
+    where?: TeamWhereInput
+    data: XOR<TeamUpdateWithoutRateCardsInput, TeamUncheckedUpdateWithoutRateCardsInput>
+  }
+
+  export type TeamUpdateWithoutRateCardsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    groqApiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    projects?: ProjectUpdateManyWithoutTeamNestedInput
+    issues?: IssueUpdateManyWithoutTeamNestedInput
+    workflowStates?: WorkflowStateUpdateManyWithoutTeamNestedInput
+    labels?: LabelUpdateManyWithoutTeamNestedInput
+    members?: TeamMemberUpdateManyWithoutTeamNestedInput
+    invitations?: InvitationUpdateManyWithoutTeamNestedInput
+    chatConversations?: ChatConversationUpdateManyWithoutTeamNestedInput
+    events?: EventUpdateManyWithoutTeamNestedInput
+    standupEntries?: StandupEntryUpdateManyWithoutTeamNestedInput
+    clients?: ClientUpdateManyWithoutTeamNestedInput
+    leadPipelines?: LeadPipelineUpdateManyWithoutTeamNestedInput
+    leads?: LeadUpdateManyWithoutTeamNestedInput
+    teamChannels?: TeamChannelUpdateManyWithoutTeamNestedInput
+    announcements?: TeamAnnouncementUpdateManyWithoutTeamNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutTeamNestedInput
+    companySettings?: CompanySettingUpdateOneWithoutTeamNestedInput
+    automationRules?: AutomationRuleUpdateManyWithoutTeamNestedInput
+    developerApiKeys?: DeveloperApiKeyUpdateManyWithoutTeamNestedInput
+    webhookEndpoints?: WebhookEndpointUpdateManyWithoutTeamNestedInput
+    kpis?: CompanyKpiUpdateManyWithoutTeamNestedInput
+    invoices?: InvoiceUpdateManyWithoutTeamNestedInput
+    payments?: PaymentUpdateManyWithoutTeamNestedInput
+    expenses?: ExpenseUpdateManyWithoutTeamNestedInput
+    subscriptions?: ToolSubscriptionUpdateManyWithoutTeamNestedInput
+    domainProducts?: DomainProductUpdateManyWithoutTeamNestedInput
+    reusableComponents?: ReusableComponentUpdateManyWithoutTeamNestedInput
+    employees?: EmployeeUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUpdateManyWithoutTeamNestedInput
+  }
+
+  export type TeamUncheckedUpdateWithoutRateCardsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    groqApiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    projects?: ProjectUncheckedUpdateManyWithoutTeamNestedInput
+    issues?: IssueUncheckedUpdateManyWithoutTeamNestedInput
+    workflowStates?: WorkflowStateUncheckedUpdateManyWithoutTeamNestedInput
+    labels?: LabelUncheckedUpdateManyWithoutTeamNestedInput
+    members?: TeamMemberUncheckedUpdateManyWithoutTeamNestedInput
+    invitations?: InvitationUncheckedUpdateManyWithoutTeamNestedInput
+    chatConversations?: ChatConversationUncheckedUpdateManyWithoutTeamNestedInput
+    events?: EventUncheckedUpdateManyWithoutTeamNestedInput
+    standupEntries?: StandupEntryUncheckedUpdateManyWithoutTeamNestedInput
+    clients?: ClientUncheckedUpdateManyWithoutTeamNestedInput
+    leadPipelines?: LeadPipelineUncheckedUpdateManyWithoutTeamNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutTeamNestedInput
+    teamChannels?: TeamChannelUncheckedUpdateManyWithoutTeamNestedInput
+    announcements?: TeamAnnouncementUncheckedUpdateManyWithoutTeamNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutTeamNestedInput
+    companySettings?: CompanySettingUncheckedUpdateOneWithoutTeamNestedInput
+    automationRules?: AutomationRuleUncheckedUpdateManyWithoutTeamNestedInput
+    developerApiKeys?: DeveloperApiKeyUncheckedUpdateManyWithoutTeamNestedInput
+    webhookEndpoints?: WebhookEndpointUncheckedUpdateManyWithoutTeamNestedInput
+    kpis?: CompanyKpiUncheckedUpdateManyWithoutTeamNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutTeamNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutTeamNestedInput
+    expenses?: ExpenseUncheckedUpdateManyWithoutTeamNestedInput
+    subscriptions?: ToolSubscriptionUncheckedUpdateManyWithoutTeamNestedInput
+    domainProducts?: DomainProductUncheckedUpdateManyWithoutTeamNestedInput
+    reusableComponents?: ReusableComponentUncheckedUpdateManyWithoutTeamNestedInput
+    employees?: EmployeeUncheckedUpdateManyWithoutTeamNestedInput
+    timesheets?: TimesheetUncheckedUpdateManyWithoutTeamNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutTeamNestedInput
+    resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutTeamNestedInput
   }
 
   export type ProjectCreateManyTeamInput = {
@@ -110661,6 +121193,69 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type TimesheetCreateManyTeamInput = {
+    id?: string
+    userId: string
+    weekStartDate: Date | string
+    weekEndDate: Date | string
+    status?: $Enums.TimesheetStatus
+    totalHours?: number
+    billableHours?: number
+    submittedAt?: Date | string | null
+    approvedAt?: Date | string | null
+    approvedBy?: string | null
+    rejectionReason?: string | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TimeEntryCreateManyTeamInput = {
+    id?: string
+    userId: string
+    timesheetId?: string | null
+    projectId?: string | null
+    issueId?: string | null
+    date: Date | string
+    hours: number
+    description: string
+    isBillable?: boolean
+    category?: string
+    costRate?: number | null
+    billingRate?: number | null
+    isTimer?: boolean
+    startedAt?: Date | string | null
+    stoppedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ResourceAllocationCreateManyTeamInput = {
+    id?: string
+    userId: string
+    projectId: string
+    weekStartDate: Date | string
+    allocatedHours?: number
+    role?: string | null
+    notes?: string | null
+    isContractor?: boolean
+    contractorRate?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RateCardCreateManyTeamInput = {
+    id?: string
+    roleKey?: string | null
+    userId?: string | null
+    hourlyCostRate?: number
+    hourlyBillingRate?: number
+    currency?: string
+    effectiveFrom?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type ProjectUpdateWithoutTeamInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
@@ -110680,6 +121275,8 @@ export namespace Prisma {
     client?: ClientUpdateOneWithoutProjectsNestedInput
     invoices?: InvoiceUpdateManyWithoutProjectNestedInput
     expenses?: ExpenseUpdateManyWithoutProjectNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutProjectNestedInput
+    resourceAllocations?: ResourceAllocationUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateWithoutTeamInput = {
@@ -110701,6 +121298,8 @@ export namespace Prisma {
     teamChannels?: TeamChannelUncheckedUpdateManyWithoutProjectNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutProjectNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutProjectNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
+    resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateManyWithoutTeamInput = {
@@ -110736,6 +121335,7 @@ export namespace Prisma {
     workflowState?: WorkflowStateUpdateOneRequiredWithoutIssuesNestedInput
     comments?: CommentUpdateManyWithoutIssueNestedInput
     labels?: IssueLabelUpdateManyWithoutIssueNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutIssueNestedInput
   }
 
   export type IssueUncheckedUpdateWithoutTeamInput = {
@@ -110756,6 +121356,7 @@ export namespace Prisma {
     creator?: StringFieldUpdateOperationsInput | string
     comments?: CommentUncheckedUpdateManyWithoutIssueNestedInput
     labels?: IssueLabelUncheckedUpdateManyWithoutIssueNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutIssueNestedInput
   }
 
   export type IssueUncheckedUpdateManyWithoutTeamInput = {
@@ -111904,6 +122505,197 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type TimesheetUpdateWithoutTeamInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    weekStartDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    weekEndDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumTimesheetStatusFieldUpdateOperationsInput | $Enums.TimesheetStatus
+    totalHours?: FloatFieldUpdateOperationsInput | number
+    billableHours?: FloatFieldUpdateOperationsInput | number
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutTimesheetsNestedInput
+    entries?: TimeEntryUpdateManyWithoutTimesheetNestedInput
+  }
+
+  export type TimesheetUncheckedUpdateWithoutTeamInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    weekStartDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    weekEndDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumTimesheetStatusFieldUpdateOperationsInput | $Enums.TimesheetStatus
+    totalHours?: FloatFieldUpdateOperationsInput | number
+    billableHours?: FloatFieldUpdateOperationsInput | number
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    entries?: TimeEntryUncheckedUpdateManyWithoutTimesheetNestedInput
+  }
+
+  export type TimesheetUncheckedUpdateManyWithoutTeamInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    weekStartDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    weekEndDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumTimesheetStatusFieldUpdateOperationsInput | $Enums.TimesheetStatus
+    totalHours?: FloatFieldUpdateOperationsInput | number
+    billableHours?: FloatFieldUpdateOperationsInput | number
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TimeEntryUpdateWithoutTeamInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    hours?: FloatFieldUpdateOperationsInput | number
+    description?: StringFieldUpdateOperationsInput | string
+    isBillable?: BoolFieldUpdateOperationsInput | boolean
+    category?: StringFieldUpdateOperationsInput | string
+    costRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    billingRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    isTimer?: BoolFieldUpdateOperationsInput | boolean
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    stoppedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutTimeEntriesNestedInput
+    timesheet?: TimesheetUpdateOneWithoutEntriesNestedInput
+    project?: ProjectUpdateOneWithoutTimeEntriesNestedInput
+    issue?: IssueUpdateOneWithoutTimeEntriesNestedInput
+  }
+
+  export type TimeEntryUncheckedUpdateWithoutTeamInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    timesheetId?: NullableStringFieldUpdateOperationsInput | string | null
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+    issueId?: NullableStringFieldUpdateOperationsInput | string | null
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    hours?: FloatFieldUpdateOperationsInput | number
+    description?: StringFieldUpdateOperationsInput | string
+    isBillable?: BoolFieldUpdateOperationsInput | boolean
+    category?: StringFieldUpdateOperationsInput | string
+    costRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    billingRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    isTimer?: BoolFieldUpdateOperationsInput | boolean
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    stoppedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TimeEntryUncheckedUpdateManyWithoutTeamInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    timesheetId?: NullableStringFieldUpdateOperationsInput | string | null
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+    issueId?: NullableStringFieldUpdateOperationsInput | string | null
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    hours?: FloatFieldUpdateOperationsInput | number
+    description?: StringFieldUpdateOperationsInput | string
+    isBillable?: BoolFieldUpdateOperationsInput | boolean
+    category?: StringFieldUpdateOperationsInput | string
+    costRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    billingRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    isTimer?: BoolFieldUpdateOperationsInput | boolean
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    stoppedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ResourceAllocationUpdateWithoutTeamInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    weekStartDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    allocatedHours?: FloatFieldUpdateOperationsInput | number
+    role?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    isContractor?: BoolFieldUpdateOperationsInput | boolean
+    contractorRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutResourceAllocationsNestedInput
+    project?: ProjectUpdateOneRequiredWithoutResourceAllocationsNestedInput
+  }
+
+  export type ResourceAllocationUncheckedUpdateWithoutTeamInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    projectId?: StringFieldUpdateOperationsInput | string
+    weekStartDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    allocatedHours?: FloatFieldUpdateOperationsInput | number
+    role?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    isContractor?: BoolFieldUpdateOperationsInput | boolean
+    contractorRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ResourceAllocationUncheckedUpdateManyWithoutTeamInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    projectId?: StringFieldUpdateOperationsInput | string
+    weekStartDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    allocatedHours?: FloatFieldUpdateOperationsInput | number
+    role?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    isContractor?: BoolFieldUpdateOperationsInput | boolean
+    contractorRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RateCardUpdateWithoutTeamInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    roleKey?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    hourlyCostRate?: FloatFieldUpdateOperationsInput | number
+    hourlyBillingRate?: FloatFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    effectiveFrom?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RateCardUncheckedUpdateWithoutTeamInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    roleKey?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    hourlyCostRate?: FloatFieldUpdateOperationsInput | number
+    hourlyBillingRate?: FloatFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    effectiveFrom?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RateCardUncheckedUpdateManyWithoutTeamInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    roleKey?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    hourlyCostRate?: FloatFieldUpdateOperationsInput | number
+    hourlyBillingRate?: FloatFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    effectiveFrom?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type IssueCreateManyProjectInput = {
     id?: string
     title: string
@@ -112005,6 +122797,40 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type TimeEntryCreateManyProjectInput = {
+    id?: string
+    teamId: string
+    userId: string
+    timesheetId?: string | null
+    issueId?: string | null
+    date: Date | string
+    hours: number
+    description: string
+    isBillable?: boolean
+    category?: string
+    costRate?: number | null
+    billingRate?: number | null
+    isTimer?: boolean
+    startedAt?: Date | string | null
+    stoppedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ResourceAllocationCreateManyProjectInput = {
+    id?: string
+    teamId: string
+    userId: string
+    weekStartDate: Date | string
+    allocatedHours?: number
+    role?: string | null
+    notes?: string | null
+    isContractor?: boolean
+    contractorRate?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type IssueUpdateWithoutProjectInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
@@ -112023,6 +122849,7 @@ export namespace Prisma {
     workflowState?: WorkflowStateUpdateOneRequiredWithoutIssuesNestedInput
     comments?: CommentUpdateManyWithoutIssueNestedInput
     labels?: IssueLabelUpdateManyWithoutIssueNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutIssueNestedInput
   }
 
   export type IssueUncheckedUpdateWithoutProjectInput = {
@@ -112043,6 +122870,7 @@ export namespace Prisma {
     creator?: StringFieldUpdateOperationsInput | string
     comments?: CommentUncheckedUpdateManyWithoutIssueNestedInput
     labels?: IssueLabelUncheckedUpdateManyWithoutIssueNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutIssueNestedInput
   }
 
   export type IssueUncheckedUpdateManyWithoutProjectInput = {
@@ -112324,6 +123152,108 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type TimeEntryUpdateWithoutProjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    hours?: FloatFieldUpdateOperationsInput | number
+    description?: StringFieldUpdateOperationsInput | string
+    isBillable?: BoolFieldUpdateOperationsInput | boolean
+    category?: StringFieldUpdateOperationsInput | string
+    costRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    billingRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    isTimer?: BoolFieldUpdateOperationsInput | boolean
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    stoppedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    team?: TeamUpdateOneRequiredWithoutTimeEntriesNestedInput
+    user?: UserUpdateOneRequiredWithoutTimeEntriesNestedInput
+    timesheet?: TimesheetUpdateOneWithoutEntriesNestedInput
+    issue?: IssueUpdateOneWithoutTimeEntriesNestedInput
+  }
+
+  export type TimeEntryUncheckedUpdateWithoutProjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    teamId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    timesheetId?: NullableStringFieldUpdateOperationsInput | string | null
+    issueId?: NullableStringFieldUpdateOperationsInput | string | null
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    hours?: FloatFieldUpdateOperationsInput | number
+    description?: StringFieldUpdateOperationsInput | string
+    isBillable?: BoolFieldUpdateOperationsInput | boolean
+    category?: StringFieldUpdateOperationsInput | string
+    costRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    billingRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    isTimer?: BoolFieldUpdateOperationsInput | boolean
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    stoppedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TimeEntryUncheckedUpdateManyWithoutProjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    teamId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    timesheetId?: NullableStringFieldUpdateOperationsInput | string | null
+    issueId?: NullableStringFieldUpdateOperationsInput | string | null
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    hours?: FloatFieldUpdateOperationsInput | number
+    description?: StringFieldUpdateOperationsInput | string
+    isBillable?: BoolFieldUpdateOperationsInput | boolean
+    category?: StringFieldUpdateOperationsInput | string
+    costRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    billingRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    isTimer?: BoolFieldUpdateOperationsInput | boolean
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    stoppedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ResourceAllocationUpdateWithoutProjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    weekStartDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    allocatedHours?: FloatFieldUpdateOperationsInput | number
+    role?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    isContractor?: BoolFieldUpdateOperationsInput | boolean
+    contractorRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    team?: TeamUpdateOneRequiredWithoutResourceAllocationsNestedInput
+    user?: UserUpdateOneRequiredWithoutResourceAllocationsNestedInput
+  }
+
+  export type ResourceAllocationUncheckedUpdateWithoutProjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    teamId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    weekStartDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    allocatedHours?: FloatFieldUpdateOperationsInput | number
+    role?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    isContractor?: BoolFieldUpdateOperationsInput | boolean
+    contractorRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ResourceAllocationUncheckedUpdateManyWithoutProjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    teamId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    weekStartDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    allocatedHours?: FloatFieldUpdateOperationsInput | number
+    role?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    isContractor?: BoolFieldUpdateOperationsInput | boolean
+    contractorRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type IssueCreateManyWorkflowStateInput = {
     id?: string
     title: string
@@ -112360,6 +123290,7 @@ export namespace Prisma {
     project?: ProjectUpdateOneWithoutIssuesNestedInput
     comments?: CommentUpdateManyWithoutIssueNestedInput
     labels?: IssueLabelUpdateManyWithoutIssueNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutIssueNestedInput
   }
 
   export type IssueUncheckedUpdateWithoutWorkflowStateInput = {
@@ -112380,6 +123311,7 @@ export namespace Prisma {
     creator?: StringFieldUpdateOperationsInput | string
     comments?: CommentUncheckedUpdateManyWithoutIssueNestedInput
     labels?: IssueLabelUncheckedUpdateManyWithoutIssueNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutIssueNestedInput
   }
 
   export type IssueUncheckedUpdateManyWithoutWorkflowStateInput = {
@@ -112439,6 +123371,26 @@ export namespace Prisma {
     labelId: string
   }
 
+  export type TimeEntryCreateManyIssueInput = {
+    id?: string
+    teamId: string
+    userId: string
+    timesheetId?: string | null
+    projectId?: string | null
+    date: Date | string
+    hours: number
+    description: string
+    isBillable?: boolean
+    category?: string
+    costRate?: number | null
+    billingRate?: number | null
+    isTimer?: boolean
+    startedAt?: Date | string | null
+    stoppedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type CommentUpdateWithoutIssueInput = {
     id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
@@ -112484,6 +123436,66 @@ export namespace Prisma {
     labelId?: StringFieldUpdateOperationsInput | string
   }
 
+  export type TimeEntryUpdateWithoutIssueInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    hours?: FloatFieldUpdateOperationsInput | number
+    description?: StringFieldUpdateOperationsInput | string
+    isBillable?: BoolFieldUpdateOperationsInput | boolean
+    category?: StringFieldUpdateOperationsInput | string
+    costRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    billingRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    isTimer?: BoolFieldUpdateOperationsInput | boolean
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    stoppedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    team?: TeamUpdateOneRequiredWithoutTimeEntriesNestedInput
+    user?: UserUpdateOneRequiredWithoutTimeEntriesNestedInput
+    timesheet?: TimesheetUpdateOneWithoutEntriesNestedInput
+    project?: ProjectUpdateOneWithoutTimeEntriesNestedInput
+  }
+
+  export type TimeEntryUncheckedUpdateWithoutIssueInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    teamId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    timesheetId?: NullableStringFieldUpdateOperationsInput | string | null
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    hours?: FloatFieldUpdateOperationsInput | number
+    description?: StringFieldUpdateOperationsInput | string
+    isBillable?: BoolFieldUpdateOperationsInput | boolean
+    category?: StringFieldUpdateOperationsInput | string
+    costRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    billingRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    isTimer?: BoolFieldUpdateOperationsInput | boolean
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    stoppedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TimeEntryUncheckedUpdateManyWithoutIssueInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    teamId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    timesheetId?: NullableStringFieldUpdateOperationsInput | string | null
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    hours?: FloatFieldUpdateOperationsInput | number
+    description?: StringFieldUpdateOperationsInput | string
+    isBillable?: BoolFieldUpdateOperationsInput | boolean
+    category?: StringFieldUpdateOperationsInput | string
+    costRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    billingRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    isTimer?: BoolFieldUpdateOperationsInput | boolean
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    stoppedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type SessionCreateManyUserInput = {
     id: string
     expiresAt: Date | string
@@ -112516,6 +123528,57 @@ export namespace Prisma {
     verified?: boolean | null
     failedVerificationCount?: number | null
     lockedUntil?: Date | string | null
+  }
+
+  export type TimesheetCreateManyUserInput = {
+    id?: string
+    teamId: string
+    weekStartDate: Date | string
+    weekEndDate: Date | string
+    status?: $Enums.TimesheetStatus
+    totalHours?: number
+    billableHours?: number
+    submittedAt?: Date | string | null
+    approvedAt?: Date | string | null
+    approvedBy?: string | null
+    rejectionReason?: string | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TimeEntryCreateManyUserInput = {
+    id?: string
+    teamId: string
+    timesheetId?: string | null
+    projectId?: string | null
+    issueId?: string | null
+    date: Date | string
+    hours: number
+    description: string
+    isBillable?: boolean
+    category?: string
+    costRate?: number | null
+    billingRate?: number | null
+    isTimer?: boolean
+    startedAt?: Date | string | null
+    stoppedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ResourceAllocationCreateManyUserInput = {
+    id?: string
+    teamId: string
+    projectId: string
+    weekStartDate: Date | string
+    allocatedHours?: number
+    role?: string | null
+    notes?: string | null
+    isContractor?: boolean
+    contractorRate?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type SessionUpdateWithoutUserInput = {
@@ -112618,6 +123681,161 @@ export namespace Prisma {
     verified?: NullableBoolFieldUpdateOperationsInput | boolean | null
     failedVerificationCount?: NullableIntFieldUpdateOperationsInput | number | null
     lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type TimesheetUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    weekStartDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    weekEndDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumTimesheetStatusFieldUpdateOperationsInput | $Enums.TimesheetStatus
+    totalHours?: FloatFieldUpdateOperationsInput | number
+    billableHours?: FloatFieldUpdateOperationsInput | number
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    team?: TeamUpdateOneRequiredWithoutTimesheetsNestedInput
+    entries?: TimeEntryUpdateManyWithoutTimesheetNestedInput
+  }
+
+  export type TimesheetUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    teamId?: StringFieldUpdateOperationsInput | string
+    weekStartDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    weekEndDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumTimesheetStatusFieldUpdateOperationsInput | $Enums.TimesheetStatus
+    totalHours?: FloatFieldUpdateOperationsInput | number
+    billableHours?: FloatFieldUpdateOperationsInput | number
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    entries?: TimeEntryUncheckedUpdateManyWithoutTimesheetNestedInput
+  }
+
+  export type TimesheetUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    teamId?: StringFieldUpdateOperationsInput | string
+    weekStartDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    weekEndDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumTimesheetStatusFieldUpdateOperationsInput | $Enums.TimesheetStatus
+    totalHours?: FloatFieldUpdateOperationsInput | number
+    billableHours?: FloatFieldUpdateOperationsInput | number
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TimeEntryUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    hours?: FloatFieldUpdateOperationsInput | number
+    description?: StringFieldUpdateOperationsInput | string
+    isBillable?: BoolFieldUpdateOperationsInput | boolean
+    category?: StringFieldUpdateOperationsInput | string
+    costRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    billingRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    isTimer?: BoolFieldUpdateOperationsInput | boolean
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    stoppedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    team?: TeamUpdateOneRequiredWithoutTimeEntriesNestedInput
+    timesheet?: TimesheetUpdateOneWithoutEntriesNestedInput
+    project?: ProjectUpdateOneWithoutTimeEntriesNestedInput
+    issue?: IssueUpdateOneWithoutTimeEntriesNestedInput
+  }
+
+  export type TimeEntryUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    teamId?: StringFieldUpdateOperationsInput | string
+    timesheetId?: NullableStringFieldUpdateOperationsInput | string | null
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+    issueId?: NullableStringFieldUpdateOperationsInput | string | null
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    hours?: FloatFieldUpdateOperationsInput | number
+    description?: StringFieldUpdateOperationsInput | string
+    isBillable?: BoolFieldUpdateOperationsInput | boolean
+    category?: StringFieldUpdateOperationsInput | string
+    costRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    billingRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    isTimer?: BoolFieldUpdateOperationsInput | boolean
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    stoppedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TimeEntryUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    teamId?: StringFieldUpdateOperationsInput | string
+    timesheetId?: NullableStringFieldUpdateOperationsInput | string | null
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+    issueId?: NullableStringFieldUpdateOperationsInput | string | null
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    hours?: FloatFieldUpdateOperationsInput | number
+    description?: StringFieldUpdateOperationsInput | string
+    isBillable?: BoolFieldUpdateOperationsInput | boolean
+    category?: StringFieldUpdateOperationsInput | string
+    costRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    billingRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    isTimer?: BoolFieldUpdateOperationsInput | boolean
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    stoppedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ResourceAllocationUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    weekStartDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    allocatedHours?: FloatFieldUpdateOperationsInput | number
+    role?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    isContractor?: BoolFieldUpdateOperationsInput | boolean
+    contractorRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    team?: TeamUpdateOneRequiredWithoutResourceAllocationsNestedInput
+    project?: ProjectUpdateOneRequiredWithoutResourceAllocationsNestedInput
+  }
+
+  export type ResourceAllocationUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    teamId?: StringFieldUpdateOperationsInput | string
+    projectId?: StringFieldUpdateOperationsInput | string
+    weekStartDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    allocatedHours?: FloatFieldUpdateOperationsInput | number
+    role?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    isContractor?: BoolFieldUpdateOperationsInput | boolean
+    contractorRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ResourceAllocationUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    teamId?: StringFieldUpdateOperationsInput | string
+    projectId?: StringFieldUpdateOperationsInput | string
+    weekStartDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    allocatedHours?: FloatFieldUpdateOperationsInput | number
+    role?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    isContractor?: BoolFieldUpdateOperationsInput | boolean
+    contractorRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ChatMessageCreateManyConversationInput = {
@@ -112982,6 +124200,8 @@ export namespace Prisma {
     teamChannels?: TeamChannelUpdateManyWithoutProjectNestedInput
     invoices?: InvoiceUpdateManyWithoutProjectNestedInput
     expenses?: ExpenseUpdateManyWithoutProjectNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutProjectNestedInput
+    resourceAllocations?: ResourceAllocationUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateWithoutClientInput = {
@@ -113003,6 +124223,8 @@ export namespace Prisma {
     teamChannels?: TeamChannelUncheckedUpdateManyWithoutProjectNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutProjectNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutProjectNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
+    resourceAllocations?: ResourceAllocationUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateManyWithoutClientInput = {
@@ -114244,6 +125466,86 @@ export namespace Prisma {
     suspendedReason?: NullableStringFieldUpdateOperationsInput | string | null
     terminatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TimeEntryCreateManyTimesheetInput = {
+    id?: string
+    teamId: string
+    userId: string
+    projectId?: string | null
+    issueId?: string | null
+    date: Date | string
+    hours: number
+    description: string
+    isBillable?: boolean
+    category?: string
+    costRate?: number | null
+    billingRate?: number | null
+    isTimer?: boolean
+    startedAt?: Date | string | null
+    stoppedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TimeEntryUpdateWithoutTimesheetInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    hours?: FloatFieldUpdateOperationsInput | number
+    description?: StringFieldUpdateOperationsInput | string
+    isBillable?: BoolFieldUpdateOperationsInput | boolean
+    category?: StringFieldUpdateOperationsInput | string
+    costRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    billingRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    isTimer?: BoolFieldUpdateOperationsInput | boolean
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    stoppedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    team?: TeamUpdateOneRequiredWithoutTimeEntriesNestedInput
+    user?: UserUpdateOneRequiredWithoutTimeEntriesNestedInput
+    project?: ProjectUpdateOneWithoutTimeEntriesNestedInput
+    issue?: IssueUpdateOneWithoutTimeEntriesNestedInput
+  }
+
+  export type TimeEntryUncheckedUpdateWithoutTimesheetInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    teamId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+    issueId?: NullableStringFieldUpdateOperationsInput | string | null
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    hours?: FloatFieldUpdateOperationsInput | number
+    description?: StringFieldUpdateOperationsInput | string
+    isBillable?: BoolFieldUpdateOperationsInput | boolean
+    category?: StringFieldUpdateOperationsInput | string
+    costRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    billingRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    isTimer?: BoolFieldUpdateOperationsInput | boolean
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    stoppedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TimeEntryUncheckedUpdateManyWithoutTimesheetInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    teamId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+    issueId?: NullableStringFieldUpdateOperationsInput | string | null
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    hours?: FloatFieldUpdateOperationsInput | number
+    description?: StringFieldUpdateOperationsInput | string
+    isBillable?: BoolFieldUpdateOperationsInput | boolean
+    category?: StringFieldUpdateOperationsInput | string
+    costRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    billingRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    isTimer?: BoolFieldUpdateOperationsInput | boolean
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    stoppedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
