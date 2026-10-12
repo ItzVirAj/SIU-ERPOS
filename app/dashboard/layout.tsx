@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { EmployeeStatus } from "@/lib/prisma-client";
+import { isSessionTooOld } from "@/lib/authz";
 import { DashboardClientLayout } from "./dashboard-client-layout";
 
 export default async function DashboardLayout({
@@ -15,6 +16,13 @@ export default async function DashboardLayout({
   const session = await auth.api.getSession({
     headers: reqHeaders,
   });
+
+  if (session?.session?.createdAt && isSessionTooOld(session.session.createdAt)) {
+    if (session.session.id) {
+      await db.session.delete({ where: { id: session.session.id } }).catch(() => {});
+    }
+    redirect("/sign-in?error=session_expired");
+  }
 
   if (session?.user?.id) {
     const employee = await db.employee.findUnique({

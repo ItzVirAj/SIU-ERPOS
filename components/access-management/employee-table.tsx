@@ -99,6 +99,27 @@ export function EmployeeTable({
   onPageChange,
 }: Props) {
   const [copiedId, setCopiedId] = useState<string | null>(null)
+  const [unlockingId, setUnlockingId] = useState<string | null>(null)
+
+  const handleUnlock = async (emp: EmployeeListItem) => {
+    try {
+      setUnlockingId(emp.id)
+      const res = await fetch(`/api/admin/employees/${emp.id}/unlock`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      })
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}))
+        throw new Error(data.error || "Failed to unlock account")
+      }
+      toast.success(`Account unlocked for ${emp.fullName}`)
+      refetch()
+    } catch (err: any) {
+      toast.error(err.message || "Failed to unlock account")
+    } finally {
+      setUnlockingId(null)
+    }
+  }
 
   const handleCopyCode = (e: React.MouseEvent, code: string, id: string) => {
     e.stopPropagation()
@@ -278,19 +299,22 @@ export function EmployeeTable({
 
                   {/* Security / Password Status */}
                   <TableCell className="py-3">
-                    {emp.passwordState === "default_pending" && (
+                    {emp.locked ? (
+                      <span className="inline-flex items-center gap-1 text-[11px] text-rose-300 bg-rose-500/10 border border-rose-500/20 px-2 py-0.5 rounded font-medium">
+                        <ShieldAlert className="w-3 h-3 text-rose-400" />
+                        Locked
+                      </span>
+                    ) : emp.passwordState === "default_pending" ? (
                       <span className="inline-flex items-center gap-1 text-[11px] text-amber-300 bg-amber-500/10 border border-amber-500/20 px-2 py-0.5 rounded">
                         <Clock className="w-3 h-3 text-amber-400" />
                         {getExpiryLabel(emp.defaultPasswordExpiresAt)}
                       </span>
-                    )}
-                    {emp.passwordState === "default_expired" && (
+                    ) : emp.passwordState === "default_expired" ? (
                       <span className="inline-flex items-center gap-1 text-[11px] text-rose-300 bg-rose-500/10 border border-rose-500/20 px-2 py-0.5 rounded font-medium">
                         <AlertCircle className="w-3 h-3 text-rose-400" />
                         Temporary password expired
                       </span>
-                    )}
-                    {(!emp.passwordState || emp.passwordState === "set") && (
+                    ) : (
                       <span className="text-xs text-neutral-500">Configured</span>
                     )}
                   </TableCell>
@@ -325,6 +349,16 @@ export function EmployeeTable({
                               className="cursor-pointer"
                             >
                               <Edit2 className="w-3.5 h-3.5 mr-2" /> Edit profile
+                            </DropdownMenuItem>
+                          )}
+
+                          {emp.locked && emp.can.update && (
+                            <DropdownMenuItem
+                              onClick={() => handleUnlock(emp)}
+                              disabled={unlockingId === emp.id}
+                              className="cursor-pointer text-cyan-300 hover:text-cyan-200"
+                            >
+                              <UserCheck className="w-3.5 h-3.5 mr-2 text-cyan-400" /> Unlock account
                             </DropdownMenuItem>
                           )}
 

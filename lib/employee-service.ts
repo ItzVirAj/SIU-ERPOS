@@ -17,10 +17,12 @@ import {
 import {
   writeAudit,
   maskIp,
+  maskEmail,
   AUDIT_ACTIONS,
 } from './audit'
 import { enforceRateLimit, rateLimit } from './rate-limit'
 import { revokeAllSessions, revokeSession } from './session-admin'
+import { unlock, getLockStatus, hashEmailKey } from './login-throttle'
 import {
   canProvision,
   getDefaultPassword,
@@ -199,9 +201,16 @@ export async function listEmployees(
     }),
   ])
 
+  const throttleKeys = items.map((emp) => hashEmailKey(emp.email))
+  const throttles = await db.loginThrottle.findMany({
+    where: { key: { in: throttleKeys } },
+  })
+  const throttleMap = new Map(throttles.map((t) => [t.key, t]))
+
   const actorEmpAccess = actor.access[AppModule.EMPLOYEES] ?? AccessLevel.NONE
   const isViewOnly = actorEmpAccess === AccessLevel.VIEW
 
+  const now = new Date()
   const employees = items.map((emp) => {
     const passwordState = computePasswordState(
       emp.mustChangePassword,
@@ -209,6 +218,9 @@ export async function listEmployees(
     )
 
     const can = computeEmployeePermissions(actor, emp)
+    const t = throttleMap.get(hashEmailKey(emp.email))
+    const isLocked = Boolean(t?.lockedUntil && new Date(t.lockedUntil) > now)
+    const lockedUntil = isLocked ? t!.lockedUntil : null
 
     if (isViewOnly) {
       return {
@@ -219,6 +231,8 @@ export async function listEmployees(
         position: emp.position,
         department: emp.department,
         status: emp.status,
+        locked: isLocked,
+        lockedUntil,
         role: {
           key: emp.role.key,
           name: emp.role.name,
@@ -239,6 +253,8 @@ export async function listEmployees(
       phone: emp.phone,
       joiningDate: emp.joiningDate,
       status: emp.status,
+      locked: isLocked,
+      lockedUntil,
       mustChangePassword: emp.mustChangePassword,
       defaultPasswordExpiresAt: emp.defaultPasswordExpiresAt,
       passwordState,
@@ -289,6 +305,7 @@ export async function getEmployee(actor: EmployeeActor, id: string) {
     employee.mustChangePassword,
     employee.defaultPasswordExpiresAt
   )
+  const lockStatus = await getLockStatus(employee.email)
 
   const actorEmpAccess = actor.access[AppModule.EMPLOYEES] ?? AccessLevel.NONE
   if (actorEmpAccess === AccessLevel.VIEW) {
@@ -300,6 +317,8 @@ export async function getEmployee(actor: EmployeeActor, id: string) {
       position: employee.position,
       department: employee.department,
       status: employee.status,
+      locked: lockStatus.locked,
+      lockedUntil: lockStatus.lockedUntil,
       role: {
         key: employee.role.key,
         name: employee.role.name,
@@ -347,6 +366,8 @@ export async function getEmployee(actor: EmployeeActor, id: string) {
     phone: employee.phone,
     joiningDate: employee.joiningDate,
     status: employee.status,
+    locked: lockStatus.locked,
+    lockedUntil: lockStatus.lockedUntil,
     mustChangePassword: employee.mustChangePassword,
     defaultPasswordExpiresAt: employee.defaultPasswordExpiresAt,
     passwordState,
@@ -1260,3 +1281,53 @@ export async function deleteEmployee(
 
   return { success: true, employee: terminated }
 }
+
+// -------------------------------------------------------------------
+// 11. Unlock Employee Account
+// -------------------------------------------------------------------
+export async function unlockEmployee(
+  actor: EmployeeActor,
+  id: string,
+  ctx: { ip?: string | null } = {}
+) {
+  const target = await db.employee.findFirst({
+    where: { id, teamId: actor.employee.teamId },
+    include: { role: true },
+  })
+
+  if (!target) {
+    throw new HttpError(404, 'Employee not found')
+  }
+
+  assertCanManage(
+    {
+      id: actor.session.user.id,
+      role: actor.role,
+      status: actor.employee.status,
+      access: actor.access,
+    },
+    target,
+    'update'
+  )
+
+  enforceRateLimit(actor.session.user.id, 'unlock')
+
+  await unlock(target.email)
+
+  await writeAudit(db, {
+    actor: {
+      id: actor.session.user.id,
+      name: actor.session.user.name,
+      email: actor.session.user.email,
+      role: actor.role.key,
+    },
+    target: { id: target.id, email: target.email },
+    action: AUDIT_ACTIONS.AUTH_ACCOUNT_UNLOCKED,
+    before: { account: maskEmail(target.email) },
+    ip: ctx.ip,
+    teamId: actor.employee.teamId,
+  })
+
+  return { success: true, message: 'Account unlocked successfully' }
+}
+

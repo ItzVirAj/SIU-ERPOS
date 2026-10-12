@@ -84,8 +84,24 @@ export function getRoleRank(role: string): number {
 }
 
 /**
+ * Pure function: tests if a session createdAt timestamp exceeds max allowed days.
+ */
+export function isSessionTooOld(
+  createdAt: Date | string | number,
+  now: Date | string | number = new Date(),
+  maxDays: number = Number(process.env.ABSOLUTE_SESSION_DAYS || '7') || 7
+): boolean {
+  const createdMs = new Date(createdAt).getTime()
+  const nowMs = new Date(now).getTime()
+  if (Number.isNaN(createdMs) || Number.isNaN(nowMs)) return false
+  const maxAgeMs = maxDays * 24 * 60 * 60 * 1000
+  return nowMs - createdMs > maxAgeMs
+}
+
+/**
  * 2. requireSession() -> session or HttpError(401).
  * Preserves message "Unauthorized" so existing routes work seamlessly.
+ * Rejects and deletes sessions older than ABSOLUTE_SESSION_DAYS.
  */
 export async function requireSession() {
   const reqHeaders = await headers()
@@ -97,14 +113,30 @@ export async function requireSession() {
     throw new HttpError(401, 'Unauthorized', 'UNAUTHORIZED')
   }
 
+  if (session.session?.createdAt && isSessionTooOld(session.session.createdAt)) {
+    if (session.session.id) {
+      await db.session.delete({ where: { id: session.session.id } }).catch(() => {})
+    }
+    throw new HttpError(401, 'Unauthorized', 'UNAUTHORIZED')
+  }
+
   return session
 }
 
 export async function getSession() {
   const reqHeaders = await headers()
-  return await auth.api.getSession({
+  const session = await auth.api.getSession({
     headers: reqHeaders,
   })
+
+  if (session?.session?.createdAt && isSessionTooOld(session.session.createdAt)) {
+    if (session.session.id) {
+      await db.session.delete({ where: { id: session.session.id } }).catch(() => {})
+    }
+    return null
+  }
+
+  return session
 }
 
 export async function getSessionOrNull() {

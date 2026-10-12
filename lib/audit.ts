@@ -1,5 +1,6 @@
 import { Prisma, PrismaClient } from './prisma-client'
 import { db } from './db'
+import { getClientIp as getRawClientIp } from './client-ip'
 
 export const AUDIT_ACTIONS = {
   EMPLOYEE_CREATE: 'employee.create',
@@ -14,6 +15,8 @@ export const AUDIT_ACTIONS = {
   EMPLOYEE_HARD_DELETE: 'employee.hard_delete',
   EMPLOYEE_PASSWORD_CHANGED: 'employee.password_changed',
   AUTH_LOGIN_BLOCKED: 'auth.login_blocked',
+  AUTH_ACCOUNT_LOCKED: 'auth.account_locked',
+  AUTH_ACCOUNT_UNLOCKED: 'auth.account_unlocked',
   TEAM_EXPORT: 'team.export',
   TEAM_DELETE: 'team.delete',
   AI_TOOL_CALL: 'ai.tool_call',
@@ -88,25 +91,31 @@ export function maskIp(ip?: string | null): string | null {
 }
 
 /**
+ * Masks email address for audit logging (e.g. al***@example.com).
+ * Never stores or logs raw email in clear.
+ */
+export function maskEmail(email?: string | null): string | null {
+  if (!email || typeof email !== 'string') return null
+  const trimmed = email.trim().toLowerCase()
+  if (!trimmed.includes('@')) return 'masked'
+  const [local, domain] = trimmed.split('@')
+  if (!local || !domain) return 'masked'
+  const visible = local.length <= 2 ? local[0] : `${local.slice(0, 2)}***`
+  return `${visible}@${domain}`
+}
+
+/**
  * Extracts client IP from request headers or request object, masked to first 3 octets or /48.
+ * Reads canonical header via getRawClientIp.
  */
 export function getClientIp(req: Request | { headers: Headers | Record<string, string | string[] | undefined> } | null): string | null {
   if (!req) return null
 
-  let forwarded: string | null = null
-  if ('headers' in req) {
-    if (typeof (req.headers as Headers).get === 'function') {
-      forwarded = (req.headers as Headers).get('x-forwarded-for')
-    } else {
-      const h = req.headers as Record<string, string | string[] | undefined>
-      const val = h['x-forwarded-for']
-      forwarded = Array.isArray(val) ? val[0] : val || null
+  if ('headers' in req && req.headers) {
+    const rawIp = getRawClientIp(req.headers)
+    if (rawIp && rawIp !== 'unknown') {
+      return maskIp(rawIp)
     }
-  }
-
-  if (forwarded) {
-    const firstIp = forwarded.split(',')[0].trim()
-    return maskIp(firstIp)
   }
 
   if ('ip' in req && typeof (req as { ip?: string }).ip === 'string') {

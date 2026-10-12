@@ -3,11 +3,12 @@ import { prismaAdapter } from "better-auth/adapters/prisma";
 import { nextCookies } from "better-auth/next-js";
 import { twoFactor } from "better-auth/plugins";
 import { db } from "./db";
-import { sendVerificationEmail, sendResetPasswordEmail } from "./email";
+import { sendVerificationEmail } from "./email";
 import { createAuditLog, writeAudit, AUDIT_ACTIONS } from "./audit";
-import { APIError } from "better-auth/api";
+import { APIError, createAuthMiddleware, isAPIError } from "better-auth/api";
 import { EmployeeStatus } from "./prisma-client";
 import { AUTH_COOKIE_PREFIX } from "./auth-constants";
+import { checkLock, recordFailure, recordSuccess } from "./login-throttle";
 
 // 1. Fail fast at startup if BETTER_AUTH_SECRET is missing or shorter than 32 chars
 const betterAuthSecret = process.env.BETTER_AUTH_SECRET;
@@ -32,23 +33,7 @@ export const auth = betterAuth({
     minPasswordLength: 12,
     maxPasswordLength: 128,
     requireEmailVerification: true,
-    resetPasswordTokenExpiresIn: 3600, // 1 hour
     revokeSessionsOnPasswordReset: true,
-    sendResetPassword: async ({ user, url, token }) => {
-      await sendResetPasswordEmail({
-        email: user.email,
-        url,
-        token,
-      });
-      await createAuditLog({
-        userId: user.id,
-        userName: user.name,
-        userEmail: user.email,
-        action: "SECURITY",
-        entityType: "password_reset",
-        entityTitle: "Password reset requested",
-      });
-    },
   },
 
   emailVerification: {
@@ -79,11 +64,15 @@ export const auth = betterAuth({
         window: 600, // 10 minutes
         max: 5,
       },
-      "/forget-password": {
+      "/two-factor/verify-totp": {
         window: 600, // 10 minutes
         max: 5,
       },
-      "/reset-password": {
+      "/two-factor/verify-otp": {
+        window: 600, // 10 minutes
+        max: 5,
+      },
+      "/two-factor/verify-backup-code": {
         window: 600, // 10 minutes
         max: 5,
       },
@@ -92,8 +81,8 @@ export const auth = betterAuth({
 
   // 4. Session Configuration & Secure Cookies
   session: {
-    expiresIn: 60 * 60 * 24 * 7, // 7 days
-    updateAge: 60 * 60 * 24, // 1 day
+    expiresIn: 60 * 60 * 12, // 12 hours
+    updateAge: 60 * 60, // 1 hour
     cookieCache: {
       enabled: true,
       maxAge: 5 * 60, // 5 minutes max
@@ -101,7 +90,7 @@ export const auth = betterAuth({
   },
   advanced: {
     ipAddress: {
-      ipAddressHeaders: ["x-forwarded-for"],
+      ipAddressHeaders: ["x-siu-client-ip"],
     },
     useSecureCookies: process.env.NODE_ENV === "production",
     defaultCookieAttributes: {
@@ -110,6 +99,44 @@ export const auth = betterAuth({
       secure: process.env.NODE_ENV === "production",
     },
     cookiePrefix: AUTH_COOKIE_PREFIX,
+  },
+
+  // 4b. Security Hooks for Per-Account Lockout
+  hooks: {
+    before: createAuthMiddleware(async (ctx) => {
+      if (ctx.path === "/sign-in/email") {
+        const email = typeof ctx.body?.email === "string" ? ctx.body.email : null;
+        if (email) {
+          const lockStatus = await checkLock(email);
+          if (lockStatus.locked) {
+            throw new APIError("TOO_MANY_REQUESTS", {
+              message: "Too many attempts. Try again later.",
+            }, {
+              "Retry-After": String(lockStatus.retryAfterSeconds ?? 900),
+              "X-Retry-After": String(lockStatus.retryAfterSeconds ?? 900),
+            });
+          }
+        }
+      }
+    }),
+    after: createAuthMiddleware(async (ctx) => {
+      if (ctx.path === "/sign-in/email") {
+        const email = typeof ctx.body?.email === "string" ? ctx.body.email : null;
+        if (email) {
+          const returned = ctx.context.returned;
+          if ((returned as any)?.twoFactorRedirect === true) {
+            return;
+          }
+          if (isAPIError(returned)) {
+            if (returned.statusCode === 401) {
+              await recordFailure(email);
+            }
+          } else if (returned && typeof returned === "object" && "user" in returned) {
+            await recordSuccess(email);
+          }
+        }
+      }
+    }),
   },
 
   // 5. Trusted Origins (strictly BETTER_AUTH_URL and NEXT_PUBLIC_APP_URL in production)

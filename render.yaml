@@ -34,3 +34,5 @@ services:
         sync: false
       - key: ALLOW_HARD_DELETE
         sync: false
+      - key: TRUSTED_PROXY_HOPS
+        value: "1"

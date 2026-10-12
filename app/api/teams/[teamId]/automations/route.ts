@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { handleRouteError } from "@/lib/authz";
 import { db } from "@/lib/db";
+import { getClientIp } from "@/lib/client-ip";
 
 const createAutomationSchema = z.object({
   name: z.string().min(1).max(200),
@@ -74,7 +75,7 @@ export async function POST(
         entityType: "AUTOMATION",
         entityTitle: `Automation rule created: "${name}"`,
         details: { triggerType, actionType },
-        ipAddress: request.headers.get("x-forwarded-for") || "127.0.0.1",
+        ipAddress: getClientIp(request.headers),
       },
     });
 

@@ -8,6 +8,7 @@
  */
 
 import { Prisma } from './prisma-client'
+import { writeAudit, AUDIT_ACTIONS, maskEmail } from './audit'
 
 export type Tx = Prisma.TransactionClient
 
@@ -54,7 +55,8 @@ export async function syncEmployeeFromUser(tx: Tx, userId: string) {
 /**
  * Updates user.email, employees.email, and team_members.userEmail in one transaction.
  * Rejects if the email is already in use by another user or employee (case-insensitive).
- * Resets user.emailVerified to false.
+ * Retains user.emailVerified as true because provisioning is an authorized admin action.
+ * Logs an audit row with masked old and new emails.
  */
 export async function updateUserEmail(tx: Tx, userId: string, newEmail: string) {
   const normalized = normalizeEmail(newEmail)
@@ -81,12 +83,17 @@ export async function updateUserEmail(tx: Tx, userId: string, newEmail: string) 
     throw new Error(`Email "${normalized}" is already in use by another employee`)
   }
 
+  const currentUser = await tx.user.findUnique({
+    where: { id: userId },
+    select: { email: true },
+  })
+
   // Update user
   const updatedUser = await tx.user.update({
     where: { id: userId },
     data: {
       email: normalized,
-      emailVerified: false,
+      emailVerified: true,
     },
   })
 
@@ -110,6 +117,16 @@ export async function updateUserEmail(tx: Tx, userId: string, newEmail: string) 
       userEmail: normalized,
     },
   })
+
+  if (currentUser && currentUser.email !== normalized) {
+    await writeAudit(tx, {
+      actor: { id: userId },
+      target: { id: userId, email: normalized },
+      action: AUDIT_ACTIONS.EMPLOYEE_UPDATE,
+      before: { email: maskEmail(currentUser.email) },
+      after: { email: maskEmail(normalized) },
+    })
+  }
 
   return updatedUser
 }

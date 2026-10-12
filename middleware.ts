@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSessionCookie } from "better-auth/cookies";
 import { safeRedirect } from "@/lib/utils";
+import { computeClientIpFromForwarded } from "@/lib/client-ip";
 
 import {
   AUTH_COOKIE_PREFIX,
@@ -36,9 +37,20 @@ function hasSessionCookie(request: NextRequest): boolean {
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // 1. Bypass Better Auth internal authentication handlers
+  // Sanitize and compute canonical client IP for every request
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.delete("x-siu-client-ip");
+  const xff = request.headers.get("x-forwarded-for");
+  const clientIp = computeClientIpFromForwarded(xff);
+  requestHeaders.set("x-siu-client-ip", clientIp);
+
+  // 1. Bypass Better Auth internal authentication handlers while forwarding trusted client IP
   if (pathname.startsWith("/api/auth")) {
-    return NextResponse.next();
+    return NextResponse.next({
+      request: {
+        headers: requestHeaders,
+      },
+    });
   }
 
   const hasSession = hasSessionCookie(request);
@@ -50,12 +62,20 @@ export async function middleware(request: NextRequest) {
       const target = safeRedirect(redirectParam, "/dashboard");
       return NextResponse.redirect(new URL(target, request.url));
     }
-    return NextResponse.next();
+    return NextResponse.next({
+      request: {
+        headers: requestHeaders,
+      },
+    });
   }
 
   // 3. Allow public pages
   if (pathname === "/" || pathname.startsWith("/invite")) {
-    return NextResponse.next();
+    return NextResponse.next({
+      request: {
+        headers: requestHeaders,
+      },
+    });
   }
 
   // 4. API routes protection: return JSON 401 for unauthenticated requests
@@ -68,7 +88,11 @@ export async function middleware(request: NextRequest) {
       !pathname.endsWith("/resend");
 
     if (isPublicInvitationStatus) {
-      return NextResponse.next();
+      return NextResponse.next({
+        request: {
+          headers: requestHeaders,
+        },
+      });
     }
 
     if (!hasSession) {
@@ -78,7 +102,11 @@ export async function middleware(request: NextRequest) {
       );
     }
 
-    return NextResponse.next();
+    return NextResponse.next({
+      request: {
+        headers: requestHeaders,
+      },
+    });
   }
 
   // 5. Protected application pages: redirect unauthenticated callers to /sign-in
@@ -91,7 +119,11 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(signInUrl);
   }
 
-  return NextResponse.next();
+  return NextResponse.next({
+    request: {
+      headers: requestHeaders,
+    },
+  });
 }
 
 export const config = {

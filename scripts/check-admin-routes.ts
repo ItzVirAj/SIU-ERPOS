@@ -9,6 +9,7 @@ const routesToCheck = [
   { path: "app/api/admin/employees/[id]/restore/route.ts", methods: ["POST"] },
   { path: "app/api/admin/employees/[id]/revoke-sessions/route.ts", methods: ["POST"] },
   { path: "app/api/admin/employees/[id]/reset-password/route.ts", methods: ["POST"] },
+  { path: "app/api/admin/employees/[id]/unlock/route.ts", methods: ["POST"] },
   { path: "app/api/admin/roles/route.ts", methods: ["GET"] },
   { path: "app/api/me/change-password/route.ts", methods: ["POST"] },
   { path: "app/api/user/password/route.ts", methods: ["POST"] },

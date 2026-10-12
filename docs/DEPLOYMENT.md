@@ -64,6 +64,15 @@ Configure the following environment variables in your Render Dashboard (**Settin
 | `GOOGLE_CLIENT_ID` | Production Google OAuth Client ID (Optional for verified employees) |
 | `GOOGLE_CLIENT_SECRET` | Production Google OAuth Client Secret |
 | `GROQ_API_KEY` | Platform fallback API key for AI assistant & summarization features |
+| `TRUSTED_PROXY_HOPS` | `1` (Render reverse proxy hop count; integer 1..5). *Verification:* After deploy, sign in and compare the IP shown in your own audit log or session list with your real IP. If it shows an internal/proxy address, raise or lower the value. |
+| `ABSOLUTE_SESSION_DAYS` | `7` (Absolute maximum session lifespan in days regardless of activity; default 7). |
+
+### Authentication & Session Lifetimes
+- **Session Expiration (`session.expiresIn`)**: 12 hours of inactivity ends the session.
+- **Session Update Age (`session.updateAge`)**: 1 hour sliding refresh for active users.
+- **Cookie Cache (`cookieCache.maxAge`)**: 5 minutes in-memory cache to minimize database hits.
+- **Absolute Session Cap (`ABSOLUTE_SESSION_DAYS`)**: Hard cutoff at 7 days; older sessions are deleted and rejected with 401.
+- **Password Recovery Policy**: Password recovery = Owner / CTO / HR reset in Access Management (employees get the company default password and must change it). Public self-service password reset endpoints are disabled.
 
 ---
 

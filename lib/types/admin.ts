@@ -25,6 +25,8 @@ export interface EmployeeListItem {
   phone?: string | null
   joiningDate?: string | Date | null
   status: EmployeeStatus
+  locked?: boolean
+  lockedUntil?: string | Date | null
   mustChangePassword?: boolean
   defaultPasswordExpiresAt?: string | Date | null
   passwordState?: PasswordState

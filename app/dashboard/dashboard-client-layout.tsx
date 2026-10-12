@@ -67,6 +67,9 @@ function DashboardInnerLayout({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     setIsMac(navigator.platform.toUpperCase().indexOf("MAC") >= 0);
+    try {
+      localStorage.removeItem("groq_api_key");
+    } catch {}
   }, []);
 
   useEffect(() => {

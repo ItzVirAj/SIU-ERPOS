@@ -39,12 +39,10 @@ export function ApiKeyDialog({
 }: ApiKeyDialogProps) {
   const [showKey, setShowKey] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [isTesting, setIsTesting] = useState(false)
-  const [currentApiKey, setCurrentApiKey] = useState<string | null>(null)
   const [hasTeamKey, setHasTeamKey] = useState<boolean>(false)
   const [teamKeyLast4, setTeamKeyLast4] = useState<string | null>(null)
 
-  // Load API key from API / localStorage when dialog opens
+  // Load API key state from API when dialog opens
   useEffect(() => {
     if (open) {
       if (teamId) {
@@ -61,9 +59,7 @@ export function ApiKeyDialog({
           })
           .catch(() => {})
       }
-      const savedKey = localStorage.getItem('groq_api_key')
-      setCurrentApiKey(savedKey)
-      form.reset({ apiKey: savedKey || '' })
+      form.reset({ apiKey: '' })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, teamId])
@@ -90,78 +86,49 @@ export function ApiKeyDialog({
     onOpenChange(open)
   }
 
-  const handleTest = async (apiKey: string) => {
-    setIsTesting(true)
-    try {
-      // Test the API key by making a simple request
-      const response = await fetch('https://api.groq.com/openai/v1/models', {
-        headers: {
-          'Authorization': `Bearer ${apiKey}`,
-        },
-      })
-
-      if (response.ok) {
-        return true
-      } else {
-        return false
-      }
-    } catch (error) {
-      return false
-    } finally {
-      setIsTesting(false)
-    }
-  }
-
   const handleSubmit = async (data: ApiKeyFormData) => {
+    if (!teamId) return
     setIsSubmitting(true)
     try {
-      // Test the API key first
-      const isValid = await handleTest(data.apiKey)
-      if (!isValid) {
-        setIsSubmitting(false)
+      const res = await fetch(`/api/teams/${teamId}/api-key`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ apiKey: data.apiKey }),
+      })
+
+      if (!res.ok) {
+        const errJson = await res.json().catch(() => null)
+        form.setError('apiKey', {
+          message: errJson?.error || 'Key was rejected by the provider',
+        })
         return
       }
 
-      if (teamId) {
-        const res = await fetch(`/api/teams/${teamId}/api-key`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ apiKey: data.apiKey }),
-        })
-        if (res.ok) {
-          setHasTeamKey(true)
-          setTeamKeyLast4(data.apiKey.slice(-4))
-        }
-      }
-
-      // Save to localStorage
-      localStorage.setItem('groq_api_key', data.apiKey)
-      setCurrentApiKey(data.apiKey)
-
+      setHasTeamKey(true)
+      setTeamKeyLast4(data.apiKey.slice(-4))
       onSuccess?.()
       onOpenChange(false)
       resetForm()
     } catch (error) {
-      console.error('Error saving API key:', error)
+      form.setError('apiKey', {
+        message: 'Network error communicating with server',
+      })
     } finally {
       setIsSubmitting(false)
     }
   }
 
   const handleRemove = async () => {
+    if (!teamId) return
     setIsSubmitting(true)
     try {
-      if (teamId) {
-        await fetch(`/api/teams/${teamId}/api-key`, {
-          method: 'DELETE',
-        })
+      const res = await fetch(`/api/teams/${teamId}/api-key`, {
+        method: 'DELETE',
+      })
+      if (res.ok) {
         setHasTeamKey(false)
         setTeamKeyLast4(null)
       }
-
-      // Remove from localStorage
-      localStorage.removeItem('groq_api_key')
-      setCurrentApiKey(null)
 
       onSuccess?.()
       onOpenChange(false)
@@ -233,12 +200,12 @@ export function ApiKeyDialog({
           </div>
 
           <DialogFooter className="flex-col sm:flex-row gap-2">
-            {(currentApiKey || hasTeamKey) && (
+            {hasTeamKey && (
               <Button
                 type="button"
                 variant="outline"
                 onClick={handleRemove}
-                disabled={isSubmitting || isTesting}
+                disabled={isSubmitting}
                 className="w-full sm:w-auto order-last sm:order-first"
               >
                 Remove Key
@@ -248,15 +215,15 @@ export function ApiKeyDialog({
               type="button"
               variant="outline"
               onClick={() => handleOpenChange(false)}
-              disabled={isSubmitting || isTesting}
+              disabled={isSubmitting}
             >
               Cancel
             </Button>
             <Button
               type="submit"
-              disabled={isSubmitting || isTesting}
+              disabled={isSubmitting}
             >
-              {isSubmitting ? 'Saving...' : isTesting ? 'Testing...' : 'Save & Test'}
+              {isSubmitting ? 'Saving...' : 'Save Key'}
             </Button>
           </DialogFooter>
         </form>

@@ -63,6 +63,25 @@ export async function PUT(
     const rawBody = await request.json()
     const { apiKey } = updateKeySchema.parse(rawBody)
 
+    // Validate key server-side with a lightweight request (5 second timeout, never log key)
+    try {
+      const controller = new AbortController()
+      const timeoutId = setTimeout(() => controller.abort(), 5000)
+      const testRes = await fetch('https://api.groq.com/openai/v1/models', {
+        headers: {
+          Authorization: `Bearer ${apiKey}`,
+        },
+        signal: controller.signal,
+      }).finally(() => clearTimeout(timeoutId))
+
+      if (!testRes.ok) {
+        throw new HttpError(400, 'Key was rejected by the provider')
+      }
+    } catch (err) {
+      if (err instanceof HttpError) throw err
+      throw new HttpError(400, 'Key was rejected by the provider')
+    }
+
     const encryptedKey = encryptSecret(apiKey)
 
     await db.team.update({

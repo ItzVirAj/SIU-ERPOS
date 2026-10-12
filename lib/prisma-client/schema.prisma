@@ -342,6 +342,18 @@ model RateLimit {
   @@map("rateLimit")
 }
 
+model LoginThrottle {
+  id          String    @id @default(cuid())
+  key         String    @unique // sha256 hex of lowercased trimmed email; never store raw email
+  failedCount Int       @default(0)
+  windowStart DateTime
+  lockedUntil DateTime?
+  lockCount   Int       @default(0)
+  updatedAt   DateTime  @updatedAt
+
+  @@map("login_throttle")
+}
+
 model ChatConversation {
   id        String        @id @default(cuid())
   teamId    String

@@ -170,11 +170,9 @@ export function EventDetailsDialog({
     }
 
     try {
-      const apiKey = localStorage.getItem("groq_api_key") || undefined;
       const res = await summarizeMutation.mutateAsync({
         eventId: event.id,
         transcript: textToAnalyze,
-        apiKey,
       });
 
       if (res?.intelligence) {

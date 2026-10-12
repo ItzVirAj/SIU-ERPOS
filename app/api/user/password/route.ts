@@ -6,6 +6,7 @@ import { requireEmployee, handleRouteError, HttpError } from "@/lib/authz"
 import { db } from "@/lib/db"
 import { validateNewPassword } from "@/lib/passwords"
 import { createAuditLog } from "@/lib/audit"
+import { getClientIp } from "@/lib/client-ip"
 
 const passwordSchema = z
   .object({
@@ -30,9 +31,7 @@ export async function POST(request: NextRequest) {
     }
 
     const reqHeaders = await headers()
-    const ip =
-      reqHeaders.get("x-forwarded-for")?.split(",")[0]?.trim() ||
-      reqHeaders.get("x-real-ip")
+    const ip = getClientIp(reqHeaders)
 
     // Check if user has an existing credential account
     const account = await db.account.findFirst({

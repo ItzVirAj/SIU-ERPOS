@@ -64,7 +64,7 @@ const nextConfig = {
               "style-src 'self' 'unsafe-inline'",
               "img-src 'self' data: blob: https://res.cloudinary.com https://avatars.githubusercontent.com https://lh3.googleusercontent.com https://peerlist.io",
               "font-src 'self' data: https://fonts.gstatic.com",
-              "connect-src 'self' https://api.groq.com https://*.neon.tech https://*.resend.com",
+              "connect-src 'self'",
               "frame-ancestors 'none'",
               "base-uri 'self'",
               "form-action 'self'",

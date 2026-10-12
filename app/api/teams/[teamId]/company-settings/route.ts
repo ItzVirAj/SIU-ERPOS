@@ -4,6 +4,7 @@ import { handleRouteError } from "@/lib/authz";
 import { requireTeamAccess } from "@/lib/route-guards";
 import { AppModule, AccessLevel } from "@/lib/prisma-client";
 import { db } from "@/lib/db";
+import { getClientIp } from "@/lib/client-ip";
 
 const DEFAULT_HOLIDAYS = [
   { name: "New Year's Day", date: "2026-01-01" },
@@ -135,7 +136,7 @@ export async function PUT(
         entityType: "COMPANY_SETTING",
         entityTitle: "Company profile and localization rules updated",
         details: { updatedFields: Object.keys(body) },
-        ipAddress: request.headers.get("x-forwarded-for") || "127.0.0.1",
+        ipAddress: getClientIp(request.headers),
       },
     });
 

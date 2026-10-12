@@ -94,6 +94,11 @@ export type TwoFactor = $Result.DefaultSelection<Prisma.$TwoFactorPayload>
  */
 export type RateLimit = $Result.DefaultSelection<Prisma.$RateLimitPayload>
 /**
+ * Model LoginThrottle
+ * 
+ */
+export type LoginThrottle = $Result.DefaultSelection<Prisma.$LoginThrottlePayload>
+/**
  * Model ChatConversation
  * 
  */
@@ -635,6 +640,16 @@ export class PrismaClient<
     * ```
     */
   get rateLimit(): Prisma.RateLimitDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.loginThrottle`: Exposes CRUD operations for the **LoginThrottle** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more LoginThrottles
+    * const loginThrottles = await prisma.loginThrottle.findMany()
+    * ```
+    */
+  get loginThrottle(): Prisma.LoginThrottleDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.chatConversation`: Exposes CRUD operations for the **ChatConversation** model.
@@ -1512,6 +1527,7 @@ export namespace Prisma {
     Verification: 'Verification',
     TwoFactor: 'TwoFactor',
     RateLimit: 'RateLimit',
+    LoginThrottle: 'LoginThrottle',
     ChatConversation: 'ChatConversation',
     ChatMessage: 'ChatMessage',
     Event: 'Event',
@@ -1572,7 +1588,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "team" | "project" | "workflowState" | "label" | "issue" | "issueLabel" | "comment" | "teamMember" | "projectMember" | "invitation" | "user" | "session" | "account" | "verification" | "twoFactor" | "rateLimit" | "chatConversation" | "chatMessage" | "event" | "eventAttendee" | "meetingNote" | "meetingActionItem" | "standupEntry" | "client" | "contact" | "leadPipeline" | "leadStage" | "lead" | "leadActivity" | "teamChannel" | "teamChannelMember" | "teamChatMessage" | "teamChatReaction" | "teamAnnouncement" | "teamAnnouncementAck" | "inboxMessage" | "auditLog" | "companySetting" | "automationRule" | "automationLog" | "developerApiKey" | "webhookEndpoint" | "webhookDelivery" | "companyKpi" | "invoice" | "invoiceItem" | "payment" | "expense" | "toolSubscription" | "domainProduct" | "productRoadmapItem" | "productFeatureRequest" | "productPilotCustomer" | "productReleaseNote" | "reusableComponent" | "role" | "roleAccess" | "employee"
+      modelProps: "team" | "project" | "workflowState" | "label" | "issue" | "issueLabel" | "comment" | "teamMember" | "projectMember" | "invitation" | "user" | "session" | "account" | "verification" | "twoFactor" | "rateLimit" | "loginThrottle" | "chatConversation" | "chatMessage" | "event" | "eventAttendee" | "meetingNote" | "meetingActionItem" | "standupEntry" | "client" | "contact" | "leadPipeline" | "leadStage" | "lead" | "leadActivity" | "teamChannel" | "teamChannelMember" | "teamChatMessage" | "teamChatReaction" | "teamAnnouncement" | "teamAnnouncementAck" | "inboxMessage" | "auditLog" | "companySetting" | "automationRule" | "automationLog" | "developerApiKey" | "webhookEndpoint" | "webhookDelivery" | "companyKpi" | "invoice" | "invoiceItem" | "payment" | "expense" | "toolSubscription" | "domainProduct" | "productRoadmapItem" | "productFeatureRequest" | "productPilotCustomer" | "productReleaseNote" | "reusableComponent" | "role" | "roleAccess" | "employee"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2757,6 +2773,80 @@ export namespace Prisma {
           count: {
             args: Prisma.RateLimitCountArgs<ExtArgs>
             result: $Utils.Optional<RateLimitCountAggregateOutputType> | number
+          }
+        }
+      }
+      LoginThrottle: {
+        payload: Prisma.$LoginThrottlePayload<ExtArgs>
+        fields: Prisma.LoginThrottleFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.LoginThrottleFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoginThrottlePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.LoginThrottleFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoginThrottlePayload>
+          }
+          findFirst: {
+            args: Prisma.LoginThrottleFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoginThrottlePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.LoginThrottleFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoginThrottlePayload>
+          }
+          findMany: {
+            args: Prisma.LoginThrottleFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoginThrottlePayload>[]
+          }
+          create: {
+            args: Prisma.LoginThrottleCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoginThrottlePayload>
+          }
+          createMany: {
+            args: Prisma.LoginThrottleCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.LoginThrottleCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoginThrottlePayload>[]
+          }
+          delete: {
+            args: Prisma.LoginThrottleDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoginThrottlePayload>
+          }
+          update: {
+            args: Prisma.LoginThrottleUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoginThrottlePayload>
+          }
+          deleteMany: {
+            args: Prisma.LoginThrottleDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.LoginThrottleUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.LoginThrottleUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoginThrottlePayload>[]
+          }
+          upsert: {
+            args: Prisma.LoginThrottleUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoginThrottlePayload>
+          }
+          aggregate: {
+            args: Prisma.LoginThrottleAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateLoginThrottle>
+          }
+          groupBy: {
+            args: Prisma.LoginThrottleGroupByArgs<ExtArgs>
+            result: $Utils.Optional<LoginThrottleGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.LoginThrottleCountArgs<ExtArgs>
+            result: $Utils.Optional<LoginThrottleCountAggregateOutputType> | number
           }
         }
       }
@@ -5980,6 +6070,7 @@ export namespace Prisma {
     verification?: VerificationOmit
     twoFactor?: TwoFactorOmit
     rateLimit?: RateLimitOmit
+    loginThrottle?: LoginThrottleOmit
     chatConversation?: ChatConversationOmit
     chatMessage?: ChatMessageOmit
     event?: EventOmit
@@ -26038,6 +26129,1065 @@ export namespace Prisma {
      * Omit specific fields from the RateLimit
      */
     omit?: RateLimitOmit<ExtArgs> | null
+  }
+
+
+  /**
+   * Model LoginThrottle
+   */
+
+  export type AggregateLoginThrottle = {
+    _count: LoginThrottleCountAggregateOutputType | null
+    _avg: LoginThrottleAvgAggregateOutputType | null
+    _sum: LoginThrottleSumAggregateOutputType | null
+    _min: LoginThrottleMinAggregateOutputType | null
+    _max: LoginThrottleMaxAggregateOutputType | null
+  }
+
+  export type LoginThrottleAvgAggregateOutputType = {
+    failedCount: number | null
+    lockCount: number | null
+  }
+
+  export type LoginThrottleSumAggregateOutputType = {
+    failedCount: number | null
+    lockCount: number | null
+  }
+
+  export type LoginThrottleMinAggregateOutputType = {
+    id: string | null
+    key: string | null
+    failedCount: number | null
+    windowStart: Date | null
+    lockedUntil: Date | null
+    lockCount: number | null
+    updatedAt: Date | null
+  }
+
+  export type LoginThrottleMaxAggregateOutputType = {
+    id: string | null
+    key: string | null
+    failedCount: number | null
+    windowStart: Date | null
+    lockedUntil: Date | null
+    lockCount: number | null
+    updatedAt: Date | null
+  }
+
+  export type LoginThrottleCountAggregateOutputType = {
+    id: number
+    key: number
+    failedCount: number
+    windowStart: number
+    lockedUntil: number
+    lockCount: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type LoginThrottleAvgAggregateInputType = {
+    failedCount?: true
+    lockCount?: true
+  }
+
+  export type LoginThrottleSumAggregateInputType = {
+    failedCount?: true
+    lockCount?: true
+  }
+
+  export type LoginThrottleMinAggregateInputType = {
+    id?: true
+    key?: true
+    failedCount?: true
+    windowStart?: true
+    lockedUntil?: true
+    lockCount?: true
+    updatedAt?: true
+  }
+
+  export type LoginThrottleMaxAggregateInputType = {
+    id?: true
+    key?: true
+    failedCount?: true
+    windowStart?: true
+    lockedUntil?: true
+    lockCount?: true
+    updatedAt?: true
+  }
+
+  export type LoginThrottleCountAggregateInputType = {
+    id?: true
+    key?: true
+    failedCount?: true
+    windowStart?: true
+    lockedUntil?: true
+    lockCount?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type LoginThrottleAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LoginThrottle to aggregate.
+     */
+    where?: LoginThrottleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LoginThrottles to fetch.
+     */
+    orderBy?: LoginThrottleOrderByWithRelationInput | LoginThrottleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: LoginThrottleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LoginThrottles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LoginThrottles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned LoginThrottles
+    **/
+    _count?: true | LoginThrottleCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: LoginThrottleAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: LoginThrottleSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: LoginThrottleMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: LoginThrottleMaxAggregateInputType
+  }
+
+  export type GetLoginThrottleAggregateType<T extends LoginThrottleAggregateArgs> = {
+        [P in keyof T & keyof AggregateLoginThrottle]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateLoginThrottle[P]>
+      : GetScalarType<T[P], AggregateLoginThrottle[P]>
+  }
+
+
+
+
+  export type LoginThrottleGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LoginThrottleWhereInput
+    orderBy?: LoginThrottleOrderByWithAggregationInput | LoginThrottleOrderByWithAggregationInput[]
+    by: LoginThrottleScalarFieldEnum[] | LoginThrottleScalarFieldEnum
+    having?: LoginThrottleScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: LoginThrottleCountAggregateInputType | true
+    _avg?: LoginThrottleAvgAggregateInputType
+    _sum?: LoginThrottleSumAggregateInputType
+    _min?: LoginThrottleMinAggregateInputType
+    _max?: LoginThrottleMaxAggregateInputType
+  }
+
+  export type LoginThrottleGroupByOutputType = {
+    id: string
+    key: string
+    failedCount: number
+    windowStart: Date
+    lockedUntil: Date | null
+    lockCount: number
+    updatedAt: Date
+    _count: LoginThrottleCountAggregateOutputType | null
+    _avg: LoginThrottleAvgAggregateOutputType | null
+    _sum: LoginThrottleSumAggregateOutputType | null
+    _min: LoginThrottleMinAggregateOutputType | null
+    _max: LoginThrottleMaxAggregateOutputType | null
+  }
+
+  type GetLoginThrottleGroupByPayload<T extends LoginThrottleGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<LoginThrottleGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof LoginThrottleGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], LoginThrottleGroupByOutputType[P]>
+            : GetScalarType<T[P], LoginThrottleGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type LoginThrottleSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    key?: boolean
+    failedCount?: boolean
+    windowStart?: boolean
+    lockedUntil?: boolean
+    lockCount?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["loginThrottle"]>
+
+  export type LoginThrottleSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    key?: boolean
+    failedCount?: boolean
+    windowStart?: boolean
+    lockedUntil?: boolean
+    lockCount?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["loginThrottle"]>
+
+  export type LoginThrottleSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    key?: boolean
+    failedCount?: boolean
+    windowStart?: boolean
+    lockedUntil?: boolean
+    lockCount?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["loginThrottle"]>
+
+  export type LoginThrottleSelectScalar = {
+    id?: boolean
+    key?: boolean
+    failedCount?: boolean
+    windowStart?: boolean
+    lockedUntil?: boolean
+    lockCount?: boolean
+    updatedAt?: boolean
+  }
+
+  export type LoginThrottleOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "key" | "failedCount" | "windowStart" | "lockedUntil" | "lockCount" | "updatedAt", ExtArgs["result"]["loginThrottle"]>
+
+  export type $LoginThrottlePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "LoginThrottle"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      key: string
+      failedCount: number
+      windowStart: Date
+      lockedUntil: Date | null
+      lockCount: number
+      updatedAt: Date
+    }, ExtArgs["result"]["loginThrottle"]>
+    composites: {}
+  }
+
+  type LoginThrottleGetPayload<S extends boolean | null | undefined | LoginThrottleDefaultArgs> = $Result.GetResult<Prisma.$LoginThrottlePayload, S>
+
+  type LoginThrottleCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<LoginThrottleFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: LoginThrottleCountAggregateInputType | true
+    }
+
+  export interface LoginThrottleDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['LoginThrottle'], meta: { name: 'LoginThrottle' } }
+    /**
+     * Find zero or one LoginThrottle that matches the filter.
+     * @param {LoginThrottleFindUniqueArgs} args - Arguments to find a LoginThrottle
+     * @example
+     * // Get one LoginThrottle
+     * const loginThrottle = await prisma.loginThrottle.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends LoginThrottleFindUniqueArgs>(args: SelectSubset<T, LoginThrottleFindUniqueArgs<ExtArgs>>): Prisma__LoginThrottleClient<$Result.GetResult<Prisma.$LoginThrottlePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one LoginThrottle that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {LoginThrottleFindUniqueOrThrowArgs} args - Arguments to find a LoginThrottle
+     * @example
+     * // Get one LoginThrottle
+     * const loginThrottle = await prisma.loginThrottle.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends LoginThrottleFindUniqueOrThrowArgs>(args: SelectSubset<T, LoginThrottleFindUniqueOrThrowArgs<ExtArgs>>): Prisma__LoginThrottleClient<$Result.GetResult<Prisma.$LoginThrottlePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LoginThrottle that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoginThrottleFindFirstArgs} args - Arguments to find a LoginThrottle
+     * @example
+     * // Get one LoginThrottle
+     * const loginThrottle = await prisma.loginThrottle.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends LoginThrottleFindFirstArgs>(args?: SelectSubset<T, LoginThrottleFindFirstArgs<ExtArgs>>): Prisma__LoginThrottleClient<$Result.GetResult<Prisma.$LoginThrottlePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LoginThrottle that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoginThrottleFindFirstOrThrowArgs} args - Arguments to find a LoginThrottle
+     * @example
+     * // Get one LoginThrottle
+     * const loginThrottle = await prisma.loginThrottle.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends LoginThrottleFindFirstOrThrowArgs>(args?: SelectSubset<T, LoginThrottleFindFirstOrThrowArgs<ExtArgs>>): Prisma__LoginThrottleClient<$Result.GetResult<Prisma.$LoginThrottlePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more LoginThrottles that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoginThrottleFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all LoginThrottles
+     * const loginThrottles = await prisma.loginThrottle.findMany()
+     * 
+     * // Get first 10 LoginThrottles
+     * const loginThrottles = await prisma.loginThrottle.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const loginThrottleWithIdOnly = await prisma.loginThrottle.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends LoginThrottleFindManyArgs>(args?: SelectSubset<T, LoginThrottleFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoginThrottlePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a LoginThrottle.
+     * @param {LoginThrottleCreateArgs} args - Arguments to create a LoginThrottle.
+     * @example
+     * // Create one LoginThrottle
+     * const LoginThrottle = await prisma.loginThrottle.create({
+     *   data: {
+     *     // ... data to create a LoginThrottle
+     *   }
+     * })
+     * 
+     */
+    create<T extends LoginThrottleCreateArgs>(args: SelectSubset<T, LoginThrottleCreateArgs<ExtArgs>>): Prisma__LoginThrottleClient<$Result.GetResult<Prisma.$LoginThrottlePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many LoginThrottles.
+     * @param {LoginThrottleCreateManyArgs} args - Arguments to create many LoginThrottles.
+     * @example
+     * // Create many LoginThrottles
+     * const loginThrottle = await prisma.loginThrottle.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends LoginThrottleCreateManyArgs>(args?: SelectSubset<T, LoginThrottleCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many LoginThrottles and returns the data saved in the database.
+     * @param {LoginThrottleCreateManyAndReturnArgs} args - Arguments to create many LoginThrottles.
+     * @example
+     * // Create many LoginThrottles
+     * const loginThrottle = await prisma.loginThrottle.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many LoginThrottles and only return the `id`
+     * const loginThrottleWithIdOnly = await prisma.loginThrottle.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends LoginThrottleCreateManyAndReturnArgs>(args?: SelectSubset<T, LoginThrottleCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoginThrottlePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a LoginThrottle.
+     * @param {LoginThrottleDeleteArgs} args - Arguments to delete one LoginThrottle.
+     * @example
+     * // Delete one LoginThrottle
+     * const LoginThrottle = await prisma.loginThrottle.delete({
+     *   where: {
+     *     // ... filter to delete one LoginThrottle
+     *   }
+     * })
+     * 
+     */
+    delete<T extends LoginThrottleDeleteArgs>(args: SelectSubset<T, LoginThrottleDeleteArgs<ExtArgs>>): Prisma__LoginThrottleClient<$Result.GetResult<Prisma.$LoginThrottlePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one LoginThrottle.
+     * @param {LoginThrottleUpdateArgs} args - Arguments to update one LoginThrottle.
+     * @example
+     * // Update one LoginThrottle
+     * const loginThrottle = await prisma.loginThrottle.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends LoginThrottleUpdateArgs>(args: SelectSubset<T, LoginThrottleUpdateArgs<ExtArgs>>): Prisma__LoginThrottleClient<$Result.GetResult<Prisma.$LoginThrottlePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more LoginThrottles.
+     * @param {LoginThrottleDeleteManyArgs} args - Arguments to filter LoginThrottles to delete.
+     * @example
+     * // Delete a few LoginThrottles
+     * const { count } = await prisma.loginThrottle.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends LoginThrottleDeleteManyArgs>(args?: SelectSubset<T, LoginThrottleDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LoginThrottles.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoginThrottleUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many LoginThrottles
+     * const loginThrottle = await prisma.loginThrottle.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends LoginThrottleUpdateManyArgs>(args: SelectSubset<T, LoginThrottleUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LoginThrottles and returns the data updated in the database.
+     * @param {LoginThrottleUpdateManyAndReturnArgs} args - Arguments to update many LoginThrottles.
+     * @example
+     * // Update many LoginThrottles
+     * const loginThrottle = await prisma.loginThrottle.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more LoginThrottles and only return the `id`
+     * const loginThrottleWithIdOnly = await prisma.loginThrottle.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends LoginThrottleUpdateManyAndReturnArgs>(args: SelectSubset<T, LoginThrottleUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoginThrottlePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one LoginThrottle.
+     * @param {LoginThrottleUpsertArgs} args - Arguments to update or create a LoginThrottle.
+     * @example
+     * // Update or create a LoginThrottle
+     * const loginThrottle = await prisma.loginThrottle.upsert({
+     *   create: {
+     *     // ... data to create a LoginThrottle
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the LoginThrottle we want to update
+     *   }
+     * })
+     */
+    upsert<T extends LoginThrottleUpsertArgs>(args: SelectSubset<T, LoginThrottleUpsertArgs<ExtArgs>>): Prisma__LoginThrottleClient<$Result.GetResult<Prisma.$LoginThrottlePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of LoginThrottles.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoginThrottleCountArgs} args - Arguments to filter LoginThrottles to count.
+     * @example
+     * // Count the number of LoginThrottles
+     * const count = await prisma.loginThrottle.count({
+     *   where: {
+     *     // ... the filter for the LoginThrottles we want to count
+     *   }
+     * })
+    **/
+    count<T extends LoginThrottleCountArgs>(
+      args?: Subset<T, LoginThrottleCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], LoginThrottleCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a LoginThrottle.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoginThrottleAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends LoginThrottleAggregateArgs>(args: Subset<T, LoginThrottleAggregateArgs>): Prisma.PrismaPromise<GetLoginThrottleAggregateType<T>>
+
+    /**
+     * Group by LoginThrottle.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoginThrottleGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends LoginThrottleGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: LoginThrottleGroupByArgs['orderBy'] }
+        : { orderBy?: LoginThrottleGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, LoginThrottleGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetLoginThrottleGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the LoginThrottle model
+   */
+  readonly fields: LoginThrottleFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for LoginThrottle.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__LoginThrottleClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the LoginThrottle model
+   */
+  interface LoginThrottleFieldRefs {
+    readonly id: FieldRef<"LoginThrottle", 'String'>
+    readonly key: FieldRef<"LoginThrottle", 'String'>
+    readonly failedCount: FieldRef<"LoginThrottle", 'Int'>
+    readonly windowStart: FieldRef<"LoginThrottle", 'DateTime'>
+    readonly lockedUntil: FieldRef<"LoginThrottle", 'DateTime'>
+    readonly lockCount: FieldRef<"LoginThrottle", 'Int'>
+    readonly updatedAt: FieldRef<"LoginThrottle", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * LoginThrottle findUnique
+   */
+  export type LoginThrottleFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoginThrottle
+     */
+    select?: LoginThrottleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoginThrottle
+     */
+    omit?: LoginThrottleOmit<ExtArgs> | null
+    /**
+     * Filter, which LoginThrottle to fetch.
+     */
+    where: LoginThrottleWhereUniqueInput
+  }
+
+  /**
+   * LoginThrottle findUniqueOrThrow
+   */
+  export type LoginThrottleFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoginThrottle
+     */
+    select?: LoginThrottleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoginThrottle
+     */
+    omit?: LoginThrottleOmit<ExtArgs> | null
+    /**
+     * Filter, which LoginThrottle to fetch.
+     */
+    where: LoginThrottleWhereUniqueInput
+  }
+
+  /**
+   * LoginThrottle findFirst
+   */
+  export type LoginThrottleFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoginThrottle
+     */
+    select?: LoginThrottleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoginThrottle
+     */
+    omit?: LoginThrottleOmit<ExtArgs> | null
+    /**
+     * Filter, which LoginThrottle to fetch.
+     */
+    where?: LoginThrottleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LoginThrottles to fetch.
+     */
+    orderBy?: LoginThrottleOrderByWithRelationInput | LoginThrottleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LoginThrottles.
+     */
+    cursor?: LoginThrottleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LoginThrottles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LoginThrottles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LoginThrottles.
+     */
+    distinct?: LoginThrottleScalarFieldEnum | LoginThrottleScalarFieldEnum[]
+  }
+
+  /**
+   * LoginThrottle findFirstOrThrow
+   */
+  export type LoginThrottleFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoginThrottle
+     */
+    select?: LoginThrottleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoginThrottle
+     */
+    omit?: LoginThrottleOmit<ExtArgs> | null
+    /**
+     * Filter, which LoginThrottle to fetch.
+     */
+    where?: LoginThrottleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LoginThrottles to fetch.
+     */
+    orderBy?: LoginThrottleOrderByWithRelationInput | LoginThrottleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LoginThrottles.
+     */
+    cursor?: LoginThrottleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LoginThrottles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LoginThrottles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LoginThrottles.
+     */
+    distinct?: LoginThrottleScalarFieldEnum | LoginThrottleScalarFieldEnum[]
+  }
+
+  /**
+   * LoginThrottle findMany
+   */
+  export type LoginThrottleFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoginThrottle
+     */
+    select?: LoginThrottleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoginThrottle
+     */
+    omit?: LoginThrottleOmit<ExtArgs> | null
+    /**
+     * Filter, which LoginThrottles to fetch.
+     */
+    where?: LoginThrottleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LoginThrottles to fetch.
+     */
+    orderBy?: LoginThrottleOrderByWithRelationInput | LoginThrottleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing LoginThrottles.
+     */
+    cursor?: LoginThrottleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LoginThrottles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LoginThrottles.
+     */
+    skip?: number
+    distinct?: LoginThrottleScalarFieldEnum | LoginThrottleScalarFieldEnum[]
+  }
+
+  /**
+   * LoginThrottle create
+   */
+  export type LoginThrottleCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoginThrottle
+     */
+    select?: LoginThrottleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoginThrottle
+     */
+    omit?: LoginThrottleOmit<ExtArgs> | null
+    /**
+     * The data needed to create a LoginThrottle.
+     */
+    data: XOR<LoginThrottleCreateInput, LoginThrottleUncheckedCreateInput>
+  }
+
+  /**
+   * LoginThrottle createMany
+   */
+  export type LoginThrottleCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many LoginThrottles.
+     */
+    data: LoginThrottleCreateManyInput | LoginThrottleCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * LoginThrottle createManyAndReturn
+   */
+  export type LoginThrottleCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoginThrottle
+     */
+    select?: LoginThrottleSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoginThrottle
+     */
+    omit?: LoginThrottleOmit<ExtArgs> | null
+    /**
+     * The data used to create many LoginThrottles.
+     */
+    data: LoginThrottleCreateManyInput | LoginThrottleCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * LoginThrottle update
+   */
+  export type LoginThrottleUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoginThrottle
+     */
+    select?: LoginThrottleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoginThrottle
+     */
+    omit?: LoginThrottleOmit<ExtArgs> | null
+    /**
+     * The data needed to update a LoginThrottle.
+     */
+    data: XOR<LoginThrottleUpdateInput, LoginThrottleUncheckedUpdateInput>
+    /**
+     * Choose, which LoginThrottle to update.
+     */
+    where: LoginThrottleWhereUniqueInput
+  }
+
+  /**
+   * LoginThrottle updateMany
+   */
+  export type LoginThrottleUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update LoginThrottles.
+     */
+    data: XOR<LoginThrottleUpdateManyMutationInput, LoginThrottleUncheckedUpdateManyInput>
+    /**
+     * Filter which LoginThrottles to update
+     */
+    where?: LoginThrottleWhereInput
+    /**
+     * Limit how many LoginThrottles to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * LoginThrottle updateManyAndReturn
+   */
+  export type LoginThrottleUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoginThrottle
+     */
+    select?: LoginThrottleSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoginThrottle
+     */
+    omit?: LoginThrottleOmit<ExtArgs> | null
+    /**
+     * The data used to update LoginThrottles.
+     */
+    data: XOR<LoginThrottleUpdateManyMutationInput, LoginThrottleUncheckedUpdateManyInput>
+    /**
+     * Filter which LoginThrottles to update
+     */
+    where?: LoginThrottleWhereInput
+    /**
+     * Limit how many LoginThrottles to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * LoginThrottle upsert
+   */
+  export type LoginThrottleUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoginThrottle
+     */
+    select?: LoginThrottleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoginThrottle
+     */
+    omit?: LoginThrottleOmit<ExtArgs> | null
+    /**
+     * The filter to search for the LoginThrottle to update in case it exists.
+     */
+    where: LoginThrottleWhereUniqueInput
+    /**
+     * In case the LoginThrottle found by the `where` argument doesn't exist, create a new LoginThrottle with this data.
+     */
+    create: XOR<LoginThrottleCreateInput, LoginThrottleUncheckedCreateInput>
+    /**
+     * In case the LoginThrottle was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<LoginThrottleUpdateInput, LoginThrottleUncheckedUpdateInput>
+  }
+
+  /**
+   * LoginThrottle delete
+   */
+  export type LoginThrottleDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoginThrottle
+     */
+    select?: LoginThrottleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoginThrottle
+     */
+    omit?: LoginThrottleOmit<ExtArgs> | null
+    /**
+     * Filter which LoginThrottle to delete.
+     */
+    where: LoginThrottleWhereUniqueInput
+  }
+
+  /**
+   * LoginThrottle deleteMany
+   */
+  export type LoginThrottleDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LoginThrottles to delete
+     */
+    where?: LoginThrottleWhereInput
+    /**
+     * Limit how many LoginThrottles to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * LoginThrottle without action
+   */
+  export type LoginThrottleDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoginThrottle
+     */
+    select?: LoginThrottleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoginThrottle
+     */
+    omit?: LoginThrottleOmit<ExtArgs> | null
   }
 
 
@@ -75944,6 +77094,19 @@ export namespace Prisma {
   export type RateLimitScalarFieldEnum = (typeof RateLimitScalarFieldEnum)[keyof typeof RateLimitScalarFieldEnum]
 
 
+  export const LoginThrottleScalarFieldEnum: {
+    id: 'id',
+    key: 'key',
+    failedCount: 'failedCount',
+    windowStart: 'windowStart',
+    lockedUntil: 'lockedUntil',
+    lockCount: 'lockCount',
+    updatedAt: 'updatedAt'
+  };
+
+  export type LoginThrottleScalarFieldEnum = (typeof LoginThrottleScalarFieldEnum)[keyof typeof LoginThrottleScalarFieldEnum]
+
+
   export const ChatConversationScalarFieldEnum: {
     id: 'id',
     teamId: 'teamId',
@@ -78181,6 +79344,70 @@ export namespace Prisma {
     key?: StringWithAggregatesFilter<"RateLimit"> | string
     count?: IntWithAggregatesFilter<"RateLimit"> | number
     lastRequest?: BigIntWithAggregatesFilter<"RateLimit"> | bigint | number
+  }
+
+  export type LoginThrottleWhereInput = {
+    AND?: LoginThrottleWhereInput | LoginThrottleWhereInput[]
+    OR?: LoginThrottleWhereInput[]
+    NOT?: LoginThrottleWhereInput | LoginThrottleWhereInput[]
+    id?: StringFilter<"LoginThrottle"> | string
+    key?: StringFilter<"LoginThrottle"> | string
+    failedCount?: IntFilter<"LoginThrottle"> | number
+    windowStart?: DateTimeFilter<"LoginThrottle"> | Date | string
+    lockedUntil?: DateTimeNullableFilter<"LoginThrottle"> | Date | string | null
+    lockCount?: IntFilter<"LoginThrottle"> | number
+    updatedAt?: DateTimeFilter<"LoginThrottle"> | Date | string
+  }
+
+  export type LoginThrottleOrderByWithRelationInput = {
+    id?: SortOrder
+    key?: SortOrder
+    failedCount?: SortOrder
+    windowStart?: SortOrder
+    lockedUntil?: SortOrderInput | SortOrder
+    lockCount?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type LoginThrottleWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    key?: string
+    AND?: LoginThrottleWhereInput | LoginThrottleWhereInput[]
+    OR?: LoginThrottleWhereInput[]
+    NOT?: LoginThrottleWhereInput | LoginThrottleWhereInput[]
+    failedCount?: IntFilter<"LoginThrottle"> | number
+    windowStart?: DateTimeFilter<"LoginThrottle"> | Date | string
+    lockedUntil?: DateTimeNullableFilter<"LoginThrottle"> | Date | string | null
+    lockCount?: IntFilter<"LoginThrottle"> | number
+    updatedAt?: DateTimeFilter<"LoginThrottle"> | Date | string
+  }, "id" | "key">
+
+  export type LoginThrottleOrderByWithAggregationInput = {
+    id?: SortOrder
+    key?: SortOrder
+    failedCount?: SortOrder
+    windowStart?: SortOrder
+    lockedUntil?: SortOrderInput | SortOrder
+    lockCount?: SortOrder
+    updatedAt?: SortOrder
+    _count?: LoginThrottleCountOrderByAggregateInput
+    _avg?: LoginThrottleAvgOrderByAggregateInput
+    _max?: LoginThrottleMaxOrderByAggregateInput
+    _min?: LoginThrottleMinOrderByAggregateInput
+    _sum?: LoginThrottleSumOrderByAggregateInput
+  }
+
+  export type LoginThrottleScalarWhereWithAggregatesInput = {
+    AND?: LoginThrottleScalarWhereWithAggregatesInput | LoginThrottleScalarWhereWithAggregatesInput[]
+    OR?: LoginThrottleScalarWhereWithAggregatesInput[]
+    NOT?: LoginThrottleScalarWhereWithAggregatesInput | LoginThrottleScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"LoginThrottle"> | string
+    key?: StringWithAggregatesFilter<"LoginThrottle"> | string
+    failedCount?: IntWithAggregatesFilter<"LoginThrottle"> | number
+    windowStart?: DateTimeWithAggregatesFilter<"LoginThrottle"> | Date | string
+    lockedUntil?: DateTimeNullableWithAggregatesFilter<"LoginThrottle"> | Date | string | null
+    lockCount?: IntWithAggregatesFilter<"LoginThrottle"> | number
+    updatedAt?: DateTimeWithAggregatesFilter<"LoginThrottle"> | Date | string
   }
 
   export type ChatConversationWhereInput = {
@@ -83529,6 +84756,76 @@ export namespace Prisma {
     key?: StringFieldUpdateOperationsInput | string
     count?: IntFieldUpdateOperationsInput | number
     lastRequest?: BigIntFieldUpdateOperationsInput | bigint | number
+  }
+
+  export type LoginThrottleCreateInput = {
+    id?: string
+    key: string
+    failedCount?: number
+    windowStart: Date | string
+    lockedUntil?: Date | string | null
+    lockCount?: number
+    updatedAt?: Date | string
+  }
+
+  export type LoginThrottleUncheckedCreateInput = {
+    id?: string
+    key: string
+    failedCount?: number
+    windowStart: Date | string
+    lockedUntil?: Date | string | null
+    lockCount?: number
+    updatedAt?: Date | string
+  }
+
+  export type LoginThrottleUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    failedCount?: IntFieldUpdateOperationsInput | number
+    windowStart?: DateTimeFieldUpdateOperationsInput | Date | string
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lockCount?: IntFieldUpdateOperationsInput | number
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoginThrottleUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    failedCount?: IntFieldUpdateOperationsInput | number
+    windowStart?: DateTimeFieldUpdateOperationsInput | Date | string
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lockCount?: IntFieldUpdateOperationsInput | number
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoginThrottleCreateManyInput = {
+    id?: string
+    key: string
+    failedCount?: number
+    windowStart: Date | string
+    lockedUntil?: Date | string | null
+    lockCount?: number
+    updatedAt?: Date | string
+  }
+
+  export type LoginThrottleUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    failedCount?: IntFieldUpdateOperationsInput | number
+    windowStart?: DateTimeFieldUpdateOperationsInput | Date | string
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lockCount?: IntFieldUpdateOperationsInput | number
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoginThrottleUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    failedCount?: IntFieldUpdateOperationsInput | number
+    windowStart?: DateTimeFieldUpdateOperationsInput | Date | string
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lockCount?: IntFieldUpdateOperationsInput | number
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ChatConversationCreateInput = {
@@ -89174,6 +90471,46 @@ export namespace Prisma {
     _sum?: NestedBigIntFilter<$PrismaModel>
     _min?: NestedBigIntFilter<$PrismaModel>
     _max?: NestedBigIntFilter<$PrismaModel>
+  }
+
+  export type LoginThrottleCountOrderByAggregateInput = {
+    id?: SortOrder
+    key?: SortOrder
+    failedCount?: SortOrder
+    windowStart?: SortOrder
+    lockedUntil?: SortOrder
+    lockCount?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type LoginThrottleAvgOrderByAggregateInput = {
+    failedCount?: SortOrder
+    lockCount?: SortOrder
+  }
+
+  export type LoginThrottleMaxOrderByAggregateInput = {
+    id?: SortOrder
+    key?: SortOrder
+    failedCount?: SortOrder
+    windowStart?: SortOrder
+    lockedUntil?: SortOrder
+    lockCount?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type LoginThrottleMinOrderByAggregateInput = {
+    id?: SortOrder
+    key?: SortOrder
+    failedCount?: SortOrder
+    windowStart?: SortOrder
+    lockedUntil?: SortOrder
+    lockCount?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type LoginThrottleSumOrderByAggregateInput = {
+    failedCount?: SortOrder
+    lockCount?: SortOrder
   }
 
   export type ChatMessageListRelationFilter = {
