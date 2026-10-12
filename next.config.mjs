@@ -60,11 +60,11 @@ const nextConfig = {
             key: 'Content-Security-Policy-Report-Only',
             value: [
               "default-src 'self'",
-              "script-src 'self' 'unsafe-eval' 'unsafe-inline'",
+              "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://cloud.umami.is",
               "style-src 'self' 'unsafe-inline'",
               "img-src 'self' data: blob: https://res.cloudinary.com https://avatars.githubusercontent.com https://lh3.googleusercontent.com https://peerlist.io",
               "font-src 'self' data: https://fonts.gstatic.com",
-              "connect-src 'self'",
+              "connect-src 'self' https://cloud.umami.is",
               "frame-ancestors 'none'",
               "base-uri 'self'",
               "form-action 'self'",
